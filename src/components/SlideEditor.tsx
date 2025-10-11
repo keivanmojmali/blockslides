@@ -94,19 +94,22 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
       return editorMode === 'edit' && !readOnly;
     });
     
+    // Capture initial content once (frozen at mount time)
+    const initialContentRef = useRef<DocNode | null>(null);
+    if (!initialContentRef.current) {
+      initialContentRef.current = content || defaultContent || { type: 'doc', content: [] };
+    }
+    
     // Internal state for uncontrolled mode
     const [internalContent, setInternalContent] = useState<DocNode>(() => {
-      if (defaultContent) return defaultContent;
-      if (content) return content;
-      // Return empty doc if nothing provided
-      return { type: 'doc', content: [] };
+      return initialContentRef.current!;
     });
     
     // Determine mode
     const isControlled = content !== undefined;
     
-    // Get effective content based on mode
-    const effectiveContent = isControlled ? content : internalContent;
+    // Track if we're in the initial mount to prevent sync on first render
+    const isInitialMount = useRef(true);
     
     // Create validator instance (memoized)
     const validatorInstance = useMemo(() => createValidator(), []);
@@ -407,15 +410,16 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
       return refObject;
     }, [isEditableState, isControlled, validationMode, onContentChange]);
 
+    // Effect 1: Create editor once (or when fundamental settings change)
     useEffect(() => {
       if (!editorRef.current) return;
 
       try {
-        // Validate content before creating editor (unless disabled)
-        let contentToUse = effectiveContent;
+        // Validate initial content before creating editor (unless disabled)
+        let contentToUse = initialContentRef.current!;
         
         if (validationMode !== 'off') {
-          const validationResult = validateContentFn(effectiveContent, {
+          const validationResult = validateContentFn(initialContentRef.current!, {
             mode: validationMode,
             autoFix: autoFixContent,
             throwOnError: false
@@ -578,6 +582,9 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
               editor: editorRefObject.current
             });
           }
+          
+          // Mark that initial mount is complete
+          isInitialMount.current = false;
         }, 0);
 
         // Cleanup
@@ -588,6 +595,7 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
           }
           
           view.destroy();
+          viewRef.current = null;
         };
       } catch (error) {
         // Handle validation errors
@@ -606,10 +614,74 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
           console.error('[AutoArtifacts] Error initializing editor:', error);
         }
       }
-    }, [effectiveContent, editorMode, readOnly, onCreate, onDestroy, onUpdate, onContentChange, 
+    }, [editorMode, readOnly, onCreate, onDestroy, onUpdate, onContentChange, 
         onSelectionUpdate, onFocus, onBlur, onTransaction, onChange, onError, 
         onUndo, onRedo, historyDepth, newGroupDelay, validationMode, autoFixContent, 
         onValidationError, isControlled]);
+    
+    // Effect 2: Sync content prop changes (controlled mode only)
+    useEffect(() => {
+      // Skip if editor not initialized or not in controlled mode
+      if (!viewRef.current || !isControlled || isInitialMount.current) return;
+      
+      // Skip if content is undefined
+      if (content === undefined) return;
+      
+      // Get current editor content
+      const currentContent = viewRef.current.state.doc.toJSON();
+      
+      // Check if content actually changed (deep equality check)
+      // This prevents infinite update loops and unnecessary updates
+      if (JSON.stringify(currentContent) === JSON.stringify(content)) {
+        return;
+      }
+      
+      try {
+        // Validate new content if needed
+        let contentToUse = content;
+        
+        if (validationMode !== 'off') {
+          const validationResult = validateContentFn(content, {
+            mode: validationMode,
+            autoFix: autoFixContent,
+            throwOnError: false
+          });
+          
+          if (!validationResult.valid) {
+            console.warn('[AutoArtifacts] Content sync validation issues:', validationResult);
+            
+            if (autoFixContent && validationResult.fixed) {
+              contentToUse = validationResult.fixed;
+            } else if (validationMode === 'strict') {
+              console.error('[AutoArtifacts] Cannot sync invalid content in strict mode');
+              return;
+            }
+          }
+        }
+        
+        // Update editor state WITHOUT destroying the editor
+        const newState = EditorState.create({
+          doc: schema.nodeFromJSON(contentToUse),
+          schema: viewRef.current.state.schema,
+          plugins: viewRef.current.state.plugins,
+          selection: viewRef.current.state.selection // Preserve selection if possible
+        });
+        
+        viewRef.current.updateState(newState);
+        
+        // Re-apply layouts after content sync
+        setTimeout(() => {
+          if (editorRef.current) {
+            applyAllLayouts(editorRef.current);
+          }
+        }, 0);
+      } catch (error) {
+        console.error('[AutoArtifacts] Failed to sync content:', error);
+        if (onError && error instanceof Error) {
+          onError(error);
+        }
+      }
+    }, [content, isControlled, validationMode, autoFixContent, onError]);
 
     // Re-apply layouts when content changes
     useEffect(() => {
