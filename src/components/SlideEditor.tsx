@@ -54,7 +54,6 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
     onChange,
     editorTheme = 'light',
     editorStyles = '',
-    slideTheme = 'default',
     editorMode = 'edit',
     readOnly = false,
     currentSlide = 0,
@@ -762,7 +761,7 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
       }
     }, [editorMode, readOnly]);
 
-    const editorClassName = `autoartifacts-editor theme-${editorTheme} slide-theme-${slideTheme} mode-${editorMode} ${readOnly ? 'read-only' : ''} ${editorStyles}`.trim();
+    const editorClassName = `autoartifacts-editor theme-${editorTheme} mode-${editorMode} ${readOnly ? 'read-only' : ''} ${editorStyles}`.trim();
 
     return (
       <>

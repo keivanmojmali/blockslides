@@ -289,9 +289,8 @@ export interface SlideEditorProps {
   
   // UNCONTROLLED MODE: defaultContent only
   defaultContent?: DocNode;              // Initial content only (uncontrolled)
-  editorTheme?: "light" | "dark" | "presentation" | string;
+  editorTheme?: "light" | "dark" | string;
   editorStyles?: string;
-  slideTheme?: string;
   editorMode?: "edit" | "present" | "preview";
   readOnly?: boolean;
   currentSlide?: number;

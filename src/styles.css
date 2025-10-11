@@ -26,37 +26,30 @@
   min-height: 100px;
 }
 
+/* ==================== EDITOR THEMES ==================== */
+
 /* Light theme (default) */
 .autoartifacts-editor.theme-light {
-  background: #ffffff;
+  background: transparent;
 }
 
 .autoartifacts-editor.theme-light .slide {
   background: #ffffff;
   color: #000000;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark theme */
 .autoartifacts-editor.theme-dark {
-  background: #000000;
+  background: transparent;
 }
 
 .autoartifacts-editor.theme-dark .slide {
-  background: #000000;
+  background: #1a1a1a;
   color: #ffffff;
-}
-
-/* Presentation theme */
-.autoartifacts-editor.theme-presentation {
-  background: #000000;
-  padding: 40px;
-}
-
-.autoartifacts-editor.theme-presentation .slide {
-  aspect-ratio: 16 / 9;
-  max-width: 1200px;
-  margin: 40px auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Image display modes */
@@ -269,72 +262,9 @@ mark {
   border-radius: 2px;
 }
 
-/* ==================== SLIDE THEMES ==================== */
-/* These apply to ALL slides when slideTheme prop is set */
-
-/* Default Theme - Pure white background with black text */
-.autoartifacts-editor.slide-theme-default .slide {
-  background: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.autoartifacts-editor.slide-theme-default .slide h1,
-.autoartifacts-editor.slide-theme-default .slide h2,
-.autoartifacts-editor.slide-theme-default .slide h3,
-.autoartifacts-editor.slide-theme-default .slide h4,
-.autoartifacts-editor.slide-theme-default .slide h5,
-.autoartifacts-editor.slide-theme-default .slide h6,
-.autoartifacts-editor.slide-theme-default .slide p {
-  color: #000000;
-}
-
-/* Dark Theme - Pure black background with white text */
-.autoartifacts-editor.slide-theme-dark .slide {
-  background: #000000;
-  color: #ffffff;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.autoartifacts-editor.slide-theme-dark .slide h1,
-.autoartifacts-editor.slide-theme-dark .slide h2,
-.autoartifacts-editor.slide-theme-dark .slide h3,
-.autoartifacts-editor.slide-theme-dark .slide h4,
-.autoartifacts-editor.slide-theme-dark .slide h5,
-.autoartifacts-editor.slide-theme-dark .slide h6,
-.autoartifacts-editor.slide-theme-dark .slide p {
-  color: #ffffff;
-}
-
-/* Minimal Theme - Same as default (white with black) */
-.autoartifacts-editor.slide-theme-minimal .slide {
-  background: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-/* Gradient Theme - Removed, use dark or default instead */
-.autoartifacts-editor.slide-theme-gradient .slide {
-  background: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-/* Custom themes: Developers can add their own like this:
-.autoartifacts-editor.slide-theme-my-brand .slide {
-  background: your-color;
-  border: your-border;
-  // ... etc
-}
-*/
+/* ==================== SLIDE THEMES REMOVED ==================== */
+/* Slide themes are no longer supported at the editor level */
+/* Editor theme now controls all slide appearance */
 
 /* ==================== EDITOR MODES ==================== */
 
