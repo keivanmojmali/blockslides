@@ -38,6 +38,7 @@
   color: #000000;
   border-radius: 8px;
   padding: 24px;
+  margin: 40px 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
@@ -51,43 +52,60 @@
   color: #ffffff;
   border-radius: 8px;
   padding: 24px;
+  margin: 40px 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Add Slide Button - Default Styles */
+/* Add Slide Button - Theme Synced */
 .autoartifacts-add-slide-btn {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
-  margin: 10px auto;
+  margin: 20px auto;
   padding: 0;
-  background: #3b82f6;
-  color: white;
-  border: 2px solid #e5e7eb;
   border-radius: 6px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+/* Light theme button - matches light slide aesthetic */
+.autoartifacts-editor.theme-light .autoartifacts-add-slide-btn {
+  background: #ffffff;
+  color: #3b82f6;
+  border: 2px solid #e5e7eb;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.autoartifacts-add-slide-btn:hover {
-  background: #2563eb;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.autoartifacts-editor.theme-light .autoartifacts-add-slide-btn:hover {
+  background: #f9fafb;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.15);
   transform: translateY(-1px);
 }
 
-.autoartifacts-add-slide-btn:active {
-  transform: translateY(0);
+/* Dark theme button - matches dark slide aesthetic */
+.autoartifacts-editor.theme-dark .autoartifacts-add-slide-btn {
+  background: #1a1a1a;
+  color: #60a5fa;
+  border: 2px solid #374151;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark theme variant */
-.autoartifacts-editor.theme-dark .autoartifacts-add-slide-btn {
-  border-color: #374151;
+.autoartifacts-editor.theme-dark .autoartifacts-add-slide-btn:hover {
+  background: #262626;
+  border-color: #60a5fa;
+  box-shadow: 0 2px 4px rgba(96, 165, 250, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Active state for both themes */
+.autoartifacts-add-slide-btn:active {
+  transform: translateY(0);
 }
 
 /* Image display modes */
