@@ -10,6 +10,9 @@ export { useHistoryState } from "./hooks/useHistoryState";
 export { schema } from "./schema";
 export { actions } from "./actions";
 
+// Export plugins
+export { createAddSlideButtonPlugin } from "./plugins/addSlideButtonPlugin";
+
 // Export control mode utilities
 export { 
   isControlledMode, 

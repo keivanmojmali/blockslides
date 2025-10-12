@@ -7,6 +7,7 @@ import { baseKeymap } from 'prosemirror-commands';
 import { undo, redo } from 'prosemirror-history';
 import { schema } from "../schema";
 import { applyAllLayouts } from '../utils/layoutParser';
+import { createAddSlideButtonPlugin } from '../plugins/addSlideButtonPlugin';
 import {
   showSlide,
   showAllSlides,
@@ -59,6 +60,13 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
     currentSlide = 0,
     onSlideChange,
     onError,
+    
+    // Add Slide Button Configuration
+    showAddSlideButtons = false,
+    addSlideButtonClassName,
+    addSlideButtonStyle,
+    addSlideButtonContent,
+    onAddSlideButtonClick,
     
     // Event callbacks
     onCreate,
@@ -460,6 +468,21 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
           }),
           keymap(baseKeymap)
         ];
+
+        // Add button plugin if enabled
+        if (showAddSlideButtons) {
+          plugins.push(
+            createAddSlideButtonPlugin(
+              () => editorRefObject.current,
+              {
+                className: addSlideButtonClassName,
+                style: addSlideButtonStyle,
+                content: addSlideButtonContent,
+                onClick: onAddSlideButtonClick
+              }
+            )
+          );
+        }
 
         // Create initial state from JSON (using validated/fixed content)
         const state = EditorState.create({

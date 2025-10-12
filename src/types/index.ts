@@ -293,6 +293,17 @@ export interface SlideEditorProps {
   editorStyles?: string;
   editorMode?: "edit" | "present" | "preview";
   readOnly?: boolean;
+  
+  // Add Slide Button Configuration
+  showAddSlideButtons?: boolean;
+  addSlideButtonClassName?: string;
+  addSlideButtonStyle?: React.CSSProperties;
+  addSlideButtonContent?: string;
+  onAddSlideButtonClick?: (params: {
+    slideIndex: number;
+    buttonElement: HTMLElement;
+    event: MouseEvent;
+  }) => void;
   currentSlide?: number;
   onSlideChange?: (slideIndex: number) => void;
   onError?: (error: Error) => void;
