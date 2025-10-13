@@ -51,10 +51,11 @@ export function createAddSlideButtonPlugin(
                     event
                   });
                 } else {
-                  // Default behavior - add slide
+                  // Default behavior - add slide at this button's position
                   const editorRef = getEditorRef();
                   if (editorRef) {
-                    editorRef.commands.addSlide('after');
+                    // Pass the button's position directly to addSlide
+                    editorRef.commands.addSlide(pos);
                   }
                 }
               };

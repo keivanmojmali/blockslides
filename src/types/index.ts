@@ -498,7 +498,7 @@ export interface Commands {
   insertVideo: (attrs: { src: string; provider?: string; aspectRatio?: string }) => boolean;
   
   // Slides
-  addSlide: (position?: 'before' | 'after' | 'end') => boolean;
+  addSlide: (position?: 'before' | 'after' | 'end' | number) => boolean;
   deleteSlide: (slideIndex?: number) => boolean;
   duplicateSlide: (slideIndex?: number) => boolean;
   
@@ -577,7 +577,7 @@ export interface ChainedCommands {
   insertImage: (attrs: { src: string; alt?: string; width?: number | string }) => ChainedCommands;
   insertVideo: (attrs: { src: string; provider?: string; aspectRatio?: string }) => ChainedCommands;
   
-  addSlide: (position?: 'before' | 'after' | 'end') => ChainedCommands;
+  addSlide: (position?: 'before' | 'after' | 'end' | number) => ChainedCommands;
   deleteSlide: (slideIndex?: number) => ChainedCommands;
   duplicateSlide: (slideIndex?: number) => ChainedCommands;
   

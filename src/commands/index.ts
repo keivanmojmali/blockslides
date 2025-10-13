@@ -273,7 +273,7 @@ export function createCommands(getView: () => EditorView | null): Commands {
     // SLIDE COMMANDS
     // =========================
 
-    addSlide: (position = 'end') => exec(() => {
+    addSlide: (position: 'end' | 'before' | 'after' | number = 'end') => exec(() => {
       const v = view()!;
       const slideType = v.state.schema.nodes.slide;
       const rowType = v.state.schema.nodes.row;
@@ -290,10 +290,13 @@ export function createCommands(getView: () => EditorView | null): Commands {
       
       let insertPos: number;
       
-      if (position === 'end') {
+      // If position is a number, use it directly
+      if (typeof position === 'number') {
+        insertPos = position;
+      } else if (position === 'end') {
         insertPos = v.state.doc.content.size;
       } else {
-        // Find current slide
+        // Find current slide for 'before' or 'after'
         const { $from } = v.state.selection;
         let slideDepth = -1;
         
