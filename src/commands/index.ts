@@ -552,10 +552,12 @@ export function createCommands(getView: () => EditorView | null): Commands {
       
       v.dispatch(tr);
       
-      // Apply layout styles
+      // Apply layout styles - need to wait for DOM update
       setTimeout(() => {
-        applyAllLayouts(v.dom);
-      }, 0);
+        // Use closest to find the editor wrapper, or v.dom itself
+        const editorElement = (v.dom.closest('.autoartifacts-editor') as HTMLElement) || v.dom;
+        applyAllLayouts(editorElement);
+      }, 10);
       
       return true;
     }),

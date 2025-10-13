@@ -8,6 +8,7 @@ import { undo, redo } from 'prosemirror-history';
 import { schema } from "../schema";
 import { applyAllLayouts } from '../utils/layoutParser';
 import { createAddSlideButtonPlugin } from '../plugins/addSlideButtonPlugin';
+import { createPlaceholderPlugin } from '../plugins/placeholderPlugin';
 import {
   showSlide,
   showAllSlides,
@@ -469,7 +470,8 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
             'Mod-y': redo,
             'Mod-Shift-z': redo
           }),
-          keymap(baseKeymap)
+          keymap(baseKeymap),
+          createPlaceholderPlugin()  // Add placeholder support
         ];
 
         // Add button plugin if enabled

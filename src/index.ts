@@ -13,6 +13,7 @@ export { actions } from "./actions";
 // Export plugins
 export { createAddSlideButtonPlugin } from "./plugins/addSlideButtonPlugin";
 export { createLayoutPickerPlugin } from "./plugins/layoutPickerPlugin";
+export { createPlaceholderPlugin } from "./plugins/placeholderPlugin";
 export { DEFAULT_LAYOUTS } from "./plugins/layoutPickerDefaults";
 export type { LayoutTemplate } from "./plugins/layoutPickerDefaults";
 export type { LayoutPickerOptions } from "./plugins/layoutPickerPlugin";

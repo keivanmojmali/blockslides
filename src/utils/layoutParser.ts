@@ -76,7 +76,9 @@ export function applyLayoutToRow(
   layout: string
 ): void {
   // Get all column children
-  const columns = Array.from(rowElement.children) as HTMLElement[];
+  const columns = Array.from(rowElement.children).filter(
+    (el) => el.getAttribute('data-node-type') === 'column'
+  ) as HTMLElement[];
 
   if (columns.length === 0) {
     return; // No columns to apply layout to
@@ -85,13 +87,15 @@ export function applyLayoutToRow(
   // Parse the layout
   const ratios = parseLayout(layout, columns.length);
 
-  // Apply flex values to each column
+  // Apply flex values to each column as inline styles
+  // Note: CSS also handles common layouts, but inline styles provide
+  // a fallback for custom/dynamic layouts
   columns.forEach((column, index) => {
-    // Set flex: <grow> <shrink> <basis>
-    // grow: ratio value (how much space this column takes)
-    // shrink: 1 (can shrink if needed)
-    // basis: 0% (start from zero and grow based on flex-grow)
-    column.style.flex = `${ratios[index]} 1 0%`;
+    const ratio = ratios[index];
+    column.style.flex = `${ratio} 1 0%`;
+    column.style.flexGrow = `${ratio}`;
+    column.style.flexShrink = '1';
+    column.style.flexBasis = '0%';
   });
 }
 
@@ -111,6 +115,8 @@ export function applyAllLayouts(editorElement: HTMLElement): void {
     const layout = row.getAttribute("data-layout");
 
     // Only apply if layout is specified and not 'auto'
+    // Note: CSS handles most common layouts, but this provides
+    // support for custom/dynamic layouts
     if (layout && layout !== "auto") {
       applyLayoutToRow(row, layout);
     }

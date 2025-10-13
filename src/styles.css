@@ -21,6 +21,65 @@
   min-width: 0;
 }
 
+/* Layout-specific column sizing */
+/* Single column layouts */
+[data-layout="1"] > .column {
+  flex: 1 1 0%;
+}
+
+/* Two equal columns */
+[data-layout="1-1"] > .column {
+  flex: 1 1 0%;
+}
+
+/* Two columns: 2-1 ratio (66% / 33%) */
+[data-layout="2-1"] > .column:nth-child(1) {
+  flex: 2 1 0%;
+}
+[data-layout="2-1"] > .column:nth-child(2) {
+  flex: 1 1 0%;
+}
+
+/* Two columns: 1-2 ratio (33% / 66%) */
+[data-layout="1-2"] > .column:nth-child(1) {
+  flex: 1 1 0%;
+}
+[data-layout="1-2"] > .column:nth-child(2) {
+  flex: 2 1 0%;
+}
+
+/* Three equal columns */
+[data-layout="1-1-1"] > .column {
+  flex: 1 1 0%;
+}
+
+/* Three columns: 2-1-1 ratio */
+[data-layout="2-1-1"] > .column:nth-child(1) {
+  flex: 2 1 0%;
+}
+[data-layout="2-1-1"] > .column:nth-child(2),
+[data-layout="2-1-1"] > .column:nth-child(3) {
+  flex: 1 1 0%;
+}
+
+/* Three columns: 1-2-1 ratio */
+[data-layout="1-2-1"] > .column:nth-child(1),
+[data-layout="1-2-1"] > .column:nth-child(3) {
+  flex: 1 1 0%;
+}
+[data-layout="1-2-1"] > .column:nth-child(2) {
+  flex: 2 1 0%;
+}
+
+/* Three columns: 1-1-2 ratio */
+[data-layout="1-1-2"] > .column:nth-child(1),
+[data-layout="1-1-2"] > .column:nth-child(2) {
+  flex: 1 1 0%;
+}
+[data-layout="1-1-2"] > .column:nth-child(3) {
+  flex: 2 1 0%;
+}
+
 .ProseMirror {
   outline: none;
   min-height: 100px;
@@ -633,6 +692,23 @@ kbd {
   border-top-color: #444;
   color: #999;
   background: #2a2a2a;
+}
+
+/* ===== PLACEHOLDER SUPPORT ===== */
+
+/* Placeholder for empty paragraphs and headings */
+.ProseMirror .has-placeholder::before {
+  content: attr(data-placeholder-text);
+  color: #999;
+  pointer-events: none;
+  position: absolute;
+  font-style: italic;
+  opacity: 0.6;
+}
+
+/* Dark theme placeholder colors */
+.autoartifacts-editor.theme-dark .ProseMirror .has-placeholder::before {
+  color: #666;
 }
 
 /* ===== LAYOUT PICKER ===== */

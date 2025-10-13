@@ -7,6 +7,8 @@ import { video } from "./video";
 import { bulletList } from "./bulletList";
 import { orderedList } from "./orderedList";
 import { listItem } from "./listItem";
+import { paragraph } from "./paragraph";
+import { heading } from "./heading";
 
 export const nodes = {
   doc: {
@@ -20,7 +22,7 @@ export const nodes = {
   bulletList,
   orderedList,
   listItem,
-  paragraph: basicNodes.paragraph,
-  heading: basicNodes.heading,
+  paragraph,
+  heading,
   text: basicNodes.text,
 };

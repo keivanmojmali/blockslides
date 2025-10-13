@@ -111,6 +111,123 @@ export function createEmptyColumn(schema: Schema): ProseMirrorNode | null {
 }
 
 /**
+ * Creates placeholder content for a new slide layout
+ * 
+ * @param layout - Layout string (e.g., '1', '1-1', '2-1')
+ * @param schema - ProseMirror schema
+ * @returns Array of column nodes with placeholder content
+ */
+export function createPlaceholderContent(
+  layout: string,
+  schema: Schema
+): ProseMirrorNode[] {
+  const columnType = schema.nodes.column;
+  const paragraphType = schema.nodes.paragraph;
+  const headingType = schema.nodes.heading;
+  
+  if (!columnType || !paragraphType || !headingType) {
+    console.error('[AutoArtifacts] Missing required node types');
+    return [];
+  }
+  
+  const columnCount = layout.split('-').length;
+  const columns: ProseMirrorNode[] = [];
+  
+  // Single column layout
+  if (layout === '1') {
+    const heading = headingType.create(
+      { level: 1, placeholder: 'Add a heading' },
+      []  // Empty content
+    );
+    const paragraph = paragraphType.create(
+      { placeholder: 'Start typing your content here...' },
+      []  // Empty content
+    );
+    const column = columnType.create(null, [heading, paragraph]);
+    columns.push(column);
+  }
+  // Two columns
+  else if (layout === '1-1') {
+    for (let i = 0; i < 2; i++) {
+      const heading = headingType.create(
+        { level: 2, placeholder: `Column ${i + 1} heading` },
+        []  // Empty content
+      );
+      const paragraph = paragraphType.create(
+        { placeholder: 'Add your content here...' },
+        []  // Empty content
+      );
+      const column = columnType.create(null, [heading, paragraph]);
+      columns.push(column);
+    }
+  }
+  // Sidebar layouts (2-1 or 1-2)
+  else if (layout === '2-1' || layout === '1-2') {
+    const isRightSidebar = layout === '2-1';
+    
+    // Main content column
+    const mainHeading = headingType.create(
+      { level: 2, placeholder: 'Main heading' },
+      []  // Empty content
+    );
+    const mainParagraph = paragraphType.create(
+      { placeholder: 'Add your main content here...' },
+      []  // Empty content
+    );
+    const mainColumn = columnType.create(null, [mainHeading, mainParagraph]);
+    
+    // Sidebar column
+    const sidebarHeading = headingType.create(
+      { level: 3, placeholder: 'Sidebar heading' },
+      []  // Empty content
+    );
+    const sidebarParagraph = paragraphType.create(
+      { placeholder: 'Add supporting content...' },
+      []  // Empty content
+    );
+    const sidebarColumn = columnType.create(null, [sidebarHeading, sidebarParagraph]);
+    
+    if (isRightSidebar) {
+      columns.push(mainColumn, sidebarColumn);
+    } else {
+      columns.push(sidebarColumn, mainColumn);
+    }
+  }
+  // Three columns
+  else if (layout === '1-1-1') {
+    for (let i = 0; i < 3; i++) {
+      const heading = headingType.create(
+        { level: 3, placeholder: `Column ${i + 1} heading` },
+        []  // Empty content
+      );
+      const paragraph = paragraphType.create(
+        { placeholder: 'Add content...' },
+        []  // Empty content
+      );
+      const column = columnType.create(null, [heading, paragraph]);
+      columns.push(column);
+    }
+  }
+  // Custom layouts - generic placeholder
+  else {
+    for (let i = 0; i < columnCount; i++) {
+      const heading = headingType.create(
+        { level: 3, placeholder: `Column ${i + 1} heading` },
+        []  // Empty content
+      );
+      const paragraph = paragraphType.create(
+        { placeholder: 'Add your content here...' },
+        []  // Empty content
+      );
+      const column = columnType.create(null, [heading, paragraph]);
+      columns.push(column);
+    }
+  }
+  
+  return columns;
+}
+
+/**
  * Checks if a slide is empty (single column with only empty paragraph)
  * 
  * @param slideNode - The slide node to check

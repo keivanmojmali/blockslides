@@ -8,8 +8,9 @@
 
 import { Plugin } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { LayoutTemplate, DEFAULT_LAYOUTS } from './layoutPickerDefaults';
-import { isSlideEmpty, extractContentBlocks, redistributeContent } from '../utils/contentRedistribution';
+import type { LayoutTemplate } from './layoutPickerDefaults';
+import { DEFAULT_LAYOUTS } from './layoutPickerDefaults';
+import { isSlideEmpty, extractContentBlocks, redistributeContent, createPlaceholderContent } from '../utils/contentRedistribution';
 import { parseLayout, applyAllLayouts } from '../utils/layoutParser';
 
 export interface LayoutPickerOptions {
@@ -43,7 +44,21 @@ export function createLayoutPickerPlugin(options: LayoutPickerOptions = {}): Plu
     onLayoutSelect
   } = options;
 
+  // Store view reference
+  let editorView: any = null;
+
   return new Plugin({
+    view(view) {
+      editorView = view;
+      return {
+        update(view) {
+          editorView = view;
+        },
+        destroy() {
+          editorView = null;
+        }
+      };
+    },
     props: {
       decorations(state) {
         const decorations: Decoration[] = [];
@@ -63,7 +78,8 @@ export function createLayoutPickerPlugin(options: LayoutPickerOptions = {}): Plu
                 templateStyle,
                 iconMaxWidth,
                 onLayoutSelect,
-                offset
+                offset,
+                () => editorView  // Pass view getter
               );
             }, {
               side: 1,
@@ -93,7 +109,8 @@ function createLayoutPickerWidget(
   templateStyle: Record<string, string>,
   iconMaxWidth: string,
   onLayoutSelect: ((layoutId: string, slideElement: HTMLElement) => void) | undefined,
-  slideOffset: number
+  slideOffset: number,
+  getView: () => any
 ): HTMLElement {
   // Create main container
   const container = document.createElement('div');
@@ -151,8 +168,8 @@ function createLayoutPickerWidget(
       event.preventDefault();
       event.stopPropagation();
       
-      // Get the editor view and slide element
-      const editorView = getEditorViewFromEvent(event);
+      // Get the editor view from the closure
+      const editorView = getView();
       if (!editorView) {
         console.warn('[AutoArtifacts] Could not find editor view');
         return;
@@ -164,23 +181,8 @@ function createLayoutPickerWidget(
         // Use custom handler
         onLayoutSelect(layout.id, slideElement);
       } else {
-        // Default behavior: apply the layout using setSlideLayout command
-        // Find the slide position and set cursor there
-        const slidePos = findSlidePosition(editorView, slideOffset);
-        if (slidePos !== null) {
-          // Set selection inside the slide
-          const tr = editorView.state.tr.setSelection(
-            editorView.state.selection.constructor.near(
-              editorView.state.doc.resolve(slidePos + 2)
-            ) as any
-          );
-          editorView.dispatch(tr);
-          
-          // Apply the layout
-          // Get commands from editor - we need to access it via a global or ref
-          // For now, we'll dispatch a transaction to apply the layout directly
-          applySlideLayoutDirect(editorView, slideOffset, layout.id);
-        }
+        // Default behavior: apply the layout directly
+        applySlideLayoutDirect(editorView, slideOffset, layout.id);
       }
     });
     
@@ -188,37 +190,6 @@ function createLayoutPickerWidget(
   });
   
   return container;
-}
-
-/**
- * Gets the EditorView from a DOM event
- */
-function getEditorViewFromEvent(event: Event): any {
-  let target = event.target as HTMLElement | null;
-  while (target) {
-    if ((target as any).pmView) {
-      return (target as any).pmView;
-    }
-    if (target.classList?.contains('ProseMirror')) {
-      // Found the ProseMirror element, check parent
-      if ((target.parentElement as any)?.pmViewDesc?.view) {
-        return (target.parentElement as any).pmViewDesc.view;
-      }
-    }
-    target = target.parentElement;
-  }
-  return null;
-}
-
-/**
- * Finds the position of a slide by its offset
- */
-function findSlidePosition(view: any, slideOffset: number): number | null {
-  try {
-    return slideOffset;
-  } catch (e) {
-    return null;
-  }
 }
 
 /**
@@ -256,9 +227,18 @@ function applySlideLayoutDirect(view: any, slideOffset: number, layout: string):
       return;
     }
     
-    // Extract and redistribute content
-    const existingBlocks = extractContentBlocks(slideNode);
-    const newColumns = redistributeContent(existingBlocks, columnCount, state.schema);
+    // Check if slide is empty - use placeholder content if so
+    const isEmpty = isSlideEmpty(slideNode);
+    let newColumns;
+    
+    if (isEmpty) {
+      // Create placeholder content for empty slide
+      newColumns = createPlaceholderContent(layout, state.schema);
+    } else {
+      // Redistribute existing content
+      const existingBlocks = extractContentBlocks(slideNode);
+      newColumns = redistributeContent(existingBlocks, columnCount, state.schema);
+    }
     
     if (newColumns.length === 0) {
       console.error('[AutoArtifacts] Failed to create columns');
@@ -286,10 +266,12 @@ function applySlideLayoutDirect(view: any, slideOffset: number, layout: string):
     
     view.dispatch(tr);
     
-    // Apply layout styles
+    // Apply layout styles - need to wait for DOM update
     setTimeout(() => {
-      applyAllLayouts(view.dom);
-    }, 0);
+      // Use view.dom.parentElement to get the editor wrapper, or view.dom itself
+      const editorElement = (view.dom.closest('.autoartifacts-editor') as HTMLElement) || view.dom;
+      applyAllLayouts(editorElement);
+    }, 10);
   } catch (error) {
     console.error('[AutoArtifacts] Error applying layout:', error);
   }
