@@ -9,6 +9,7 @@ import { EditorView } from 'prosemirror-view';
 import { toggleMark, setBlockType } from 'prosemirror-commands';
 import { undo, redo } from 'prosemirror-history';
 import { AllSelection } from 'prosemirror-state';
+import { Node as ProseMirrorNode } from 'prosemirror-model';
 import { Commands, ChainedCommands, NavigationOptions } from '../types';
 import {
   canUndo as canUndoUtil,
@@ -38,6 +39,8 @@ import {
   isAtDocStart,
   isAtDocEnd
 } from '../utils/selectionUtils';
+import { parseLayout, applyAllLayouts } from '../utils/layoutParser';
+import { extractContentBlocks, redistributeContent } from '../utils/contentRedistribution';
 
 /**
  * Create commands object for a given editor view
@@ -361,7 +364,7 @@ export function createCommands(getView: () => EditorView | null): Commands {
       if (!slideType) return false;
       
       let currentIndex = 0;
-      let slideNode = null;
+      let slideNode: ProseMirrorNode | null = null;
       let insertPos = -1;
       
       v.state.doc.forEach((node, offset) => {
@@ -384,7 +387,9 @@ export function createCommands(getView: () => EditorView | null): Commands {
       
       if (!slideNode || insertPos === -1) return false;
       
-      const tr = v.state.tr.insert(insertPos, slideNode.copy(slideNode.content));
+      // TypeScript needs this explicit check
+      const validSlideNode = slideNode as ProseMirrorNode;
+      const tr = v.state.tr.insert(insertPos, validSlideNode.copy(validSlideNode.content));
       v.dispatch(tr);
       return true;
     }),
@@ -478,7 +483,77 @@ export function createCommands(getView: () => EditorView | null): Commands {
       
       // Trigger layout recalculation
       setTimeout(() => {
-        const { applyAllLayouts } = require('../utils/layoutParser');
+        applyAllLayouts(v.dom);
+      }, 0);
+      
+      return true;
+    }),
+
+    setSlideLayout: (layout: string) => exec(() => {
+      const v = view()!;
+      const { $from } = v.state.selection;
+      
+      // Find parent slide
+      let slideDepth = -1;
+      for (let d = $from.depth; d > 0; d--) {
+        if ($from.node(d).type.name === 'slide') {
+          slideDepth = d;
+          break;
+        }
+      }
+      
+      if (slideDepth === -1) {
+        console.warn('[AutoArtifacts] setSlideLayout: No slide found at cursor position');
+        return false;
+      }
+      
+      const slideNode = $from.node(slideDepth);
+      const slidePos = $from.before(slideDepth);
+      
+      // Validate layout string
+      const tempColumnCount = layout.split('-').length;
+      const ratios = parseLayout(layout, tempColumnCount);
+      if (!ratios || ratios.length === 0) {
+        console.warn('[AutoArtifacts] setSlideLayout: Invalid layout format');
+        return false;
+      }
+      
+      const columnCount = ratios.length;
+      
+      // Extract existing content from all columns
+      const existingBlocks = extractContentBlocks(slideNode);
+      
+      // Create new columns with redistributed content
+      const newColumns = redistributeContent(existingBlocks, columnCount, v.state.schema);
+      
+      if (newColumns.length === 0) {
+        console.error('[AutoArtifacts] setSlideLayout: Failed to create columns');
+        return false;
+      }
+      
+      // Create new row with layout and columns
+      const rowType = v.state.schema.nodes.row;
+      if (!rowType) return false;
+      
+      const newRow = rowType.create({ layout }, newColumns);
+      
+      // Create new slide with updated layout attribute and new row
+      const slideType = v.state.schema.nodes.slide;
+      if (!slideType) return false;
+      
+      const newSlide = slideType.create({ ...slideNode.attrs, layout }, [newRow]);
+      
+      // Replace the slide
+      const tr = v.state.tr.replaceRangeWith(
+        slidePos,
+        slidePos + slideNode.nodeSize,
+        newSlide
+      );
+      
+      v.dispatch(tr);
+      
+      // Apply layout styles
+      setTimeout(() => {
         applyAllLayouts(v.dom);
       }, 0);
       

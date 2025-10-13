@@ -1,4 +1,4 @@
-import { useEffect, useRef, forwardRef, useImperativeHandle, useState, useMemo } from "react";
+import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState, useMemo } from "react";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { history } from 'prosemirror-history';
@@ -91,7 +91,10 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
     
     // Keyboard shortcuts configuration
     keyboardShortcuts,
-    showShortcutsHelp = false
+    showShortcutsHelp = false,
+    
+    // Custom plugins
+    plugins: customPlugins = []
   }, ref) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const viewRef = useRef<EditorView | null>(null);
@@ -482,6 +485,11 @@ export const SlideEditor = forwardRef<SlideEditorRef, SlideEditorProps>(
               }
             )
           );
+        }
+
+        // Add custom plugins
+        if (customPlugins && customPlugins.length > 0) {
+          plugins.push(...customPlugins);
         }
 
         // Create initial state from JSON (using validated/fixed content)

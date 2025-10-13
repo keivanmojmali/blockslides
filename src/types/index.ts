@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import type { Plugin } from 'prosemirror-state';
 import type {
   OnCreateParams,
   OnUpdateParams,
@@ -63,6 +64,7 @@ export interface SlideNode {
   type: "slide";
   attrs?: {
     className?: string;
+    layout?: string;
   };
   content: RowNode[];
 }
@@ -342,6 +344,9 @@ export interface SlideEditorProps {
   // Keyboard Shortcuts Configuration
   keyboardShortcuts?: KeyboardShortcutsConfig;     // Custom keyboard shortcuts
   showShortcutsHelp?: boolean;                     // Show shortcuts help modal on mount
+  
+  // Custom Plugins
+  plugins?: Plugin[];                              // Custom ProseMirror plugins to add to the editor
 }
 
 /**
@@ -514,6 +519,7 @@ export interface Commands {
   
   // Layouts
   setLayout: (layout: string) => boolean;
+  setSlideLayout: (layout: string) => boolean;
   
   // History
   undo: () => boolean;
@@ -588,6 +594,7 @@ export interface ChainedCommands {
   goToLastSlide: (options?: NavigationOptions) => ChainedCommands;
   
   setLayout: (layout: string) => ChainedCommands;
+  setSlideLayout: (layout: string) => ChainedCommands;
   
   undo: () => ChainedCommands;
   redo: () => ChainedCommands;

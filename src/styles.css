@@ -634,3 +634,130 @@ kbd {
   color: #999;
   background: #2a2a2a;
 }
+
+/* ===== LAYOUT PICKER ===== */
+
+/* Main container */
+.layout-picker {
+  padding: 40px;
+  text-align: center;
+  user-select: none;
+}
+
+/* Title */
+.layout-picker-title {
+  font-size: 32px;
+  font-weight: 300;
+  margin: 0 0 8px 0;
+  color: #999;
+}
+
+/* Subtitle */
+.layout-picker-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 32px 0;
+}
+
+/* Templates container */
+.layout-picker-templates {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Individual template card */
+.layout-template {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.layout-template:hover {
+  border-color: #3b82f6;
+  background: #f9fafb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.layout-template:active {
+  transform: translateY(0);
+}
+
+/* Template icon */
+.layout-template-icon {
+  width: 100%;
+  max-width: 100px;
+  height: auto;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.layout-template:hover .layout-template-icon {
+  color: #3b82f6;
+}
+
+.layout-template-icon svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Template label */
+.layout-template-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.layout-template:hover .layout-template-label {
+  color: #3b82f6;
+}
+
+/* Dark theme support */
+.autoartifacts-editor.theme-dark .layout-picker-title {
+  color: #999;
+}
+
+.autoartifacts-editor.theme-dark .layout-picker-subtitle {
+  color: #666;
+}
+
+.autoartifacts-editor.theme-dark .layout-template {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+.autoartifacts-editor.theme-dark .layout-template:hover {
+  border-color: #60a5fa;
+  background: #333;
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.2);
+}
+
+.autoartifacts-editor.theme-dark .layout-template-icon {
+  color: #999;
+}
+
+.autoartifacts-editor.theme-dark .layout-template:hover .layout-template-icon {
+  color: #60a5fa;
+}
+
+.autoartifacts-editor.theme-dark .layout-template-label {
+  color: #999;
+}
+
+.autoartifacts-editor.theme-dark .layout-template:hover .layout-template-label {
+  color: #60a5fa;
+}

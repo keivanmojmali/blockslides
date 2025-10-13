@@ -12,6 +12,10 @@ export { actions } from "./actions";
 
 // Export plugins
 export { createAddSlideButtonPlugin } from "./plugins/addSlideButtonPlugin";
+export { createLayoutPickerPlugin } from "./plugins/layoutPickerPlugin";
+export { DEFAULT_LAYOUTS } from "./plugins/layoutPickerDefaults";
+export type { LayoutTemplate } from "./plugins/layoutPickerDefaults";
+export type { LayoutPickerOptions } from "./plugins/layoutPickerPlugin";
 
 // Export control mode utilities
 export { 
