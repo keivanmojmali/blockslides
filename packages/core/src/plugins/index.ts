@@ -1,3 +1,1 @@
-export { createPlaceholderPlugin } from './placeholderPlugin';
-export { createAddSlideButtonPlugin } from './addSlideButtonPlugin';
-
+export { createMarkdownInputRules } from './markdownInputRules';

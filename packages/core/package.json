@@ -17,7 +17,10 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm",
-    "dev": "tsup src/index.ts --format cjs,esm --watch"
+    "dev": "tsup src/index.ts --format cjs,esm --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "prosemirror-commands": "^1.7.1",
@@ -30,6 +33,13 @@
     "prosemirror-view": "^1.41.2"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/jsdom": "^27.0.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "jsdom": "^27.0.0",
+    "prosemirror-test-builder": "^1.1.1",
+    "ts-jest": "^29.4.5",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"
   },
@@ -42,4 +52,3 @@
   "author": "",
   "license": "ISC"
 }
-
