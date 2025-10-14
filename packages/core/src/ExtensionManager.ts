@@ -10,14 +10,26 @@ import type { SlideEditor } from './SlideEditor';
  * - Collecting plugins from all extensions
  * - Calling onCreate/onDestroy hooks
  * - Sorting extensions by priority
+ * - Deduplicating extensions by name
  */
 export class ExtensionManager {
   private extensions: Extension[];
   private editor: SlideEditor;
   
   constructor(extensions: Extension[], editor: SlideEditor) {
+    // Deduplicate extensions by name (keep first instance)
+    const seenNames = new Set<string>();
+    const uniqueExtensions = extensions.filter(ext => {
+      if (seenNames.has(ext.name)) {
+        console.warn(`[AutoArtifacts] Skipping duplicate extension: ${ext.name}`);
+        return false;
+      }
+      seenNames.add(ext.name);
+      return true;
+    });
+    
     // Sort by priority (higher priority first)
-    this.extensions = extensions.sort((a, b) => b.priority - a.priority);
+    this.extensions = uniqueExtensions.sort((a, b) => b.priority - a.priority);
     this.editor = editor;
   }
   

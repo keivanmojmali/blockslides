@@ -120,7 +120,26 @@ export class SlideEditor {
     // 3. Raw plugins (escape hatch for advanced users)
     const rawPlugins = this.options.plugins || [];
     
-    return [...corePlugins, ...extensionPlugins, ...rawPlugins];
+    // Combine all plugins
+    const allPlugins = [...corePlugins, ...extensionPlugins, ...rawPlugins];
+    
+    // 4. DEDUPLICATE: Filter out plugins with duplicate keys
+    // ProseMirror identifies plugins by their PluginKey - keep only the first instance
+    const seenKeys = new Set<any>();
+    const uniquePlugins = allPlugins.filter(plugin => {
+      const key = (plugin as any).key;
+      if (!key) return true; // Keep plugins without keys (they're not tracked)
+      
+      if (seenKeys.has(key)) {
+        console.warn(`[AutoArtifacts] Skipping duplicate plugin with key: ${key}`);
+        return false; // Skip duplicate
+      }
+      
+      seenKeys.add(key);
+      return true; // Keep first instance
+    });
+    
+    return uniquePlugins;
   }
   
   /**

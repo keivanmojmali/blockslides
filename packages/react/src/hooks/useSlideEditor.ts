@@ -37,9 +37,11 @@ export function useSlideEditor(
   const [editor, setEditor] = useState<SlideEditor | null>(null);
   const elementRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<SlideEditor | null>(null);
+  const mountedRef = useRef(false);
   
   useEffect(() => {
     if (!elementRef.current) return;
+    if (mountedRef.current && editorRef.current) return; // Already mounted, skip
     
     // Destroy previous editor if it exists
     if (editorRef.current) {
@@ -53,13 +55,29 @@ export function useSlideEditor(
     
     editorRef.current = instance;
     setEditor(instance);
+    mountedRef.current = true;
     
     return () => {
-      instance.destroy();
-      editorRef.current = null;
-      setEditor(null);
+      // Don't actually destroy in cleanup - let next effect or final unmount handle it
+      // This prevents issues with React Strict Mode double-mounting
+      if (!mountedRef.current) {
+        instance.destroy();
+        editorRef.current = null;
+        setEditor(null);
+      }
     };
   }, deps);
+  
+  // Cleanup on final unmount
+  useEffect(() => {
+    return () => {
+      if (editorRef.current) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+        mountedRef.current = false;
+      }
+    };
+  }, []);
   
   return { editor, ref: elementRef };
 }

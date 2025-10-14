@@ -35,11 +35,9 @@ export interface SlideEditorProps extends SlideEditorOptions {
  */
 export const SlideEditor = forwardRef<any, SlideEditorProps>(
   ({ className, ...options }, ref) => {
-    const { editor, ref: editorRef } = useSlideEditor(options, [
-      options.content,
-      options.extensions,
-      options.plugins,
-    ]);
+    // Don't pass extensions/plugins as deps - they cause unnecessary recreations
+    // Content changes will trigger updates via the onChange callback
+    const { editor, ref: editorRef } = useSlideEditor(options, []);
     
     // Expose editor instance via ref
     useImperativeHandle(ref, () => editor, [editor]);
