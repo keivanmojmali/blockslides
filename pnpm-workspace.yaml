@@ -1,0 +1,8 @@
+packages:
+  - 'packages/core'
+  - 'packages/react'
+  - 'packages/plugins/*'
+  - 'packages/extensions/*'
+  - 'packages/styles'
+  - 'demo'
+

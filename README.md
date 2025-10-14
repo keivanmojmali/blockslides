@@ -207,14 +207,17 @@ doc
 
 ### Control Modes
 
-**Controlled Mode**: You manage the content state
+The editor is always controlled - you provide the initial content and optionally track changes:
+
+**With initial content**:
 ```tsx
-<SlideEditor content={content} onChange={setContent} />
+<SlideEditor content={myContent} />
 ```
 
-**Uncontrolled Mode**: Component manages its own state
+**Tracking updates**:
 ```tsx
-<SlideEditor defaultContent={initialContent} />
+const [content, setContent] = useState(myContent);
+<SlideEditor content={content} onChange={setContent} />
 ```
 
 ### Editor Modes
@@ -239,12 +242,9 @@ The layout system uses ratio strings to define column widths:
 
 ```tsx
 interface SlideEditorProps {
-  // Content Management (Controlled)
-  content?: DocNode;
-  onChange?: (content: DocNode) => void;
-  
-  // Content Management (Uncontrolled)
-  defaultContent?: DocNode;
+  // Content Management (always controlled)
+  content: DocNode;                      // Initial content (required)
+  onChange?: (content: DocNode) => void; // Track changes (optional)
   
   // Appearance
   editorTheme?: 'light' | 'dark' | 'presentation' | string;

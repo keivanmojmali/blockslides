@@ -1,33 +1,17 @@
 {
-  "name": "autoartifacts",
+  "name": "autoartifacts-monorepo",
   "version": "0.0.1",
-  "description": "Auto Artifacts ",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "require": "./src/index.ts",
-      "types": "./src/index.ts"
-    },
-    "./styles.css": "./src/styles.css"
-  },
+  "description": "AutoArtifacts monorepo - ProseMirror-based slide editor",
+  "private": true,
   "scripts": {
+    "build": "pnpm run build --filter @autoartifacts/*",
+    "dev": "pnpm run dev --filter @autoartifacts/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
-    "prosemirror-commands": "^1.7.1",
-    "prosemirror-history": "^1.4.1",
-    "prosemirror-keymap": "^1.2.3",
-    "prosemirror-model": "^1.25.3",
-    "prosemirror-schema-basic": "^1.2.4",
-    "prosemirror-state": "^1.4.3",
-    "prosemirror-view": "^1.41.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
   }
 }
