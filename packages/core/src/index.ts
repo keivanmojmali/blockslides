@@ -9,6 +9,9 @@ export { ExtensionManager } from './ExtensionManager';
 // Schema
 export { schema } from './schema';
 
+// Plugins
+export { createMarkdownInputRules } from './plugins/markdownInputRules';
+
 // Commands
 export * from './commands';
 

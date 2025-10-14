@@ -140,7 +140,7 @@ export function createPlaceholderContent(
       []  // Empty content
     );
     const paragraph = paragraphType.create(
-      { placeholder: 'Start typing your content here...' },
+      {},
       []  // Empty content
     );
     const column = columnType.create(null, [heading, paragraph]);
@@ -154,7 +154,7 @@ export function createPlaceholderContent(
         []  // Empty content
       );
       const paragraph = paragraphType.create(
-        { placeholder: 'Add your content here...' },
+        {},
         []  // Empty content
       );
       const column = columnType.create(null, [heading, paragraph]);
@@ -171,7 +171,7 @@ export function createPlaceholderContent(
       []  // Empty content
     );
     const mainParagraph = paragraphType.create(
-      { placeholder: 'Add your main content here...' },
+      {},
       []  // Empty content
     );
     const mainColumn = columnType.create(null, [mainHeading, mainParagraph]);
@@ -182,7 +182,7 @@ export function createPlaceholderContent(
       []  // Empty content
     );
     const sidebarParagraph = paragraphType.create(
-      { placeholder: 'Add supporting content...' },
+      {},
       []  // Empty content
     );
     const sidebarColumn = columnType.create(null, [sidebarHeading, sidebarParagraph]);
@@ -201,7 +201,7 @@ export function createPlaceholderContent(
         []  // Empty content
       );
       const paragraph = paragraphType.create(
-        { placeholder: 'Add content...' },
+        {},
         []  // Empty content
       );
       const column = columnType.create(null, [heading, paragraph]);
@@ -216,7 +216,7 @@ export function createPlaceholderContent(
         []  // Empty content
       );
       const paragraph = paragraphType.create(
-        { placeholder: 'Add your content here...' },
+        {},
         []  // Empty content
       );
       const column = columnType.create(null, [heading, paragraph]);

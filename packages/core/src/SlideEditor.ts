@@ -9,6 +9,7 @@ import { Extension } from './Extension';
 import { ExtensionManager } from './ExtensionManager';
 import { applyAllLayouts } from './utils/layoutParser';
 import { createCommands } from './commands';
+import { createMarkdownInputRules } from './plugins/markdownInputRules';
 import type { DocNode, Commands } from './types';
 
 /**
@@ -52,6 +53,9 @@ export interface SlideEditorOptions {
   validationMode?: 'off' | 'lenient' | 'strict';
   autoFixContent?: boolean;
   onValidationError?: (result: any) => void;
+  
+  // Features
+  enableMarkdown?: boolean;  // Enable markdown input rules (default: true)
   
   // Extensibility (BOTH patterns supported)
   extensions?: Extension[];  // High-level (recommended, TipTap-style)
@@ -111,13 +115,21 @@ export class SlideEditor {
         depth: this.options.historyDepth,
         newGroupDelay: this.options.newGroupDelay,
       }),
+    ];
+    
+    // Add markdown input rules if enabled (default: true)
+    if (this.options.enableMarkdown !== false) {
+      corePlugins.push(createMarkdownInputRules(schema));
+    }
+    
+    corePlugins.push(
       keymap({
         'Mod-z': undo,
         'Mod-y': redo,
         'Mod-Shift-z': redo,
       }),
-      keymap(baseKeymap),
-    ];
+      keymap(baseKeymap)
+    );
     
     // 2. Extension plugins (from user-provided extensions)
     const extensionPlugins = this.extensionManager?.getPlugins() || [];
