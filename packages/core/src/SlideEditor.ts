@@ -8,7 +8,8 @@ import { schema } from './schema';
 import { Extension } from './Extension';
 import { ExtensionManager } from './ExtensionManager';
 import { applyAllLayouts } from './utils/layoutParser';
-import type { DocNode } from './types';
+import { createCommands } from './commands';
+import type { DocNode, Commands } from './types';
 
 /**
  * SlideEditor Options
@@ -72,6 +73,7 @@ export class SlideEditor {
   private extensionManager: ExtensionManager | null = null;
   private plugins: Plugin[] = [];
   private mounted = false;
+  public commands: Commands;
   
   constructor(options: SlideEditorOptions) {
     this.options = {
@@ -93,6 +95,9 @@ export class SlideEditor {
     
     // Create plugins once in constructor (fixes duplicate plugin error)
     this.plugins = this.createPlugins();
+    
+    // Initialize commands API - provide a getter for the view
+    this.commands = createCommands(() => this.view);
   }
   
   /**

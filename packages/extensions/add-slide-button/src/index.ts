@@ -76,15 +76,11 @@ export class AddSlideButtonExtension extends Extension<AddSlideButtonOptions> {
                         event
                       });
                     } else {
-                      // Default behavior - add slide at this button's position
-                      const view = editor.editorView;
-                      if (view) {
-                        const tr = view.state.tr;
-                        const slideType = view.state.schema.nodes.slide;
-                        const newSlide = slideType.create();
-                        tr.insert(pos, newSlide);
-                        view.dispatch(tr);
-                      }
+                      // Default behavior - use editor's addSlide command
+                      // This ensures proper slide structure with heading + paragraph
+                      editor.commands.addSlide(pos, {
+                        placeholderHeader: 'New Slide'
+                      });
                     }
                   };
                   
