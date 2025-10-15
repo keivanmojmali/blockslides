@@ -131,7 +131,11 @@ function convertSlideToHTML(slide: any): string {
         case 'orderedList':
           return `    <ol>\n${convertBlocks(block.content || []).replace(/^/gm, '  ')}</ol>\n`;
         case 'listItem':
-          return `    <li>${convertInline(block.content || [])}</li>\n`;
+          // List items contain block content (usually paragraphs)
+          const itemContent = convertBlocks(block.content || []).trim();
+          // Remove the outer <p> tags if present to avoid double wrapping
+          const cleanContent = itemContent.replace(/^\s*<p>(.*)<\/p>\s*$/s, '$1');
+          return `    <li>${cleanContent}</li>\n`;
         case 'codeBlock':
           const code = extractTextFromBlocks(block.content || []);
           return `    <pre><code>${escapeHTML(code)}</code></pre>\n`;
@@ -288,7 +292,15 @@ function convertSlideToMarkdown(slide: any): string {
     
     return items.map((item, index) => {
       const marker = bullet === '1.' ? `${index + 1}.` : bullet;
-      const content = convertInlineToMd(item.content || []);
+      // List items contain block content (paragraphs), extract text from them
+      let content = '';
+      if (item.content && Array.isArray(item.content)) {
+        item.content.forEach((block: any) => {
+          if (block.type === 'paragraph' && block.content) {
+            content += convertInlineToMd(block.content);
+          }
+        });
+      }
       return `${marker} ${content}`;
     }).join('\n') + '\n';
   };

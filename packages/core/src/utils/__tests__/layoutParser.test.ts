@@ -4,7 +4,7 @@
  * Tests for parseLayout and applyAllLayouts functions
  */
 
-import { parseLayout, applyAllLayouts } from '../layoutParser';
+import { parseLayout, applyAllLayouts, applyLayoutToRow } from '../layoutParser';
 import { createMockEditorElement, cleanupMockEditorElement } from '../../__tests__/testUtils';
 
 describe('Layout Parser', () => {
@@ -206,6 +206,38 @@ describe('Layout Parser', () => {
       expect(() => {
         applyAllLayouts(null as any);
       }).toThrow();
+    });
+  });
+
+  describe('applyLayoutToRow', () => {
+    it('should handle row with no columns', () => {
+      const row = document.createElement('div');
+      row.setAttribute('data-node-type', 'row');
+      
+      // Should not throw when row has no columns
+      expect(() => {
+        applyLayoutToRow(row, '1-1');
+      }).not.toThrow();
+    });
+
+    it('should apply layout to row with columns', () => {
+      const row = document.createElement('div');
+      row.setAttribute('data-node-type', 'row');
+      
+      const col1 = document.createElement('div');
+      col1.setAttribute('data-node-type', 'column');
+      const col2 = document.createElement('div');
+      col2.setAttribute('data-node-type', 'column');
+      
+      row.appendChild(col1);
+      row.appendChild(col2);
+      
+      applyLayoutToRow(row, '2-1');
+      
+      expect(col1.style.flex).toBeTruthy();
+      expect(col2.style.flex).toBeTruthy();
+      expect(col1.style.flexGrow).toBe('2');
+      expect(col2.style.flexGrow).toBe('1');
     });
   });
 });
