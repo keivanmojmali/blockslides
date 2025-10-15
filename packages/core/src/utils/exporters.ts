@@ -1,6 +1,6 @@
 /**
  * Content Export Utilities
- * 
+ *
  * Provides functions to export presentations in multiple formats:
  * - JSON (ProseMirror document format)
  * - HTML (standalone or embedded)
@@ -8,7 +8,7 @@
  * - Plain Text (readable format)
  */
 
-import type { DocNode } from '../types/index';
+import type { DocNode } from "../types/index";
 
 /**
  * Export to JSON format
@@ -27,13 +27,13 @@ export function exportToJSON(content: DocNode, pretty: boolean = true): string {
  * @returns Plain text string
  */
 export function exportToText(content: DocNode): string {
-  let text = '';
-  
+  let text = "";
+
   content.content?.forEach((slide, index) => {
     text += `\n=== Slide ${index + 1} ===\n\n`;
     text += extractTextFromSlide(slide);
   });
-  
+
   return text.trim();
 }
 
@@ -41,35 +41,37 @@ export function exportToText(content: DocNode): string {
  * Extract text from a slide node
  */
 function extractTextFromSlide(slide: any): string {
-  let text = '';
-  
+  let text = "";
+
   const extractFromBlocks = (blocks: any[]): string => {
-    if (!Array.isArray(blocks)) return '';
-    
-    return blocks.map(block => {
-      if (block.type === 'text') {
-        return block.text || '';
-      }
-      if (block.content) {
-        return extractFromBlocks(block.content);
-      }
-      return '';
-    }).join('');
+    if (!Array.isArray(blocks)) return "";
+
+    return blocks
+      .map((block) => {
+        if (block.type === "text") {
+          return block.text || "";
+        }
+        if (block.content) {
+          return extractFromBlocks(block.content);
+        }
+        return "";
+      })
+      .join("");
   };
-  
+
   if (slide.content && Array.isArray(slide.content)) {
     slide.content.forEach((row: any) => {
       if (row.content && Array.isArray(row.content)) {
         row.content.forEach((column: any) => {
           if (column.content) {
-            text += extractFromBlocks(column.content) + '\n';
+            text += extractFromBlocks(column.content) + "\n";
           }
         });
       }
     });
   }
-  
-  return text + '\n';
+
+  return text + "\n";
 }
 
 /**
@@ -78,28 +80,31 @@ function extractTextFromSlide(slide: any): string {
  * @param options - Export options (includeStyles, slideNumbers)
  * @returns HTML string
  */
-export function exportToHTML(content: DocNode, options: {
-  includeStyles?: boolean;
-  slideNumbers?: boolean;
-} = {}): string {
+export function exportToHTML(
+  content: DocNode,
+  options: {
+    includeStyles?: boolean;
+    slideNumbers?: boolean;
+  } = {}
+): string {
   const { includeStyles = true, slideNumbers = false } = options;
-  
-  let html = includeStyles ? getHTMLTemplate('start') : '';
-  
+
+  let html = includeStyles ? getHTMLTemplate("start") : "";
+
   html += '<div class="presentation">\n';
-  
+
   content.content?.forEach((slide, index) => {
     html += `  <div class="slide">\n`;
     if (slideNumbers) {
       html += `    <div class="slide-number">${index + 1}</div>\n`;
     }
     html += convertSlideToHTML(slide);
-    html += '  </div>\n';
+    html += "  </div>\n";
   });
-  
-  html += '</div>\n';
-  html += includeStyles ? getHTMLTemplate('end') : '';
-  
+
+  html += "</div>\n";
+  html += includeStyles ? getHTMLTemplate("end") : "";
+
   return html;
 }
 
@@ -107,90 +112,111 @@ export function exportToHTML(content: DocNode, options: {
  * Convert a slide node to HTML
  */
 function convertSlideToHTML(slide: any): string {
-  let html = '';
-  
+  let html = "";
+
   const convertBlocks = (blocks: any[]): string => {
-    if (!Array.isArray(blocks)) return '';
-    
-    return blocks.map(block => {
-      switch (block.type) {
-        case 'paragraph':
-          return `    <p>${convertInline(block.content || [])}</p>\n`;
-        case 'heading':
-          const level = block.attrs?.level || 1;
-          return `    <h${level}>${convertInline(block.content || [])}</h${level}>\n`;
-        case 'image':
-          const alt = block.attrs?.alt || '';
-          const src = block.attrs?.src || '';
-          const width = block.attrs?.width ? ` width="${block.attrs.width}"` : '';
-          return `    <img src="${src}" alt="${alt}"${width}>\n`;
-        case 'video':
-          return `    <video src="${block.attrs?.src || ''}" controls></video>\n`;
-        case 'bulletList':
-          return `    <ul>\n${convertBlocks(block.content || []).replace(/^/gm, '  ')}</ul>\n`;
-        case 'orderedList':
-          return `    <ol>\n${convertBlocks(block.content || []).replace(/^/gm, '  ')}</ol>\n`;
-        case 'listItem':
-          // List items contain block content (usually paragraphs)
-          const itemContent = convertBlocks(block.content || []).trim();
-          // Remove the outer <p> tags if present to avoid double wrapping
-          const cleanContent = itemContent.replace(/^\s*<p>(.*)<\/p>\s*$/s, '$1');
-          return `    <li>${cleanContent}</li>\n`;
-        case 'codeBlock':
-          const code = extractTextFromBlocks(block.content || []);
-          return `    <pre><code>${escapeHTML(code)}</code></pre>\n`;
-        default:
-          return '';
-      }
-    }).join('');
-  };
-  
-  const convertInline = (inlines: any[]): string => {
-    if (!Array.isArray(inlines)) return '';
-    
-    return inlines.map(node => {
-      if (node.type === 'text') {
-        let text = escapeHTML(node.text || '');
-        if (node.marks && Array.isArray(node.marks)) {
-          // Apply marks in reverse order to properly nest them
-          const marks = [...node.marks].reverse();
-          marks.forEach((mark: any) => {
-            switch (mark.type) {
-              case 'bold':
-                text = `<strong>${text}</strong>`;
-                break;
-              case 'italic':
-                text = `<em>${text}</em>`;
-                break;
-              case 'underline':
-                text = `<u>${text}</u>`;
-                break;
-              case 'strikethrough':
-                text = `<s>${text}</s>`;
-                break;
-              case 'code':
-                text = `<code>${text}</code>`;
-                break;
-              case 'link':
-                const href = mark.attrs?.href || '#';
-                const title = mark.attrs?.title ? ` title="${escapeHTML(mark.attrs.title)}"` : '';
-                text = `<a href="${escapeHTML(href)}"${title}>${text}</a>`;
-                break;
-              case 'textColor':
-                text = `<span style="color: ${mark.attrs?.color}">${text}</span>`;
-                break;
-              case 'highlight':
-                text = `<span style="background-color: ${mark.attrs?.color}">${text}</span>`;
-                break;
-            }
-          });
+    if (!Array.isArray(blocks)) return "";
+
+    return blocks
+      .map((block) => {
+        switch (block.type) {
+          case "paragraph":
+            return `    <p>${convertInline(block.content || [])}</p>\n`;
+          case "heading":
+            const level = block.attrs?.level || 1;
+            return `    <h${level}>${convertInline(
+              block.content || []
+            )}</h${level}>\n`;
+          case "image":
+            const alt = block.attrs?.alt || "";
+            const src = block.attrs?.src || "";
+            const width = block.attrs?.width
+              ? ` width="${block.attrs.width}"`
+              : "";
+            return `    <img src="${src}" alt="${alt}"${width}>\n`;
+          case "video":
+            return `    <video src="${
+              block.attrs?.src || ""
+            }" controls></video>\n`;
+          case "bulletList":
+            return `    <ul>\n${convertBlocks(block.content || []).replace(
+              /^/gm,
+              "  "
+            )}</ul>\n`;
+          case "orderedList":
+            return `    <ol>\n${convertBlocks(block.content || []).replace(
+              /^/gm,
+              "  "
+            )}</ol>\n`;
+          case "listItem":
+            // List items contain block content (usually paragraphs)
+            const itemContent = convertBlocks(block.content || []).trim();
+            // Remove the outer <p> tags if present to avoid double wrapping
+            const cleanContent = itemContent.replace(
+              /^\s*<p>(.*)<\/p>\s*$/s,
+              "$1"
+            );
+            return `    <li>${cleanContent}</li>\n`;
+          case "codeBlock":
+            const code = extractTextFromBlocks(block.content || []);
+            return `    <pre><code>${escapeHTML(code)}</code></pre>\n`;
+          default:
+            return "";
         }
-        return text;
-      }
-      return '';
-    }).join('');
+      })
+      .join("");
   };
-  
+
+  const convertInline = (inlines: any[]): string => {
+    if (!Array.isArray(inlines)) return "";
+
+    return inlines
+      .map((node) => {
+        if (node.type === "text") {
+          let text = escapeHTML(node.text || "");
+          if (node.marks && Array.isArray(node.marks)) {
+            // Apply marks in reverse order to properly nest them
+            const marks = [...node.marks].reverse();
+            marks.forEach((mark: any) => {
+              switch (mark.type) {
+                case "bold":
+                  text = `<strong>${text}</strong>`;
+                  break;
+                case "italic":
+                  text = `<em>${text}</em>`;
+                  break;
+                case "underline":
+                  text = `<u>${text}</u>`;
+                  break;
+                case "strikethrough":
+                  text = `<s>${text}</s>`;
+                  break;
+                case "code":
+                  text = `<code>${text}</code>`;
+                  break;
+                case "link":
+                  const href = mark.attrs?.href || "#";
+                  const title = mark.attrs?.title
+                    ? ` title="${escapeHTML(mark.attrs.title)}"`
+                    : "";
+                  text = `<a href="${escapeHTML(href)}"${title}>${text}</a>`;
+                  break;
+                case "textColor":
+                  text = `<span style="color: ${mark.attrs?.color}">${text}</span>`;
+                  break;
+                case "highlight":
+                  text = `<span style="background-color: ${mark.attrs?.color}">${text}</span>`;
+                  break;
+              }
+            });
+          }
+          return text;
+        }
+        return "";
+      })
+      .join("");
+  };
+
   if (slide.content && Array.isArray(slide.content)) {
     slide.content.forEach((row: any) => {
       if (row.content && Array.isArray(row.content)) {
@@ -202,7 +228,7 @@ function convertSlideToHTML(slide: any): string {
       }
     });
   }
-  
+
   return html;
 }
 
@@ -212,16 +238,16 @@ function convertSlideToHTML(slide: any): string {
  * @returns Markdown string
  */
 export function exportToMarkdown(content: DocNode): string {
-  let markdown = '';
-  
+  let markdown = "";
+
   content.content?.forEach((slide, index) => {
     if (index > 0) {
-      markdown += '\n---\n\n';
+      markdown += "\n---\n\n";
     }
     markdown += `<!-- Slide ${index + 1} -->\n\n`;
     markdown += convertSlideToMarkdown(slide);
   });
-  
+
   return markdown.trim();
 }
 
@@ -229,82 +255,94 @@ export function exportToMarkdown(content: DocNode): string {
  * Convert a slide node to Markdown
  */
 function convertSlideToMarkdown(slide: any): string {
-  let markdown = '';
-  
+  let markdown = "";
+
   const convertBlocks = (blocks: any[]): string => {
-    if (!Array.isArray(blocks)) return '';
-    
-    return blocks.map(block => {
-      switch (block.type) {
-        case 'paragraph':
-          return convertInlineToMd(block.content || []) + '\n\n';
-        case 'heading':
-          const level = block.attrs?.level || 1;
-          return `${'#'.repeat(level)} ${convertInlineToMd(block.content || [])}\n\n`;
-        case 'image':
-          const alt = block.attrs?.alt || '';
-          const src = block.attrs?.src || '';
-          return `![${alt}](${src})\n\n`;
-        case 'video':
-          return `[Video: ${block.attrs?.src || ''}]\n\n`;
-        case 'bulletList':
-          return convertListToMd(block.content || [], '-') + '\n';
-        case 'orderedList':
-          return convertListToMd(block.content || [], '1.') + '\n';
-        case 'codeBlock':
-          const code = extractTextFromBlocks(block.content || []);
-          return `\`\`\`\n${code}\n\`\`\`\n\n`;
-        default:
-          return '';
-      }
-    }).join('');
-  };
-  
-  const convertInlineToMd = (inlines: any[]): string => {
-    if (!Array.isArray(inlines)) return '';
-    
-    return inlines.map(node => {
-      if (node.type === 'text') {
-        let text = node.text || '';
-        if (node.marks && Array.isArray(node.marks)) {
-          // Apply marks
-          const hasBold = node.marks.some((m: any) => m.type === 'bold');
-          const hasItalic = node.marks.some((m: any) => m.type === 'italic');
-          const hasCode = node.marks.some((m: any) => m.type === 'code');
-          const hasStrike = node.marks.some((m: any) => m.type === 'strikethrough');
-          const link = node.marks.find((m: any) => m.type === 'link');
-          
-          if (hasCode) text = `\`${text}\``;
-          if (hasStrike) text = `~~${text}~~`;
-          if (hasBold && hasItalic) text = `***${text}***`;
-          else if (hasBold) text = `**${text}**`;
-          else if (hasItalic) text = `*${text}*`;
-          if (link) text = `[${text}](${link.attrs?.href || '#'})`;
+    if (!Array.isArray(blocks)) return "";
+
+    return blocks
+      .map((block) => {
+        switch (block.type) {
+          case "paragraph":
+            return convertInlineToMd(block.content || []) + "\n\n";
+          case "heading":
+            const level = block.attrs?.level || 1;
+            return `${"#".repeat(level)} ${convertInlineToMd(
+              block.content || []
+            )}\n\n`;
+          case "image":
+            const alt = block.attrs?.alt || "";
+            const src = block.attrs?.src || "";
+            return `![${alt}](${src})\n\n`;
+          case "video":
+            return `[Video: ${block.attrs?.src || ""}]\n\n`;
+          case "bulletList":
+            return convertListToMd(block.content || [], "-") + "\n";
+          case "orderedList":
+            return convertListToMd(block.content || [], "1.") + "\n";
+          case "codeBlock":
+            const code = extractTextFromBlocks(block.content || []);
+            return `\`\`\`\n${code}\n\`\`\`\n\n`;
+          default:
+            return "";
         }
-        return text;
-      }
-      return '';
-    }).join('');
+      })
+      .join("");
   };
-  
-  const convertListToMd = (items: any[], bullet: string): string => {
-    if (!Array.isArray(items)) return '';
-    
-    return items.map((item, index) => {
-      const marker = bullet === '1.' ? `${index + 1}.` : bullet;
-      // List items contain block content (paragraphs), extract text from them
-      let content = '';
-      if (item.content && Array.isArray(item.content)) {
-        item.content.forEach((block: any) => {
-          if (block.type === 'paragraph' && block.content) {
-            content += convertInlineToMd(block.content);
+
+  const convertInlineToMd = (inlines: any[]): string => {
+    if (!Array.isArray(inlines)) return "";
+
+    return inlines
+      .map((node) => {
+        if (node.type === "text") {
+          let text = node.text || "";
+          if (node.marks && Array.isArray(node.marks)) {
+            // Apply marks
+            const hasBold = node.marks.some((m: any) => m.type === "bold");
+            const hasItalic = node.marks.some((m: any) => m.type === "italic");
+            const hasCode = node.marks.some((m: any) => m.type === "code");
+            const hasStrike = node.marks.some(
+              (m: any) => m.type === "strikethrough"
+            );
+            const link = node.marks.find((m: any) => m.type === "link");
+
+            if (hasCode) text = `\`${text}\``;
+            if (hasStrike) text = `~~${text}~~`;
+            if (hasBold && hasItalic) text = `***${text}***`;
+            else if (hasBold) text = `**${text}**`;
+            else if (hasItalic) text = `*${text}*`;
+            if (link) text = `[${text}](${link.attrs?.href || "#"})`;
           }
-        });
-      }
-      return `${marker} ${content}`;
-    }).join('\n') + '\n';
+          return text;
+        }
+        return "";
+      })
+      .join("");
   };
-  
+
+  const convertListToMd = (items: any[], bullet: string): string => {
+    if (!Array.isArray(items)) return "";
+
+    return (
+      items
+        .map((item, index) => {
+          const marker = bullet === "1." ? `${index + 1}.` : bullet;
+          // List items contain block content (paragraphs), extract text from them
+          let content = "";
+          if (item.content && Array.isArray(item.content)) {
+            item.content.forEach((block: any) => {
+              if (block.type === "paragraph" && block.content) {
+                content += convertInlineToMd(block.content);
+              }
+            });
+          }
+          return `${marker} ${content}`;
+        })
+        .join("\n") + "\n"
+    );
+  };
+
   if (slide.content && Array.isArray(slide.content)) {
     slide.content.forEach((row: any) => {
       if (row.content && Array.isArray(row.content)) {
@@ -316,7 +354,7 @@ function convertSlideToMarkdown(slide: any): string {
       }
     });
   }
-  
+
   return markdown;
 }
 
@@ -324,17 +362,19 @@ function convertSlideToMarkdown(slide: any): string {
  * Helper: Extract text from blocks recursively
  */
 function extractTextFromBlocks(blocks: any[]): string {
-  if (!Array.isArray(blocks)) return '';
-  
-  return blocks.map(block => {
-    if (block.type === 'text') {
-      return block.text || '';
-    }
-    if (block.content) {
-      return extractTextFromBlocks(block.content);
-    }
-    return '';
-  }).join('');
+  if (!Array.isArray(blocks)) return "";
+
+  return blocks
+    .map((block) => {
+      if (block.type === "text") {
+        return block.text || "";
+      }
+      if (block.content) {
+        return extractTextFromBlocks(block.content);
+      }
+      return "";
+    })
+    .join("");
 }
 
 /**
@@ -342,19 +382,19 @@ function extractTextFromBlocks(blocks: any[]): string {
  */
 function escapeHTML(str: string): string {
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 /**
  * HTML Template
  * Returns the start or end of a complete HTML document
  */
-function getHTMLTemplate(part: 'start' | 'end'): string {
-  if (part === 'start') {
+function getHTMLTemplate(part: "start" | "end"): string {
+  if (part === "start") {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -446,16 +486,19 @@ function getHTMLTemplate(part: 'start' | 'end'): string {
  * @param filename - Filename (without extension)
  * @param mimeType - MIME type of the file
  */
-export function downloadFile(content: string, filename: string, mimeType: string): void {
+export function downloadFile(
+  content: string,
+  filename: string,
+  mimeType: string
+): void {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
   a.download = filename;
-  a.style.display = 'none';
+  a.style.display = "none";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-
