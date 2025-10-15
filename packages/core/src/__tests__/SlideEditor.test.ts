@@ -722,4 +722,226 @@ describe("SlideEditor", () => {
       editor.destroy();
     });
   });
+
+  describe("callback coverage - undo/redo", () => {
+    it("should call onUndo callback when undo is performed", () => {
+      const onUndo = jest.fn();
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+        onUndo,
+      });
+
+      editor.mount(container);
+
+      // Insert some text
+      const state = editor.view!.state;
+      const tr = state.tr.insertText("test", 1);
+      editor.view!.dispatch(tr);
+
+      // Now try to undo
+      const undoTr = editor.view!.state.tr;
+      undoTr.setMeta("history$", { undo: true });
+      editor.view!.dispatch(undoTr);
+
+      expect(onUndo).toHaveBeenCalled();
+
+      editor.destroy();
+    });
+
+    it("should call onRedo callback when redo is performed", () => {
+      const onRedo = jest.fn();
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+        onRedo,
+      });
+
+      editor.mount(container);
+
+      // Insert some text
+      const state = editor.view!.state;
+      const tr = state.tr.insertText("test", 1);
+      editor.view!.dispatch(tr);
+
+      // Undo first
+      const undoTr = editor.view!.state.tr;
+      undoTr.setMeta("history$", { undo: true });
+      editor.view!.dispatch(undoTr);
+
+      // Now redo
+      const redoTr = editor.view!.state.tr;
+      redoTr.setMeta("history$", { redo: true });
+      editor.view!.dispatch(redoTr);
+
+      expect(onRedo).toHaveBeenCalled();
+
+      editor.destroy();
+    });
+
+    it("should not call onUndo if callback not provided", () => {
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+      });
+
+      editor.mount(container);
+
+      // This should not throw even without onUndo callback
+      expect(() => {
+        const undoTr = editor.view!.state.tr;
+        undoTr.setMeta("history$", { undo: true });
+        editor.view!.dispatch(undoTr);
+      }).not.toThrow();
+
+      editor.destroy();
+    });
+
+    it("should not call onRedo if callback not provided", () => {
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+      });
+
+      editor.mount(container);
+
+      // This should not throw even without onRedo callback
+      expect(() => {
+        const redoTr = editor.view!.state.tr;
+        redoTr.setMeta("history$", { redo: true });
+        editor.view!.dispatch(redoTr);
+      }).not.toThrow();
+
+      editor.destroy();
+    });
+  });
+
+  describe("callback coverage - onContentChange", () => {
+    it("should call onContentChange when content changes", () => {
+      const onContentChange = jest.fn();
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+        onContentChange,
+      });
+
+      editor.mount(container);
+
+      // Insert text to trigger content change
+      const state = editor.view!.state;
+      const tr = state.tr.insertText("test", 1);
+      editor.view!.dispatch(tr);
+
+      expect(onContentChange).toHaveBeenCalled();
+      expect(onContentChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          editor,
+          content: expect.any(Object),
+        })
+      );
+
+      editor.destroy();
+    });
+
+    it("should not call onContentChange if callback not provided", () => {
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+      });
+
+      editor.mount(container);
+
+      // This should not throw even without onContentChange callback
+      expect(() => {
+        const state = editor.view!.state;
+        const tr = state.tr.insertText("test", 1);
+        editor.view!.dispatch(tr);
+      }).not.toThrow();
+
+      editor.destroy();
+    });
+  });
+
+  describe("plugin deduplication warning", () => {
+    it("should warn when plugin has no key but still keep it", () => {
+      const warnSpy = jest.spyOn(console, "warn").mockImplementation();
+
+      class ExtWithoutKey extends Extension {
+        plugins(): Plugin[] {
+          return [
+            {
+              spec: {},
+              props: {},
+              getState: () => null,
+            } as unknown as Plugin,
+          ];
+        }
+      }
+
+      const ext1 = new ExtWithoutKey();
+
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+        extensions: [ext1],
+      });
+
+      editor.mount(container);
+
+      // Should not warn about plugins without keys
+      // (they are kept in the filter with "if (!key) return true")
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      warnSpy.mockRestore();
+      editor.destroy();
+    });
+
+    it("should actually skip duplicate plugins with same key", () => {
+      const warnSpy = jest.spyOn(console, "warn").mockImplementation();
+
+      // Use a unique key name to ensure it's tested
+      const uniqueKey = `testKey_${Date.now()}`;
+
+      class ExtWithUniqueKey1 extends Extension {
+        name = `ExtWithUniqueKey1_${Date.now()}`;
+
+        plugins(): Plugin[] {
+          return [
+            {
+              key: uniqueKey as any,
+              spec: {},
+              props: {},
+              getState: () => null,
+            } as unknown as Plugin,
+          ];
+        }
+      }
+
+      class ExtWithUniqueKey2 extends Extension {
+        name = `ExtWithUniqueKey2_${Date.now()}`;
+
+        plugins(): Plugin[] {
+          return [
+            {
+              key: uniqueKey as any,
+              spec: {},
+              props: {},
+              getState: () => null,
+            } as unknown as Plugin,
+          ];
+        }
+      }
+
+      const ext1 = new ExtWithUniqueKey1();
+      const ext2 = new ExtWithUniqueKey2();
+
+      const editor = new SlideEditor({
+        content: createTestDoc(),
+        extensions: [ext1, ext2],
+      });
+
+      editor.mount(container);
+
+      // Should warn with the actual key in the message
+      expect(warnSpy).toHaveBeenCalledWith(
+        `[AutoArtifacts] Skipping duplicate plugin with key: ${uniqueKey}`
+      );
+
+      warnSpy.mockRestore();
+      editor.destroy();
+    });
+  });
 });

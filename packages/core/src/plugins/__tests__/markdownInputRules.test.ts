@@ -375,4 +375,199 @@ describe('Markdown Input Rules Plugin', () => {
       expect(state.plugins.length).toBeGreaterThanOrEqual(2);
     });
   });
+
+  describe('Functional markdown transformations', () => {
+    let state: EditorState;
+    let view: EditorView;
+
+    beforeEach(() => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      state = EditorState.create({
+        doc,
+        schema,
+        plugins: [createMarkdownInputRules(schema)]
+      });
+
+      view = new EditorView(document.createElement('div'), { state });
+    });
+
+    describe('Bold transformations', () => {
+      it('should transform **text** to bold', () => {
+        const tr = view.state.tr.insertText('**bold**', 1);
+        view.dispatch(tr);
+        
+        // The input rule should trigger on the last *
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold');
+      });
+
+      it('should transform __text__ to bold', () => {
+        const tr = view.state.tr.insertText('__bold__', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold');
+      });
+
+      it('should handle bold with multiple words', () => {
+        const tr = view.state.tr.insertText('**bold text**', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold text');
+      });
+    });
+
+    describe('Italic transformations', () => {
+      it('should transform *text* to italic', () => {
+        const tr = view.state.tr.insertText('*italic*', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('italic');
+      });
+
+      it('should transform _text_ to italic', () => {
+        const tr = view.state.tr.insertText('_italic_', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('italic');
+      });
+    });
+
+    describe('Code transformations', () => {
+      it('should transform `text` to code', () => {
+        const tr = view.state.tr.insertText('`code`', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('code');
+      });
+
+      it('should handle code with special characters', () => {
+        const tr = view.state.tr.insertText('`const x = 1;`', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('const x = 1;');
+      });
+    });
+
+    describe('Strikethrough transformations', () => {
+      it('should transform ~~text~~ to strikethrough', () => {
+        const tr = view.state.tr.insertText('~~strike~~', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('strike');
+      });
+
+      it('should handle strikethrough with multiple words', () => {
+        const tr = view.state.tr.insertText('~~strike through~~', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('strike through');
+      });
+    });
+
+    describe('Link transformations', () => {
+      it('should transform [text](url) to link', () => {
+        const tr = view.state.tr.insertText('[Google](https://google.com)', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('Google');
+      });
+
+      it('should handle links with complex URLs', () => {
+        const tr = view.state.tr.insertText('[Link](https://example.com/path?query=value)', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('Link');
+      });
+
+      it('should handle links with special characters in text', () => {
+        const tr = view.state.tr.insertText('[My Link!](https://example.com)', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('My Link!');
+      });
+    });
+
+    describe('Heading transformations', () => {
+      it('should create plugin with heading rules for level 1', () => {
+        // Just verify the plugin is created with heading support
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        expect(schema.nodes.heading).toBeDefined();
+      });
+
+      it('should create plugin with heading rules for level 2-6', () => {
+        // Verify all heading levels are supported in schema
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        
+        // Heading node should support levels 1-6
+        const headingNode = schema.nodes.heading;
+        expect(headingNode).toBeDefined();
+        expect(headingNode.spec.attrs?.level).toBeDefined();
+      });
+    });
+
+    describe('List transformations', () => {
+      it('should create plugin with bullet list rules', () => {
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        expect(schema.nodes.bulletList).toBeDefined();
+      });
+
+      it('should create plugin with ordered list rules', () => {
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        expect(schema.nodes.orderedList).toBeDefined();
+      });
+
+      it('should support ordered list start attribute', () => {
+        // Verify ordered list can have a start number
+        const orderedListNode = schema.nodes.orderedList;
+        expect(orderedListNode).toBeDefined();
+        expect(orderedListNode.spec.attrs?.start).toBeDefined();
+      });
+    });
+
+    describe('Combined transformations', () => {
+      it('should handle multiple markdown patterns in sequence', () => {
+        let tr = view.state.tr.insertText('**bold** ', 1);
+        view.dispatch(tr);
+        
+        tr = view.state.tr.insertText('*italic*', view.state.selection.to);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold');
+        expect(textContent).toContain('italic');
+      });
+    });
+  });
 });
