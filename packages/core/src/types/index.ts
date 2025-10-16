@@ -17,6 +17,7 @@ import type {
   OnUndoParams,
   OnRedoParams
 } from './events';
+import type { ChainedCommands } from './commands';
 
 // Re-export event types
 export type {
@@ -31,6 +32,16 @@ export type {
   OnUndoParams,
   OnRedoParams
 } from './events';
+
+// Re-export command types
+export type {
+  CommandProps,
+  RawCommand,
+  AnyCommands,
+  SingleCommands,
+  ChainedCommands,
+  CanCommands
+} from './commands';
 
 /**
  * Editor Events interface
@@ -600,66 +611,8 @@ export interface Commands {
   chain: () => ChainedCommands;
 }
 
-/**
- * Chainable commands interface
- * All commands return ChainedCommands for chaining
- */
-export interface ChainedCommands {
-  toggleBold: () => ChainedCommands;
-  toggleItalic: () => ChainedCommands;
-  toggleUnderline: () => ChainedCommands;
-  toggleStrikethrough: () => ChainedCommands;
-  toggleCode: () => ChainedCommands;
-  setTextColor: (color: string) => ChainedCommands;
-  setHighlight: (color: string) => ChainedCommands;
-  removeTextColor: () => ChainedCommands;
-  removeHighlight: () => ChainedCommands;
-  
-  setHeading: (level: 1 | 2 | 3 | 4 | 5 | 6) => ChainedCommands;
-  toggleHeading: (level: 1 | 2 | 3 | 4 | 5 | 6) => ChainedCommands;
-  setParagraph: () => ChainedCommands;
-  
-  setLink: (href: string, title?: string) => ChainedCommands;
-  updateLink: (href: string, title?: string) => ChainedCommands;
-  removeLink: () => ChainedCommands;
-  
-  toggleBulletList: () => ChainedCommands;
-  toggleOrderedList: () => ChainedCommands;
-  
-  insertImage: (attrs: { src: string; alt?: string; width?: number | string }) => ChainedCommands;
-  insertVideo: (attrs: { src: string; provider?: string; aspectRatio?: string }) => ChainedCommands;
-  
-  addSlide: (position?: 'before' | 'after' | 'end' | number, options?: { placeholderHeader?: string }) => ChainedCommands;
-  deleteSlide: (slideIndex?: number) => ChainedCommands;
-  duplicateSlide: (slideIndex?: number) => ChainedCommands;
-  
-  nextSlide: (options?: NavigationOptions) => ChainedCommands;
-  prevSlide: (options?: NavigationOptions) => ChainedCommands;
-  goToSlide: (slideIndex: number, options?: NavigationOptions) => ChainedCommands;
-  goToFirstSlide: (options?: NavigationOptions) => ChainedCommands;
-  goToLastSlide: (options?: NavigationOptions) => ChainedCommands;
-  
-  setLayout: (layout: string) => ChainedCommands;
-  setSlideLayout: (layout: string) => ChainedCommands;
-  
-  undo: () => ChainedCommands;
-  redo: () => ChainedCommands;
-  
-  focus: () => ChainedCommands;
-  blur: () => ChainedCommands;
-  selectAll: () => ChainedCommands;
-  deleteSelection: () => ChainedCommands;
-  
-  setSelection: (from: number, to?: number) => ChainedCommands;
-  selectSlide: (slideIndex: number) => ChainedCommands;
-  collapseSelection: (toStart?: boolean) => ChainedCommands;
-  expandSelection: () => ChainedCommands;
-  
-  clearContent: () => ChainedCommands;
-  
-  // Execute the command chain
-  run: () => boolean;
-}
+// Note: ChainedCommands type is now imported from './commands'
+// This provides the runtime command chaining interface
 
 /**
  * SlideEditor ref type
