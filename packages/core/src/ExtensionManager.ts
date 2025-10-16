@@ -1,6 +1,7 @@
 import type { Plugin } from 'prosemirror-state';
 import type { Extension } from './Extension';
 import type { SlideEditor } from './SlideEditor';
+import type { AnyCommands } from './types/commands';
 
 /**
  * ExtensionManager
@@ -8,6 +9,7 @@ import type { SlideEditor } from './SlideEditor';
  * Manages a collection of extensions and coordinates their lifecycle.
  * Responsible for:
  * - Collecting plugins from all extensions
+ * - Collecting commands from all extensions
  * - Calling onCreate/onDestroy hooks
  * - Sorting extensions by priority
  * - Deduplicating extensions by name
@@ -38,6 +40,28 @@ export class ExtensionManager {
    */
   public getPlugins(): Plugin[] {
     return this.extensions.flatMap(ext => ext.plugins(this.editor));
+  }
+  
+  /**
+   * Get all commands from all extensions
+   * @returns An object with all commands where the key is the command name and the value is the command function
+   */
+  public getCommands(): AnyCommands {
+    return this.extensions.reduce((commands, extension) => {
+      // Check if extension has addCommands method
+      if (!extension.addCommands) {
+        return commands;
+      }
+
+      // Get commands from this extension
+      const extensionCommands = extension.addCommands();
+
+      // Merge commands (later extensions overwrite earlier ones via object spread)
+      return {
+        ...commands,
+        ...extensionCommands,
+      };
+    }, {} as AnyCommands);
   }
   
   /**

@@ -572,4 +572,173 @@ describe("ExtensionManager", () => {
       expect(callOrder).toHaveLength(2); // Not 3
     });
   });
+
+  describe("getCommands", () => {
+    it("should return empty object when no extensions have commands", () => {
+      const ext1 = new TestExtension1();
+      const ext2 = new TestExtension2();
+
+      const manager = new ExtensionManager([ext1, ext2], mockEditor);
+      const commands = manager.getCommands();
+
+      expect(commands).toEqual({});
+    });
+
+    it("should collect commands from extensions", () => {
+      class ExtensionWithCommands extends Extension {
+        constructor() {
+          super({});
+          this.name = "ExtensionWithCommands";
+        }
+
+        addCommands() {
+          return {
+            testCommand: () => () => true,
+          };
+        }
+      }
+
+      const ext = new ExtensionWithCommands();
+      const manager = new ExtensionManager([ext], mockEditor);
+      const commands = manager.getCommands();
+
+      expect(commands).toHaveProperty("testCommand");
+      expect(typeof commands.testCommand).toBe("function");
+    });
+
+    it("should merge commands from multiple extensions", () => {
+      class Extension1 extends Extension {
+        constructor() {
+          super({});
+          this.name = "Extension1";
+        }
+
+        addCommands() {
+          return {
+            command1: () => () => true,
+          };
+        }
+      }
+
+      class Extension2 extends Extension {
+        constructor() {
+          super({});
+          this.name = "Extension2";
+        }
+
+        addCommands() {
+          return {
+            command2: () => () => true,
+          };
+        }
+      }
+
+      const ext1 = new Extension1();
+      const ext2 = new Extension2();
+
+      const manager = new ExtensionManager([ext1, ext2], mockEditor);
+      const commands = manager.getCommands();
+
+      expect(commands).toHaveProperty("command1");
+      expect(commands).toHaveProperty("command2");
+    });
+
+    it("should allow later extensions to overwrite commands from earlier extensions", () => {
+      const ext1Spy = jest.fn(() => true);
+      const ext2Spy = jest.fn(() => true);
+
+      class Extension1 extends Extension {
+        constructor() {
+          super({});
+          this.name = "Extension1";
+          this.priority = 100;
+        }
+
+        addCommands() {
+          return {
+            sharedCommand: () => () => ext1Spy(),
+          };
+        }
+      }
+
+      class Extension2 extends Extension {
+        constructor() {
+          super({});
+          this.name = "Extension2";
+          this.priority = 50; // Lower priority, processed after Extension1
+        }
+
+        addCommands() {
+          return {
+            sharedCommand: () => () => ext2Spy(),
+          };
+        }
+      }
+
+      const ext1 = new Extension1();
+      const ext2 = new Extension2();
+
+      const manager = new ExtensionManager([ext1, ext2], mockEditor);
+      const commands = manager.getCommands();
+
+      // Extension2's command should overwrite Extension1's command
+      commands.sharedCommand()({} as any);
+      
+      expect(ext2Spy).toHaveBeenCalled();
+      expect(ext1Spy).not.toHaveBeenCalled();
+    });
+
+    it("should handle extensions without addCommands method", () => {
+      class ExtWithCommands extends Extension {
+        constructor() {
+          super({});
+          this.name = "ExtWithCommands";
+        }
+
+        addCommands() {
+          return {
+            myCommand: () => () => true,
+          };
+        }
+      }
+
+      const ext1 = new TestExtension1(); // no addCommands
+      const ext2 = new ExtWithCommands(); // has addCommands
+      const ext3 = new TestExtension2(); // no addCommands
+
+      const manager = new ExtensionManager([ext1, ext2, ext3], mockEditor);
+      const commands = manager.getCommands();
+
+      expect(commands).toHaveProperty("myCommand");
+      expect(Object.keys(commands)).toHaveLength(1);
+    });
+
+    it("should return commands that return functions", () => {
+      class ExtensionWithCommand extends Extension {
+        constructor() {
+          super({});
+          this.name = "ExtensionWithCommand";
+        }
+
+        addCommands() {
+          return {
+            toggleBold: () => () => {
+              // Mock command implementation
+              return true;
+            },
+          };
+        }
+      }
+
+      const ext = new ExtensionWithCommand();
+      const manager = new ExtensionManager([ext], mockEditor);
+      const commands = manager.getCommands();
+
+      expect(typeof commands.toggleBold).toBe("function");
+      
+      // Test that calling the command returns a function
+      const commandFn = commands.toggleBold();
+      expect(typeof commandFn).toBe("function");
+    });
+  });
 });

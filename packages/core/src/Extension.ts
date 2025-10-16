@@ -1,11 +1,13 @@
 import type { Plugin } from 'prosemirror-state';
 import type { SlideEditor } from './SlideEditor';
+import type { AnyCommands } from './types/commands';
 
 /**
  * Base Extension class for AutoArtifacts
  * 
  * Extensions are high-level abstractions that can provide:
  * - ProseMirror plugins
+ * - Commands (via addCommands)
  * - Lifecycle hooks (onCreate, onDestroy)
  * - Configuration options
  * 
@@ -29,6 +31,22 @@ export abstract class Extension<TOptions = any> {
   public plugins(_editor: SlideEditor): Plugin[] {
     return [];
   }
+  
+  /**
+   * Add commands that this extension provides
+   * Commands will be merged into editor.commands
+   * 
+   * @example
+   * addCommands() {
+   *   return {
+   *     myCommand: () => ({ commands }) => {
+   *       commands.focus();
+   *       return true;
+   *     }
+   *   }
+   * }
+   */
+  public addCommands?(): AnyCommands;
   
   /**
    * Called when the editor is created
