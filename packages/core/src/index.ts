@@ -2,6 +2,9 @@
 export { SlideEditor } from "./SlideEditor";
 export type { SlideEditorOptions } from "./SlideEditor";
 
+// Event system
+export { EventEmitter } from "./EventEmitter";
+
 // Extension system
 export { Extension } from "./Extension";
 export { ExtensionManager } from "./ExtensionManager";
@@ -9,6 +12,10 @@ export { ExtensionManager } from "./ExtensionManager";
 // Command system
 export { CommandManager } from "./CommandManager";
 export { CoreCommands } from "./extensions/CoreCommands";
+
+// Utilities
+export { Tracker } from "./Tracker";
+export type { TrackerResult } from "./Tracker";
 
 // Schema
 export { schema } from "./schema";
