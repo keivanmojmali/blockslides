@@ -10,6 +10,8 @@ export { Extendable } from "./Extendable";
 export type { ExtendableConfig } from "./Extendable";
 export { Extension } from "./Extension";
 export type { ExtensionConfig } from "./Extension";
+export { Mark } from "./Mark";
+export type { MarkConfig } from "./Mark";
 // ExtensionManager will be rewritten in Step 8
 // export { ExtensionManager } from "./ExtensionManager";
 

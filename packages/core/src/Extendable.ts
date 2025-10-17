@@ -34,6 +34,9 @@ import type {
 import { callOrReturn } from './utils/callOrReturn.js'
 import { mergeDeep } from './utils/mergeDeep.js'
 
+// Import ProseMirror types for mark and node configs
+import type { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType, NodeSpec, NodeType } from 'prosemirror-model'
+
 // Extension configuration types
 // These are defined here to avoid circular dependencies
 // ExtensionConfig is re-exported from Extension.ts for public API
@@ -41,13 +44,149 @@ import { mergeDeep } from './utils/mergeDeep.js'
 export interface ExtensionConfig<Options = any, Storage = any> 
   extends ExtendableConfig<Options, Storage, ExtensionConfig<Options, Storage>, null> {}
 
-// Placeholder types for Mark and Node (will be created in Steps 6-7)
-export interface MarkConfig<Options = any, Storage = any> extends ExtendableConfig<Options, Storage, MarkConfig<Options, Storage>, any> {}
+// Mark configuration type
+// MarkConfig is re-exported from Mark.ts for public API
+export interface MarkConfig<Options = any, Storage = any>
+  extends ExtendableConfig<Options, Storage, MarkConfig<Options, Storage>, MarkType> {
+  /**
+   * Custom mark view renderer
+   */
+  addMarkView?:
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        editor: any // SlideEditor
+        type: MarkType
+        parent: ParentConfig<MarkConfig<Options, Storage>>['addMarkView']
+      }) => any)
+    | null
+
+  /**
+   * Keep mark after split node
+   */
+  keepOnSplit?: boolean | (() => boolean)
+
+  /**
+   * Inclusive
+   */
+  inclusive?:
+    | MarkSpec['inclusive']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['inclusive']
+        editor?: any
+      }) => MarkSpec['inclusive'])
+
+  /**
+   * Excludes
+   */
+  excludes?:
+    | MarkSpec['excludes']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['excludes']
+        editor?: any
+      }) => MarkSpec['excludes'])
+
+  /**
+   * Exitable
+   */
+  exitable?: boolean | (() => boolean)
+
+  /**
+   * Group
+   */
+  group?:
+    | MarkSpec['group']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['group']
+        editor?: any
+      }) => MarkSpec['group'])
+
+  /**
+   * Spanning
+   */
+  spanning?:
+    | MarkSpec['spanning']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['spanning']
+        editor?: any
+      }) => MarkSpec['spanning'])
+
+  /**
+   * Code
+   */
+  code?:
+    | boolean
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<MarkConfig<Options, Storage>>['code']
+        editor?: any
+      }) => boolean)
+
+  /**
+   * Parse HTML
+   */
+  parseHTML?: (this: {
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<MarkConfig<Options, Storage>>['parseHTML']
+    editor?: any
+  }) => MarkSpec['parseDOM']
+
+  /**
+   * Render HTML
+   */
+  renderHTML?:
+    | ((
+        this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<MarkConfig<Options, Storage>>['renderHTML']
+          editor?: any
+        },
+        props: {
+          mark: ProseMirrorMark
+          HTMLAttributes: Record<string, any>
+        },
+      ) => DOMOutputSpec)
+    | null
+
+  /**
+   * Add attributes
+   */
+  addAttributes?: (this: {
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes']
+    editor?: any
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  }) => Record<string, any> | {}
+}
+
+// Placeholder types for Node (will be created in Step 7)
 export interface NodeConfig<Options = any, Storage = any> extends ExtendableConfig<Options, Storage, NodeConfig<Options, Storage>, any> {}
 export interface InputRule {}
 export interface PasteRule {}
 export interface Mark {}
 export interface Node {}
+
 
 
 

@@ -2,9 +2,9 @@
 
 **Goal**: Adopt Tiptap's battle-tested architecture while maintaining slide editor functionality.
 
-**Status**: ✅ Phase 1 Complete | 🔄 Phase 2 - Steps 4-5 Complete
+**Status**: ✅ Phase 1 Complete | 🔄 Phase 2 - Steps 4-6 Complete
 
-**Last**: Extension.ts (base class complete)
+**Last**: Mark.ts (mark base class complete)
 
 ---
 
@@ -236,12 +236,12 @@
 
 ---
 
-### Step 6: Mark.ts 🔥 MAJOR NEW FILE
+### Step 6: Mark.ts ✅ COMPLETE
 
 **Priority**: HIGH - Schema architecture change
 **Effort**: 2 hours
 **Attribution**: Heavily adapted from Tiptap (MIT License)
-**Status**: ⏳ PENDING (after Step 5)
+**Status**: ✅ COMPLETE
 
 **What**:
 
@@ -252,23 +252,39 @@
 
 **Changes needed**:
 
-- Change `Editor` → `SlideEditor`
-- Adapt for slide editor use cases
+- ✅ Changed `Editor` → `SlideEditor` throughout
+- ✅ Added comprehensive MarkConfig in Extendable.ts (avoid circular deps)
+- ✅ Implemented static `.create()` method
+- ✅ Implemented `.configure()` and `.extend()` methods
+- ✅ Added static `.handleExit()` utility for sticky marks (like links)
+- ✅ Full TypeScript generics for Options and Storage
 
 **Integration**:
 
-- Create new file `src/Mark.ts`
-- Export from `index.ts`
+- ✅ Created new file `src/Mark.ts` (227 lines)
+- ✅ Exported from `index.ts`
+- ✅ MarkConfig interface defined in Extendable.ts with all mark-specific fields:
+  - addMarkView, keepOnSplit, inclusive, excludes, exitable
+  - group, spanning, code
+  - parseHTML, renderHTML, addAttributes
 - ⚠️ **NO conversion of existing marks yet** - just the base class
 - ⚠️ **NO SlideEditor changes yet**
 
 **Dependencies**:
 
-- Step 4: Extendable.ts
+- ✅ Step 4: Extendable.ts
+- ✅ Step 5: Extension.ts (pattern reference)
 
-**Files to create**:
+**Files created**:
 
-- `src/Mark.ts` (~300-400 lines from Tiptap)
+- ✅ `src/Mark.ts` (227 lines) - Complete Mark class with factory pattern
+
+**Files updated**:
+
+- ✅ `src/Extendable.ts` - Added comprehensive MarkConfig interface
+- ✅ `src/index.ts` - Export Mark and MarkConfig
+
+**Build Status**: ✅ All TypeScript errors resolved, build succeeds
 
 ---
 
@@ -277,7 +293,7 @@
 **Priority**: HIGH - Schema architecture change
 **Effort**: 2 hours
 **Attribution**: Heavily adapted from Tiptap (MIT License)
-**Status**: ⏳ PENDING (after Step 4)
+**Status**: ⏳ PENDING (after Steps 4-6)
 
 **What**:
 
