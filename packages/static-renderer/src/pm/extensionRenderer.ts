@@ -9,16 +9,16 @@ import type {
   MarkConfig,
   Node as NodeExtension,
   NodeConfig,
-} from '@tiptap/core'
+} from '@autoartifacts/core'
 import {
   getAttributesFromExtensions,
   getExtensionField,
   getSchemaByResolvedExtensions,
   resolveExtensions,
   splitExtensions,
-} from '@tiptap/core'
-import type { DOMOutputSpec, Mark } from '@tiptap/pm/model'
-import { Node } from '@tiptap/pm/model'
+} from '@autoartifacts/core'
+import type { DOMOutputSpec, Mark } from '@autoartifacts/pm/model'
+import { Node } from '@autoartifacts/pm/model'
 
 import { getHTMLAttributes } from '../helpers.js'
 import type { MarkProps, NodeProps, TiptapStaticRendererOptions } from '../json/renderer.js'

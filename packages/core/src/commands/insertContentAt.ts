@@ -1,5 +1,5 @@
-import type { Node as ProseMirrorNode, ParseOptions } from '@tiptap/pm/model'
-import { Fragment } from '@tiptap/pm/model'
+import type { Node as ProseMirrorNode, ParseOptions } from '@autoartifacts/pm/model'
+import { Fragment } from '@autoartifacts/pm/model'
 
 import { createNodeFromContent } from '../helpers/createNodeFromContent.js'
 import { selectionToInsertionEnd } from '../helpers/selectionToInsertionEnd.js'
@@ -32,7 +32,7 @@ export interface InsertContentAtOptions {
   errorOnInvalidContent?: boolean
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     insertContentAt: {
       /**

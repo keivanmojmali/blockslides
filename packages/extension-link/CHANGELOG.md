@@ -4,96 +4,96 @@
 
 ### Patch Changes
 
-- @tiptap/core@3.6.7
-- @tiptap/pm@3.6.7
+- @autoartifacts/core@3.6.7
+- @autoartifacts/pm@3.6.7
 
 ## 3.6.6
 
 ### Patch Changes
 
-- @tiptap/core@3.6.6
-- @tiptap/pm@3.6.6
+- @autoartifacts/core@3.6.6
+- @autoartifacts/pm@3.6.6
 
 ## 3.6.5
 
 ### Patch Changes
 
 - Updated dependencies [1e4caea]
-  - @tiptap/core@3.6.5
-  - @tiptap/pm@3.6.5
+  - @autoartifacts/core@3.6.5
+  - @autoartifacts/pm@3.6.5
 
 ## 3.6.4
 
 ### Patch Changes
 
-- @tiptap/core@3.6.4
-- @tiptap/pm@3.6.4
+- @autoartifacts/core@3.6.4
+- @autoartifacts/pm@3.6.4
 
 ## 3.6.3
 
 ### Patch Changes
 
 - Updated dependencies [67f7b4a]
-  - @tiptap/core@3.6.3
-  - @tiptap/pm@3.6.3
+  - @autoartifacts/core@3.6.3
+  - @autoartifacts/pm@3.6.3
 
 ## 3.6.2
 
 ### Patch Changes
 
-- @tiptap/core@3.6.2
-- @tiptap/pm@3.6.2
+- @autoartifacts/core@3.6.2
+- @autoartifacts/pm@3.6.2
 
 ## 3.6.1
 
 ### Patch Changes
 
-- @tiptap/core@3.6.1
-- @tiptap/pm@3.6.1
+- @autoartifacts/core@3.6.1
+- @autoartifacts/pm@3.6.1
 
 ## 3.6.0
 
 ### Patch Changes
 
 - Updated dependencies [c0190bd]
-  - @tiptap/core@3.6.0
-  - @tiptap/pm@3.6.0
+  - @autoartifacts/core@3.6.0
+  - @autoartifacts/pm@3.6.0
 
 ## 3.5.3
 
 ### Patch Changes
 
-- @tiptap/core@3.5.3
-- @tiptap/pm@3.5.3
+- @autoartifacts/core@3.5.3
+- @autoartifacts/pm@3.5.3
 
 ## 3.5.2
 
 ### Patch Changes
 
-- @tiptap/core@3.5.2
-- @tiptap/pm@3.5.2
+- @autoartifacts/core@3.5.2
+- @autoartifacts/pm@3.5.2
 
 ## 3.5.1
 
 ### Patch Changes
 
-- @tiptap/core@3.5.1
-- @tiptap/pm@3.5.1
+- @autoartifacts/core@3.5.1
+- @autoartifacts/pm@3.5.1
 
 ## 3.5.0
 
 ### Patch Changes
 
-- @tiptap/core@3.5.0
-- @tiptap/pm@3.5.0
+- @autoartifacts/core@3.5.0
+- @autoartifacts/pm@3.5.0
 
 ## 3.4.6
 
 ### Patch Changes
 
 - Updated dependencies [968016f]
-  - @tiptap/core@3.4.6
-  - @tiptap/pm@3.4.6
+  - @autoartifacts/core@3.4.6
+  - @autoartifacts/pm@3.4.6
 
 ## 3.4.5
 
@@ -102,38 +102,38 @@
 - Updated dependencies [0226d42]
 - Updated dependencies [37af83b]
 - Updated dependencies [f598ac7]
-  - @tiptap/core@3.4.5
-  - @tiptap/pm@3.4.5
+  - @autoartifacts/core@3.4.5
+  - @autoartifacts/pm@3.4.5
 
 ## 3.4.4
 
 ### Patch Changes
 
 - Updated dependencies [00cf1d7]
-  - @tiptap/core@3.4.4
-  - @tiptap/pm@3.4.4
+  - @autoartifacts/core@3.4.4
+  - @autoartifacts/pm@3.4.4
 
 ## 3.4.3
 
 ### Patch Changes
 
 - Updated dependencies [1ea8906]
-  - @tiptap/core@3.4.3
-  - @tiptap/pm@3.4.3
+  - @autoartifacts/core@3.4.3
+  - @autoartifacts/pm@3.4.3
 
 ## 3.4.2
 
 ### Patch Changes
 
-- @tiptap/core@3.4.2
-- @tiptap/pm@3.4.2
+- @autoartifacts/core@3.4.2
+- @autoartifacts/pm@3.4.2
 
 ## 3.4.1
 
 ### Patch Changes
 
-- @tiptap/core@3.4.1
-- @tiptap/pm@3.4.1
+- @autoartifacts/core@3.4.1
+- @autoartifacts/pm@3.4.1
 
 ## 3.4.0
 
@@ -141,15 +141,15 @@
 
 - Updated dependencies [895c73f]
 - Updated dependencies [ad51daa]
-  - @tiptap/core@3.4.0
-  - @tiptap/pm@3.4.0
+  - @autoartifacts/core@3.4.0
+  - @autoartifacts/pm@3.4.0
 
 ## 3.3.1
 
 ### Patch Changes
 
-- @tiptap/core@3.3.1
-- @tiptap/pm@3.3.1
+- @autoartifacts/core@3.3.1
+- @autoartifacts/pm@3.3.1
 
 ## 3.3.0
 
@@ -157,98 +157,98 @@
 
 - Updated dependencies [5423726]
 - Updated dependencies [5423726]
-  - @tiptap/core@3.3.0
-  - @tiptap/pm@3.3.0
+  - @autoartifacts/core@3.3.0
+  - @autoartifacts/pm@3.3.0
 
 ## 3.2.2
 
 ### Patch Changes
 
-- @tiptap/core@3.2.2
-- @tiptap/pm@3.2.2
+- @autoartifacts/core@3.2.2
+- @autoartifacts/pm@3.2.2
 
 ## 3.2.1
 
 ### Patch Changes
 
 - Updated dependencies [6a2873f]
-  - @tiptap/core@3.2.1
-  - @tiptap/pm@3.2.1
+  - @autoartifacts/core@3.2.1
+  - @autoartifacts/pm@3.2.1
 
 ## 3.2.0
 
 ### Patch Changes
 
 - Updated dependencies [5056e3e]
-  - @tiptap/core@3.2.0
-  - @tiptap/pm@3.2.0
+  - @autoartifacts/core@3.2.0
+  - @autoartifacts/pm@3.2.0
 
 ## 3.1.0
 
 ### Patch Changes
 
-- @tiptap/core@3.1.0
-- @tiptap/pm@3.1.0
+- @autoartifacts/core@3.1.0
+- @autoartifacts/pm@3.1.0
 
 ## 3.0.9
 
 ### Patch Changes
 
-- @tiptap/core@3.0.9
-- @tiptap/pm@3.0.9
+- @autoartifacts/core@3.0.9
+- @autoartifacts/pm@3.0.9
 
 ## 3.0.8
 
 ### Patch Changes
 
 - 990084c: Bump linkifyjs version to latest to address the recently discovered prototype pollution vulnerability
-  - @tiptap/core@3.0.8
-  - @tiptap/pm@3.0.8
+  - @autoartifacts/core@3.0.8
+  - @autoartifacts/pm@3.0.8
 
 ## 3.0.7
 
 ### Patch Changes
 
-- @tiptap/core@3.0.7
-- @tiptap/pm@3.0.7
+- @autoartifacts/core@3.0.7
+- @autoartifacts/pm@3.0.7
 
 ## 3.0.6
 
 ### Patch Changes
 
 - Updated dependencies [2e71d05]
-  - @tiptap/core@3.0.6
-  - @tiptap/pm@3.0.6
+  - @autoartifacts/core@3.0.6
+  - @autoartifacts/pm@3.0.6
 
 ## 3.0.5
 
 ### Patch Changes
 
-- @tiptap/core@3.0.5
-- @tiptap/pm@3.0.5
+- @autoartifacts/core@3.0.5
+- @autoartifacts/pm@3.0.5
 
 ## 3.0.4
 
 ### Patch Changes
 
 - Updated dependencies [7ed03fa]
-  - @tiptap/core@3.0.4
-  - @tiptap/pm@3.0.4
+  - @autoartifacts/core@3.0.4
+  - @autoartifacts/pm@3.0.4
 
 ## 3.0.3
 
 ### Patch Changes
 
 - Updated dependencies [75cabde]
-  - @tiptap/core@3.0.3
-  - @tiptap/pm@3.0.3
+  - @autoartifacts/core@3.0.3
+  - @autoartifacts/pm@3.0.3
 
 ## 3.0.2
 
 ### Patch Changes
 
-- @tiptap/core@3.0.2
-- @tiptap/pm@3.0.2
+- @autoartifacts/core@3.0.2
+- @autoartifacts/pm@3.0.2
 
 ## 3.0.1
 
@@ -303,15 +303,15 @@
 - Updated dependencies [bf835b0]
 - Updated dependencies [4e2f6d8]
 - Updated dependencies [32958d6]
-  - @tiptap/core@3.0.1
-  - @tiptap/pm@3.0.1
+  - @autoartifacts/core@3.0.1
+  - @autoartifacts/pm@3.0.1
 
 ## 3.0.0-beta.30
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.30
-- @tiptap/pm@3.0.0-beta.30
+- @autoartifacts/core@3.0.0-beta.30
+- @autoartifacts/pm@3.0.0-beta.30
 
 ## 3.0.0-beta.29
 
@@ -321,23 +321,23 @@
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.29
-- @tiptap/pm@3.0.0-beta.29
+- @autoartifacts/core@3.0.0-beta.29
+- @autoartifacts/pm@3.0.0-beta.29
 
 ## 3.0.0-beta.28
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.28
-- @tiptap/pm@3.0.0-beta.28
+- @autoartifacts/core@3.0.0-beta.28
+- @autoartifacts/pm@3.0.0-beta.28
 
 ## 3.0.0-beta.27
 
 ### Patch Changes
 
 - Updated dependencies [412e1bd]
-  - @tiptap/core@3.0.0-beta.27
-  - @tiptap/pm@3.0.0-beta.27
+  - @autoartifacts/core@3.0.0-beta.27
+  - @autoartifacts/pm@3.0.0-beta.27
 
 ## 3.0.0-beta.26
 
@@ -345,37 +345,37 @@
 
 - 27dd14b: Made attributes for `toggleLink` optional
 - Updated dependencies [5ba480b]
-  - @tiptap/core@3.0.0-beta.26
-  - @tiptap/pm@3.0.0-beta.26
+  - @autoartifacts/core@3.0.0-beta.26
+  - @autoartifacts/pm@3.0.0-beta.26
 
 ## 3.0.0-beta.25
 
 ### Patch Changes
 
 - Updated dependencies [4e2f6d8]
-  - @tiptap/core@3.0.0-beta.25
-  - @tiptap/pm@3.0.0-beta.25
+  - @autoartifacts/core@3.0.0-beta.25
+  - @autoartifacts/pm@3.0.0-beta.25
 
 ## 3.0.0-beta.24
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.24
-- @tiptap/pm@3.0.0-beta.24
+- @autoartifacts/core@3.0.0-beta.24
+- @autoartifacts/pm@3.0.0-beta.24
 
 ## 3.0.0-beta.23
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.23
-- @tiptap/pm@3.0.0-beta.23
+- @autoartifacts/core@3.0.0-beta.23
+- @autoartifacts/pm@3.0.0-beta.23
 
 ## 3.0.0-beta.22
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.22
-- @tiptap/pm@3.0.0-beta.22
+- @autoartifacts/core@3.0.0-beta.22
+- @autoartifacts/pm@3.0.0-beta.22
 
 ## 3.0.0-beta.21
 
@@ -384,38 +384,38 @@
 - c11c89e: Fix autolink option in shadow dom by extending the whitespace detection to more unicode characters
 - Updated dependencies [813674c]
 - Updated dependencies [fc17b21]
-  - @tiptap/core@3.0.0-beta.21
-  - @tiptap/pm@3.0.0-beta.21
+  - @autoartifacts/core@3.0.0-beta.21
+  - @autoartifacts/pm@3.0.0-beta.21
 
 ## 3.0.0-beta.20
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.20
-- @tiptap/pm@3.0.0-beta.20
+- @autoartifacts/core@3.0.0-beta.20
+- @autoartifacts/pm@3.0.0-beta.20
 
 ## 3.0.0-beta.19
 
 ### Patch Changes
 
 - Updated dependencies [9ceeab4]
-  - @tiptap/core@3.0.0-beta.19
-  - @tiptap/pm@3.0.0-beta.19
+  - @autoartifacts/core@3.0.0-beta.19
+  - @autoartifacts/pm@3.0.0-beta.19
 
 ## 3.0.0-beta.18
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.18
-- @tiptap/pm@3.0.0-beta.18
+- @autoartifacts/core@3.0.0-beta.18
+- @autoartifacts/pm@3.0.0-beta.18
 
 ## 3.0.0-beta.17
 
 ### Patch Changes
 
 - Updated dependencies [e20006b]
-  - @tiptap/core@3.0.0-beta.17
-  - @tiptap/pm@3.0.0-beta.17
+  - @autoartifacts/core@3.0.0-beta.17
+  - @autoartifacts/pm@3.0.0-beta.17
 
 ## 3.0.0-beta.16
 
@@ -423,81 +423,81 @@
 
 - Updated dependencies [ac897e7]
 - Updated dependencies [bf835b0]
-  - @tiptap/core@3.0.0-beta.16
-  - @tiptap/pm@3.0.0-beta.16
+  - @autoartifacts/core@3.0.0-beta.16
+  - @autoartifacts/pm@3.0.0-beta.16
 
 ## 3.0.0-beta.15
 
 ### Patch Changes
 
 - Updated dependencies [087d114]
-  - @tiptap/core@3.0.0-beta.15
-  - @tiptap/pm@3.0.0-beta.15
+  - @autoartifacts/core@3.0.0-beta.15
+  - @autoartifacts/pm@3.0.0-beta.15
 
 ## 3.0.0-beta.14
 
 ### Patch Changes
 
 - Updated dependencies [95b8c71]
-  - @tiptap/core@3.0.0-beta.14
-  - @tiptap/pm@3.0.0-beta.14
+  - @autoartifacts/core@3.0.0-beta.14
+  - @autoartifacts/pm@3.0.0-beta.14
 
 ## 3.0.0-beta.13
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.13
-- @tiptap/pm@3.0.0-beta.13
+- @autoartifacts/core@3.0.0-beta.13
+- @autoartifacts/pm@3.0.0-beta.13
 
 ## 3.0.0-beta.12
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.12
-- @tiptap/pm@3.0.0-beta.12
+- @autoartifacts/core@3.0.0-beta.12
+- @autoartifacts/pm@3.0.0-beta.12
 
 ## 3.0.0-beta.11
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.11
-- @tiptap/pm@3.0.0-beta.11
+- @autoartifacts/core@3.0.0-beta.11
+- @autoartifacts/pm@3.0.0-beta.11
 
 ## 3.0.0-beta.10
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.10
-- @tiptap/pm@3.0.0-beta.10
+- @autoartifacts/core@3.0.0-beta.10
+- @autoartifacts/pm@3.0.0-beta.10
 
 ## 3.0.0-beta.9
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.9
-- @tiptap/pm@3.0.0-beta.9
+- @autoartifacts/core@3.0.0-beta.9
+- @autoartifacts/pm@3.0.0-beta.9
 
 ## 3.0.0-beta.8
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.8
-- @tiptap/pm@3.0.0-beta.8
+- @autoartifacts/core@3.0.0-beta.8
+- @autoartifacts/pm@3.0.0-beta.8
 
 ## 3.0.0-beta.7
 
 ### Patch Changes
 
 - Updated dependencies [d0fda30]
-  - @tiptap/core@3.0.0-beta.7
-  - @tiptap/pm@3.0.0-beta.7
+  - @autoartifacts/core@3.0.0-beta.7
+  - @autoartifacts/pm@3.0.0-beta.7
 
 ## 3.0.0-beta.6
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.6
-- @tiptap/pm@3.0.0-beta.6
+- @autoartifacts/core@3.0.0-beta.6
+- @autoartifacts/pm@3.0.0-beta.6
 
 ## 3.0.0-beta.5
 
@@ -506,8 +506,8 @@
 - 8c69002: Synced beta with stable features
 - Updated dependencies [8c69002]
 - Updated dependencies [62b0877]
-  - @tiptap/core@3.0.0-beta.5
-  - @tiptap/pm@3.0.0-beta.5
+  - @autoartifacts/core@3.0.0-beta.5
+  - @autoartifacts/pm@3.0.0-beta.5
 
 ## 3.0.0-beta.4
 
@@ -515,8 +515,8 @@
 
 - Updated dependencies [5e957e5]
 - Updated dependencies [9f207a6]
-  - @tiptap/core@3.0.0-beta.4
-  - @tiptap/pm@3.0.0-beta.4
+  - @autoartifacts/core@3.0.0-beta.4
+  - @autoartifacts/pm@3.0.0-beta.4
 
 ## 3.0.0-beta.3
 
@@ -524,8 +524,8 @@
 
 - 1b4c82b: We are now using pnpm package aliases for versions to enable better version pinning for the monorepository
 - Updated dependencies [1b4c82b]
-  - @tiptap/core@3.0.0-beta.3
-  - @tiptap/pm@3.0.0-beta.3
+  - @autoartifacts/core@3.0.0-beta.3
+  - @autoartifacts/pm@3.0.0-beta.3
 
 ## 3.0.0-beta.2
 
@@ -573,16 +573,16 @@
 
 - Updated dependencies [a92f4a6]
 - Updated dependencies [da76972]
-  - @tiptap/core@3.0.0-next.1
-  - @tiptap/pm@3.0.0-next.1
+  - @autoartifacts/core@3.0.0-next.1
+  - @autoartifacts/pm@3.0.0-next.1
 
 ## 3.0.0-next.0
 
 ### Patch Changes
 
 - Updated dependencies [0ec0af6]
-  - @tiptap/core@3.0.0-next.0
-  - @tiptap/pm@3.0.0-next.0
+  - @autoartifacts/core@3.0.0-next.0
+  - @autoartifacts/pm@3.0.0-next.0
 
 ## 2.12.0
 
@@ -609,8 +609,8 @@
 ### Patch Changes
 
 - Updated dependencies [a08bf85]
-  - @tiptap/core@2.5.8
-  - @tiptap/pm@2.5.8
+  - @autoartifacts/core@2.5.8
+  - @autoartifacts/pm@2.5.8
 
 ## 2.5.7
 
@@ -618,8 +618,8 @@
 
 - Updated dependencies [b012471]
 - Updated dependencies [cc3497e]
-  - @tiptap/core@2.5.7
-  - @tiptap/pm@2.5.7
+  - @autoartifacts/core@2.5.7
+  - @autoartifacts/pm@2.5.7
 
 ## 2.5.6
 
@@ -630,8 +630,8 @@
 - Updated dependencies [618bca9]
 - Updated dependencies [35682d1]
 - Updated dependencies [2104f0f]
-  - @tiptap/pm@2.5.6
-  - @tiptap/core@2.5.6
+  - @autoartifacts/pm@2.5.6
+  - @autoartifacts/core@2.5.6
 
 ## 2.5.5
 
@@ -639,8 +639,8 @@
 
 - Updated dependencies [4cca382]
 - Updated dependencies [3b67e8a]
-  - @tiptap/core@2.5.5
-  - @tiptap/pm@2.5.5
+  - @autoartifacts/core@2.5.5
+  - @autoartifacts/pm@2.5.5
 
 ## 2.5.4
 
@@ -648,31 +648,31 @@
 
 - dd7f9ac: There was an issue with the cjs bundling of packages and default exports, now we resolve default exports in legacy compatible way
 - Updated dependencies [dd7f9ac]
-  - @tiptap/core@2.5.4
-  - @tiptap/pm@2.5.4
+  - @autoartifacts/core@2.5.4
+  - @autoartifacts/pm@2.5.4
 
 ## 2.5.3
 
 ### Patch Changes
 
 - a473826: Make openOnClick backwards compatible with previous `whenNotEditable` value, this is now the default and is deprecated
-  - @tiptap/core@2.5.3
-  - @tiptap/pm@2.5.3
+  - @autoartifacts/core@2.5.3
+  - @autoartifacts/pm@2.5.3
 
 ## 2.5.2
 
 ### Patch Changes
 
 - Updated dependencies [07f4c03]
-  - @tiptap/core@2.5.2
-  - @tiptap/pm@2.5.2
+  - @autoartifacts/core@2.5.2
+  - @autoartifacts/pm@2.5.2
 
 ## 2.5.1
 
 ### Patch Changes
 
-- @tiptap/core@2.5.1
-- @tiptap/pm@2.5.1
+- @autoartifacts/core@2.5.1
+- @autoartifacts/pm@2.5.1
 
 ## 2.5.0
 
@@ -682,84 +682,84 @@
 - Updated dependencies [fb45149]
 - Updated dependencies [fb45149]
 - Updated dependencies [fb45149]
-  - @tiptap/core@2.5.0
-  - @tiptap/pm@2.5.0
+  - @autoartifacts/core@2.5.0
+  - @autoartifacts/pm@2.5.0
 
 ## 2.5.0-pre.16
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.16
-- @tiptap/pm@2.5.0-pre.16
+- @autoartifacts/core@2.5.0-pre.16
+- @autoartifacts/pm@2.5.0-pre.16
 
 ## 2.5.0-pre.15
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.15
-- @tiptap/pm@2.5.0-pre.15
+- @autoartifacts/core@2.5.0-pre.15
+- @autoartifacts/pm@2.5.0-pre.15
 
 ## 2.5.0-pre.14
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.14
-- @tiptap/pm@2.5.0-pre.14
+- @autoartifacts/core@2.5.0-pre.14
+- @autoartifacts/pm@2.5.0-pre.14
 
 ## 2.5.0-pre.13
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.13
-  - @tiptap/pm@2.5.0-pre.13
+  - @autoartifacts/core@2.5.0-pre.13
+  - @autoartifacts/pm@2.5.0-pre.13
 
 ## 2.5.0-pre.12
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.12
-  - @tiptap/pm@2.5.0-pre.12
+  - @autoartifacts/core@2.5.0-pre.12
+  - @autoartifacts/pm@2.5.0-pre.12
 
 ## 2.5.0-pre.11
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.11
-  - @tiptap/pm@2.5.0-pre.11
+  - @autoartifacts/core@2.5.0-pre.11
+  - @autoartifacts/pm@2.5.0-pre.11
 
 ## 2.5.0-pre.10
 
 ### Patch Changes
 
 - Updated dependencies [74a37ff]
-  - @tiptap/core@2.5.0-pre.10
-  - @tiptap/pm@2.5.0-pre.10
+  - @autoartifacts/core@2.5.0-pre.10
+  - @autoartifacts/pm@2.5.0-pre.10
 
 ## 2.5.0-pre.9
 
 ### Patch Changes
 
 - Updated dependencies [14a00f4]
-  - @tiptap/core@2.5.0-pre.9
-  - @tiptap/pm@2.5.0-pre.9
+  - @autoartifacts/core@2.5.0-pre.9
+  - @autoartifacts/pm@2.5.0-pre.9
 
 ## 2.5.0-pre.8
 
 ### Patch Changes
 
 - Updated dependencies [509676e]
-  - @tiptap/core@2.5.0-pre.8
-  - @tiptap/pm@2.5.0-pre.8
+  - @autoartifacts/core@2.5.0-pre.8
+  - @autoartifacts/pm@2.5.0-pre.8
 
 ## 2.5.0-pre.7
 
 ### Patch Changes
 
-- @tiptap/core@2.5.0-pre.7
-- @tiptap/pm@2.5.0-pre.7
+- @autoartifacts/core@2.5.0-pre.7
+- @autoartifacts/pm@2.5.0-pre.7
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
@@ -772,19 +772,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.3.2](https://github.com/ueberdosis/tiptap/compare/v2.3.1...v2.3.2) (2024-05-08)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.3.1](https://github.com/ueberdosis/tiptap/compare/v2.3.0...v2.3.1) (2024-04-30)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.3.0](https://github.com/ueberdosis/tiptap/compare/v2.2.6...v2.3.0) (2024-04-09)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.2.6](https://github.com/ueberdosis/tiptap/compare/v2.2.5...v2.2.6) (2024-04-06)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.2.5](https://github.com/ueberdosis/tiptap/compare/v2.2.4...v2.2.5) (2024-04-05)
 
@@ -794,19 +794,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.2.4](https://github.com/ueberdosis/tiptap/compare/v2.2.3...v2.2.4) (2024-02-23)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.2.3](https://github.com/ueberdosis/tiptap/compare/v2.2.2...v2.2.3) (2024-02-15)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.2.2](https://github.com/ueberdosis/tiptap/compare/v2.2.1...v2.2.2) (2024-02-07)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.2.1](https://github.com/ueberdosis/tiptap/compare/v2.2.0...v2.2.1) (2024-01-31)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.2.0](https://github.com/ueberdosis/tiptap/compare/v2.1.16...v2.2.0) (2024-01-29)
 
@@ -834,19 +834,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.1.16](https://github.com/ueberdosis/tiptap/compare/v2.1.15...v2.1.16) (2024-01-10)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.15](https://github.com/ueberdosis/tiptap/compare/v2.1.14...v2.1.15) (2024-01-08)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.14](https://github.com/ueberdosis/tiptap/compare/v2.1.13...v2.1.14) (2024-01-08)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.13](https://github.com/ueberdosis/tiptap/compare/v2.1.12...v2.1.13) (2023-11-30)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.12](https://github.com/ueberdosis/tiptap/compare/v2.1.11...v2.1.12) (2023-10-11)
 
@@ -862,7 +862,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.1.10](https://github.com/ueberdosis/tiptap/compare/v2.1.9...v2.1.10) (2023-09-15)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.9](https://github.com/ueberdosis/tiptap/compare/v2.1.8...v2.1.9) (2023-09-14)
 
@@ -872,23 +872,23 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.1.8](https://github.com/ueberdosis/tiptap/compare/v2.1.7...v2.1.8) (2023-09-04)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.7](https://github.com/ueberdosis/tiptap/compare/v2.1.6...v2.1.7) (2023-09-04)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.6](https://github.com/ueberdosis/tiptap/compare/v2.1.5...v2.1.6) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.5](https://github.com/ueberdosis/tiptap/compare/v2.1.4...v2.1.5) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.4](https://github.com/ueberdosis/tiptap/compare/v2.1.3...v2.1.4) (2023-08-18)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.3](https://github.com/ueberdosis/tiptap/compare/v2.1.2...v2.1.3) (2023-08-18)
 
@@ -898,19 +898,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.1.2](https://github.com/ueberdosis/tiptap/compare/v2.1.1...v2.1.2) (2023-08-17)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.1.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0...v2.1.1) (2023-08-16)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.14...v2.1.0) (2023-08-16)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.14](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.13...v2.1.0-rc.14) (2023-08-11)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.13](https://github.com/ueberdosis/tiptap/compare/v2.0.4...v2.1.0-rc.13) (2023-08-11)
 
@@ -964,11 +964,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.12](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.11...v2.1.0-rc.12) (2023-07-14)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.11](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.10...v2.1.0-rc.11) (2023-07-07)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.10](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.9...v2.1.0-rc.10) (2023-07-07)
 
@@ -980,19 +980,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.9](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.8...v2.1.0-rc.9) (2023-06-15)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.8](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.7...v2.1.0-rc.8) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.7](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.6...v2.1.0-rc.7) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.6](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.5...v2.1.0-rc.6) (2023-05-25)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.5](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.4...v2.1.0-rc.5) (2023-05-25)
 
@@ -1008,7 +1008,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.3](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.2...v2.1.0-rc.3) (2023-04-26)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.2](https://github.com/ueberdosis/tiptap/compare/v2.0.3...v2.1.0-rc.2) (2023-04-26)
 
@@ -1026,19 +1026,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.1.0-rc.1](https://github.com/ueberdosis/tiptap/compare/v2.1.0-rc.0...v2.1.0-rc.1) (2023-04-12)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.1.0-rc.0](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.1.0-rc.0) (2023-04-05)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.0.3](https://github.com/ueberdosis/tiptap/compare/v2.0.2...v2.0.3) (2023-04-13)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.0.2](https://github.com/ueberdosis/tiptap/compare/v2.0.1...v2.0.2) (2023-04-03)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 ## [2.0.1](https://github.com/ueberdosis/tiptap/compare/v2.0.0...v2.0.1) (2023-03-30)
 
@@ -1048,11 +1048,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.220](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.219...v2.0.0-beta.220) (2023-02-28)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.219](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.218...v2.0.0-beta.219) (2023-02-27)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.218](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.217...v2.0.0-beta.218) (2023-02-18)
 
@@ -1062,11 +1062,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.217](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.216...v2.0.0-beta.217) (2023-02-09)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.216](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.215...v2.0.0-beta.216) (2023-02-08)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.215](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.214...v2.0.0-beta.215) (2023-02-08)
 
@@ -1076,19 +1076,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.214](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.213...v2.0.0-beta.214) (2023-02-08)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.213](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.212...v2.0.0-beta.213) (2023-02-07)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.212](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.211...v2.0.0-beta.212) (2023-02-03)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.211](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.210...v2.0.0-beta.211) (2023-02-02)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.210](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.209...v2.0.0-beta.210) (2023-02-02)
 
@@ -1098,19 +1098,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.209](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.208...v2.0.0-beta.209) (2022-12-16)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.208](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.207...v2.0.0-beta.208) (2022-12-16)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.207](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.206...v2.0.0-beta.207) (2022-12-08)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.206](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.205...v2.0.0-beta.206) (2022-12-08)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.205](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.204...v2.0.0-beta.205) (2022-12-05)
 
@@ -1126,19 +1126,19 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.203](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.202...v2.0.0-beta.203) (2022-11-24)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.202](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.201...v2.0.0-beta.202) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.201](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.200...v2.0.0-beta.201) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.200](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.199...v2.0.0-beta.200) (2022-11-04)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.199](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.198...v2.0.0-beta.199) (2022-09-30)
 
@@ -1154,7 +1154,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.197](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.196...v2.0.0-beta.197) (2022-09-26)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.196](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.195...v2.0.0-beta.196) (2022-09-20)
 
@@ -1164,33 +1164,33 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [2.0.0-beta.195](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.194...v2.0.0-beta.195) (2022-09-14)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # [2.0.0-beta.194](https://github.com/ueberdosis/tiptap/compare/v2.0.0-beta.193...v2.0.0-beta.194) (2022-09-11)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.42...@tiptap/extension-link@2.0.0-beta.43) (2022-06-27)
+# [2.0.0-beta.43](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.42...@autoartifacts/extension-link@2.0.0-beta.43) (2022-06-27)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.41...@tiptap/extension-link@2.0.0-beta.42) (2022-06-20)
+# [2.0.0-beta.42](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.41...@autoartifacts/extension-link@2.0.0-beta.42) (2022-06-20)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.39...@tiptap/extension-link@2.0.0-beta.41) (2022-06-17)
-
-### Reverts
-
-- Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
-
-# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.39...@tiptap/extension-link@2.0.0-beta.39) (2022-06-17)
+# [2.0.0-beta.41](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.39...@autoartifacts/extension-link@2.0.0-beta.41) (2022-06-17)
 
 ### Reverts
 
 - Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
 
-# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.37...@tiptap/extension-link@2.0.0-beta.38) (2022-05-18)
+# [2.0.0-beta.39](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.39...@autoartifacts/extension-link@2.0.0-beta.39) (2022-06-17)
+
+### Reverts
+
+- Revert "Publish" ([9c38d27](https://github.com/ueberdosis/tiptap/commit/9c38d2713e6feac5645ad9c1bfc57abdbf054576))
+
+# [2.0.0-beta.38](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.37...@autoartifacts/extension-link@2.0.0-beta.38) (2022-05-18)
 
 ### Bug Fixes
 
@@ -1200,230 +1200,230 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **extension-link:** :sparkles: add validate option to link extension ([23e67ad](https://github.com/ueberdosis/tiptap/commit/23e67adfa730df7364bc31220d0ed0e8ea522593)), closes [#2779](https://github.com/ueberdosis/tiptap/issues/2779)
 
-# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.36...@tiptap/extension-link@2.0.0-beta.37) (2022-04-27)
+# [2.0.0-beta.37](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.36...@autoartifacts/extension-link@2.0.0-beta.37) (2022-04-27)
 
 ### Bug Fixes
 
 - **extension-link:** restricts parsing `javascript:` pseudo-protocol ([947f311](https://github.com/ueberdosis/tiptap/commit/947f311c0ec9affdcaeb220d13d87c04c773f084))
 
-# [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.35...@tiptap/extension-link@2.0.0-beta.36) (2022-01-20)
+# [2.0.0-beta.36](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.35...@autoartifacts/extension-link@2.0.0-beta.36) (2022-01-20)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.34...@tiptap/extension-link@2.0.0-beta.35) (2022-01-07)
+# [2.0.0-beta.35](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.34...@autoartifacts/extension-link@2.0.0-beta.35) (2022-01-07)
 
 ### Bug Fixes
 
 - allow to remove autolinks with unsetLink ([ea10ffb](https://github.com/ueberdosis/tiptap/commit/ea10ffbc6a0f447c33680dcc6f6dc2fa6337c4c2))
 
-# [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.33...@tiptap/extension-link@2.0.0-beta.34) (2022-01-04)
+# [2.0.0-beta.34](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.33...@autoartifacts/extension-link@2.0.0-beta.34) (2022-01-04)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.32...@tiptap/extension-link@2.0.0-beta.33) (2021-12-06)
+# [2.0.0-beta.33](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.32...@autoartifacts/extension-link@2.0.0-beta.33) (2021-12-06)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.31...@tiptap/extension-link@2.0.0-beta.32) (2021-12-03)
+# [2.0.0-beta.32](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.31...@autoartifacts/extension-link@2.0.0-beta.32) (2021-12-03)
 
 ### Bug Fixes
 
 - calculate correct autolink position when using leaf nodes in the same text block, fix [#2231](https://github.com/ueberdosis/tiptap/issues/2231) ([924b650](https://github.com/ueberdosis/tiptap/commit/924b6508f9211ba281b159676d4800748870b565))
 
-# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.30...@tiptap/extension-link@2.0.0-beta.31) (2021-12-03)
+# [2.0.0-beta.31](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.30...@autoartifacts/extension-link@2.0.0-beta.31) (2021-12-03)
 
 ### Features
 
 - Add support for autolink ([#2226](https://github.com/ueberdosis/tiptap/issues/2226)) ([3d68981](https://github.com/ueberdosis/tiptap/commit/3d68981b47d087fff40549d2143eb952fc9e0a50))
 
-# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.29...@tiptap/extension-link@2.0.0-beta.30) (2021-12-02)
+# [2.0.0-beta.30](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.29...@autoartifacts/extension-link@2.0.0-beta.30) (2021-12-02)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.28...@tiptap/extension-link@2.0.0-beta.29) (2021-12-02)
+# [2.0.0-beta.29](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.28...@autoartifacts/extension-link@2.0.0-beta.29) (2021-12-02)
 
 ### Bug Fixes
 
 - remove some magic strings ([6c34dec](https://github.com/ueberdosis/tiptap/commit/6c34dec33ac39c9f037a0a72e4525f3fc6d422bf))
 
-# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.27...@tiptap/extension-link@2.0.0-beta.28) (2021-11-09)
+# [2.0.0-beta.28](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.27...@autoartifacts/extension-link@2.0.0-beta.28) (2021-11-09)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.26...@tiptap/extension-link@2.0.0-beta.27) (2021-11-09)
+# [2.0.0-beta.27](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.26...@autoartifacts/extension-link@2.0.0-beta.27) (2021-11-09)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.25...@tiptap/extension-link@2.0.0-beta.26) (2021-11-09)
+# [2.0.0-beta.26](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.25...@autoartifacts/extension-link@2.0.0-beta.26) (2021-11-09)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.24...@tiptap/extension-link@2.0.0-beta.25) (2021-10-31)
+# [2.0.0-beta.25](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.24...@autoartifacts/extension-link@2.0.0-beta.25) (2021-10-31)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.23...@tiptap/extension-link@2.0.0-beta.24) (2021-10-26)
+# [2.0.0-beta.24](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.23...@autoartifacts/extension-link@2.0.0-beta.24) (2021-10-26)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.22...@tiptap/extension-link@2.0.0-beta.23) (2021-10-14)
+# [2.0.0-beta.23](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.22...@autoartifacts/extension-link@2.0.0-beta.23) (2021-10-14)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.21...@tiptap/extension-link@2.0.0-beta.22) (2021-10-14)
+# [2.0.0-beta.22](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.21...@autoartifacts/extension-link@2.0.0-beta.22) (2021-10-14)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.20...@tiptap/extension-link@2.0.0-beta.21) (2021-10-08)
+# [2.0.0-beta.21](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.20...@autoartifacts/extension-link@2.0.0-beta.21) (2021-10-08)
 
 ### Features
 
 - Integrate input rules and paste rules into the core ([#1997](https://github.com/ueberdosis/tiptap/issues/1997)) ([723b955](https://github.com/ueberdosis/tiptap/commit/723b955cecc5c92c8aad897ce16c60fb62976571))
 
-# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.19...@tiptap/extension-link@2.0.0-beta.20) (2021-09-08)
+# [2.0.0-beta.20](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.19...@autoartifacts/extension-link@2.0.0-beta.20) (2021-09-08)
 
 ### Features
 
 - add extendEmptyMarkRange option to mark commands ([#1859](https://github.com/ueberdosis/tiptap/issues/1859)) ([14e458e](https://github.com/ueberdosis/tiptap/commit/14e458ea7d7475a51ac00d6f67509dc769919d0b))
 
-# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.18...@tiptap/extension-link@2.0.0-beta.19) (2021-07-26)
+# [2.0.0-beta.19](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.18...@autoartifacts/extension-link@2.0.0-beta.19) (2021-07-26)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.17...@tiptap/extension-link@2.0.0-beta.18) (2021-06-07)
+# [2.0.0-beta.18](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.17...@autoartifacts/extension-link@2.0.0-beta.18) (2021-06-07)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.16...@tiptap/extension-link@2.0.0-beta.17) (2021-05-18)
+# [2.0.0-beta.17](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.16...@autoartifacts/extension-link@2.0.0-beta.17) (2021-05-18)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.15...@tiptap/extension-link@2.0.0-beta.16) (2021-05-13)
+# [2.0.0-beta.16](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.15...@autoartifacts/extension-link@2.0.0-beta.16) (2021-05-13)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.14...@tiptap/extension-link@2.0.0-beta.15) (2021-05-07)
+# [2.0.0-beta.15](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.14...@autoartifacts/extension-link@2.0.0-beta.15) (2021-05-07)
 
 ### Features
 
 - add editor.getAttributes, deprecate editor.getNodeAttributes and editor.getMarkAttributes ([072905c](https://github.com/ueberdosis/tiptap/commit/072905cb95e022a37f5bc937889999bfbb33ad88))
 
-# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.13...@tiptap/extension-link@2.0.0-beta.14) (2021-05-07)
+# [2.0.0-beta.14](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.13...@autoartifacts/extension-link@2.0.0-beta.14) (2021-05-07)
 
 ### Bug Fixes
 
 - fix a bug that messed up pasted link attributes, fix [#1284](https://github.com/ueberdosis/tiptap/issues/1284) ([7da647d](https://github.com/ueberdosis/tiptap/commit/7da647d99f1dcefabc653347a8e2abfae3bb972e))
 - revert adding exports ([bc320d0](https://github.com/ueberdosis/tiptap/commit/bc320d0b4b80b0e37a7e47a56e0f6daec6e65d98))
 
-# [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.12...@tiptap/extension-link@2.0.0-beta.13) (2021-05-06)
+# [2.0.0-beta.13](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.12...@autoartifacts/extension-link@2.0.0-beta.13) (2021-05-06)
 
 ### Bug Fixes
 
 - revert adding type: module ([f8d6475](https://github.com/ueberdosis/tiptap/commit/f8d6475e2151faea6f96baecdd6bd75880d50d2c))
 
-# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.11...@tiptap/extension-link@2.0.0-beta.12) (2021-05-06)
+# [2.0.0-beta.12](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.11...@autoartifacts/extension-link@2.0.0-beta.12) (2021-05-06)
 
 ### Bug Fixes
 
 - add exports to package.json ([1277fa4](https://github.com/ueberdosis/tiptap/commit/1277fa47151e9c039508cdb219bdd0ffe647f4ee))
 
-# [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.10...@tiptap/extension-link@2.0.0-beta.11) (2021-05-06)
+# [2.0.0-beta.11](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.10...@autoartifacts/extension-link@2.0.0-beta.11) (2021-05-06)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.10](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.9...@tiptap/extension-link@2.0.0-beta.10) (2021-05-05)
+# [2.0.0-beta.10](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.9...@autoartifacts/extension-link@2.0.0-beta.10) (2021-05-05)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.8...@tiptap/extension-link@2.0.0-beta.9) (2021-05-05)
+# [2.0.0-beta.9](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.8...@autoartifacts/extension-link@2.0.0-beta.9) (2021-05-05)
 
 ### Features
 
 - add linkOnPaste option for adding a link to the current selection if the pasted content only contains an url, fix [#1210](https://github.com/ueberdosis/tiptap/issues/1210) ([9e9401e](https://github.com/ueberdosis/tiptap/commit/9e9401e68b79d34070fb79c4f356841fa19fe436))
 
-# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.7...@tiptap/extension-link@2.0.0-beta.8) (2021-04-23)
+# [2.0.0-beta.8](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.7...@autoartifacts/extension-link@2.0.0-beta.8) (2021-04-23)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.7](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.6...@tiptap/extension-link@2.0.0-beta.7) (2021-04-22)
+# [2.0.0-beta.7](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.6...@autoartifacts/extension-link@2.0.0-beta.7) (2021-04-22)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.6](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.5...@tiptap/extension-link@2.0.0-beta.6) (2021-04-21)
+# [2.0.0-beta.6](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.5...@autoartifacts/extension-link@2.0.0-beta.6) (2021-04-21)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.4...@tiptap/extension-link@2.0.0-beta.5) (2021-04-16)
+# [2.0.0-beta.5](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.4...@autoartifacts/extension-link@2.0.0-beta.5) (2021-04-16)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.3...@tiptap/extension-link@2.0.0-beta.4) (2021-04-15)
+# [2.0.0-beta.4](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.3...@autoartifacts/extension-link@2.0.0-beta.4) (2021-04-15)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.2...@tiptap/extension-link@2.0.0-beta.3) (2021-04-11)
+# [2.0.0-beta.3](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.2...@autoartifacts/extension-link@2.0.0-beta.3) (2021-04-11)
 
 ### Bug Fixes
 
 - fix a bug in link click handler, where we can’t click on text selections. fix [#263](https://github.com/ueberdosis/tiptap/issues/263) ([33c30c0](https://github.com/ueberdosis/tiptap/commit/33c30c0d6df66190fd1d5073ccc43b1020b517f9))
 
-# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-beta.1...@tiptap/extension-link@2.0.0-beta.2) (2021-04-07)
+# [2.0.0-beta.2](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-beta.1...@autoartifacts/extension-link@2.0.0-beta.2) (2021-04-07)
 
 ### Features
 
 - add priority option to extensions ([bb1ae65](https://github.com/ueberdosis/tiptap/commit/bb1ae659a463e97a7ada15af711347b5c004897a))
 
-# [2.0.0-beta.1](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.11...@tiptap/extension-link@2.0.0-beta.1) (2021-03-05)
+# [2.0.0-beta.1](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.11...@autoartifacts/extension-link@2.0.0-beta.1) (2021-03-05)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.11](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.10...@tiptap/extension-link@2.0.0-alpha.11) (2021-02-16)
+# [2.0.0-alpha.11](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.10...@autoartifacts/extension-link@2.0.0-alpha.11) (2021-02-16)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.10](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.9...@tiptap/extension-link@2.0.0-alpha.10) (2021-02-07)
+# [2.0.0-alpha.10](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.9...@autoartifacts/extension-link@2.0.0-alpha.10) (2021-02-07)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.9](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.8...@tiptap/extension-link@2.0.0-alpha.9) (2021-02-05)
+# [2.0.0-alpha.9](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.8...@autoartifacts/extension-link@2.0.0-alpha.9) (2021-02-05)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.8](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.7...@tiptap/extension-link@2.0.0-alpha.8) (2021-01-29)
+# [2.0.0-alpha.8](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.7...@autoartifacts/extension-link@2.0.0-alpha.8) (2021-01-29)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.7](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.6...@tiptap/extension-link@2.0.0-alpha.7) (2021-01-29)
+# [2.0.0-alpha.7](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.6...@autoartifacts/extension-link@2.0.0-alpha.7) (2021-01-29)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.6](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.5...@tiptap/extension-link@2.0.0-alpha.6) (2021-01-28)
+# [2.0.0-alpha.6](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.5...@autoartifacts/extension-link@2.0.0-alpha.6) (2021-01-28)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.5](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.4...@tiptap/extension-link@2.0.0-alpha.5) (2020-12-18)
+# [2.0.0-alpha.5](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.4...@autoartifacts/extension-link@2.0.0-alpha.5) (2020-12-18)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.4](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.3...@tiptap/extension-link@2.0.0-alpha.4) (2020-12-02)
+# [2.0.0-alpha.4](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.3...@autoartifacts/extension-link@2.0.0-alpha.4) (2020-12-02)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.3](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.2...@tiptap/extension-link@2.0.0-alpha.3) (2020-11-19)
+# [2.0.0-alpha.3](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.2...@autoartifacts/extension-link@2.0.0-alpha.3) (2020-11-19)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@2.0.0-alpha.1...@tiptap/extension-link@2.0.0-alpha.2) (2020-11-19)
+# [2.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@2.0.0-alpha.1...@autoartifacts/extension-link@2.0.0-alpha.2) (2020-11-19)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [2.0.0-alpha.1](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@1.0.0-alpha.2...@tiptap/extension-link@2.0.0-alpha.1) (2020-11-18)
+# [2.0.0-alpha.1](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@1.0.0-alpha.2...@autoartifacts/extension-link@2.0.0-alpha.1) (2020-11-18)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
-# [1.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@tiptap/extension-link@1.0.0-alpha.1...@tiptap/extension-link@1.0.0-alpha.2) (2020-11-16)
+# [1.0.0-alpha.2](https://github.com/ueberdosis/tiptap/compare/@autoartifacts/extension-link@1.0.0-alpha.1...@autoartifacts/extension-link@1.0.0-alpha.2) (2020-11-16)
 
-**Note:** Version bump only for package @tiptap/extension-link
+**Note:** Version bump only for package @autoartifacts/extension-link
 
 # 1.0.0-alpha.1 (2020-11-16)
 

@@ -1,5 +1,5 @@
-import { Extension } from '@tiptap/core'
-import { PluginKey } from '@tiptap/pm/state'
+import { Extension } from '@autoartifacts/core'
+import { PluginKey } from '@autoartifacts/pm/state'
 
 import { FileHandlePlugin } from './FileHandlePlugin.js'
 import type { FileHandlerOptions } from './types.js'

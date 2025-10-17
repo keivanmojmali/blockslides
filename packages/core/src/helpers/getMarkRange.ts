@@ -1,4 +1,4 @@
-import type { Mark as ProseMirrorMark, MarkType, ResolvedPos } from '@tiptap/pm/model'
+import type { Mark as ProseMirrorMark, MarkType, ResolvedPos } from '@autoartifacts/pm/model'
 
 import type { Range } from '../types.js'
 import { objectIncludes } from '../utilities/objectIncludes.js'

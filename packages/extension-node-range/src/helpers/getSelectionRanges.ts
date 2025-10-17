@@ -1,5 +1,5 @@
-import { type ResolvedPos, NodeRange } from '@tiptap/pm/model'
-import { SelectionRange } from '@tiptap/pm/state'
+import { type ResolvedPos, NodeRange } from '@autoartifacts/pm/model'
+import { SelectionRange } from '@autoartifacts/pm/state'
 
 export function getSelectionRanges($from: ResolvedPos, $to: ResolvedPos, depth?: number): SelectionRange[] {
   const ranges: SelectionRange[] = []

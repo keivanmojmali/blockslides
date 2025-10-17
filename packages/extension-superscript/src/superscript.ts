@@ -1,5 +1,5 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
-import type { StyleParseRule } from '@tiptap/pm/model'
+import { Mark, mergeAttributes } from '@autoartifacts/core'
+import type { StyleParseRule } from '@autoartifacts/pm/model'
 
 export interface SuperscriptExtensionOptions {
   /**
@@ -10,7 +10,7 @@ export interface SuperscriptExtensionOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     superscript: {
       /**

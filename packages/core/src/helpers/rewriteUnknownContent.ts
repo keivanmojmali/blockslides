@@ -1,4 +1,4 @@
-import type { Schema } from '@tiptap/pm/model'
+import type { Schema } from '@autoartifacts/pm/model'
 
 import type { JSONContent } from '../types.js'
 

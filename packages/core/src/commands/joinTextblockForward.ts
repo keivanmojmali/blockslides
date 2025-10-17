@@ -1,8 +1,8 @@
-import { joinTextblockForward as originalCommand } from '@tiptap/pm/commands'
+import { joinTextblockForward as originalCommand } from '@autoartifacts/pm/commands'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     joinTextblockForward: {
       /**

@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@autoartifacts/core'
 
 import { BlockMath, InlineMath } from './extensions/index.js'
 import type { MathematicsOptions } from './types.js'
@@ -11,9 +11,9 @@ import type { MathematicsOptions } from './types.js'
  *
  * @example
  * ```typescript
- * import { Editor } from '@tiptap/core'
- * import { Mathematics } from '@tiptap/extension-mathematics'
- * import { migrateMathStrings } from '@tiptap/extension-mathematics/utils'
+ * import { Editor } from '@autoartifacts/core'
+ * import { Mathematics } from '@autoartifacts/extension-mathematics'
+ * import { migrateMathStrings } from '@autoartifacts/extension-mathematics/utils'
  *
  * const editor = new Editor({
  *   extensions: [

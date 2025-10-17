@@ -1,6 +1,6 @@
-import { BulletList } from '@tiptap/extension-list'
+import { BulletList } from '@autoartifacts/extension-list'
 
-export type { BulletListOptions } from '@tiptap/extension-list'
-export { BulletList } from '@tiptap/extension-list'
+export type { BulletListOptions } from '@autoartifacts/extension-list'
+export { BulletList } from '@autoartifacts/extension-list'
 
 export default BulletList

@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/extension-invisible-characters",
+  "name": "@autoartifacts/extension-invisible-characters",
   "description": "invisible characters extension for tiptap",
   "version": "3.6.7",
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/invisiblecharacters",
@@ -31,14 +31,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-text-style": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/extension-text-style": "workspace:^",
+    "@autoartifacts/pm": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-text-style": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/extension-text-style": "workspace:^",
+    "@autoartifacts/pm": "workspace:^"
   },
   "repository": {
     "type": "git",

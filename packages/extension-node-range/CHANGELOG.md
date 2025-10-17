@@ -1,99 +1,99 @@
-# @tiptap/extension-node-range
+# @autoartifacts/extension-node-range
 
 ## 3.6.7
 
 ### Patch Changes
 
-- @tiptap/core@3.6.7
-- @tiptap/pm@3.6.7
+- @autoartifacts/core@3.6.7
+- @autoartifacts/pm@3.6.7
 
 ## 3.6.6
 
 ### Patch Changes
 
-- @tiptap/core@3.6.6
-- @tiptap/pm@3.6.6
+- @autoartifacts/core@3.6.6
+- @autoartifacts/pm@3.6.6
 
 ## 3.6.5
 
 ### Patch Changes
 
 - Updated dependencies [1e4caea]
-  - @tiptap/core@3.6.5
-  - @tiptap/pm@3.6.5
+  - @autoartifacts/core@3.6.5
+  - @autoartifacts/pm@3.6.5
 
 ## 3.6.4
 
 ### Patch Changes
 
-- @tiptap/core@3.6.4
-- @tiptap/pm@3.6.4
+- @autoartifacts/core@3.6.4
+- @autoartifacts/pm@3.6.4
 
 ## 3.6.3
 
 ### Patch Changes
 
 - Updated dependencies [67f7b4a]
-  - @tiptap/core@3.6.3
-  - @tiptap/pm@3.6.3
+  - @autoartifacts/core@3.6.3
+  - @autoartifacts/pm@3.6.3
 
 ## 3.6.2
 
 ### Patch Changes
 
-- @tiptap/core@3.6.2
-- @tiptap/pm@3.6.2
+- @autoartifacts/core@3.6.2
+- @autoartifacts/pm@3.6.2
 
 ## 3.6.1
 
 ### Patch Changes
 
-- @tiptap/core@3.6.1
-- @tiptap/pm@3.6.1
+- @autoartifacts/core@3.6.1
+- @autoartifacts/pm@3.6.1
 
 ## 3.6.0
 
 ### Patch Changes
 
 - Updated dependencies [c0190bd]
-  - @tiptap/core@3.6.0
-  - @tiptap/pm@3.6.0
+  - @autoartifacts/core@3.6.0
+  - @autoartifacts/pm@3.6.0
 
 ## 3.5.3
 
 ### Patch Changes
 
-- @tiptap/core@3.5.3
-- @tiptap/pm@3.5.3
+- @autoartifacts/core@3.5.3
+- @autoartifacts/pm@3.5.3
 
 ## 3.5.2
 
 ### Patch Changes
 
-- @tiptap/core@3.5.2
-- @tiptap/pm@3.5.2
+- @autoartifacts/core@3.5.2
+- @autoartifacts/pm@3.5.2
 
 ## 3.5.1
 
 ### Patch Changes
 
-- @tiptap/core@3.5.1
-- @tiptap/pm@3.5.1
+- @autoartifacts/core@3.5.1
+- @autoartifacts/pm@3.5.1
 
 ## 3.5.0
 
 ### Patch Changes
 
-- @tiptap/core@3.5.0
-- @tiptap/pm@3.5.0
+- @autoartifacts/core@3.5.0
+- @autoartifacts/pm@3.5.0
 
 ## 3.4.6
 
 ### Patch Changes
 
 - Updated dependencies [968016f]
-  - @tiptap/core@3.4.6
-  - @tiptap/pm@3.4.6
+  - @autoartifacts/core@3.4.6
+  - @autoartifacts/pm@3.4.6
 
 ## 3.4.5
 
@@ -102,38 +102,38 @@
 - Updated dependencies [0226d42]
 - Updated dependencies [37af83b]
 - Updated dependencies [f598ac7]
-  - @tiptap/core@3.4.5
-  - @tiptap/pm@3.4.5
+  - @autoartifacts/core@3.4.5
+  - @autoartifacts/pm@3.4.5
 
 ## 3.4.4
 
 ### Patch Changes
 
 - Updated dependencies [00cf1d7]
-  - @tiptap/core@3.4.4
-  - @tiptap/pm@3.4.4
+  - @autoartifacts/core@3.4.4
+  - @autoartifacts/pm@3.4.4
 
 ## 3.4.3
 
 ### Patch Changes
 
 - Updated dependencies [1ea8906]
-  - @tiptap/core@3.4.3
-  - @tiptap/pm@3.4.3
+  - @autoartifacts/core@3.4.3
+  - @autoartifacts/pm@3.4.3
 
 ## 3.4.2
 
 ### Patch Changes
 
-- @tiptap/core@3.4.2
-- @tiptap/pm@3.4.2
+- @autoartifacts/core@3.4.2
+- @autoartifacts/pm@3.4.2
 
 ## 3.4.1
 
 ### Patch Changes
 
-- @tiptap/core@3.4.1
-- @tiptap/pm@3.4.1
+- @autoartifacts/core@3.4.1
+- @autoartifacts/pm@3.4.1
 
 ## 3.4.0
 
@@ -141,15 +141,15 @@
 
 - Updated dependencies [895c73f]
 - Updated dependencies [ad51daa]
-  - @tiptap/core@3.4.0
-  - @tiptap/pm@3.4.0
+  - @autoartifacts/core@3.4.0
+  - @autoartifacts/pm@3.4.0
 
 ## 3.3.1
 
 ### Patch Changes
 
-- @tiptap/core@3.3.1
-- @tiptap/pm@3.3.1
+- @autoartifacts/core@3.3.1
+- @autoartifacts/pm@3.3.1
 
 ## 3.3.0
 
@@ -157,97 +157,97 @@
 
 - Updated dependencies [5423726]
 - Updated dependencies [5423726]
-  - @tiptap/core@3.3.0
-  - @tiptap/pm@3.3.0
+  - @autoartifacts/core@3.3.0
+  - @autoartifacts/pm@3.3.0
 
 ## 3.2.2
 
 ### Patch Changes
 
-- @tiptap/core@3.2.2
-- @tiptap/pm@3.2.2
+- @autoartifacts/core@3.2.2
+- @autoartifacts/pm@3.2.2
 
 ## 3.2.1
 
 ### Patch Changes
 
 - Updated dependencies [6a2873f]
-  - @tiptap/core@3.2.1
-  - @tiptap/pm@3.2.1
+  - @autoartifacts/core@3.2.1
+  - @autoartifacts/pm@3.2.1
 
 ## 3.2.0
 
 ### Patch Changes
 
 - Updated dependencies [5056e3e]
-  - @tiptap/core@3.2.0
-  - @tiptap/pm@3.2.0
+  - @autoartifacts/core@3.2.0
+  - @autoartifacts/pm@3.2.0
 
 ## 3.1.0
 
 ### Patch Changes
 
-- @tiptap/core@3.1.0
-- @tiptap/pm@3.1.0
+- @autoartifacts/core@3.1.0
+- @autoartifacts/pm@3.1.0
 
 ## 3.0.9
 
 ### Patch Changes
 
-- @tiptap/core@3.0.9
-- @tiptap/pm@3.0.9
+- @autoartifacts/core@3.0.9
+- @autoartifacts/pm@3.0.9
 
 ## 3.0.8
 
 ### Patch Changes
 
-- @tiptap/core@3.0.8
-- @tiptap/pm@3.0.8
+- @autoartifacts/core@3.0.8
+- @autoartifacts/pm@3.0.8
 
 ## 3.0.7
 
 ### Patch Changes
 
-- @tiptap/core@3.0.7
-- @tiptap/pm@3.0.7
+- @autoartifacts/core@3.0.7
+- @autoartifacts/pm@3.0.7
 
 ## 3.0.6
 
 ### Patch Changes
 
 - Updated dependencies [2e71d05]
-  - @tiptap/core@3.0.6
-  - @tiptap/pm@3.0.6
+  - @autoartifacts/core@3.0.6
+  - @autoartifacts/pm@3.0.6
 
 ## 3.0.5
 
 ### Patch Changes
 
-- @tiptap/core@3.0.5
-- @tiptap/pm@3.0.5
+- @autoartifacts/core@3.0.5
+- @autoartifacts/pm@3.0.5
 
 ## 3.0.4
 
 ### Patch Changes
 
 - Updated dependencies [7ed03fa]
-  - @tiptap/core@3.0.4
-  - @tiptap/pm@3.0.4
+  - @autoartifacts/core@3.0.4
+  - @autoartifacts/pm@3.0.4
 
 ## 3.0.3
 
 ### Patch Changes
 
 - Updated dependencies [75cabde]
-  - @tiptap/core@3.0.3
-  - @tiptap/pm@3.0.3
+  - @autoartifacts/core@3.0.3
+  - @autoartifacts/pm@3.0.3
 
 ## 3.0.2
 
 ### Patch Changes
 
-- @tiptap/core@3.0.2
-- @tiptap/pm@3.0.2
+- @autoartifacts/core@3.0.2
+- @autoartifacts/pm@3.0.2
 
 ## 3.0.1
 
@@ -257,18 +257,18 @@
 
   This release includes the following extensions that were previously only available in our Pro version:
 
-  - `@tiptap/extension-drag-handle`
-  - `@tiptap/extension-drag-handle-react`
-  - `@tiptap/extension-drag-handle-vue-2`
-  - `@tiptap/extension-drag-handle-vue-3`
-  - `@tiptap/extension-emoji`
-  - `@tiptap/extension-details`
-  - `@tiptap/extension-file-handler`
-  - `@tiptap/extension-invisible-characters`
-  - `@tiptap/extension-mathematics`
-  - `@tiptap/extension-node-range`
-  - `@tiptap/extension-table-of-contents`
-  - `@tiptap/extension-unique-id`
+  - `@autoartifacts/extension-drag-handle`
+  - `@autoartifacts/extension-drag-handle-react`
+  - `@autoartifacts/extension-drag-handle-vue-2`
+  - `@autoartifacts/extension-drag-handle-vue-3`
+  - `@autoartifacts/extension-emoji`
+  - `@autoartifacts/extension-details`
+  - `@autoartifacts/extension-file-handler`
+  - `@autoartifacts/extension-invisible-characters`
+  - `@autoartifacts/extension-mathematics`
+  - `@autoartifacts/extension-node-range`
+  - `@autoartifacts/extension-table-of-contents`
+  - `@autoartifacts/extension-unique-id`
 
 ### Patch Changes
 
@@ -307,74 +307,74 @@
 - Updated dependencies [bf835b0]
 - Updated dependencies [4e2f6d8]
 - Updated dependencies [32958d6]
-  - @tiptap/core@3.0.1
-  - @tiptap/pm@3.0.1
+  - @autoartifacts/core@3.0.1
+  - @autoartifacts/pm@3.0.1
 
 ## 3.0.0-beta.30
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.30
-- @tiptap/pm@3.0.0-beta.30
+- @autoartifacts/core@3.0.0-beta.30
+- @autoartifacts/pm@3.0.0-beta.30
 
 ## 3.0.0-beta.29
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.29
-- @tiptap/pm@3.0.0-beta.29
+- @autoartifacts/core@3.0.0-beta.29
+- @autoartifacts/pm@3.0.0-beta.29
 
 ## 3.0.0-beta.28
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.28
-- @tiptap/pm@3.0.0-beta.28
+- @autoartifacts/core@3.0.0-beta.28
+- @autoartifacts/pm@3.0.0-beta.28
 
 ## 3.0.0-beta.27
 
 ### Patch Changes
 
 - Updated dependencies [412e1bd]
-  - @tiptap/core@3.0.0-beta.27
-  - @tiptap/pm@3.0.0-beta.27
+  - @autoartifacts/core@3.0.0-beta.27
+  - @autoartifacts/pm@3.0.0-beta.27
 
 ## 3.0.0-beta.26
 
 ### Patch Changes
 
 - Updated dependencies [5ba480b]
-  - @tiptap/core@3.0.0-beta.26
-  - @tiptap/pm@3.0.0-beta.26
+  - @autoartifacts/core@3.0.0-beta.26
+  - @autoartifacts/pm@3.0.0-beta.26
 
 ## 3.0.0-beta.25
 
 ### Patch Changes
 
 - Updated dependencies [4e2f6d8]
-  - @tiptap/core@3.0.0-beta.25
-  - @tiptap/pm@3.0.0-beta.25
+  - @autoartifacts/core@3.0.0-beta.25
+  - @autoartifacts/pm@3.0.0-beta.25
 
 ## 3.0.0-beta.24
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.24
-- @tiptap/pm@3.0.0-beta.24
+- @autoartifacts/core@3.0.0-beta.24
+- @autoartifacts/pm@3.0.0-beta.24
 
 ## 3.0.0-beta.23
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.23
-- @tiptap/pm@3.0.0-beta.23
+- @autoartifacts/core@3.0.0-beta.23
+- @autoartifacts/pm@3.0.0-beta.23
 
 ## 3.0.0-beta.22
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.22
-- @tiptap/pm@3.0.0-beta.22
+- @autoartifacts/core@3.0.0-beta.22
+- @autoartifacts/pm@3.0.0-beta.22
 
 ## 3.0.0-beta.21
 
@@ -382,38 +382,38 @@
 
 - Updated dependencies [813674c]
 - Updated dependencies [fc17b21]
-  - @tiptap/core@3.0.0-beta.21
-  - @tiptap/pm@3.0.0-beta.21
+  - @autoartifacts/core@3.0.0-beta.21
+  - @autoartifacts/pm@3.0.0-beta.21
 
 ## 3.0.0-beta.20
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.20
-- @tiptap/pm@3.0.0-beta.20
+- @autoartifacts/core@3.0.0-beta.20
+- @autoartifacts/pm@3.0.0-beta.20
 
 ## 3.0.0-beta.19
 
 ### Patch Changes
 
 - Updated dependencies [9ceeab4]
-  - @tiptap/core@3.0.0-beta.19
-  - @tiptap/pm@3.0.0-beta.19
+  - @autoartifacts/core@3.0.0-beta.19
+  - @autoartifacts/pm@3.0.0-beta.19
 
 ## 3.0.0-beta.18
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.18
-- @tiptap/pm@3.0.0-beta.18
+- @autoartifacts/core@3.0.0-beta.18
+- @autoartifacts/pm@3.0.0-beta.18
 
 ## 3.0.0-beta.17
 
 ### Patch Changes
 
 - Updated dependencies [e20006b]
-  - @tiptap/core@3.0.0-beta.17
-  - @tiptap/pm@3.0.0-beta.17
+  - @autoartifacts/core@3.0.0-beta.17
+  - @autoartifacts/pm@3.0.0-beta.17
 
 ## 3.0.0-beta.16
 
@@ -421,45 +421,45 @@
 
 - Updated dependencies [ac897e7]
 - Updated dependencies [bf835b0]
-  - @tiptap/core@3.0.0-beta.16
-  - @tiptap/pm@3.0.0-beta.16
+  - @autoartifacts/core@3.0.0-beta.16
+  - @autoartifacts/pm@3.0.0-beta.16
 
 ## 3.0.0-beta.15
 
 ### Patch Changes
 
 - Updated dependencies [087d114]
-  - @tiptap/core@3.0.0-beta.15
-  - @tiptap/pm@3.0.0-beta.15
+  - @autoartifacts/core@3.0.0-beta.15
+  - @autoartifacts/pm@3.0.0-beta.15
 
 ## 3.0.0-beta.14
 
 ### Patch Changes
 
 - Updated dependencies [95b8c71]
-  - @tiptap/core@3.0.0-beta.14
-  - @tiptap/pm@3.0.0-beta.14
+  - @autoartifacts/core@3.0.0-beta.14
+  - @autoartifacts/pm@3.0.0-beta.14
 
 ## 3.0.0-beta.13
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.13
-- @tiptap/pm@3.0.0-beta.13
+- @autoartifacts/core@3.0.0-beta.13
+- @autoartifacts/pm@3.0.0-beta.13
 
 ## 3.0.0-beta.12
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.12
-- @tiptap/pm@3.0.0-beta.12
+- @autoartifacts/core@3.0.0-beta.12
+- @autoartifacts/pm@3.0.0-beta.12
 
 ## 3.0.0-beta.11
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.11
-- @tiptap/pm@3.0.0-beta.11
+- @autoartifacts/core@3.0.0-beta.11
+- @autoartifacts/pm@3.0.0-beta.11
 
 ## 3.0.0-beta.10
 
@@ -469,20 +469,20 @@
 
   This release includes the following extensions that were previously only available in our Pro version:
 
-  - `@tiptap/extension-drag-handle`
-  - `@tiptap/extension-drag-handle-react`
-  - `@tiptap/extension-drag-handle-vue-2`
-  - `@tiptap/extension-drag-handle-vue-3`
-  - `@tiptap/extension-emoji`
-  - `@tiptap/extension-details`
-  - `@tiptap/extension-file-handler`
-  - `@tiptap/extension-invisible-characters`
-  - `@tiptap/extension-mathematics`
-  - `@tiptap/extension-node-range`
-  - `@tiptap/extension-table-of-contents`
-  - `@tiptap/extension-unique-id`
+  - `@autoartifacts/extension-drag-handle`
+  - `@autoartifacts/extension-drag-handle-react`
+  - `@autoartifacts/extension-drag-handle-vue-2`
+  - `@autoartifacts/extension-drag-handle-vue-3`
+  - `@autoartifacts/extension-emoji`
+  - `@autoartifacts/extension-details`
+  - `@autoartifacts/extension-file-handler`
+  - `@autoartifacts/extension-invisible-characters`
+  - `@autoartifacts/extension-mathematics`
+  - `@autoartifacts/extension-node-range`
+  - `@autoartifacts/extension-table-of-contents`
+  - `@autoartifacts/extension-unique-id`
 
 ### Patch Changes
 
-- @tiptap/core@3.0.0-beta.10
-- @tiptap/pm@3.0.0-beta.10
+- @autoartifacts/core@3.0.0-beta.10
+- @autoartifacts/pm@3.0.0-beta.10

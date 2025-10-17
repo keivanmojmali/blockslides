@@ -1,10 +1,10 @@
-import type { DragHandlePluginProps } from '@tiptap/extension-drag-handle'
+import type { DragHandlePluginProps } from '@autoartifacts/extension-drag-handle'
 import {
   defaultComputePositionConfig,
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
-} from '@tiptap/extension-drag-handle'
-import type { Editor } from '@tiptap/vue-3'
+} from '@autoartifacts/extension-drag-handle'
+import type { Editor } from '@autoartifacts/vue-3'
 import type { PropType } from 'vue'
 import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 

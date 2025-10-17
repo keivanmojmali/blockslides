@@ -4,7 +4,7 @@ import type { FocusPosition, RawCommands } from '../types.js'
 import { isAndroid } from '../utilities/isAndroid.js'
 import { isiOS } from '../utilities/isiOS.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     focus: {
       /**

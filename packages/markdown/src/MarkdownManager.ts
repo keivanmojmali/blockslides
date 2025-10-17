@@ -12,7 +12,7 @@ import {
   flattenExtensions,
   generateJSON,
   getExtensionField,
-} from '@tiptap/core'
+} from '@autoartifacts/core'
 import { type Lexer, type Token, type TokenizerExtension, marked } from 'marked'
 
 import {

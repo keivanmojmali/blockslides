@@ -1,6 +1,6 @@
 import '../text-style/index.js'
 
-import { Extension } from '@tiptap/core'
+import { Extension } from '@autoartifacts/core'
 
 export type BackgroundColorOptions = {
   /**
@@ -11,7 +11,7 @@ export type BackgroundColorOptions = {
   types: string[]
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     backgroundColor: {
       /**
@@ -31,7 +31,7 @@ declare module '@tiptap/core' {
 }
 
 // @ts-ignore because the module is not found during dts build
-declare module '@tiptap/extension-text-style' {
+declare module '@autoartifacts/extension-text-style' {
   interface TextStyleAttributes {
     backgroundColor?: string | null
   }

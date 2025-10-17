@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import { isAtEndOfNode, isNodeActive } from '@tiptap/core'
+import type { Editor } from '@autoartifacts/core'
+import { isAtEndOfNode, isNodeActive } from '@autoartifacts/core'
 
 import { nextListIsDeeper } from './nextListIsDeeper.js'
 import { nextListIsHigher } from './nextListIsHigher.js'

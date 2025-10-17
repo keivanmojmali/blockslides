@@ -1,6 +1,6 @@
-import type { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
-import { Transform } from '@tiptap/pm/transform'
+import type { Node as ProseMirrorNode } from '@autoartifacts/pm/model'
+import type { Transaction } from '@autoartifacts/pm/state'
+import { Transform } from '@autoartifacts/pm/transform'
 
 /**
  * Returns a new `Transform` based on all steps of the passed transactions.

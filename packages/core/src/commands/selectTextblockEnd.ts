@@ -1,10 +1,10 @@
 // @ts-ignore
 // TODO: add types to @types/prosemirror-commands
-import { selectTextblockEnd as originalSelectTextblockEnd } from '@tiptap/pm/commands'
+import { selectTextblockEnd as originalSelectTextblockEnd } from '@autoartifacts/pm/commands'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     selectTextblockEnd: {
       /**

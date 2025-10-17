@@ -1,8 +1,8 @@
-import { deleteSelection as originalDeleteSelection } from '@tiptap/pm/commands'
+import { deleteSelection as originalDeleteSelection } from '@autoartifacts/pm/commands'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     deleteSelection: {
       /**

@@ -1,5 +1,5 @@
-import type { Editor, Predicate } from '@tiptap/core'
-import type { Node as ProseMirrorNode, ResolvedPos } from '@tiptap/pm/model'
+import type { Editor, Predicate } from '@autoartifacts/core'
+import type { Node as ProseMirrorNode, ResolvedPos } from '@autoartifacts/pm/model'
 
 import { isNodeVisible } from './isNodeVisible.js'
 

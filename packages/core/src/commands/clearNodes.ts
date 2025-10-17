@@ -1,8 +1,8 @@
-import { liftTarget } from '@tiptap/pm/transform'
+import { liftTarget } from '@autoartifacts/pm/transform'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     clearNodes: {
       /**

@@ -1,5 +1,5 @@
-import { NodeSelection } from '@tiptap/pm/state'
-import type { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@tiptap/pm/view'
+import { NodeSelection } from '@autoartifacts/pm/state'
+import type { NodeView as ProseMirrorNodeView, ViewMutationRecord } from '@autoartifacts/pm/view'
 
 import type { Editor as CoreEditor } from './Editor.js'
 import type { DecorationWithType, NodeViewRendererOptions, NodeViewRendererProps } from './types.js'

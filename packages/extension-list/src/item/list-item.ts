@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, renderNestedMarkdownContent } from '@tiptap/core'
+import { mergeAttributes, Node, renderNestedMarkdownContent } from '@autoartifacts/core'
 
 export interface ListItemOptions {
   /**

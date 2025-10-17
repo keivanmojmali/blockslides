@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/extension-color",
+  "name": "@autoartifacts/extension-color",
   "description": "text color extension for tiptap",
   "version": "3.6.7",
   "homepage": "https://tiptap.dev",
@@ -31,10 +31,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/extension-text-style": "workspace:^"
+    "@autoartifacts/extension-text-style": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/extension-text-style": "workspace:^"
+    "@autoartifacts/extension-text-style": "workspace:^"
   },
   "repository": {
     "type": "git",

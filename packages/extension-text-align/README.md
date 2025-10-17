@@ -1,8 +1,8 @@
-# @tiptap/extension-text-align
+# @autoartifacts/extension-text-align
 
-[![Version](https://img.shields.io/npm/v/@tiptap/extension-text-align.svg?label=version)](https://www.npmjs.com/package/@tiptap/extension-text-align)
-[![Downloads](https://img.shields.io/npm/dm/@tiptap/extension-text-align.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
-[![License](https://img.shields.io/npm/l/@tiptap/extension-text-align.svg)](https://www.npmjs.com/package/@tiptap/extension-text-align)
+[![Version](https://img.shields.io/npm/v/@autoartifacts/extension-text-align.svg?label=version)](https://www.npmjs.com/package/@autoartifacts/extension-text-align)
+[![Downloads](https://img.shields.io/npm/dm/@autoartifacts/extension-text-align.svg)](https://npmcharts.com/compare/tiptap?minimal=true)
+[![License](https://img.shields.io/npm/l/@autoartifacts/extension-text-align.svg)](https://www.npmjs.com/package/@autoartifacts/extension-text-align)
 [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/ueberdosis)
 
 ## Introduction

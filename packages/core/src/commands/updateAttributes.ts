@@ -1,12 +1,12 @@
-import type { Mark, MarkType, Node, NodeType } from '@tiptap/pm/model'
-import type { SelectionRange } from '@tiptap/pm/state'
+import type { Mark, MarkType, Node, NodeType } from '@autoartifacts/pm/model'
+import type { SelectionRange } from '@autoartifacts/pm/state'
 
 import { getMarkType } from '../helpers/getMarkType.js'
 import { getNodeType } from '../helpers/getNodeType.js'
 import { getSchemaTypeNameByName } from '../helpers/getSchemaTypeNameByName.js'
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     updateAttributes: {
       /**

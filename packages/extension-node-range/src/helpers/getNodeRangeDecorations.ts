@@ -1,5 +1,5 @@
-import type { SelectionRange } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import type { SelectionRange } from '@autoartifacts/pm/state'
+import { Decoration, DecorationSet } from '@autoartifacts/pm/view'
 
 export function getNodeRangeDecorations(ranges: SelectionRange[]): DecorationSet {
   if (!ranges.length) {

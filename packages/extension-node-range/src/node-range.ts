@@ -1,6 +1,6 @@
-import { Extension } from '@tiptap/core'
-import type { SelectionRange } from '@tiptap/pm/state'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Extension } from '@autoartifacts/core'
+import type { SelectionRange } from '@autoartifacts/pm/state'
+import { Plugin, PluginKey } from '@autoartifacts/pm/state'
 
 import { getNodeRangeDecorations } from './helpers/getNodeRangeDecorations.js'
 import { getSelectionRanges } from './helpers/getSelectionRanges.js'

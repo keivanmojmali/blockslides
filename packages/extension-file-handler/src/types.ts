@@ -1,5 +1,5 @@
-import type { Editor } from '@tiptap/core'
-import type { PluginKey } from '@tiptap/pm/state'
+import type { Editor } from '@autoartifacts/core'
+import type { PluginKey } from '@autoartifacts/pm/state'
 
 export type FileHandlePluginOptions = {
   /**

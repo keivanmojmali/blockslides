@@ -1,6 +1,6 @@
-import { FontFamily } from '@tiptap/extension-text-style'
+import { FontFamily } from '@autoartifacts/extension-text-style'
 
-export type { FontFamilyOptions } from '@tiptap/extension-text-style'
-export { FontFamily } from '@tiptap/extension-text-style'
+export type { FontFamilyOptions } from '@autoartifacts/extension-text-style'
+export { FontFamily } from '@autoartifacts/extension-text-style'
 
 export default FontFamily

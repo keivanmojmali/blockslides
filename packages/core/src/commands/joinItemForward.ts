@@ -1,8 +1,8 @@
-import { joinPoint } from '@tiptap/pm/transform'
+import { joinPoint } from '@autoartifacts/pm/transform'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     joinItemForward: {
       /**

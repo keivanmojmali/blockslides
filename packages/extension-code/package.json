@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/extension-code",
+  "name": "@autoartifacts/extension-code",
   "description": "code extension for tiptap",
   "version": "3.6.7",
   "homepage": "https://tiptap.dev",
@@ -31,10 +31,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^"
+    "@autoartifacts/core": "workspace:^"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^"
+    "@autoartifacts/core": "workspace:^"
   },
   "repository": {
     "type": "git",

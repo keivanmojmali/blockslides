@@ -1,8 +1,8 @@
-import { newlineInCode as originalNewlineInCode } from '@tiptap/pm/commands'
+import { newlineInCode as originalNewlineInCode } from '@autoartifacts/pm/commands'
 
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     newlineInCode: {
       /**

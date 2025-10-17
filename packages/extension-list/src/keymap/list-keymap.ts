@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Extension } from '@autoartifacts/core'
 
 import { handleBackspace, handleDelete } from './listHelpers/index.js'
 

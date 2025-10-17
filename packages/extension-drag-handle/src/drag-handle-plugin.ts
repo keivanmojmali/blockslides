@@ -1,14 +1,14 @@
 import { type ComputePositionConfig, type VirtualElement, computePosition } from '@floating-ui/dom'
-import type { Editor } from '@tiptap/core'
-import { isChangeOrigin } from '@tiptap/extension-collaboration'
-import type { Node } from '@tiptap/pm/model'
-import { type EditorState, type Transaction, Plugin, PluginKey } from '@tiptap/pm/state'
-import type { EditorView } from '@tiptap/pm/view'
+import type { Editor } from '@autoartifacts/core'
+import { isChangeOrigin } from '@autoartifacts/extension-collaboration'
+import type { Node } from '@autoartifacts/pm/model'
+import { type EditorState, type Transaction, Plugin, PluginKey } from '@autoartifacts/pm/state'
+import type { EditorView } from '@autoartifacts/pm/view'
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,
   ySyncPluginKey,
-} from '@tiptap/y-tiptap'
+} from '@autoartifacts/y-tiptap'
 
 import { dragHandler } from './helpers/dragHandler.js'
 import { findElementNextToCoords } from './helpers/findNextElementFromCursor.js'

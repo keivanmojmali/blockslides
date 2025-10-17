@@ -1,5 +1,5 @@
-import { getNodeAtPosition } from '@tiptap/core'
-import type { EditorState } from '@tiptap/pm/state'
+import { getNodeAtPosition } from '@autoartifacts/core'
+import type { EditorState } from '@autoartifacts/pm/state'
 
 import { findListItemPos } from './findListItemPos.js'
 

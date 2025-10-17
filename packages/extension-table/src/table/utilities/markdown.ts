@@ -1,4 +1,4 @@
-import type { JSONContent, MarkdownRendererHelpers } from '@tiptap/core'
+import type { JSONContent, MarkdownRendererHelpers } from '@autoartifacts/core'
 
 export const DEFAULT_CELL_LINE_SEPARATOR = '\u001F'
 

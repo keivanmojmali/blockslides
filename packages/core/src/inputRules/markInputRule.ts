@@ -1,4 +1,4 @@
-import type { MarkType } from '@tiptap/pm/model'
+import type { MarkType } from '@autoartifacts/pm/model'
 
 import { getMarksBetween } from '../helpers/getMarksBetween.js'
 import type { InputRuleFinder } from '../InputRule.js'

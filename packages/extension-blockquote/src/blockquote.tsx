@@ -1,5 +1,5 @@
-/** @jsxImportSource @tiptap/core */
-import { mergeAttributes, Node, wrappingInputRule } from '@tiptap/core'
+/** @jsxImportSource @autoartifacts/core */
+import { mergeAttributes, Node, wrappingInputRule } from '@autoartifacts/core'
 
 export interface BlockquoteOptions {
   /**
@@ -10,7 +10,7 @@ export interface BlockquoteOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     blockQuote: {
       /**

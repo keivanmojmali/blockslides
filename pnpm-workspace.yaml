@@ -5,3 +5,9 @@ packages:
   - "packages/markdown"
   - "packages/static-renderer"
   - "packages/extension-*"
+  # Exclude packages that depend on missing external dependencies
+  - "!packages/extension-drag-handle" # needs extension-collaboration + y-tiptap
+  - "!packages/extension-drag-handle-vue-2" # needs vue-2
+  - "!packages/extension-drag-handle-vue-3" # needs vue-3
+  - "!packages/extension-drag-handle-react" # might need React-specific tiptap packages
+  - "!packages/extension-emoji" # needs @autoartifacts/suggestion package

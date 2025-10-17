@@ -1,6 +1,6 @@
 import type { ComputePositionConfig, VirtualElement } from '@floating-ui/dom'
-import { type Editor, Extension } from '@tiptap/core'
-import type { Node } from '@tiptap/pm/model'
+import { type Editor, Extension } from '@autoartifacts/core'
+import type { Node } from '@autoartifacts/pm/model'
 
 import { DragHandlePlugin } from './drag-handle-plugin.js'
 
@@ -34,7 +34,7 @@ export interface DragHandleOptions {
   onNodeChange?: (options: { node: Node | null; editor: Editor }) => void
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     dragHandle: {
       /**

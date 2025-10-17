@@ -1,4 +1,4 @@
-import type { Fragment, Node as ProsemirrorNode, Schema } from '@tiptap/pm/model'
+import type { Fragment, Node as ProsemirrorNode, Schema } from '@autoartifacts/pm/model'
 
 import { createCell } from './createCell.js'
 import { getTableNodeTypes } from './getTableNodeTypes.js'

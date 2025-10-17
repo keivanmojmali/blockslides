@@ -1,10 +1,10 @@
-import type { NodeType } from '@tiptap/pm/model'
-import { sinkListItem as originalSinkListItem } from '@tiptap/pm/schema-list'
+import type { NodeType } from '@autoartifacts/pm/model'
+import { sinkListItem as originalSinkListItem } from '@autoartifacts/pm/schema-list'
 
 import { getNodeType } from '../helpers/getNodeType.js'
 import type { RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     sinkListItem: {
       /**

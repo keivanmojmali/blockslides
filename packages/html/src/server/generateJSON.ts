@@ -1,6 +1,6 @@
-import type { Extensions } from '@tiptap/core'
-import { getSchema } from '@tiptap/core'
-import { type ParseOptions, DOMParser as PMDOMParser } from '@tiptap/pm/model'
+import type { Extensions } from '@autoartifacts/core'
+import { getSchema } from '@autoartifacts/core'
+import { type ParseOptions, DOMParser as PMDOMParser } from '@autoartifacts/pm/model'
 import { Window } from 'happy-dom'
 
 /**
@@ -19,7 +19,7 @@ import { Window } from 'happy-dom'
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
   if (typeof window !== 'undefined') {
     throw new Error(
-      'generateJSON can only be used in a Node environment\nIf you want to use this in a browser environment, use the `@tiptap/html` import instead.',
+      'generateJSON can only be used in a Node environment\nIf you want to use this in a browser environment, use the `@autoartifacts/html` import instead.',
     )
   }
 

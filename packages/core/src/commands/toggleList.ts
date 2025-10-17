@@ -1,6 +1,6 @@
-import type { NodeType } from '@tiptap/pm/model'
-import type { Transaction } from '@tiptap/pm/state'
-import { canJoin } from '@tiptap/pm/transform'
+import type { NodeType } from '@autoartifacts/pm/model'
+import type { Transaction } from '@autoartifacts/pm/state'
+import { canJoin } from '@autoartifacts/pm/transform'
 
 import { findParentNode } from '../helpers/findParentNode.js'
 import { getNodeType } from '../helpers/getNodeType.js'
@@ -57,7 +57,7 @@ const joinListForwards = (tr: Transaction, listType: NodeType): boolean => {
   return true
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     toggleList: {
       /**

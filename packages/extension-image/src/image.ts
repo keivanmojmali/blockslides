@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
+import { mergeAttributes, Node, nodeInputRule } from '@autoartifacts/core'
 
 export interface ImageOptions {
   /**
@@ -32,7 +32,7 @@ export interface SetImageOptions {
   height?: number
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     image: {
       /**

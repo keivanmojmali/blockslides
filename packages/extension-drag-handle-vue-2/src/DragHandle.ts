@@ -1,10 +1,10 @@
-import type { Editor } from '@tiptap/core'
+import type { Editor } from '@autoartifacts/core'
 import {
   type DragHandlePluginProps,
   defaultComputePositionConfig,
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
-} from '@tiptap/extension-drag-handle'
+} from '@autoartifacts/extension-drag-handle'
 import Vue, { type PropType } from 'vue'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>

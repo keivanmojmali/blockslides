@@ -1,7 +1,7 @@
-import { findChildren } from '@tiptap/core'
-import type { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { findChildren } from '@autoartifacts/core'
+import type { Node as ProsemirrorNode } from '@autoartifacts/pm/model'
+import { Plugin, PluginKey } from '@autoartifacts/pm/state'
+import { Decoration, DecorationSet } from '@autoartifacts/pm/view'
 // @ts-ignore
 import highlight from 'highlight.js/lib/core'
 

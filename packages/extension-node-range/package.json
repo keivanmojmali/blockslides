@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/extension-node-range",
+  "name": "@autoartifacts/extension-node-range",
   "description": "node range extension for tiptap",
   "version": "3.6.7",
   "homepage": "https://tiptap.dev",
@@ -36,12 +36,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/pm": "workspace:^"
   },
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^"
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/pm": "workspace:^"
   },
   "scripts": {
     "build": "tsup",

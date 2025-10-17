@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/html",
+  "name": "@autoartifacts/html",
   "description": "utility package to render tiptap JSON as HTML",
   "version": "3.6.7",
   "homepage": "https://tiptap.dev",
@@ -43,13 +43,13 @@
     "dist"
   ],
   "devDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/pm": "workspace:^",
     "happy-dom": "^20.0.0"
   },
   "peerDependencies": {
-    "@tiptap/core": "workspace:^",
-    "@tiptap/pm": "workspace:^",
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/pm": "workspace:^",
     "happy-dom": "^20.0.0"
   },
   "repository": {

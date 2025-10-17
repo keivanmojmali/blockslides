@@ -1,5 +1,5 @@
-import { canInsertNode, isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@tiptap/core'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
+import { canInsertNode, isNodeSelection, mergeAttributes, Node, nodeInputRule } from '@autoartifacts/core'
+import { NodeSelection, TextSelection } from '@autoartifacts/pm/state'
 
 export interface HorizontalRuleOptions {
   /**
@@ -16,7 +16,7 @@ export interface HorizontalRuleOptions {
   nextNodeType: string
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     horizontalRule: {
       /**

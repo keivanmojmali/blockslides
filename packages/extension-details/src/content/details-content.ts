@@ -1,6 +1,6 @@
-import { createBlockMarkdownSpec, defaultBlockAt, findParentNode, mergeAttributes, Node } from '@tiptap/core'
-import { Selection } from '@tiptap/pm/state'
-import type { ViewMutationRecord } from '@tiptap/pm/view'
+import { createBlockMarkdownSpec, defaultBlockAt, findParentNode, mergeAttributes, Node } from '@autoartifacts/core'
+import { Selection } from '@autoartifacts/pm/state'
+import type { ViewMutationRecord } from '@autoartifacts/pm/view'
 
 export interface DetailsContentOptions {
   /**

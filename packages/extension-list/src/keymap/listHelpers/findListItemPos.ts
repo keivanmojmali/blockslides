@@ -1,6 +1,6 @@
-import { getNodeType } from '@tiptap/core'
-import type { NodeType } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
+import { getNodeType } from '@autoartifacts/core'
+import type { NodeType } from '@autoartifacts/pm/model'
+import type { EditorState } from '@autoartifacts/pm/state'
 
 export const findListItemPos = (typeOrName: string | NodeType, state: EditorState) => {
   const { $from } = state.selection

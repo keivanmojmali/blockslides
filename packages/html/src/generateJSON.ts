@@ -1,7 +1,7 @@
-import type { Extensions } from '@tiptap/core'
-import { getSchema } from '@tiptap/core'
-import type { ParseOptions } from '@tiptap/pm/model'
-import { DOMParser } from '@tiptap/pm/model'
+import type { Extensions } from '@autoartifacts/core'
+import { getSchema } from '@autoartifacts/core'
+import type { ParseOptions } from '@autoartifacts/pm/model'
+import { DOMParser } from '@autoartifacts/pm/model'
 
 /**
  * Generates a JSON object from the given HTML string and converts it into a Prosemirror node with content.
@@ -18,7 +18,7 @@ import { DOMParser } from '@tiptap/pm/model'
 export function generateJSON(html: string, extensions: Extensions, options?: ParseOptions): Record<string, any> {
   if (typeof window === 'undefined') {
     throw new Error(
-      'generateJSON can only be used in a browser environment\nIf you want to use this in a Node environment, use the `@tiptap/html/server` import instead.',
+      'generateJSON can only be used in a browser environment\nIf you want to use this in a Node environment, use the `@autoartifacts/html/server` import instead.',
     )
   }
 

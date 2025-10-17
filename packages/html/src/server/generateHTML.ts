@@ -1,5 +1,5 @@
-import { type Extensions, type JSONContent, getSchema } from '@tiptap/core'
-import { Node } from '@tiptap/pm/model'
+import { type Extensions, type JSONContent, getSchema } from '@autoartifacts/core'
+import { Node } from '@autoartifacts/pm/model'
 
 import { getHTMLFromFragment } from './getHTMLFromFragment.js'
 
@@ -19,7 +19,7 @@ import { getHTMLFromFragment } from './getHTMLFromFragment.js'
 export function generateHTML(doc: JSONContent, extensions: Extensions): string {
   if (typeof window !== 'undefined') {
     throw new Error(
-      'generateHTML can only be used in a Node environment\nIf you want to use this in a browser environment, use the `@tiptap/html` import instead.',
+      'generateHTML can only be used in a Node environment\nIf you want to use this in a browser environment, use the `@autoartifacts/html` import instead.',
     )
   }
 

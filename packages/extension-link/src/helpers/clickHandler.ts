@@ -1,7 +1,7 @@
-import type { Editor } from '@tiptap/core'
-import { getAttributes } from '@tiptap/core'
-import type { MarkType } from '@tiptap/pm/model'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import type { Editor } from '@autoartifacts/core'
+import { getAttributes } from '@autoartifacts/core'
+import type { MarkType } from '@autoartifacts/pm/model'
+import { Plugin, PluginKey } from '@autoartifacts/pm/state'
 
 type ClickHandlerOptions = {
   type: MarkType

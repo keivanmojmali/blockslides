@@ -1,5 +1,5 @@
-import type { ColorOptions } from '@tiptap/extension-text-style'
-import { Color } from '@tiptap/extension-text-style'
+import type { ColorOptions } from '@autoartifacts/extension-text-style'
+import { Color } from '@autoartifacts/extension-text-style'
 
 export { Color, ColorOptions }
 

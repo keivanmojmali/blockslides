@@ -1,6 +1,6 @@
 import type { Command, RawCommands } from '../types.js'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     command: {
       /**

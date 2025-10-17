@@ -1,6 +1,6 @@
-import type { ParentConfig } from '@tiptap/core'
+import type { ParentConfig } from '@autoartifacts/core'
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface NodeConfig<Options, Storage> {
     /**
      * A string or function to determine the role of the table.

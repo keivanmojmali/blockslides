@@ -1,4 +1,4 @@
-import { Decoration } from '@tiptap/pm/view'
+import { Decoration } from '@autoartifacts/pm/view'
 
 export const createDecorationWidget = (pos: number, type: string, content?: string) => {
   const createElement = () => {

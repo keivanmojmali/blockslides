@@ -1,6 +1,6 @@
-import type { Editor } from '@tiptap/core'
-import { Extension } from '@tiptap/core'
-import type { Node as TiptapNode } from '@tiptap/pm/model'
+import type { Editor } from '@autoartifacts/core'
+import { Extension } from '@autoartifacts/core'
+import type { Node as TiptapNode } from '@autoartifacts/pm/model'
 import { v4 as uuidv4 } from 'uuid'
 
 import { TableOfContentsPlugin } from './plugin.js'

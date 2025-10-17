@@ -1,4 +1,4 @@
-import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Plugin, PluginKey } from '@autoartifacts/pm/state'
 
 import { Extension } from '../Extension.js'
 

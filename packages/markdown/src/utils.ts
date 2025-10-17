@@ -1,5 +1,5 @@
-import type { Content } from '@tiptap/core'
-import type { Fragment, Node } from '@tiptap/pm/model'
+import type { Content } from '@autoartifacts/core'
+import type { Fragment, Node } from '@autoartifacts/pm/model'
 
 import type { ContentType } from './types'
 

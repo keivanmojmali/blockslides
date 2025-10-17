@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/extension-drag-handle-vue-2",
+  "name": "@autoartifacts/extension-drag-handle-vue-2",
   "description": "drag handle extension for tiptap with vue 2",
   "version": "3.6.7",
   "homepage": "https://tiptap.dev",
@@ -36,15 +36,15 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/vue-2": "workspace:^",
+    "@autoartifacts/extension-drag-handle": "workspace:^",
+    "@autoartifacts/pm": "workspace:^",
+    "@autoartifacts/vue-2": "workspace:^",
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@tiptap/extension-drag-handle": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/vue-2": "workspace:^",
+    "@autoartifacts/extension-drag-handle": "workspace:^",
+    "@autoartifacts/pm": "workspace:^",
+    "@autoartifacts/vue-2": "workspace:^",
     "vue": "^2.0.0",
     "vue-ts-types": "1.6.2"
   },

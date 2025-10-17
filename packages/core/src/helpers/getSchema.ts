@@ -1,4 +1,4 @@
-import type { Schema } from '@tiptap/pm/model'
+import type { Schema } from '@autoartifacts/pm/model'
 
 import type { Editor } from '../Editor.js'
 import type { Extensions } from '../types.js'

@@ -1,4 +1,4 @@
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@autoartifacts/pm/state'
 
 import { getSchemaTypeNameByName } from './getSchemaTypeNameByName.js'
 import { isMarkActive } from './isMarkActive.js'

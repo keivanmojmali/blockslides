@@ -1,4 +1,4 @@
-import type { EditorState } from '@tiptap/pm/state'
+import type { EditorState } from '@autoartifacts/pm/state'
 
 export const hasListItemAfter = (typeOrName: string, state: EditorState): boolean => {
   const { $anchor } = state.selection

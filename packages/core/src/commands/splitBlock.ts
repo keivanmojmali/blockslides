@@ -1,6 +1,6 @@
-import type { EditorState } from '@tiptap/pm/state'
-import { NodeSelection, TextSelection } from '@tiptap/pm/state'
-import { canSplit } from '@tiptap/pm/transform'
+import type { EditorState } from '@autoartifacts/pm/state'
+import { NodeSelection, TextSelection } from '@autoartifacts/pm/state'
+import { canSplit } from '@autoartifacts/pm/transform'
 
 import { defaultBlockAt } from '../helpers/defaultBlockAt.js'
 import { getSplittedAttributes } from '../helpers/getSplittedAttributes.js'
@@ -16,7 +16,7 @@ function ensureMarks(state: EditorState, splittableMarks?: string[]) {
   }
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     splitBlock: {
       /**

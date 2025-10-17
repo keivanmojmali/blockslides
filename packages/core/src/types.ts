@@ -1,6 +1,6 @@
-import type { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@tiptap/pm/model'
-import type { EditorState, Transaction } from '@tiptap/pm/state'
-import type { Mappable, Transform } from '@tiptap/pm/transform'
+import type { Mark as ProseMirrorMark, Node as ProseMirrorNode, ParseOptions, Slice } from '@autoartifacts/pm/model'
+import type { EditorState, Transaction } from '@autoartifacts/pm/state'
+import type { Mappable, Transform } from '@autoartifacts/pm/transform'
 import type {
   Decoration,
   DecorationAttrs,
@@ -11,7 +11,7 @@ import type {
   NodeView,
   NodeViewConstructor,
   ViewMutationRecord,
-} from '@tiptap/pm/view'
+} from '@autoartifacts/pm/view'
 
 import type { Editor } from './Editor.js'
 import type { Extendable } from './Extendable.js'

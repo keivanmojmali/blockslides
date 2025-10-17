@@ -1,7 +1,7 @@
-import { keymap } from '@tiptap/pm/keymap'
-import type { Schema } from '@tiptap/pm/model'
-import type { Plugin } from '@tiptap/pm/state'
-import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
+import { keymap } from '@autoartifacts/pm/keymap'
+import type { Schema } from '@autoartifacts/pm/model'
+import type { Plugin } from '@autoartifacts/pm/state'
+import type { MarkViewConstructor, NodeViewConstructor } from '@autoartifacts/pm/view'
 
 import type { Editor } from './Editor.js'
 import {

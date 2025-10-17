@@ -1,4 +1,4 @@
-import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@tiptap/core'
+import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@autoartifacts/core'
 
 export interface StrikeOptions {
   /**
@@ -9,7 +9,7 @@ export interface StrikeOptions {
   HTMLAttributes: Record<string, any>
 }
 
-declare module '@tiptap/core' {
+declare module '@autoartifacts/core' {
   interface Commands<ReturnType> {
     strike: {
       /**

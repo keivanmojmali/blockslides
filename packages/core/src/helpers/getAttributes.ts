@@ -1,5 +1,5 @@
-import type { MarkType, NodeType } from '@tiptap/pm/model'
-import type { EditorState } from '@tiptap/pm/state'
+import type { MarkType, NodeType } from '@autoartifacts/pm/model'
+import type { EditorState } from '@autoartifacts/pm/state'
 
 import { getMarkAttributes } from './getMarkAttributes.js'
 import { getNodeAttributes } from './getNodeAttributes.js'

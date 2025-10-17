@@ -1,4 +1,4 @@
-import type { Transaction } from '@tiptap/pm/state'
+import type { Transaction } from '@autoartifacts/pm/state'
 
 type StepRange = [from: number, to: number]
 

@@ -1,5 +1,5 @@
 {
-  "name": "@tiptap/extension-drag-handle",
+  "name": "@autoartifacts/extension-drag-handle",
   "description": "drag handle extension for tiptap",
   "version": "3.6.7",
   "homepage": "https://tiptap.dev/docs/editor/extensions/functionality/drag-handle",
@@ -36,22 +36,22 @@
     "dist"
   ],
   "peerDependencies": {
-    "@tiptap/extension-node-range": "workspace:^",
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-collaboration": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3"
+    "@autoartifacts/extension-node-range": "workspace:^",
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/extension-collaboration": "workspace:^",
+    "@autoartifacts/pm": "workspace:^",
+    "@autoartifacts/y-tiptap": "^3.0.0-beta.3"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.13"
   },
   "devDependencies": {
     "@floating-ui/dom": "^1.6.13",
-    "@tiptap/extension-node-range": "workspace:^",
-    "@tiptap/core": "workspace:^",
-    "@tiptap/extension-collaboration": "workspace:^",
-    "@tiptap/pm": "workspace:^",
-    "@tiptap/y-tiptap": "^3.0.0-beta.3"
+    "@autoartifacts/extension-node-range": "workspace:^",
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/extension-collaboration": "workspace:^",
+    "@autoartifacts/pm": "workspace:^",
+    "@autoartifacts/y-tiptap": "^3.0.0-beta.3"
   },
   "scripts": {
     "build": "tsup",
