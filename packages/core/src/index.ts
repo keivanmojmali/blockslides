@@ -1,64 +1,27 @@
-// Editor
-export { SlideEditor } from "./SlideEditor";
-export type { SlideEditorOptions } from "./SlideEditor";
+export * from './CommandManager.js'
+export type * from './commands/index.js'
+export * as commands from './commands/index.js'
+export * from './Editor.js'
+export * from './Extendable.js'
+export * from './Extension.js'
+export * as extensions from './extensions/index.js'
+export * from './helpers/index.js'
+export * from './InputRule.js'
+export * from './inputRules/index.js'
+export { createElement, Fragment, createElement as h } from './jsx-runtime.js'
+export * from './Mark.js'
+export * from './MarkView.js'
+export * from './Node.js'
+export * from './NodePos.js'
+export * from './NodeView.js'
+export * from './PasteRule.js'
+export * from './pasteRules/index.js'
+export * from './Tracker.js'
+export * from './types.js'
+export * from './utilities/index.js'
 
-// Event system
-export { EventEmitter } from "./EventEmitter";
+// eslint-disable-next-line
+export interface Commands<ReturnType = any> {}
 
-// Extension system
-export { Extendable } from "./Extendable";
-export type { ExtendableConfig } from "./Extendable";
-export { Extension } from "./Extension";
-export type { ExtensionConfig } from "./Extension";
-export { Mark } from "./Mark";
-export type { MarkConfig } from "./Mark";
-export { Node } from "./Node";
-export type { NodeConfig } from "./Node";
-export { ExtensionManager } from "./ExtensionManager";
-
-// Command system
-export { CommandManager } from "./CommandManager";
-// CoreCommands will be rewritten to use new Extension API in Step 10
-// export { CoreCommands } from "./extensions/CoreCommands";
-
-// Utilities
-export { Tracker } from "./Tracker";
-export type { TrackerResult } from "./Tracker";
-export { style } from "./style";
-
-// JSX Runtime
-export {
-  createElement,
-  Fragment,
-  h,
-  jsx,
-  jsxDEV,
-  jsxs,
-} from "./jsx-runtime";
-export type {
-  Attributes,
-  DOMOutputSpecArray,
-  DOMOutputSpecElement,
-  JSXRenderer,
-} from "./jsx-runtime";
-
-// Schema
-export { schema } from "./schema";
-
-// Plugins
-export { createMarkdownInputRules } from "./plugins/markdownInputRules";
-
-// Utils
-export * from "./utils";
-
-// Types
-export * from "./types";
-
-// Validation
-export * from "./validation";
-
-// Actions
-export { actions } from "./actions";
-
-// Keyboard
-export * from "./keyboard/defaultShortcuts";
+// eslint-disable-next-line
+export interface Storage {}

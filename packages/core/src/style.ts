@@ -1,12 +1,3 @@
-/**
- * Default ProseMirror styles for AutoArtifacts Slide Editor
- * 
- * Copied from @tiptap/core
- * Copyright (c) 2025, Tiptap GmbH
- * Licensed under MIT License
- * https://github.com/ueberdosis/tiptap
- */
-
 export const style = `.ProseMirror {
   position: relative;
 }
@@ -77,4 +68,4 @@ img.ProseMirror-separator {
 
 .ProseMirror-focused .ProseMirror-gapcursor {
   display: block;
-}`;
+}`

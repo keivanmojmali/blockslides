@@ -1,8 +1,7 @@
 packages:
-  - 'packages/core'
-  - 'packages/react'
-  - 'packages/plugins/*'
-  - 'packages/extensions/*'
-  - 'packages/styles'
-  - 'demo'
-
+  - "packages/core"
+  - "packages/pm"
+  - "packages/html"
+  - "packages/markdown"
+  - "packages/static-renderer"
+  - "packages/extension-*"

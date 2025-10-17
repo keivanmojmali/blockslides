@@ -1,35 +1,16 @@
-/**
- * Get attributes from extensions
- * 
- * @license MIT
- * Adapted from Tiptap (https://github.com/ueberdosis/tiptap)
- * Copyright © 2024 überdosis GmbH
- */
-
-import type { MarkConfig, NodeConfig } from '../Extendable.js'
-import type {
-  AnyConfig,
-  Attribute,
-  Attributes,
-  ExtensionAttribute,
-  Extensions,
-} from '../types/extensions.js'
+import type { MarkConfig, NodeConfig } from '../index.js'
+import type { AnyConfig, Attribute, Attributes, ExtensionAttribute, Extensions } from '../types.js'
 import { getExtensionField } from './getExtensionField.js'
 import { splitExtensions } from './splitExtensions.js'
 
 /**
  * Get a list of all extension attributes defined in `addAttribute` and `addGlobalAttribute`.
- * 
- * @param extensions - List of extensions
- * @returns Array of extension attributes
+ * @param extensions List of extensions
  */
-export function getAttributesFromExtensions(
-  extensions: Extensions
-): ExtensionAttribute[] {
+export function getAttributesFromExtensions(extensions: Extensions): ExtensionAttribute[] {
   const extensionAttributes: ExtensionAttribute[] = []
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
   const nodeAndMarkExtensions = [...nodeExtensions, ...markExtensions]
-  
   const defaultAttribute: Required<Omit<Attribute, 'validate'>> & Pick<Attribute, 'validate'> = {
     default: null,
     validate: undefined,
@@ -51,7 +32,7 @@ export function getAttributesFromExtensions(
     const addGlobalAttributes = getExtensionField<AnyConfig['addGlobalAttributes']>(
       extension,
       'addGlobalAttributes',
-      context
+      context,
     )
 
     if (!addGlobalAttributes) {
@@ -60,15 +41,15 @@ export function getAttributesFromExtensions(
 
     const globalAttributes = addGlobalAttributes()
 
-    globalAttributes.forEach((globalAttribute: any) => {
-      globalAttribute.types.forEach((type: string) => {
+    globalAttributes.forEach(globalAttribute => {
+      globalAttribute.types.forEach(type => {
         Object.entries(globalAttribute.attributes).forEach(([name, attribute]) => {
           extensionAttributes.push({
             type,
             name,
             attribute: {
               ...defaultAttribute,
-              ...(attribute as any),
+              ...attribute,
             },
           })
         })
@@ -83,9 +64,11 @@ export function getAttributesFromExtensions(
       storage: extension.storage,
     }
 
-    const addAttributes = getExtensionField<
-      NodeConfig['addAttributes'] | MarkConfig['addAttributes']
-    >(extension, 'addAttributes', context)
+    const addAttributes = getExtensionField<NodeConfig['addAttributes'] | MarkConfig['addAttributes']>(
+      extension,
+      'addAttributes',
+      context,
+    )
 
     if (!addAttributes) {
       return
@@ -95,9 +78,9 @@ export function getAttributesFromExtensions(
     const attributes = addAttributes() as Attributes
 
     Object.entries(attributes).forEach(([name, attribute]) => {
-      const mergedAttr: any = {
+      const mergedAttr = {
         ...defaultAttribute,
-        ...(attribute as any),
+        ...attribute,
       }
 
       if (typeof mergedAttr?.default === 'function') {

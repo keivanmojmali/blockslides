@@ -1,26 +1,17 @@
-/**
- * Inject extension attributes into parse rules
- * 
- * @license MIT
- * Adapted from Tiptap (https://github.com/ueberdosis/tiptap)
- * Copyright © 2024 überdosis GmbH
- */
+import type { ParseRule } from '@tiptap/pm/model'
 
-import type { ParseRule } from 'prosemirror-model'
-import type { ExtensionAttribute } from '../types/extensions.js'
-import { fromString } from '../utils/fromString.js'
+import type { ExtensionAttribute } from '../types.js'
+import { fromString } from '../utilities/fromString.js'
 
 /**
- * This function merges extension attributes into parse rule attributes
- * (`attrs` or `getAttrs`). Cancels when `getAttrs` returned `false`.
- * 
- * @param parseRule - ProseMirror ParseRule
- * @param extensionAttributes - List of attributes to inject
- * @returns The modified parse rule with injected attributes
+ * This function merges extension attributes into parserule attributes (`attrs` or `getAttrs`).
+ * Cancels when `getAttrs` returned `false`.
+ * @param parseRule ProseMirror ParseRule
+ * @param extensionAttributes List of attributes to inject
  */
 export function injectExtensionAttributesToParseRule(
   parseRule: ParseRule,
-  extensionAttributes: ExtensionAttribute[]
+  extensionAttributes: ExtensionAttribute[],
 ): ParseRule {
   if ('style' in parseRule) {
     return parseRule
@@ -29,9 +20,7 @@ export function injectExtensionAttributesToParseRule(
   return {
     ...parseRule,
     getAttrs: (node: HTMLElement) => {
-      const oldAttributes = parseRule.getAttrs
-        ? parseRule.getAttrs(node)
-        : parseRule.attrs
+      const oldAttributes = parseRule.getAttrs ? parseRule.getAttrs(node) : parseRule.attrs
 
       if (oldAttributes === false) {
         return false

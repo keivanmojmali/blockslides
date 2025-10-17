@@ -1,29 +1,17 @@
-/**
- * Generate ProseMirror schema from extensions
- * 
- * @license MIT
- * Adapted from Tiptap (https://github.com/ueberdosis/tiptap)
- * Copyright © 2024 überdosis GmbH
- */
+import type { MarkSpec, NodeSpec, TagParseRule } from '@tiptap/pm/model'
+import { Schema } from '@tiptap/pm/model'
 
-import type { MarkSpec, NodeSpec, TagParseRule } from 'prosemirror-model'
-import { Schema } from 'prosemirror-model'
-
-import type { MarkConfig, NodeConfig } from '../Extendable.js'
-import type { SlideEditor } from '../SlideEditor.js'
-import type { AnyConfig, Extensions } from '../types/extensions.js'
-import { callOrReturn } from '../utils/callOrReturn.js'
-import { isEmptyObject } from '../utils/isEmptyObject.js'
+import type { Editor, MarkConfig, NodeConfig } from '../index.js'
+import type { AnyConfig, Extensions } from '../types.js'
+import { callOrReturn } from '../utilities/callOrReturn.js'
+import { isEmptyObject } from '../utilities/isEmptyObject.js'
 import { getAttributesFromExtensions } from './getAttributesFromExtensions.js'
 import { getExtensionField } from './getExtensionField.js'
 import { getRenderedAttributes } from './getRenderedAttributes.js'
 import { injectExtensionAttributesToParseRule } from './injectExtensionAttributesToParseRule.js'
 import { splitExtensions } from './splitExtensions.js'
 
-/**
- * Clean up schema item by removing null/undefined values and empty attrs
- */
-function cleanUpSchemaItem<T>(data: T): T {
+function cleanUpSchemaItem<T>(data: T) {
   return Object.fromEntries(
     // @ts-ignore
     Object.entries(data).filter(([key, value]) => {
@@ -32,32 +20,24 @@ function cleanUpSchemaItem<T>(data: T): T {
       }
 
       return value !== null && value !== undefined
-    })
+    }),
   ) as T
 }
 
 /**
- * Creates a new ProseMirror schema based on the given extensions.
- * 
- * @param extensions - An array of Tiptap extensions
- * @param editor - The editor instance
- * @returns A ProseMirror schema
+ * Creates a new Prosemirror schema based on the given extensions.
+ * @param extensions An array of Tiptap extensions
+ * @param editor The editor instance
+ * @returns A Prosemirror schema
  */
-export function getSchemaByResolvedExtensions(
-  extensions: Extensions,
-  editor?: SlideEditor
-): Schema {
+export function getSchemaByResolvedExtensions(extensions: Extensions, editor?: Editor): Schema {
   const allAttributes = getAttributesFromExtensions(extensions)
   const { nodeExtensions, markExtensions } = splitExtensions(extensions)
-  const topNode = nodeExtensions.find(extension =>
-    getExtensionField(extension, 'topNode')
-  )?.name
+  const topNode = nodeExtensions.find(extension => getExtensionField(extension, 'topNode'))?.name
 
   const nodes = Object.fromEntries(
     nodeExtensions.map(extension => {
-      const extensionAttributes = allAttributes.filter(
-        attribute => attribute.type === extension.name
-      )
+      const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
       const context = {
         name: extension.name,
         options: extension.options,
@@ -66,11 +46,7 @@ export function getSchemaByResolvedExtensions(
       }
 
       const extraNodeFields = extensions.reduce((fields, e) => {
-        const extendNodeSchema = getExtensionField<AnyConfig['extendNodeSchema']>(
-          e,
-          'extendNodeSchema',
-          context
-        )
+        const extendNodeSchema = getExtensionField<AnyConfig['extendNodeSchema']>(e, 'extendNodeSchema', context)
 
         return {
           ...fields,
@@ -80,74 +56,39 @@ export function getSchemaByResolvedExtensions(
 
       const schema: NodeSpec = cleanUpSchemaItem({
         ...extraNodeFields,
-        content: callOrReturn(
-          getExtensionField<NodeConfig['content']>(extension, 'content', context)
-        ),
-        marks: callOrReturn(
-          getExtensionField<NodeConfig['marks']>(extension, 'marks', context)
-        ),
-        group: callOrReturn(
-          getExtensionField<NodeConfig['group']>(extension, 'group', context)
-        ),
-        inline: callOrReturn(
-          getExtensionField<NodeConfig['inline']>(extension, 'inline', context)
-        ),
-        atom: callOrReturn(
-          getExtensionField<NodeConfig['atom']>(extension, 'atom', context)
-        ),
-        selectable: callOrReturn(
-          getExtensionField<NodeConfig['selectable']>(extension, 'selectable', context)
-        ),
-        draggable: callOrReturn(
-          getExtensionField<NodeConfig['draggable']>(extension, 'draggable', context)
-        ),
-        code: callOrReturn(
-          getExtensionField<NodeConfig['code']>(extension, 'code', context)
-        ),
-        whitespace: callOrReturn(
-          getExtensionField<NodeConfig['whitespace']>(extension, 'whitespace', context)
-        ),
+        content: callOrReturn(getExtensionField<NodeConfig['content']>(extension, 'content', context)),
+        marks: callOrReturn(getExtensionField<NodeConfig['marks']>(extension, 'marks', context)),
+        group: callOrReturn(getExtensionField<NodeConfig['group']>(extension, 'group', context)),
+        inline: callOrReturn(getExtensionField<NodeConfig['inline']>(extension, 'inline', context)),
+        atom: callOrReturn(getExtensionField<NodeConfig['atom']>(extension, 'atom', context)),
+        selectable: callOrReturn(getExtensionField<NodeConfig['selectable']>(extension, 'selectable', context)),
+        draggable: callOrReturn(getExtensionField<NodeConfig['draggable']>(extension, 'draggable', context)),
+        code: callOrReturn(getExtensionField<NodeConfig['code']>(extension, 'code', context)),
+        whitespace: callOrReturn(getExtensionField<NodeConfig['whitespace']>(extension, 'whitespace', context)),
         linebreakReplacement: callOrReturn(
-          getExtensionField<NodeConfig['linebreakReplacement']>(
-            extension,
-            'linebreakReplacement',
-            context
-          )
+          getExtensionField<NodeConfig['linebreakReplacement']>(extension, 'linebreakReplacement', context),
         ),
-        defining: callOrReturn(
-          getExtensionField<NodeConfig['defining']>(extension, 'defining', context)
-        ),
-        isolating: callOrReturn(
-          getExtensionField<NodeConfig['isolating']>(extension, 'isolating', context)
-        ),
+        defining: callOrReturn(getExtensionField<NodeConfig['defining']>(extension, 'defining', context)),
+        isolating: callOrReturn(getExtensionField<NodeConfig['isolating']>(extension, 'isolating', context)),
         attrs: Object.fromEntries(
           extensionAttributes.map(extensionAttribute => {
             return [
               extensionAttribute.name,
-              {
-                default: extensionAttribute?.attribute?.default,
-                validate: extensionAttribute?.attribute?.validate,
-              },
+              { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate },
             ]
-          })
+          }),
         ),
       })
 
-      const parseHTML = callOrReturn(
-        getExtensionField<NodeConfig['parseHTML']>(extension, 'parseHTML', context)
-      )
+      const parseHTML = callOrReturn(getExtensionField<NodeConfig['parseHTML']>(extension, 'parseHTML', context))
 
       if (parseHTML) {
         schema.parseDOM = parseHTML.map(parseRule =>
-          injectExtensionAttributesToParseRule(parseRule, extensionAttributes)
+          injectExtensionAttributesToParseRule(parseRule, extensionAttributes),
         ) as TagParseRule[]
       }
 
-      const renderHTML = getExtensionField<NodeConfig['renderHTML']>(
-        extension,
-        'renderHTML',
-        context
-      )
+      const renderHTML = getExtensionField<NodeConfig['renderHTML']>(extension, 'renderHTML', context)
 
       if (renderHTML) {
         schema.toDOM = node =>
@@ -157,25 +98,19 @@ export function getSchemaByResolvedExtensions(
           })
       }
 
-      const renderText = getExtensionField<NodeConfig['renderText']>(
-        extension,
-        'renderText',
-        context
-      )
+      const renderText = getExtensionField<NodeConfig['renderText']>(extension, 'renderText', context)
 
       if (renderText) {
         schema.toText = renderText
       }
 
       return [extension.name, schema]
-    })
+    }),
   )
 
   const marks = Object.fromEntries(
     markExtensions.map(extension => {
-      const extensionAttributes = allAttributes.filter(
-        attribute => attribute.type === extension.name
-      )
+      const extensionAttributes = allAttributes.filter(attribute => attribute.type === extension.name)
       const context = {
         name: extension.name,
         options: extension.options,
@@ -184,11 +119,7 @@ export function getSchemaByResolvedExtensions(
       }
 
       const extraMarkFields = extensions.reduce((fields, e) => {
-        const extendMarkSchema = getExtensionField<AnyConfig['extendMarkSchema']>(
-          e,
-          'extendMarkSchema',
-          context
-        )
+        const extendMarkSchema = getExtensionField<AnyConfig['extendMarkSchema']>(e, 'extendMarkSchema', context)
 
         return {
           ...fields,
@@ -198,49 +129,30 @@ export function getSchemaByResolvedExtensions(
 
       const schema: MarkSpec = cleanUpSchemaItem({
         ...extraMarkFields,
-        inclusive: callOrReturn(
-          getExtensionField<MarkConfig['inclusive']>(extension, 'inclusive', context)
-        ),
-        excludes: callOrReturn(
-          getExtensionField<MarkConfig['excludes']>(extension, 'excludes', context)
-        ),
-        group: callOrReturn(
-          getExtensionField<MarkConfig['group']>(extension, 'group', context)
-        ),
-        spanning: callOrReturn(
-          getExtensionField<MarkConfig['spanning']>(extension, 'spanning', context)
-        ),
-        code: callOrReturn(
-          getExtensionField<MarkConfig['code']>(extension, 'code', context)
-        ),
+        inclusive: callOrReturn(getExtensionField<MarkConfig['inclusive']>(extension, 'inclusive', context)),
+        excludes: callOrReturn(getExtensionField<MarkConfig['excludes']>(extension, 'excludes', context)),
+        group: callOrReturn(getExtensionField<MarkConfig['group']>(extension, 'group', context)),
+        spanning: callOrReturn(getExtensionField<MarkConfig['spanning']>(extension, 'spanning', context)),
+        code: callOrReturn(getExtensionField<MarkConfig['code']>(extension, 'code', context)),
         attrs: Object.fromEntries(
           extensionAttributes.map(extensionAttribute => {
             return [
               extensionAttribute.name,
-              {
-                default: extensionAttribute?.attribute?.default,
-                validate: extensionAttribute?.attribute?.validate,
-              },
+              { default: extensionAttribute?.attribute?.default, validate: extensionAttribute?.attribute?.validate },
             ]
-          })
+          }),
         ),
       })
 
-      const parseHTML = callOrReturn(
-        getExtensionField<MarkConfig['parseHTML']>(extension, 'parseHTML', context)
-      )
+      const parseHTML = callOrReturn(getExtensionField<MarkConfig['parseHTML']>(extension, 'parseHTML', context))
 
       if (parseHTML) {
         schema.parseDOM = parseHTML.map(parseRule =>
-          injectExtensionAttributesToParseRule(parseRule, extensionAttributes)
+          injectExtensionAttributesToParseRule(parseRule, extensionAttributes),
         )
       }
 
-      const renderHTML = getExtensionField<MarkConfig['renderHTML']>(
-        extension,
-        'renderHTML',
-        context
-      )
+      const renderHTML = getExtensionField<MarkConfig['renderHTML']>(extension, 'renderHTML', context)
 
       if (renderHTML) {
         schema.toDOM = mark =>
@@ -251,7 +163,7 @@ export function getSchemaByResolvedExtensions(
       }
 
       return [extension.name, schema]
-    })
+    }),
   )
 
   return new Schema({

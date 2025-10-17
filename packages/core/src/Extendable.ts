@@ -1,20 +1,12 @@
-/**
- * Extendable.ts for AutoArtifacts Slide Editor
- *
- * Adapted from @tiptap/core
- * Original Copyright (c) 2025, Tiptap GmbH
- * Licensed under MIT License
- * https://github.com/ueberdosis/tiptap
- *
- * Modifications for slide editor use case:
- * - Changed Editor → SlideEditor throughout
- * - Adapted for slide-specific extension architecture
- */
+import type { Plugin } from '@tiptap/pm/state'
 
-import type { Plugin } from 'prosemirror-state'
-
-import type { SlideEditor } from './SlideEditor.js'
-import { getExtensionField } from './helpers/index.js'
+import type { Editor } from './Editor.js'
+import { getExtensionField } from './helpers/getExtensionField.js'
+import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
+import type { InputRule } from './InputRule.js'
+import type { Mark } from './Mark.js'
+import type { Node } from './Node.js'
+import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
   EditorEvents,
@@ -30,407 +22,9 @@ import type {
   ParentConfig,
   RawCommands,
   RenderContext,
-} from './types/index.js'
-import { callOrReturn } from './utils/callOrReturn.js'
-import { mergeDeep } from './utils/mergeDeep.js'
-
-// Import ProseMirror types for mark and node configs
-import type { DOMOutputSpec, Mark as ProseMirrorMark, MarkSpec, MarkType, NodeSpec, NodeType } from 'prosemirror-model'
-
-// Extension configuration types
-// These are defined here to avoid circular dependencies
-// ExtensionConfig is re-exported from Extension.ts for public API
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ExtensionConfig<Options = any, Storage = any> 
-  extends ExtendableConfig<Options, Storage, ExtensionConfig<Options, Storage>, null> {}
-
-// Mark configuration type
-// MarkConfig is re-exported from Mark.ts for public API
-export interface MarkConfig<Options = any, Storage = any>
-  extends ExtendableConfig<Options, Storage, MarkConfig<Options, Storage>, MarkType> {
-  /**
-   * Custom mark view renderer
-   */
-  addMarkView?:
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        editor: any // SlideEditor
-        type: MarkType
-        parent: ParentConfig<MarkConfig<Options, Storage>>['addMarkView']
-      }) => any)
-    | null
-
-  /**
-   * Keep mark after split node
-   */
-  keepOnSplit?: boolean | (() => boolean)
-
-  /**
-   * Inclusive
-   */
-  inclusive?:
-    | MarkSpec['inclusive']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<MarkConfig<Options, Storage>>['inclusive']
-        editor?: any
-      }) => MarkSpec['inclusive'])
-
-  /**
-   * Excludes
-   */
-  excludes?:
-    | MarkSpec['excludes']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<MarkConfig<Options, Storage>>['excludes']
-        editor?: any
-      }) => MarkSpec['excludes'])
-
-  /**
-   * Exitable
-   */
-  exitable?: boolean | (() => boolean)
-
-  /**
-   * Group
-   */
-  group?:
-    | MarkSpec['group']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<MarkConfig<Options, Storage>>['group']
-        editor?: any
-      }) => MarkSpec['group'])
-
-  /**
-   * Spanning
-   */
-  spanning?:
-    | MarkSpec['spanning']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<MarkConfig<Options, Storage>>['spanning']
-        editor?: any
-      }) => MarkSpec['spanning'])
-
-  /**
-   * Code
-   */
-  code?:
-    | boolean
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<MarkConfig<Options, Storage>>['code']
-        editor?: any
-      }) => boolean)
-
-  /**
-   * Parse HTML
-   */
-  parseHTML?: (this: {
-    name: string
-    options: Options
-    storage: Storage
-    parent: ParentConfig<MarkConfig<Options, Storage>>['parseHTML']
-    editor?: any
-  }) => MarkSpec['parseDOM']
-
-  /**
-   * Render HTML
-   */
-  renderHTML?:
-    | ((
-        this: {
-          name: string
-          options: Options
-          storage: Storage
-          parent: ParentConfig<MarkConfig<Options, Storage>>['renderHTML']
-          editor?: any
-        },
-        props: {
-          mark: ProseMirrorMark
-          HTMLAttributes: Record<string, any>
-        },
-      ) => DOMOutputSpec)
-    | null
-
-  /**
-   * Add attributes
-   */
-  addAttributes?: (this: {
-    name: string
-    options: Options
-    storage: Storage
-    parent: ParentConfig<MarkConfig<Options, Storage>>['addAttributes']
-    editor?: any
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  }) => Record<string, any> | {}
-}
-
-// Node configuration type
-// NodeConfig is re-exported from Node.ts for public API
-export interface NodeConfig<Options = any, Storage = any>
-  extends ExtendableConfig<Options, Storage, NodeConfig<Options, Storage>, NodeType> {
-  /**
-   * Custom node view renderer
-   */
-  addNodeView?:
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        editor: any // SlideEditor
-        type: NodeType
-        parent: ParentConfig<NodeConfig<Options, Storage>>['addNodeView']
-      }) => any)
-    | null
-
-  /**
-   * Top level node (doc)
-   */
-  topNode?: boolean
-
-  /**
-   * Content expression
-   */
-  content?:
-    | NodeSpec['content']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['content']
-        editor?: any
-      }) => NodeSpec['content'])
-
-  /**
-   * Marks allowed in this node
-   */
-  marks?:
-    | NodeSpec['marks']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['marks']
-        editor?: any
-      }) => NodeSpec['marks'])
-
-  /**
-   * Node group
-   */
-  group?:
-    | NodeSpec['group']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['group']
-        editor?: any
-      }) => NodeSpec['group'])
-
-  /**
-   * Inline node
-   */
-  inline?:
-    | NodeSpec['inline']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['inline']
-        editor?: any
-      }) => NodeSpec['inline'])
-
-  /**
-   * Atom node
-   */
-  atom?:
-    | NodeSpec['atom']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['atom']
-        editor?: any
-      }) => NodeSpec['atom'])
-
-  /**
-   * Selectable
-   */
-  selectable?:
-    | NodeSpec['selectable']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['selectable']
-        editor?: any
-      }) => NodeSpec['selectable'])
-
-  /**
-   * Draggable
-   */
-  draggable?:
-    | NodeSpec['draggable']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['draggable']
-        editor?: any
-      }) => NodeSpec['draggable'])
-
-  /**
-   * Code node
-   */
-  code?:
-    | NodeSpec['code']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['code']
-        editor?: any
-      }) => NodeSpec['code'])
-
-  /**
-   * Whitespace handling
-   */
-  whitespace?:
-    | NodeSpec['whitespace']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['whitespace']
-        editor?: any
-      }) => NodeSpec['whitespace'])
-
-  /**
-   * Linebreak replacement
-   */
-  linebreakReplacement?:
-    | NodeSpec['linebreakReplacement']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['linebreakReplacement']
-        editor?: any
-      }) => NodeSpec['linebreakReplacement'])
-
-  /**
-   * Defining
-   */
-  defining?:
-    | NodeSpec['defining']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['defining']
-        editor?: any
-      }) => NodeSpec['defining'])
-
-  /**
-   * Isolating
-   */
-  isolating?:
-    | NodeSpec['isolating']
-    | ((this: {
-        name: string
-        options: Options
-        storage: Storage
-        parent: ParentConfig<NodeConfig<Options, Storage>>['isolating']
-        editor?: any
-      }) => NodeSpec['isolating'])
-
-  /**
-   * Parse HTML
-   */
-  parseHTML?: (this: {
-    name: string
-    options: Options
-    storage: Storage
-    parent: ParentConfig<NodeConfig<Options, Storage>>['parseHTML']
-    editor?: any
-  }) => NodeSpec['parseDOM']
-
-  /**
-   * Render HTML
-   */
-  renderHTML?:
-    | ((
-        this: {
-          name: string
-          options: Options
-          storage: Storage
-          parent: ParentConfig<NodeConfig<Options, Storage>>['renderHTML']
-          editor?: any
-        },
-        props: {
-          node: any // ProseMirrorNode
-          HTMLAttributes: Record<string, any>
-        },
-      ) => DOMOutputSpec)
-    | null
-
-  /**
-   * Render text
-   */
-  renderText?:
-    | ((
-        this: {
-          name: string
-          options: Options
-          storage: Storage
-          parent: ParentConfig<NodeConfig<Options, Storage>>['renderText']
-          editor?: any
-        },
-        props: {
-          node: any // ProseMirrorNode
-          pos: number
-          parent: any // ProseMirrorNode
-          index: number
-        },
-      ) => string)
-    | null
-
-  /**
-   * Add attributes
-   */
-  addAttributes?: (this: {
-    name: string
-    options: Options
-    storage: Storage
-    parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes']
-    editor?: any
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  }) => Record<string, any> | {}
-}
-
-// Placeholder types for rules
-export interface InputRule {}
-export interface PasteRule {}
-export interface Mark {}
-export interface Node {}
-
-
-
+} from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
+import { mergeDeep } from './utilities/mergeDeep.js'
 
 export interface ExtendableConfig<
   Options = any,
@@ -529,7 +123,7 @@ export interface ExtendableConfig<
     name: string
     options: Options
     storage: Storage
-    editor: SlideEditor
+    editor: Editor
     type: PMType
     parent: ParentConfig<Config>['addCommands']
   }) => Partial<RawCommands>
@@ -548,7 +142,7 @@ export interface ExtendableConfig<
     name: string
     options: Options
     storage: Storage
-    editor: SlideEditor
+    editor: Editor
     type: PMType
     parent: ParentConfig<Config>['addKeyboardShortcuts']
   }) => {
@@ -572,7 +166,7 @@ export interface ExtendableConfig<
     name: string
     options: Options
     storage: Storage
-    editor: SlideEditor
+    editor: Editor
     type: PMType
     parent: ParentConfig<Config>['addInputRules']
   }) => InputRule[]
@@ -594,7 +188,7 @@ export interface ExtendableConfig<
     name: string
     options: Options
     storage: Storage
-    editor: SlideEditor
+    editor: Editor
     type: PMType
     parent: ParentConfig<Config>['addPasteRules']
   }) => PasteRule[]
@@ -613,7 +207,7 @@ export interface ExtendableConfig<
     name: string
     options: Options
     storage: Storage
-    editor: SlideEditor
+    editor: Editor
     type: PMType
     parent: ParentConfig<Config>['addProseMirrorPlugins']
   }) => Plugin[]
@@ -727,7 +321,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onBeforeCreate']
         },
@@ -744,7 +338,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onCreate']
         },
@@ -761,7 +355,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onUpdate']
         },
@@ -778,7 +372,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onSelectionUpdate']
         },
@@ -795,7 +389,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onTransaction']
         },
@@ -812,7 +406,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onFocus']
         },
@@ -821,7 +415,7 @@ export interface ExtendableConfig<
     | null
 
   /**
-   * The editor isn't focused anymore.
+   * The editor isn’t focused anymore.
    */
   onBlur?:
     | ((
@@ -829,7 +423,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onBlur']
         },
@@ -846,7 +440,7 @@ export interface ExtendableConfig<
           name: string
           options: Options
           storage: Storage
-          editor: SlideEditor
+          editor: Editor
           type: PMType
           parent: ParentConfig<Config>['onDestroy']
         },

@@ -1,0 +1,41 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Build-specific settings
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+
+    // Stricter for production builds
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Paths for built packages (prioritize dist over src)
+    "paths": {
+      "@autoartifacts/core": ["packages/core/dist", "packages/core/src"],
+      "@autoartifacts/react": ["packages/react/dist", "packages/react/src"],
+      "@autoartifacts/extensions/*": [
+        "packages/extensions/*/dist",
+        "packages/extensions/*/src"
+      ],
+      "@autoartifacts/plugins/*": [
+        "packages/plugins/*/dist",
+        "packages/plugins/*/src"
+      ]
+    }
+  },
+  "include": ["packages/**/*.ts", "packages/**/*.tsx"],
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "demo/**/*"
+  ]
+}

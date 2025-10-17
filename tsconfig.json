@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    // Base config - development environment
+    "noEmit": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+
+    // Module resolution
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // Type checking
+    "strict": true,
+    "skipLibCheck": true,
+
+    // JSX
+    "jsx": "react-jsx",
+
+    // Advanced
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "checkJs": false,
+
+    // Source maps for debugging
+    "sourceMap": true,
+
+    // Paths for monorepo packages
+    "baseUrl": ".",
+    "paths": {
+      "@autoartifacts/core": ["packages/core/src"],
+      "@autoartifacts/react": ["packages/react/src"],
+      "@autoartifacts/extensions/*": ["packages/extensions/*/src"],
+      "@autoartifacts/plugins/*": ["packages/plugins/*/src"]
+    }
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "demo/**/*.ts",
+    "demo/**/*.tsx"
+  ],
+  "exclude": ["**/node_modules", "**/dist", "**/coverage"]
+}

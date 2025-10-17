@@ -1,0 +1,51 @@
+{
+  "name": "@autoartifacts/extension-document",
+  "description": "document extension for autoartifacts",
+  "version": "0.0.1",
+  "homepage": "https://github.com/keivanmojmali/autoartifacts",
+  "keywords": [
+    "autoartifacts",
+    "autoartifacts extension",
+    "slides"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@autoartifacts/core": "workspace:*",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@autoartifacts/core": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/autoartifacts",
+    "directory": "packages/extension-document"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

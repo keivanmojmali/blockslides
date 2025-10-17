@@ -1,46 +1,32 @@
-/**
- * Helper to get extension field with parent traversal
- * 
- * This helper recursively checks the extension's parent chain to find a field value.
- * If the field is a function, it binds the appropriate context.
- * 
- * @license MIT
- * Adapted from Tiptap (https://github.com/ueberdosis/tiptap)
- * Copyright © 2024 überdosis GmbH
- */
-
-import type { AnyExtension, MaybeThisParameterType, RemoveThis } from '../types/extensions.js'
+import type { ExtensionConfig } from '../Extension.js'
+import type { MarkConfig } from '../Mark.js'
+import type { NodeConfig } from '../Node.js'
+import type { AnyExtension, MaybeThisParameterType, RemoveThis } from '../types.js'
 
 /**
- * Get a field from an extension, checking parent chain if needed
- * 
- * @param extension - The extension to get the field from
- * @param field - The field name to retrieve
- * @param context - Optional context to bind to function fields
- * @returns The field value, possibly bound to context
+ * Returns a field from an extension
+ * @param extension The Tiptap extension
+ * @param field The field, for example `renderHTML` or `priority`
+ * @param context The context object that should be passed as `this` into the function
+ * @returns The field value
  */
-export function getExtensionField<T>(
-  extension: AnyExtension,
-  field: string,
-  context?: Omit<MaybeThisParameterType<T>, 'parent'>
+export function getExtensionField<T = any, E extends AnyExtension = any>(
+  extension: E,
+  field: keyof ExtensionConfig | keyof MarkConfig | keyof NodeConfig,
+  context?: Omit<MaybeThisParameterType<T>, 'parent'>,
 ): RemoveThis<T> {
-  // If field is undefined on this extension, check parent
-  if (extension.config[field] === undefined && extension.parent) {
+  if (extension.config[field as keyof typeof extension.config] === undefined && extension.parent) {
     return getExtensionField(extension.parent, field, context)
   }
 
-  // If field is a function, bind context including parent reference
-  if (typeof extension.config[field] === 'function') {
-    const boundContext = {
+  if (typeof extension.config[field as keyof typeof extension.config] === 'function') {
+    const value = (extension.config[field as keyof typeof extension.config] as any).bind({
       ...context,
-      parent: extension.parent 
-        ? getExtensionField(extension.parent, field, context) 
-        : null,
-    }
+      parent: extension.parent ? getExtensionField(extension.parent, field, context) : null,
+    })
 
-    return extension.config[field].bind(boundContext)
+    return value
   }
 
-  // Return static value
-  return extension.config[field]
+  return extension.config[field as keyof typeof extension.config] as RemoveThis<T>
 }

@@ -1,202 +1,138 @@
-import { EditorView } from "prosemirror-view";
-import { createChainableState } from "./helpers/createChainableState";
-import type {
-  AnyCommands,
-  SingleCommands,
-  ChainedCommands,
-  CanCommands,
-  CommandProps,
-} from "./types/commands";
-import type { SlideEditor } from "./SlideEditor";
+import type { EditorState, Transaction } from '@tiptap/pm/state'
 
-/**
- * CommandManager
- * 
- * Orchestrates command execution with three different modes:
- * 
- * 1. **Direct execution** (`.commands`):
- *    - Executes command immediately
- *    - Calls dispatch to update the editor
- *    - Returns boolean indicating success
- * 
- * 2. **Chained execution** (`.chain()`):
- *    - Batches multiple commands into a single transaction
- *    - Commands see changes from previous commands in chain
- *    - Must call `.run()` to execute
- *    - Returns boolean indicating overall success
- * 
- * 3. **Dry-run testing** (`.can()`):
- *    - Tests if a command can execute without applying changes
- *    - Does not call dispatch
- *    - Returns boolean indicating if command would succeed
- * 
- * This architecture is based on Tiptap's battle-tested CommandManager.
- * 
- * @example
- * ```typescript
- * // Direct execution
- * editor.commands.toggleBold();
- * 
- * // Chained execution
- * editor.chain()
- *   .toggleBold()
- *   .toggleItalic()
- *   .run();
- * 
- * // Dry-run testing
- * if (editor.can().toggleBold()) {
- *   // Bold can be toggled
- * }
- * ```
- */
+import type { Editor } from './Editor.js'
+import { createChainableState } from './helpers/createChainableState.js'
+import type { AnyCommands, CanCommands, ChainedCommands, CommandProps, SingleCommands } from './types.js'
+
 export class CommandManager {
-  private editor: SlideEditor;
-  private rawCommands: AnyCommands;
+  editor: Editor
 
-  constructor(editor: SlideEditor, rawCommands: AnyCommands) {
-    this.editor = editor;
-    this.rawCommands = rawCommands;
+  rawCommands: AnyCommands
+
+  customState?: EditorState
+
+  constructor(props: { editor: Editor; state?: EditorState }) {
+    this.editor = props.editor
+    this.rawCommands = this.editor.extensionManager.commands
+    this.customState = props.state
   }
 
-  /**
-   * Get the editor's view
-   */
-  private get view(): EditorView {
-    if (!this.editor.view) {
-      throw new Error("Editor view is not available");
-    }
-    return this.editor.view;
+  get hasCustomState(): boolean {
+    return !!this.customState
   }
 
-  /**
-   * Direct command execution
-   * 
-   * Returns an object where each command immediately executes when called.
-   * Each command returns a boolean indicating success.
-   */
-  public get commands(): SingleCommands {
+  get state(): EditorState {
+    return this.customState || this.editor.state
+  }
+
+  get commands(): SingleCommands {
+    const { rawCommands, editor, state } = this
+    const { view } = editor
+    const { tr } = state
+    const props = this.buildProps(tr)
+
     return Object.fromEntries(
-      Object.entries(this.rawCommands).map(([name, command]) => {
-        return [
-          name,
-          (...args: any[]) => {
-            const state = this.view.state;
-            const dispatch = this.view.dispatch.bind(this.view);
-            const tr = state.tr;
+      Object.entries(rawCommands).map(([name, command]) => {
+        const method = (...args: any[]) => {
+          const callback = command(...args)(props)
 
-            const props: CommandProps = {
-              editor: this.editor,
-              state,
-              view: this.view,
-              tr,
-              dispatch,
-              commands: this.commands,
-              chain: () => this.chain(),
-              can: () => this.can(),
-            };
+          if (!tr.getMeta('preventDispatch') && !this.hasCustomState) {
+            view.dispatch(tr)
+          }
 
-            return command(...args)(props);
-          },
-        ];
-      })
-    ) as SingleCommands;
+          return callback
+        }
+
+        return [name, method]
+      }),
+    ) as unknown as SingleCommands
   }
 
-  /**
-   * Chained command execution
-   * 
-   * Returns an object where commands are batched into a single transaction.
-   * Commands in the chain see changes from previous commands.
-   * Must call `.run()` to execute the entire chain.
-   */
-  public chain(): ChainedCommands {
-    const state = this.view.state;
-    const dispatch = this.view.dispatch.bind(this.view);
-    let tr = state.tr;
-    let hasCommands = false;
+  get chain(): () => ChainedCommands {
+    return () => this.createChain()
+  }
 
-    const chain = Object.fromEntries(
-      Object.entries(this.rawCommands).map(([name, command]) => {
-        return [
-          name,
-          (...args: any[]) => {
-            // Create chainable state that reflects transaction changes
-            const chainableState = createChainableState({
-              state,
-              transaction: tr,
-            });
+  get can(): () => CanCommands {
+    return () => this.createCan()
+  }
 
-            const props: CommandProps = {
-              editor: this.editor,
-              state: chainableState,
-              view: this.view,
-              tr,
-              dispatch: undefined, // No dispatch in chain - only on .run()
-              commands: this.commands,
-              chain: () => this.chain(),
-              can: () => this.can(),
-            };
+  public createChain(startTr?: Transaction, shouldDispatch = true): ChainedCommands {
+    const { rawCommands, editor, state } = this
+    const { view } = editor
+    const callbacks: boolean[] = []
+    const hasStartTransaction = !!startTr
+    const tr = startTr || state.tr
 
-            // Execute command - it modifies tr
-            const commandResult = command(...args)(props);
-
-            // Track that we have at least one command
-            if (commandResult) {
-              hasCommands = true;
-            }
-
-            // Return the chain for further chaining
-            return chain;
-          },
-        ];
-      })
-    ) as ChainedCommands;
-
-    // Add the .run() method to execute the chain
-    (chain as any).run = () => {
-      if (!hasCommands) {
-        return false;
+    const run = () => {
+      if (!hasStartTransaction && shouldDispatch && !tr.getMeta('preventDispatch') && !this.hasCustomState) {
+        view.dispatch(tr)
       }
 
-      // Dispatch the accumulated transaction
-      dispatch(tr);
-      return true;
-    };
+      return callbacks.every(callback => callback === true)
+    }
 
-    return chain;
+    const chain = {
+      ...Object.fromEntries(
+        Object.entries(rawCommands).map(([name, command]) => {
+          const chainedCommand = (...args: never[]) => {
+            const props = this.buildProps(tr, shouldDispatch)
+            const callback = command(...args)(props)
+
+            callbacks.push(callback)
+
+            return chain
+          }
+
+          return [name, chainedCommand]
+        }),
+      ),
+      run,
+    } as unknown as ChainedCommands
+
+    return chain
   }
 
-  /**
-   * Dry-run command testing
-   * 
-   * Returns an object where commands can be tested without applying changes.
-   * Each command returns a boolean indicating if it would succeed.
-   * Does not modify the editor state.
-   */
-  public can(): CanCommands {
-    return Object.fromEntries(
-      Object.entries(this.rawCommands).map(([name, command]) => {
-        return [
-          name,
-          (...args: any[]) => {
-            const state = this.view.state;
-            const tr = state.tr;
+  public createCan(startTr?: Transaction): CanCommands {
+    const { rawCommands, state } = this
+    const dispatch = false
+    const tr = startTr || state.tr
+    const props = this.buildProps(tr, dispatch)
+    const formattedCommands = Object.fromEntries(
+      Object.entries(rawCommands).map(([name, command]) => {
+        return [name, (...args: never[]) => command(...args)({ ...props, dispatch: undefined })]
+      }),
+    ) as unknown as SingleCommands
 
-            const props: CommandProps = {
-              editor: this.editor,
-              state,
-              view: this.view,
-              tr,
-              dispatch: undefined, // No dispatch in can() - just testing
-              commands: this.commands,
-              chain: () => this.chain(),
-              can: () => this.can(),
-            };
+    return {
+      ...formattedCommands,
+      chain: () => this.createChain(tr, dispatch),
+    } as CanCommands
+  }
 
-            return command(...args)(props);
-          },
-        ];
-      })
-    ) as CanCommands;
+  public buildProps(tr: Transaction, shouldDispatch = true): CommandProps {
+    const { rawCommands, editor, state } = this
+    const { view } = editor
+
+    const props: CommandProps = {
+      tr,
+      editor,
+      view,
+      state: createChainableState({
+        state,
+        transaction: tr,
+      }),
+      dispatch: shouldDispatch ? () => undefined : undefined,
+      chain: () => this.createChain(tr, shouldDispatch),
+      can: () => this.createCan(tr),
+      get commands() {
+        return Object.fromEntries(
+          Object.entries(rawCommands).map(([name, command]) => {
+            return [name, (...args: never[]) => command(...args)(props)]
+          }),
+        ) as unknown as SingleCommands
+      },
+    }
+
+    return props
   }
 }

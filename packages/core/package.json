@@ -33,6 +33,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "@autoartifacts/pm": "workspace:*",
     "prosemirror-commands": "^1.7.1",
     "prosemirror-history": "^1.4.1",
     "prosemirror-inputrules": "^1.4.0",

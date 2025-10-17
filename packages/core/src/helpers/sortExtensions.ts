@@ -1,19 +1,9 @@
-/**
- * Sort extensions by priority
- * 
- * @license MIT
- * Adapted from Tiptap (https://github.com/ueberdosis/tiptap)
- * Copyright © 2024 überdosis GmbH
- */
-
-import type { AnyConfig, Extensions } from '../types/extensions.js'
+import type { AnyConfig, Extensions } from '../types.js'
 import { getExtensionField } from './getExtensionField.js'
 
 /**
  * Sort extensions by priority.
- * Higher priority extensions come first.
- * 
- * @param extensions - An array of Tiptap extensions
+ * @param extensions An array of Tiptap extensions
  * @returns A sorted array of Tiptap extensions by priority
  */
 export function sortExtensions(extensions: Extensions): Extensions {

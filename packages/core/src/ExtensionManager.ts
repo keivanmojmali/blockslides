@@ -1,28 +1,14 @@
-/**
- * ExtensionManager
- * 
- * Manages all extensions, marks, and nodes for the SlideEditor.
- * Handles schema generation, command collection, plugin management, and lifecycle hooks.
- * 
- * @license MIT
- * Adapted from Tiptap (https://github.com/ueberdosis/tiptap)
- * Copyright © 2024 überdosis GmbH
- */
+import { keymap } from '@tiptap/pm/keymap'
+import type { Schema } from '@tiptap/pm/model'
+import type { Plugin } from '@tiptap/pm/state'
+import type { MarkViewConstructor, NodeViewConstructor } from '@tiptap/pm/view'
 
-import { keymap } from 'prosemirror-keymap'
-import type { Schema } from 'prosemirror-model'
-import type { Plugin } from 'prosemirror-state'
-import type { MarkViewConstructor, NodeViewConstructor } from 'prosemirror-view'
-
-import type { SlideEditor } from './SlideEditor.js'
-import type { MarkConfig, NodeConfig } from './Extendable.js'
-import { Mark } from './Mark.js'
-import type { AnyConfig, Extensions } from './types/extensions.js'
-import type { RawCommands } from './types/commands.js'
+import type { Editor } from './Editor.js'
 import {
   flattenExtensions,
   getAttributesFromExtensions,
   getExtensionField,
+  getNodeType,
   getRenderedAttributes,
   getSchemaByResolvedExtensions,
   getSchemaTypeByName,
@@ -31,10 +17,16 @@ import {
   sortExtensions,
   splitExtensions,
 } from './helpers/index.js'
-import { callOrReturn } from './utils/callOrReturn.js'
+import { type MarkConfig, type NodeConfig, type Storage, getMarkType, updateMarkViewAttributes } from './index.js'
+import { inputRulesPlugin } from './InputRule.js'
+import { Mark } from './Mark.js'
+import { pasteRulesPlugin } from './PasteRule.js'
+import type { AnyConfig, Extensions, RawCommands } from './types.js'
+import { callOrReturn } from './utilities/callOrReturn.js'
 
 export class ExtensionManager {
-  editor: SlideEditor
+  editor: Editor
+
   schema: Schema
 
   /**
@@ -49,7 +41,7 @@ export class ExtensionManager {
 
   splittableMarks: string[] = []
 
-  constructor(extensions: Extensions, editor: SlideEditor) {
+  constructor(extensions: Extensions, editor: Editor) {
     this.editor = editor
     this.baseExtensions = extensions
     this.extensions = resolveExtensions(extensions)
@@ -58,7 +50,9 @@ export class ExtensionManager {
   }
 
   static resolve = resolveExtensions
+
   static sort = sortExtensions
+
   static flatten = flattenExtensions
 
   /**
@@ -70,16 +64,12 @@ export class ExtensionManager {
       const context = {
         name: extension.name,
         options: extension.options,
-        storage: (this.editor as any).extensionStorage?.[extension.name],
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
       }
 
-      const addCommands = getExtensionField<AnyConfig['addCommands']>(
-        extension,
-        'addCommands',
-        context
-      )
+      const addCommands = getExtensionField<AnyConfig['addCommands']>(extension, 'addCommands', context)
 
       if (!addCommands) {
         return commands
@@ -93,8 +83,8 @@ export class ExtensionManager {
   }
 
   /**
-   * Get all registered ProseMirror plugins from the extensions.
-   * @returns An array of ProseMirror plugins
+   * Get all registered Prosemirror plugins from the extensions.
+   * @returns An array of Prosemirror plugins
    */
   get plugins(): Plugin[] {
     const { editor } = this
@@ -102,15 +92,15 @@ export class ExtensionManager {
     // With ProseMirror, first plugins within an array are executed first.
     // In Tiptap, we provide the ability to override plugins,
     // so it feels more natural to run plugins at the end of an array first.
-    // That's why we have to reverse the `extensions` array and sort again
+    // That’s why we have to reverse the `extensions` array and sort again
     // based on the `priority` option.
     const extensions = sortExtensions([...this.extensions].reverse())
 
-    const allPlugins = extensions.flatMap((extension: any) => {
+    const allPlugins = extensions.flatMap(extension => {
       const context = {
         name: extension.name,
         options: extension.options,
-        storage: (this.editor as any).extensionStorage?.[extension.name],
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
         editor,
         type: getSchemaTypeByName(extension.name, this.schema),
       }
@@ -120,83 +110,68 @@ export class ExtensionManager {
       const addKeyboardShortcuts = getExtensionField<AnyConfig['addKeyboardShortcuts']>(
         extension,
         'addKeyboardShortcuts',
-        context
+        context,
       )
 
       let defaultBindings: Record<string, () => boolean> = {}
 
-      // Bind exit handling for exitable marks
-      if (
-        extension.type === 'mark' &&
-        getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)
-      ) {
-        defaultBindings.ArrowRight = () =>
-          Mark.handleExit({ editor, mark: extension as Mark })
+      // bind exit handling
+      if (extension.type === 'mark' && getExtensionField<MarkConfig['exitable']>(extension, 'exitable', context)) {
+        defaultBindings.ArrowRight = () => Mark.handleExit({ editor, mark: extension as Mark })
       }
 
       if (addKeyboardShortcuts) {
         const bindings = Object.fromEntries(
           Object.entries(addKeyboardShortcuts()).map(([shortcut, method]) => {
-            return [shortcut, () => (method as any)({ editor })]
-          })
+            return [shortcut, () => method({ editor })]
+          }),
         )
 
         defaultBindings = { ...defaultBindings, ...bindings }
       }
 
       const keyMapPlugin = keymap(defaultBindings)
+
       plugins.push(keyMapPlugin)
 
-      // Input rules
-      const addInputRules = getExtensionField<AnyConfig['addInputRules']>(
-        extension,
-        'addInputRules',
-        context
-      )
+      const addInputRules = getExtensionField<AnyConfig['addInputRules']>(extension, 'addInputRules', context)
 
-      if (
-        isExtensionRulesEnabled(extension, (editor as any).options.enableInputRules ?? true) &&
-        addInputRules
-      ) {
+      if (isExtensionRulesEnabled(extension, editor.options.enableInputRules) && addInputRules) {
         const rules = addInputRules()
+
         if (rules && rules.length) {
-          // Note: inputRulesPlugin will need to be implemented or imported
-          // For now, we'll skip this part
-          // const inputResult = inputRulesPlugin({ editor, rules })
-          // const inputPlugins = Array.isArray(inputResult) ? inputResult : [inputResult]
-          // plugins.push(...inputPlugins)
+          const inputResult = inputRulesPlugin({
+            editor,
+            rules,
+          })
+
+          const inputPlugins = Array.isArray(inputResult) ? inputResult : [inputResult]
+
+          plugins.push(...inputPlugins)
         }
       }
 
-      // Paste rules
-      const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(
-        extension,
-        'addPasteRules',
-        context
-      )
+      const addPasteRules = getExtensionField<AnyConfig['addPasteRules']>(extension, 'addPasteRules', context)
 
-      if (
-        isExtensionRulesEnabled(extension, (editor as any).options.enablePasteRules ?? true) &&
-        addPasteRules
-      ) {
+      if (isExtensionRulesEnabled(extension, editor.options.enablePasteRules) && addPasteRules) {
         const rules = addPasteRules()
+
         if (rules && rules.length) {
-          // Note: pasteRulesPlugin will need to be implemented or imported
-          // For now, we'll skip this part
-          // const pasteRules = pasteRulesPlugin({ editor, rules })
-          // plugins.push(...pasteRules)
+          const pasteRules = pasteRulesPlugin({ editor, rules })
+
+          plugins.push(...pasteRules)
         }
       }
 
-      // ProseMirror plugins
       const addProseMirrorPlugins = getExtensionField<AnyConfig['addProseMirrorPlugins']>(
         extension,
         'addProseMirrorPlugins',
-        context
+        context,
       )
 
       if (addProseMirrorPlugins) {
         const proseMirrorPlugins = addProseMirrorPlugins()
+
         plugins.push(...proseMirrorPlugins)
       }
 
@@ -224,35 +199,23 @@ export class ExtensionManager {
 
     return Object.fromEntries(
       nodeExtensions
-        .filter((extension: any) => !!getExtensionField(extension, 'addNodeView'))
-        .map((extension: any) => {
-          const extensionAttributes = this.attributes.filter(
-            (attribute: any) => attribute.type === extension.name
-          )
+        .filter(extension => !!getExtensionField(extension, 'addNodeView'))
+        .map(extension => {
+          const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
           const context = {
             name: extension.name,
             options: extension.options,
-            storage: (this.editor as any).extensionStorage?.[extension.name],
+            storage: this.editor.extensionStorage[extension.name as keyof Storage],
             editor,
-            type: getSchemaTypeByName(extension.name, this.schema),
+            type: getNodeType(extension.name, this.schema),
           }
-          const addNodeView = getExtensionField<NodeConfig['addNodeView']>(
-            extension,
-            'addNodeView',
-            context
-          )
+          const addNodeView = getExtensionField<NodeConfig['addNodeView']>(extension, 'addNodeView', context)
 
           if (!addNodeView) {
             return []
           }
 
-          const nodeview: NodeViewConstructor = (
-            node,
-            view,
-            getPos,
-            decorations,
-            innerDecorations
-          ) => {
+          const nodeview: NodeViewConstructor = (node, view, getPos, decorations, innerDecorations) => {
             const HTMLAttributes = getRenderedAttributes(node, extensionAttributes)
 
             return addNodeView()({
@@ -270,37 +233,27 @@ export class ExtensionManager {
           }
 
           return [extension.name, nodeview]
-        })
+        }),
     )
   }
 
-  /**
-   * Get all mark views from the extensions.
-   * @returns An object with all mark views where the key is the mark name and the value is the mark view function
-   */
   get markViews(): Record<string, MarkViewConstructor> {
     const { editor } = this
     const { markExtensions } = splitExtensions(this.extensions)
 
     return Object.fromEntries(
       markExtensions
-        .filter((extension: any) => !!getExtensionField(extension, 'addMarkView'))
-        .map((extension: any) => {
-          const extensionAttributes = this.attributes.filter(
-            (attribute: any) => attribute.type === extension.name
-          )
+        .filter(extension => !!getExtensionField(extension, 'addMarkView'))
+        .map(extension => {
+          const extensionAttributes = this.attributes.filter(attribute => attribute.type === extension.name)
           const context = {
             name: extension.name,
             options: extension.options,
-            storage: (this.editor as any).extensionStorage?.[extension.name],
+            storage: this.editor.extensionStorage[extension.name as keyof Storage],
             editor,
-            type: getSchemaTypeByName(extension.name, this.schema),
+            type: getMarkType(extension.name, this.schema),
           }
-          const addMarkView = getExtensionField<MarkConfig['addMarkView']>(
-            extension,
-            'addMarkView',
-            context
-          )
+          const addMarkView = getExtensionField<MarkConfig['addMarkView']>(extension, 'addMarkView', context)
 
           if (!addMarkView) {
             return []
@@ -319,15 +272,13 @@ export class ExtensionManager {
               extension,
               HTMLAttributes,
               updateAttributes: (attrs: Record<string, any>) => {
-                // Note: updateMarkViewAttributes will need to be implemented
-                // For now, we'll leave this as a placeholder
-                console.warn('updateMarkViewAttributes not yet implemented')
+                updateMarkViewAttributes(mark, editor, attrs)
               },
             })
           }
 
           return [extension.name, markView]
-        })
+        }),
     )
   }
 
@@ -337,89 +288,72 @@ export class ExtensionManager {
    */
   private setupExtensions() {
     const extensions = this.extensions
-    
-    // Re-initialize the extension storage object instance
-    ;(this.editor as any).extensionStorage = Object.fromEntries(
-      extensions.map(extension => [extension.name, extension.storage])
-    )
+    // re-initialize the extension storage object instance
+    this.editor.extensionStorage = Object.fromEntries(
+      extensions.map(extension => [extension.name, extension.storage]),
+    ) as unknown as Storage
 
     extensions.forEach(extension => {
       const context = {
         name: extension.name,
         options: extension.options,
-        storage: (this.editor as any).extensionStorage?.[extension.name],
+        storage: this.editor.extensionStorage[extension.name as keyof Storage],
         editor: this.editor,
         type: getSchemaTypeByName(extension.name, this.schema),
       }
 
       if (extension.type === 'mark') {
-        const keepOnSplit =
-          callOrReturn(getExtensionField(extension, 'keepOnSplit', context)) ?? true
+        const keepOnSplit = callOrReturn(getExtensionField(extension, 'keepOnSplit', context)) ?? true
 
         if (keepOnSplit) {
           this.splittableMarks.push(extension.name)
         }
       }
 
-      const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(
-        extension,
-        'onBeforeCreate',
-        context
-      )
+      const onBeforeCreate = getExtensionField<AnyConfig['onBeforeCreate']>(extension, 'onBeforeCreate', context)
       const onCreate = getExtensionField<AnyConfig['onCreate']>(extension, 'onCreate', context)
       const onUpdate = getExtensionField<AnyConfig['onUpdate']>(extension, 'onUpdate', context)
       const onSelectionUpdate = getExtensionField<AnyConfig['onSelectionUpdate']>(
         extension,
         'onSelectionUpdate',
-        context
+        context,
       )
-      const onTransaction = getExtensionField<AnyConfig['onTransaction']>(
-        extension,
-        'onTransaction',
-        context
-      )
+      const onTransaction = getExtensionField<AnyConfig['onTransaction']>(extension, 'onTransaction', context)
       const onFocus = getExtensionField<AnyConfig['onFocus']>(extension, 'onFocus', context)
       const onBlur = getExtensionField<AnyConfig['onBlur']>(extension, 'onBlur', context)
-      const onDestroy = getExtensionField<AnyConfig['onDestroy']>(
-        extension,
-        'onDestroy',
-        context
-      )
+      const onDestroy = getExtensionField<AnyConfig['onDestroy']>(extension, 'onDestroy', context)
 
-      // Note: SlideEditor event system not yet implemented
-      // These will be enabled once SlideEditor is updated in Step 13
       if (onBeforeCreate) {
-        // this.editor.on('beforeCreate', onBeforeCreate)
+        this.editor.on('beforeCreate', onBeforeCreate)
       }
 
       if (onCreate) {
-        // this.editor.on('create', onCreate)
+        this.editor.on('create', onCreate)
       }
 
       if (onUpdate) {
-        // this.editor.on('update', onUpdate)
+        this.editor.on('update', onUpdate)
       }
 
       if (onSelectionUpdate) {
-        // this.editor.on('selectionUpdate', onSelectionUpdate)
+        this.editor.on('selectionUpdate', onSelectionUpdate)
       }
 
       if (onTransaction) {
-        // this.editor.on('transaction', onTransaction)
+        this.editor.on('transaction', onTransaction)
       }
 
       if (onFocus) {
-        // this.editor.on('focus', onFocus)
+        this.editor.on('focus', onFocus)
       }
 
       if (onBlur) {
-        // this.editor.on('blur', onBlur)
+        this.editor.on('blur', onBlur)
       }
 
       if (onDestroy) {
-        // this.editor.on('destroy', onDestroy)
+        this.editor.on('destroy', onDestroy)
       }
     })
   }
 }
-
