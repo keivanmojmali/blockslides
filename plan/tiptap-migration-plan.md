@@ -2,9 +2,9 @@
 
 **Goal**: Adopt Tiptap's battle-tested architecture while maintaining slide editor functionality.
 
-**Status**: ✅ Phase 1 Complete | 🔄 Phase 2 - Steps 4-7 Complete
+**Status**: ✅ Phase 1 Complete | 🔄 Phase 2 Complete (Steps 4-8)
 
-**Last**: Node.ts (node base class complete - Phase 2 Foundation Complete!)
+**Last**: ExtensionManager.ts (schema generation, command/plugin collection complete!)
 
 ---
 
@@ -346,38 +346,85 @@
 **Priority**: HIGH - Required for schema generation
 **Effort**: 3 hours
 **Attribution**: Heavily adapted from Tiptap (MIT License)
-**Status**: ⏳ PENDING (after Steps 4-7)
+**Status**: ✅ COMPLETE
 
 **What**:
 
-- Rewrite to handle Extension/Mark/Node as siblings (not hierarchy)
-- Add schema generation from extensions
-- Implement `getSchemaByResolvedExtensions()`
-- Add node view and mark view registry
-- Keep command collection functionality
+- ✅ Rewrite to handle Extension/Mark/Node as siblings (not hierarchy)
+- ✅ Add schema generation from extensions via `getSchemaByResolvedExtensions()`
+- ✅ Add node view and mark view registry
+- ✅ Keep command collection functionality
+- ✅ Add plugin management (keymap, input rules, paste rules, ProseMirror plugins)
 
-**Changes needed**:
+**Implementation Details**:
 
-- Change `Editor` → `SlideEditor`
-- Filter extensions by type: `extensions.filter(e => e.type === 'extension')`
-- Generate ProseMirror schema from Mark and Node extensions
-- Merge attributes, commands, plugins from all extension types
+**Files Created**:
 
-**Integration**:
+1. **Helper Functions (10 files)**:
+   - `helpers/splitExtensions.ts` (40 lines) - Filter extensions by type
+   - `helpers/flattenExtensions.ts` (40 lines) - Recursively flatten addExtensions
+   - `helpers/sortExtensions.ts` (35 lines) - Sort by priority
+   - `helpers/resolveExtensions.ts` (35 lines) - Flatten + sort + deduplicate
+   - `helpers/getSchemaTypeByName.ts` (20 lines) - Get NodeType/MarkType from schema
+   - `helpers/getAttributesFromExtensions.ts` (120 lines) - Collect all attributes
+   - `helpers/getRenderedAttributes.ts` (40 lines) - Process renderHTML
+   - `helpers/injectExtensionAttributesToParseRule.ts` (60 lines) - Merge parseHTML
+   - `helpers/isExtensionRulesEnabled.ts` (30 lines) - Check if rules enabled
+   - `helpers/getSchemaByResolvedExtensions.ts` (280 lines) - **Core schema generator**
 
-- Replace existing `ExtensionManager.ts`
-- ⚠️ **NO SlideEditor changes yet** - just the ExtensionManager
+2. **Utility Functions (4 files)**:
+   - `utils/findDuplicates.ts` (20 lines) - Find duplicate items in array
+   - `utils/isEmptyObject.ts` (20 lines) - Check if object is empty
+   - `utils/fromString.ts` (30 lines) - Parse attribute values from strings
+   - `utils/mergeAttributes.ts` (55 lines) - Merge HTML attributes with class/style handling
 
-**Dependencies**:
+3. **ExtensionManager.ts** (450 lines):
+   - Constructor: Resolves extensions, generates schema, sets up extensions
+   - `commands` getter: Collects commands from all extension types
+   - `plugins` getter: Generates keymap, input rules, paste rules, ProseMirror plugins
+   - `attributes` getter: Gets all extension attributes
+   - `nodeViews` getter: Creates node view registry
+   - `markViews` getter: Creates mark view registry
+   - `setupExtensions()`: Initializes storage, binds lifecycle hooks, handles splittable marks
 
-- Step 4: Extendable.ts
-- Step 5: Extension.ts
-- Step 6: Mark.ts
-- Step 7: Node.ts
+**Key Features**:
 
-**Files to update**:
+- **Schema Generation**: `getSchemaByResolvedExtensions()` creates ProseMirror schema from Mark/Node extensions
+- **Type Filtering**: `splitExtensions()` separates baseExtensions, nodeExtensions, markExtensions
+- **Extension Resolution**: Flattens, sorts by priority, deduplicates extensions
+- **Attribute System**: Collects attributes with `addAttributes` and `addGlobalAttributes`
+- **Parse/Render**: Injects extension attributes into parseHTML/renderHTML
+- **Node/Mark Views**: Registry system for custom node/mark renderers
+- **Plugin Management**: Collects keyboard shortcuts, input rules, paste rules, plugins
+- **Lifecycle Hooks**: Binds onBeforeCreate, onCreate, onUpdate, onSelectionUpdate, onTransaction, onFocus, onBlur, onDestroy
+- **Mark Exit Handling**: Special handling for exitable marks (like links)
+- **Splittable Marks**: Tracks marks that should split on Enter (keepOnSplit)
 
-- `src/ExtensionManager.ts` - Complete rewrite
+**Types Updated**:
+
+- Added `Attribute`, `Attributes`, `ExtensionAttribute` interfaces to `types/extensions.ts`
+- Added `EnableRules` type for input/paste rule configuration
+- Added `RawCommands` type to `types/commands.ts`
+
+**SlideEditor Updates**:
+
+- Changed `extensionManager.getCommands()` → `extensionManager.commands`
+- Changed `extensionManager.getPlugins()` → `extensionManager.plugins`
+- Removed `extensionManager.onCreate()` and `onDestroy()` calls (handled by event system)
+
+**Files Updated**:
+
+- `src/ExtensionManager.ts` - Complete rewrite (450 lines)
+- `src/helpers/index.ts` - Export all new helpers
+- `src/utils/index.ts` - Export all new utilities
+- `src/types/extensions.ts` - Added Attribute types, EnableRules
+- `src/types/commands.ts` - Added RawCommands type
+- `src/SlideEditor.ts` - Updated to use new ExtensionManager API
+- `src/index.ts` - Re-enabled ExtensionManager export
+
+**Build Status**: ✅ All TypeScript errors resolved, build succeeds
+
+**Total Lines Added**: ~1,500 lines (helpers + utils + ExtensionManager + types)
 
 ---
 

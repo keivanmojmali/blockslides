@@ -14,8 +14,7 @@ export { Mark } from "./Mark";
 export type { MarkConfig } from "./Mark";
 export { Node } from "./Node";
 export type { NodeConfig } from "./Node";
-// ExtensionManager will be rewritten in Step 8
-// export { ExtensionManager } from "./ExtensionManager";
+export { ExtensionManager } from "./ExtensionManager";
 
 // Command system
 export { CommandManager } from "./CommandManager";

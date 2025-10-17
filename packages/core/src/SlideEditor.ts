@@ -113,8 +113,9 @@ export class SlideEditor {
     // Create extension manager with ALL extensions (core + user)
     this.extensionManager = new ExtensionManager(allExtensions, this);
     
-    // Create command manager
-    this.commandManager = new CommandManager(this, this.extensionManager.getCommands());
+    // Initialize command manager
+    // Note: Type casting temporary until CommandManager is updated in later steps
+    this.commandManager = new CommandManager(this, this.extensionManager.commands as any);
     
     // Create plugins once in constructor (fixes duplicate plugin error)
     this.plugins = this.createPlugins();
@@ -152,7 +153,8 @@ export class SlideEditor {
     );
     
     // 2. Extension plugins (from user-provided extensions)
-    const extensionPlugins = this.extensionManager?.getPlugins() || [];
+        // Get plugins from extensions
+    const extensionPlugins = this.extensionManager?.plugins || [];
     
     // 3. Raw plugins (escape hatch for advanced users)
     const rawPlugins = this.options.plugins || [];
@@ -258,9 +260,9 @@ export class SlideEditor {
         if (this.options.onCreate) {
           this.options.onCreate(this);
         }
-        
-        // Fire extension onCreate hooks
-        this.extensionManager?.onCreate();
+
+        // Note: Extension onCreate hooks are handled by ExtensionManager.setupExtensions()
+        // which is called in the constructor
       }, 0);
       
     } catch (error) {
@@ -282,11 +284,9 @@ export class SlideEditor {
     if (this.options.onDestroy) {
       this.options.onDestroy();
     }
-    
-    // Fire extension onDestroy hooks
-    this.extensionManager?.onDestroy();
-    
-    // Destroy ProseMirror view
+
+    // Note: Extension onDestroy hooks are handled by ExtensionManager event listeners
+    // which were set up in setupExtensions()    // Destroy ProseMirror view
     this.view?.destroy();
     this.view = null;
     this.mounted = false;

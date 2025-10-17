@@ -50,6 +50,12 @@ export type RawCommand = (...args: any[]) => (props: CommandProps) => any;
 export type AnyCommands = Record<string, RawCommand>;
 
 /**
+ * Raw commands object - simplified command collection
+ * Maps command names to boolean-returning functions
+ */
+export type RawCommands = Record<string, (...args: any[]) => boolean>;
+
+/**
  * Commands that execute immediately and return a value
  * Most return boolean, but some return other types (string, number, objects)
  * This is what you get from editor.commands.*

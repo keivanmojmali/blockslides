@@ -126,14 +126,36 @@ export interface MarkdownRendererHelpers {
 }
 
 /**
- * Extension attribute definition
+ * Attribute definition for nodes and marks
+ */
+export interface Attribute {
+  default?: any | (() => any)
+  rendered?: boolean
+  renderHTML?: ((attributes: Record<string, any>) => Record<string, any> | null) | null
+  parseHTML?: ((element: HTMLElement) => any) | null
+  keepOnSplit?: boolean
+  isRequired?: boolean
+  validate?: (value: any) => boolean
+}
+
+/**
+ * Attributes definition object
+ */
+export type Attributes = Record<string, Partial<Attribute>>
+
+/**
+ * Extension attribute definition with type and name
  */
 export interface ExtensionAttribute {
-  default?: any
-  rendered?: boolean
-  parseHTML?: (element: HTMLElement) => any
-  renderHTML?: (attributes: Record<string, any>) => Record<string, any>
+  type: string
+  name: string
+  attribute: Required<Omit<Attribute, 'validate'>> & Pick<Attribute, 'validate'>
 }
+
+/**
+ * Enable rules configuration for input/paste rules
+ */
+export type EnableRules = boolean | Array<string | AnyExtension>
 
 /**
  * Maybe return type - extracts return type from function or uses type as-is
