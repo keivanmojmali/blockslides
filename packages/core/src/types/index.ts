@@ -43,11 +43,38 @@ export type {
   CanCommands,
 } from "./commands";
 
+// Re-export extension system types
+export type {
+  AnyConfig,
+  Extensions,
+  GlobalAttributes,
+  JSONContent,
+  KeyboardShortcutCommand,
+  RawCommands,
+  ParentConfig,
+  RenderContext,
+  MarkdownTokenizer,
+  MarkdownToken,
+  MarkdownParseHelpers,
+  MarkdownParseResult,
+  MarkdownRendererHelpers,
+  ExtensionAttribute,
+  MaybeReturnType,
+  RemoveThis,
+  MaybeThisParameterType,
+  AnyExtension,
+  ExtensionEvents,
+  CommandSpec,
+  InputRuleMatch,
+  PasteRuleMatch,
+} from "./extensions";
+
 /**
  * Editor Events interface
  * Contains all event callback types
  */
 export interface EditorEvents {
+  beforeCreate?: (event: { editor: any }) => void
   onCreate?: (params: OnCreateParams) => void;
   onDestroy?: () => void;
   onUpdate?: (params: OnUpdateParams) => void;
@@ -59,6 +86,13 @@ export interface EditorEvents {
   onTransaction?: (params: OnTransactionParams) => void;
   onUndo?: (params: OnUndoParams) => void;
   onRedo?: (params: OnRedoParams) => void;
+  create?: (event: { editor: any }) => void
+  update?: (event: { editor: any; transaction: any }) => void
+  selectionUpdate?: (event: { editor: any; transaction: any }) => void
+  transaction?: (event: { editor: any; transaction: any }) => void
+  focus?: (event: { editor: any; event: FocusEvent }) => void
+  blur?: (event: { editor: any; event: FocusEvent }) => void
+  destroy?: (event: { editor: any }) => void
 }
 
 // ===== BASE TYPES =====
