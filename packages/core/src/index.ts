@@ -6,12 +6,17 @@ export type { SlideEditorOptions } from "./SlideEditor";
 export { EventEmitter } from "./EventEmitter";
 
 // Extension system
+export { Extendable } from "./Extendable";
+export type { ExtendableConfig } from "./Extendable";
 export { Extension } from "./Extension";
-export { ExtensionManager } from "./ExtensionManager";
+export type { ExtensionConfig } from "./Extension";
+// ExtensionManager will be rewritten in Step 8
+// export { ExtensionManager } from "./ExtensionManager";
 
 // Command system
 export { CommandManager } from "./CommandManager";
-export { CoreCommands } from "./extensions/CoreCommands";
+// CoreCommands will be rewritten to use new Extension API in Step 10
+// export { CoreCommands } from "./extensions/CoreCommands";
 
 // Utilities
 export { Tracker } from "./Tracker";

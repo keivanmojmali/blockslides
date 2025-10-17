@@ -15,12 +15,6 @@ import type { Plugin } from 'prosemirror-state'
 
 import type { SlideEditor } from './SlideEditor.js'
 import { getExtensionField } from './helpers/index.js'
-// These will be created in subsequent steps
-// import type { ExtensionConfig, MarkConfig, NodeConfig } from './index.js'
-// import type { InputRule } from './InputRule.js'
-// import type { Mark } from './Mark.js'
-// import type { Node } from './Node.js'
-// import type { PasteRule } from './PasteRule.js'
 import type {
   AnyConfig,
   EditorEvents,
@@ -40,14 +34,22 @@ import type {
 import { callOrReturn } from './utils/callOrReturn.js'
 import { mergeDeep } from './utils/mergeDeep.js'
 
-// Placeholder types until we create the actual files
-export interface ExtensionConfig<Options = any, Storage = any> extends ExtendableConfig<Options, Storage, ExtensionConfig<Options, Storage>, null> {}
+// Extension configuration types
+// These are defined here to avoid circular dependencies
+// ExtensionConfig is re-exported from Extension.ts for public API
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface ExtensionConfig<Options = any, Storage = any> 
+  extends ExtendableConfig<Options, Storage, ExtensionConfig<Options, Storage>, null> {}
+
+// Placeholder types for Mark and Node (will be created in Steps 6-7)
 export interface MarkConfig<Options = any, Storage = any> extends ExtendableConfig<Options, Storage, MarkConfig<Options, Storage>, any> {}
 export interface NodeConfig<Options = any, Storage = any> extends ExtendableConfig<Options, Storage, NodeConfig<Options, Storage>, any> {}
 export interface InputRule {}
 export interface PasteRule {}
 export interface Mark {}
 export interface Node {}
+
+
 
 export interface ExtendableConfig<
   Options = any,

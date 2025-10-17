@@ -2,9 +2,9 @@
 
 **Goal**: Adopt Tiptap's battle-tested architecture while maintaining slide editor functionality.
 
-**Status**: ✅ Phase 1 Complete | 🔄 Phase 2 - Step 4 Complete
+**Status**: ✅ Phase 1 Complete | 🔄 Phase 2 - Steps 4-5 Complete
 
-**Last**: Extendable.ts (foundation class complete)
+**Last**: Extension.ts (base class complete)
 
 ---
 
@@ -63,6 +63,7 @@
 **Dependencies**: None
 
 **Files created**:
+
 - ✅ `src/style.ts`
 - ✅ `src/utils/createStyleTag.ts`
 
@@ -105,6 +106,7 @@
 **Dependencies**: None
 
 **Files created**:
+
 - ✅ `src/jsx-runtime.ts`
 - ✅ `jsx-runtime/index.{js,cjs,d.ts,d.cts}`
 - ✅ `jsx-dev-runtime/index.{js,cjs,d.ts,d.cts}`
@@ -147,13 +149,15 @@
 - ✅ Export types from types/index.ts
 - Extension/Mark/Node classes will extend this (Steps 5-7)
 
-**Dependencies**: 
+**Dependencies**:
+
 - ✅ helpers/getExtensionField.ts
 - ✅ utils/callOrReturn.ts
 - ✅ utils/mergeDeep.ts
 - ✅ types/extensions.ts (ParentConfig, AnyConfig, etc.)
 
 **Files created**:
+
 - ✅ `src/Extendable.ts` (589 lines)
 - ✅ `src/helpers/getExtensionField.ts` (40 lines)
 - ✅ `src/helpers/index.ts` (export file)
@@ -183,12 +187,12 @@
 
 ---
 
-### Step 5: Extension.ts 🔥 MAJOR REWRITE
+### Step 5: Extension.ts ✅ COMPLETE
 
 **Priority**: HIGH - Core architecture change
 **Effort**: 3 hours
 **Attribution**: Heavily adapted from Tiptap (MIT License)
-**Status**: ⏳ PENDING (after Step 4)
+**Status**: ✅ COMPLETE
 
 **What**:
 
@@ -199,24 +203,36 @@
 
 **Changes needed**:
 
-- Extend `Extendable` instead of standalone class
-- Add static `.create(config)` method
-- Change `Editor` → `SlideEditor`
-- Keep slide-specific features
+- ✅ Extended `Extendable` instead of standalone class
+- ✅ Added static `.create(config)` method
+- ✅ Changed `Editor` → `SlideEditor`
+- ✅ Implemented `.configure()` and `.extend()` methods
+- ✅ Added comprehensive JSDoc documentation
 
 **Integration**:
 
-- Replace existing `Extension.ts`
-- ⚠️ **NO changes to existing extensions yet** - just the base class
-- ⚠️ **NO SlideEditor changes yet**
+- ✅ Replaced existing `Extension.ts` (173 lines)
+- ✅ ExtensionConfig interface defined in Extendable.ts (to avoid circular deps)
+- ✅ Re-exported ExtensionConfig from Extension.ts for public API
+- ✅ Exported from `index.ts`
+- ⚠️ **Temporarily disabled** ExtensionManager and CoreCommands exports (old API)
+  - Will be rewritten in Step 8 (ExtensionManager)
+  - Will be rewritten in Step 10 (CoreCommands)
 
 **Dependencies**:
 
-- Step 4: Extendable.ts
+- ✅ Step 4: Extendable.ts
 
-**Files to update**:
+**Files created**:
 
-- `src/Extension.ts` - Complete rewrite extending Extendable
+- ✅ `src/Extension.ts` (173 lines) - Complete rewrite extending Extendable
+
+**Files updated**:
+
+- ✅ `src/index.ts` - Export Extension, ExtensionConfig, Extendable, ExtendableConfig
+- ✅ `src/Extendable.ts` - Added ExtensionConfig interface (avoid circular dependency)
+
+**Build Status**: ✅ All TypeScript errors resolved, build succeeds
 
 ---
 
@@ -225,7 +241,7 @@
 **Priority**: HIGH - Schema architecture change
 **Effort**: 2 hours
 **Attribution**: Heavily adapted from Tiptap (MIT License)
-**Status**: ⏳ PENDING (after Step 4)
+**Status**: ⏳ PENDING (after Step 5)
 
 **What**:
 
@@ -670,33 +686,20 @@ cd demo && pnpm dev
 ## Migration Order Summary
 
 **Phase 1: Utilities** ✅ COMPLETE:
+
 1. ✅ Tracker.ts (drop-in)
 2. ✅ style.ts + CSS injection (drop-in)
 3. ✅ jsx-runtime.ts (drop-in with build system)
 
-**Phase 2: Foundation Classes** (No SlideEditor changes):
-4. **Extendable.ts** ← 🔄 NEXT (base class)
-5. **Extension.ts** (rewrite, extends Extendable)
-6. **Mark.ts** (new class, extends Extendable)
-7. **Node.ts** (new class, extends Extendable)
-8. **ExtensionManager.ts** (rewrite for schema generation)
+**Phase 2: Foundation Classes** (No SlideEditor changes): 4. **Extendable.ts** ← 🔄 NEXT (base class) 5. **Extension.ts** (rewrite, extends Extendable) 6. **Mark.ts** (new class, extends Extendable) 7. **Node.ts** (new class, extends Extendable) 8. **ExtensionManager.ts** (rewrite for schema generation)
 
-**Phase 3: Validation**:
-9. **Create test extension** (verify system works)
+**Phase 3: Validation**: 9. **Create test extension** (verify system works)
 
-**Phase 4: Convert Extensions** (No SlideEditor changes):
-10. **Convert all marks** to `Mark.create()` pattern
-11. **Convert all nodes** to `Node.create()` pattern
-12. **Convert all extensions** to new Extension pattern
+**Phase 4: Convert Extensions** (No SlideEditor changes): 10. **Convert all marks** to `Mark.create()` pattern 11. **Convert all nodes** to `Node.create()` pattern 12. **Convert all extensions** to new Extension pattern
 
-**Phase 5: Final Integration**:
-13. **SlideEditor.ts** - ONE BIG INTEGRATION (use schema from ExtensionManager, add lifecycle hooks)
+**Phase 5: Final Integration**: 13. **SlideEditor.ts** - ONE BIG INTEGRATION (use schema from ExtensionManager, add lifecycle hooks)
 
-**Phase 6: Optional Features** (After integration):
-14. InputRule.ts (standardize input rules)
-15. PasteRule.ts (add paste handling)
-16. NodePos.ts (query helper)
-17. NodeView.ts/MarkView.ts (custom rendering - skip for now)
+**Phase 6: Optional Features** (After integration): 14. InputRule.ts (standardize input rules) 15. PasteRule.ts (add paste handling) 16. NodePos.ts (query helper) 17. NodeView.ts/MarkView.ts (custom rendering - skip for now)
 
 ---
 
