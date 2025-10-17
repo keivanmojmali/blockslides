@@ -4,7 +4,7 @@
  * Export these types so developers get autocomplete and type safety
  */
 
-import type { Plugin } from 'prosemirror-state';
+import type { Plugin } from "prosemirror-state";
 import type {
   OnCreateParams,
   OnUpdateParams,
@@ -15,9 +15,9 @@ import type {
   OnBlurParams,
   OnTransactionParams,
   OnUndoParams,
-  OnRedoParams
-} from './events';
-import type { ChainedCommands } from './commands';
+  OnRedoParams,
+} from "./events";
+import type { ChainedCommands, SingleCommands } from "./commands";
 
 // Re-export event types
 export type {
@@ -30,8 +30,8 @@ export type {
   OnBlurParams,
   OnTransactionParams,
   OnUndoParams,
-  OnRedoParams
-} from './events';
+  OnRedoParams,
+} from "./events";
 
 // Re-export command types
 export type {
@@ -40,8 +40,8 @@ export type {
   AnyCommands,
   SingleCommands,
   ChainedCommands,
-  CanCommands
-} from './commands';
+  CanCommands,
+} from "./commands";
 
 /**
  * Editor Events interface
@@ -330,29 +330,29 @@ export interface SlideEditorProps {
   /**
    * Editor content. This serves as the initial content when the editor mounts.
    * The editor is always controlled - content updates happen through onChange.
-   * 
+   *
    * @example
    * // Basic usage with initial content
    * <SlideEditor content={myContent} />
-   * 
+   *
    * @example
    * // Tracked updates (fully controlled)
    * const [content, setContent] = useState(initialContent);
    * <SlideEditor content={content} onChange={setContent} />
    */
   content: DocNode;
-  
+
   /**
    * Called when editor content changes.
    * Optional - only needed if you want to track content updates.
    */
   onChange?: (content: DocNode) => void;
-  
+
   editorTheme?: "light" | "dark" | string;
   editorStyles?: string;
   editorMode?: "edit" | "present" | "preview";
   readOnly?: boolean;
-  
+
   // Add Slide Button Configuration
   showAddSlideButtons?: boolean;
   addSlideButtonClassName?: string;
@@ -366,81 +366,81 @@ export interface SlideEditorProps {
   currentSlide?: number;
   onSlideChange?: (slideIndex: number) => void;
   onError?: (error: Error) => void;
-  
+
   // Lifecycle Events
   onCreate?: (params: OnCreateParams) => void;
   onDestroy?: () => void;
   onUpdate?: (params: OnUpdateParams) => void;
-  
+
   // Content Events
   onContentChange?: (params: OnContentChangeParams) => void;
-  
+
   // Selection Events
   onSelectionUpdate?: (params: OnSelectionUpdateParams) => void;
-  
+
   // Focus Events
   onFocus?: (params: OnFocusParams) => void;
   onBlur?: (params: OnBlurParams) => void;
-  
+
   // Transaction Events
   onTransaction?: (params: OnTransactionParams) => void;
-  
+
   // History Events
   onUndo?: (params: OnUndoParams) => void;
   onRedo?: (params: OnRedoParams) => void;
-  
+
   // History Configuration
-  historyDepth?: number;        // Max number of undo steps (default: 100)
-  newGroupDelay?: number;       // Time (ms) before starting new undo group (default: 500)
-  
+  historyDepth?: number; // Max number of undo steps (default: 100)
+  newGroupDelay?: number; // Time (ms) before starting new undo group (default: 500)
+
   // Validation Configuration
-  validationMode?: 'strict' | 'lenient' | 'off';  // Validation mode (default: lenient)
-  autoFixContent?: boolean;                        // Auto-fix common issues (default: false)
-  onValidationError?: (result: ValidationResult) => void;  // Called when validation fails
-  
+  validationMode?: "strict" | "lenient" | "off"; // Validation mode (default: lenient)
+  autoFixContent?: boolean; // Auto-fix common issues (default: false)
+  onValidationError?: (result: ValidationResult) => void; // Called when validation fails
+
   // Keyboard Shortcuts Configuration
-  keyboardShortcuts?: KeyboardShortcutsConfig;     // Custom keyboard shortcuts
-  showShortcutsHelp?: boolean;                     // Show shortcuts help modal on mount
-  
+  keyboardShortcuts?: KeyboardShortcutsConfig; // Custom keyboard shortcuts
+  showShortcutsHelp?: boolean; // Show shortcuts help modal on mount
+
   // Custom Plugins
-  plugins?: Plugin[];                              // Custom ProseMirror plugins to add to the editor
+  plugins?: Plugin[]; // Custom ProseMirror plugins to add to the editor
 }
 
 /**
  * Selection information
  */
 export interface SelectionInfo {
-  from: number;      // Start position of selection
-  to: number;        // End position of selection
-  empty: boolean;    // True if nothing is selected (cursor only)
-  text: string;      // Selected text content
-  isAtStart: boolean;        // Is cursor at document start?
-  isAtEnd: boolean;          // Is cursor at document end?
-  marks: string[];           // Active marks at selection
-  nodeType?: string;         // Type of selected node (if node selection)
+  from: number; // Start position of selection
+  to: number; // End position of selection
+  empty: boolean; // True if nothing is selected (cursor only)
+  text: string; // Selected text content
+  isAtStart: boolean; // Is cursor at document start?
+  isAtEnd: boolean; // Is cursor at document end?
+  marks: string[]; // Active marks at selection
+  nodeType?: string; // Type of selected node (if node selection)
 }
 
 /**
  * History state information
  */
 export interface HistoryState {
-  canUndo: boolean;    // Can undo be performed?
-  canRedo: boolean;    // Can redo be performed?
-  undoDepth: number;   // Number of undo steps available
-  redoDepth: number;   // Number of redo steps available
+  canUndo: boolean; // Can undo be performed?
+  canRedo: boolean; // Can redo be performed?
+  undoDepth: number; // Number of undo steps available
+  redoDepth: number; // Number of redo steps available
 }
 
 /**
  * Validation issue (error or warning)
  */
 export interface ValidationIssue {
-  type: 'error' | 'warning';
-  path: string;              // JSON path like "content[0].content[1]"
+  type: "error" | "warning";
+  path: string; // JSON path like "content[0].content[1]"
   message: string;
-  code: string;              // Error code like "MISSING_TYPE"
-  expected?: any;            // What was expected
-  received?: any;            // What was received
-  autoFixable: boolean;      // Can this be auto-fixed?
+  code: string; // Error code like "MISSING_TYPE"
+  expected?: any; // What was expected
+  received?: any; // What was received
+  autoFixable: boolean; // Can this be auto-fixed?
 }
 
 /**
@@ -450,16 +450,16 @@ export interface ValidationResult {
   valid: boolean;
   errors: ValidationIssue[];
   warnings: ValidationIssue[];
-  fixed?: any;               // Auto-fixed content (if requested)
+  fixed?: any; // Auto-fixed content (if requested)
 }
 
 /**
  * Validation options
  */
 export interface ValidationOptions {
-  mode?: 'strict' | 'lenient';  // Strict fails on warnings too
-  autoFix?: boolean;             // Attempt to auto-fix issues
-  throwOnError?: boolean;        // Throw ValidationError on failure
+  mode?: "strict" | "lenient"; // Strict fails on warnings too
+  autoFix?: boolean; // Attempt to auto-fix issues
+  throwOnError?: boolean; // Throw ValidationError on failure
 }
 
 /**
@@ -475,61 +475,81 @@ export interface ContentValidator {
  * Navigation options for slide transitions
  */
 export interface NavigationOptions {
-  circular?: boolean;           // Enable wrap-around navigation
-  transition?: 'none' | 'fade' | 'slide' | 'zoom';
-  duration?: number;            // Animation duration in ms (default: 300)
+  circular?: boolean; // Enable wrap-around navigation
+  transition?: "none" | "fade" | "slide" | "zoom";
+  duration?: number; // Animation duration in ms (default: 300)
 }
 
 /**
  * Slide info for navigation
  */
 export interface SlideInfo {
-  index: number;         // Current slide index (0-based)
-  total: number;         // Total number of slides
-  isFirst: boolean;      // Is this the first slide?
-  isLast: boolean;       // Is this the last slide?
-  canGoNext: boolean;    // Can navigate to next slide?
-  canGoPrev: boolean;    // Can navigate to previous slide?
+  index: number; // Current slide index (0-based)
+  total: number; // Total number of slides
+  isFirst: boolean; // Is this the first slide?
+  isLast: boolean; // Is this the last slide?
+  canGoNext: boolean; // Can navigate to next slide?
+  canGoPrev: boolean; // Can navigate to previous slide?
 }
 
 /**
  * Keyboard shortcut definition
  */
 export interface KeyboardShortcut {
-  key: string;                    // e.g., 'Mod-b', 'Shift-Enter'
-  command: string;                // Command name to execute
-  description: string;            // Human-readable description
-  category?: string;              // For grouping in help
+  key: string; // e.g., 'Mod-b', 'Shift-Enter'
+  command: string; // Command name to execute
+  description: string; // Human-readable description
+  category?: string; // For grouping in help
 }
 
 /**
  * Keyboard shortcuts configuration
  */
 export interface KeyboardShortcutsConfig {
-  custom?: Record<string, KeyboardShortcut>;  // Add custom shortcuts
-  disabled?: string[];                        // Disable specific shortcuts by key
-  overrides?: Record<string, string>;         // Override default: key -> command name
+  custom?: Record<string, KeyboardShortcut>; // Add custom shortcuts
+  disabled?: string[]; // Disable specific shortcuts by key
+  overrides?: Record<string, string>; // Override default: key -> command name
 }
 
 /**
  * Export format types
  */
-export type ExportFormat = 'json' | 'html' | 'markdown' | 'text';
+export type ExportFormat = "json" | "html" | "markdown" | "text";
 
 /**
  * Export options
  */
 export interface ExportOptions {
-  pretty?: boolean;           // Pretty-print output (JSON)
-  includeStyles?: boolean;    // Include CSS in HTML
-  slideNumbers?: boolean;     // Add slide numbers (HTML)
+  pretty?: boolean; // Pretty-print output (JSON)
+  includeStyles?: boolean; // Include CSS in HTML
+  slideNumbers?: boolean; // Add slide numbers (HTML)
 }
 
 /**
  * Commands API interface
- * All methods for controlling the editor programmatically
+ *
+ * All methods for controlling the editor programmatically.
+ * This extends SingleCommands to support both core commands and custom commands from extensions.
+ *
+ * Core commands (always available):
+ * - Text formatting: toggleBold, toggleItalic, toggleUnderline, etc.
+ * - Headings: setHeading, toggleHeading, setParagraph
+ * - Links: setLink, updateLink, removeLink
+ * - Lists: toggleBulletList, toggleOrderedList
+ * - Media: insertImage, insertVideo
+ * - Slides: addSlide, deleteSlide, duplicateSlide
+ * - Navigation: nextSlide, prevSlide, goToSlide, etc.
+ * - Layouts: setLayout, setSlideLayout
+ * - History: undo, redo, canUndo, canRedo, etc.
+ * - Selection: focus, blur, selectAll, setSelection, etc.
+ * - Content: clearContent
+ *
+ * Custom commands can be added via extensions using Extension.addCommands()
  */
-export interface Commands {
+export interface Commands extends SingleCommands {
+  // Note: All command signatures are now defined dynamically through extensions
+  // Core commands come from CoreCommands extension
+  // Custom commands come from user-provided extensions
   // Text formatting
   toggleBold: () => boolean;
   toggleItalic: () => boolean;
@@ -540,30 +560,41 @@ export interface Commands {
   setHighlight: (color: string) => boolean;
   removeTextColor: () => boolean;
   removeHighlight: () => boolean;
-  
+
   // Headings
   setHeading: (level: 1 | 2 | 3 | 4 | 5 | 6) => boolean;
   toggleHeading: (level: 1 | 2 | 3 | 4 | 5 | 6) => boolean;
   setParagraph: () => boolean;
-  
+
   // Links
   setLink: (href: string, title?: string) => boolean;
   updateLink: (href: string, title?: string) => boolean;
   removeLink: () => boolean;
-  
+
   // Lists
   toggleBulletList: () => boolean;
   toggleOrderedList: () => boolean;
-  
+
   // Media
-  insertImage: (attrs: { src: string; alt?: string; width?: number | string }) => boolean;
-  insertVideo: (attrs: { src: string; provider?: string; aspectRatio?: string }) => boolean;
-  
+  insertImage: (attrs: {
+    src: string;
+    alt?: string;
+    width?: number | string;
+  }) => boolean;
+  insertVideo: (attrs: {
+    src: string;
+    provider?: string;
+    aspectRatio?: string;
+  }) => boolean;
+
   // Slides
-  addSlide: (position?: 'before' | 'after' | 'end' | number, options?: { placeholderHeader?: string }) => boolean;
+  addSlide: (
+    position?: "before" | "after" | "end" | number,
+    options?: { placeholderHeader?: string }
+  ) => boolean;
   deleteSlide: (slideIndex?: number) => boolean;
   duplicateSlide: (slideIndex?: number) => boolean;
-  
+
   // Slide navigation
   nextSlide: (options?: NavigationOptions) => void;
   prevSlide: (options?: NavigationOptions) => void;
@@ -573,11 +604,11 @@ export interface Commands {
   canGoNext: (circular?: boolean) => boolean;
   canGoPrev: (circular?: boolean) => boolean;
   getSlideInfo: () => SlideInfo;
-  
+
   // Layouts
   setLayout: (layout: string) => boolean;
   setSlideLayout: (layout: string) => boolean;
-  
+
   // History
   undo: () => boolean;
   redo: () => boolean;
@@ -587,13 +618,13 @@ export interface Commands {
   getRedoDepth: () => number;
   getHistoryState: () => HistoryState;
   clearHistory: () => boolean;
-  
+
   // Focus and selection
   focus: () => boolean;
   blur: () => boolean;
   selectAll: () => boolean;
   deleteSelection: () => boolean;
-  
+
   // Selection commands
   setSelection: (from: number, to?: number) => boolean;
   selectSlide: (slideIndex: number) => boolean;
@@ -603,10 +634,10 @@ export interface Commands {
   isSelectionEmpty: () => boolean;
   isAtStart: () => boolean;
   isAtEnd: () => boolean;
-  
+
   // Content manipulation
   clearContent: () => boolean;
-  
+
   // Chaining
   chain: () => ChainedCommands;
 }
@@ -619,11 +650,11 @@ export interface Commands {
  */
 export interface SlideEditorRef {
   view: any; // EditorView from prosemirror-view
-  
+
   // Editability control
   setEditable: (editable: boolean) => void;
   isEditable: () => boolean;
-  
+
   // State access methods
   getCurrentSlide: () => number;
   getTotalSlides: () => number;
@@ -634,18 +665,18 @@ export interface SlideEditorRef {
   isEmpty: () => boolean;
   isFocused: () => boolean;
   getSelection: () => SelectionInfo | null;
-  
+
   // Commands API
   commands: Commands;
-  
+
   // History state access (direct methods)
   canUndo: () => boolean;
   canRedo: () => boolean;
   getHistoryState: () => HistoryState;
-  
+
   // Validation API
   validator: ContentValidator;
-  
+
   // Content Management
   /**
    * Set content programmatically
@@ -653,11 +684,15 @@ export interface SlideEditorRef {
    * WARNING: In controlled mode, will be overwritten by next prop update
    */
   setContent: (content: DocNode) => void;
-  
+
   // Export methods
   exportAs: (format: ExportFormat, options?: ExportOptions) => string;
-  downloadAs: (format: ExportFormat, filename: string, options?: ExportOptions) => void;
-  
+  downloadAs: (
+    format: ExportFormat,
+    filename: string,
+    options?: ExportOptions
+  ) => void;
+
   // Utility methods
   destroy: () => void;
   getElement: () => HTMLElement | null;

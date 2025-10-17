@@ -7,10 +7,11 @@ import { undo, redo } from 'prosemirror-history';
 import { schema } from './schema';
 import { Extension } from './Extension';
 import { ExtensionManager } from './ExtensionManager';
+import { CommandManager } from './CommandManager';
+import { CoreCommands } from './extensions/CoreCommands';
 import { applyAllLayouts } from './utils/layoutParser';
-import { createCommands } from './commands';
 import { createMarkdownInputRules } from './plugins/markdownInputRules';
-import type { DocNode, Commands } from './types';
+import type { DocNode, Commands, ChainedCommands, CanCommands } from './types';
 
 /**
  * SlideEditor Options
@@ -74,7 +75,8 @@ export interface SlideEditorOptions {
 export class SlideEditor {
   private options: SlideEditorOptions;
   public view: EditorView | null = null;
-  private extensionManager: ExtensionManager | null = null;
+  private extensionManager: ExtensionManager;
+  private commandManager: CommandManager;
   private plugins: Plugin[] = [];
   private mounted = false;
   public commands: Commands;
@@ -92,16 +94,25 @@ export class SlideEditor {
       ...options,
     };
     
-    // Create extension manager if extensions provided
-    if (this.options.extensions && this.options.extensions.length > 0) {
-      this.extensionManager = new ExtensionManager(this.options.extensions, this);
-    }
+    // Combine CoreCommands with user extensions
+    // CoreCommands is always loaded first (provides all core editing commands)
+    const allExtensions = [
+      new CoreCommands(),
+      ...(this.options.extensions || []),
+    ];
+    
+    // Create extension manager with ALL extensions (core + user)
+    this.extensionManager = new ExtensionManager(allExtensions, this);
+    
+    // Create command manager
+    this.commandManager = new CommandManager(this, this.extensionManager.getCommands());
     
     // Create plugins once in constructor (fixes duplicate plugin error)
     this.plugins = this.createPlugins();
     
-    // Initialize commands API - provide a getter for the view
-    this.commands = createCommands(() => this.view);
+    // Initialize commands API using CommandManager
+    // Cast to Commands type since CoreCommands provides all the required methods
+    this.commands = this.commandManager.commands as Commands;
   }
   
   /**
@@ -347,6 +358,40 @@ export class SlideEditor {
    */
   public destroy(): void {
     this.unmount();
+  }
+
+  /**
+   * Create a command chain for batched execution
+   * 
+   * Commands in a chain are executed sequentially and batched into a single transaction.
+   * Must call .run() to execute the chain.
+   * 
+   * @example
+   * ```typescript
+   * editor.chain()
+   *   .toggleBold()
+   *   .toggleItalic()
+   *   .run();
+   * ```
+   */
+  public chain(): ChainedCommands {
+    return this.commandManager.chain();
+  }
+
+  /**
+   * Test if commands can be executed without actually running them
+   * 
+   * Useful for enabling/disabling UI elements based on command availability.
+   * 
+   * @example
+   * ```typescript
+   * if (editor.can().toggleBold()) {
+   *   showBoldButton();
+   * }
+   * ```
+   */
+  public can(): CanCommands {
+    return this.commandManager.can();
   }
 }
 
