@@ -18,6 +18,22 @@ export { Tracker } from "./Tracker";
 export type { TrackerResult } from "./Tracker";
 export { style } from "./style";
 
+// JSX Runtime
+export {
+  createElement,
+  Fragment,
+  h,
+  jsx,
+  jsxDEV,
+  jsxs,
+} from "./jsx-runtime";
+export type {
+  Attributes,
+  DOMOutputSpecArray,
+  DOMOutputSpecElement,
+  JSXRenderer,
+} from "./jsx-runtime";
+
 // Schema
 export { schema } from "./schema";
 

@@ -10,14 +10,24 @@
       "import": "./src/index.ts",
       "require": "./src/index.ts",
       "types": "./src/index.ts"
+    },
+    "./jsx-runtime": {
+      "import": "./jsx-runtime/index.js",
+      "require": "./jsx-runtime/index.cjs",
+      "types": "./jsx-runtime/index.d.ts"
+    },
+    "./jsx-dev-runtime": {
+      "import": "./jsx-dev-runtime/index.js",
+      "require": "./jsx-dev-runtime/index.cjs",
+      "types": "./jsx-dev-runtime/index.d.ts"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm",
-    "dev": "tsup src/index.ts --format cjs,esm --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
