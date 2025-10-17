@@ -11,6 +11,8 @@ import { CommandManager } from './CommandManager';
 import { CoreCommands } from './extensions/CoreCommands';
 import { applyAllLayouts } from './utils/layoutParser';
 import { createMarkdownInputRules } from './plugins/markdownInputRules';
+import { createStyleTag } from './utils/createStyleTag';
+import { style } from './style';
 import type { DocNode, Commands, ChainedCommands, CanCommands } from './types';
 
 /**
@@ -57,6 +59,8 @@ export interface SlideEditorOptions {
   
   // Features
   enableMarkdown?: boolean;  // Enable markdown input rules (default: true)
+  injectCSS?: boolean;       // Inject default ProseMirror styles (default: true)
+  injectNonce?: string;      // Nonce for Content Security Policy (CSP)
   
   // Extensibility (BOTH patterns supported)
   extensions?: Extension[];  // High-level (recommended, TipTap-style)
@@ -79,6 +83,7 @@ export class SlideEditor {
   private commandManager: CommandManager;
   private plugins: Plugin[] = [];
   private mounted = false;
+  private css: HTMLStyleElement | null = null;
   public commands: Commands;
   
   constructor(options: SlideEditorOptions) {
@@ -91,8 +96,12 @@ export class SlideEditor {
       newGroupDelay: 500,
       validationMode: 'lenient',
       autoFixContent: false,
+      injectCSS: true,
       ...options,
     };
+    
+    // Inject default ProseMirror styles
+    this.injectCSS();
     
     // Combine CoreCommands with user extensions
     // CoreCommands is always loaded first (provides all core editing commands)
@@ -168,6 +177,25 @@ export class SlideEditor {
     });
     
     return uniquePlugins;
+  }
+  
+  /**
+   * Inject default ProseMirror CSS styles into the document
+   * Only injects if injectCSS option is true and we're in a browser environment
+   */
+  private injectCSS(): void {
+    // Skip if injection is disabled
+    if (this.options.injectCSS === false) {
+      return;
+    }
+    
+    // Skip on server-side
+    if (typeof window === 'undefined') {
+      return;
+    }
+    
+    // Inject the CSS and store reference to the style element
+    this.css = createStyleTag(style, this.options.injectNonce);
   }
   
   /**
@@ -262,6 +290,21 @@ export class SlideEditor {
     this.view?.destroy();
     this.view = null;
     this.mounted = false;
+    
+    // Remove injected CSS
+    if (this.css) {
+      try {
+        if (typeof this.css.remove === 'function') {
+          this.css.remove();
+        } else if (this.css.parentNode) {
+          this.css.parentNode.removeChild(this.css);
+        }
+      } catch (error) {
+        // Silently handle any DOM removal errors in test environments
+        console.warn('[AutoArtifacts] Failed to remove CSS element:', error);
+      }
+      this.css = null;
+    }
   }
   
   /**

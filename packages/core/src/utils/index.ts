@@ -1,4 +1,5 @@
 export * from './contentRedistribution';
+export * from './createStyleTag';
 export * from './exporters';
 export * from './historyUtils';
 export * from './layoutParser';

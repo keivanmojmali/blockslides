@@ -16,6 +16,7 @@ export { CoreCommands } from "./extensions/CoreCommands";
 // Utilities
 export { Tracker } from "./Tracker";
 export type { TrackerResult } from "./Tracker";
+export { style } from "./style";
 
 // Schema
 export { schema } from "./schema";
