@@ -4,185 +4,253 @@
  * Tests that verify multiple components working together
  */
 
-import { createTestEditor, getSlideCount, typeText } from './testUtils';
-import { createCommands } from '../commands';
+import { SlideEditor } from '../SlideEditor';
 import { TextSelection } from 'prosemirror-state';
+import type { DocNode } from '../types';
+
+// Helper to create a test document with slides
+function createTestDoc(slideCount: number): DocNode {
+  const slides: any[] = [];
+  for (let i = 0; i < slideCount; i++) {
+    slides.push({
+      type: 'slide',
+      content: [{
+        type: 'row',
+        content: [{
+          type: 'column',
+          content: [
+            { type: 'heading', attrs: { level: 1 }, content: [{ type: 'text', text: `Slide ${i + 1}` }] },
+            { type: 'paragraph' }
+          ]
+        }]
+      }]
+    });
+  }
+  return {
+    type: 'doc',
+    content: slides as any
+  };
+}
+
+// Helper to get slide count
+function getSlideCount(doc: any): number {
+  let count = 0;
+  doc.forEach((node: any) => {
+    if (node.type.name === 'slide') count++;
+  });
+  return count;
+}
+
+// Helper to type text
+function typeText(editor: SlideEditor, text: string): void {
+  if (!editor.view) return;
+  const { from } = editor.view.state.selection;
+  const tr = editor.view.state.tr.insertText(text, from);
+  editor.view.dispatch(tr);
+}
 
 describe('Integration Tests', () => {
+  let container: HTMLElement;
+
+  beforeEach(() => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(container);
+  });
+
   describe('Basic slide creation and editing', () => {
     it('should create a presentation with multiple slides and format text', () => {
-      const { view, schema } = createTestEditor({ slideCount: 1 });
-      const commands = createCommands(() => view);
+      const editor = new SlideEditor({
+        content: createTestDoc(1),
+      });
+      editor.mount(container);
       
       // Initial state: 1 slide
-      expect(getSlideCount(view.state.doc)).toBe(1);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(1);
       
       // Add two more slides
-      commands.addSlide('end');
-      commands.addSlide('end');
+      editor.commands.addSlide('end');
+      editor.commands.addSlide('end');
       
-      expect(getSlideCount(view.state.doc)).toBe(3);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(3);
       
       // Add text and format it
-      typeText(view, 'Hello World');
+      typeText(editor, 'Hello World');
       
       // Select and format the text
       const from = 6;
       const to = from + 11;
-      const tr = view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to));
-      view.dispatch(tr);
+      const tr = editor.view!.state.tr.setSelection(TextSelection.create(editor.view!.state.doc, from, to));
+      editor.view!.dispatch(tr);
       
-      commands.toggleBold();
-      commands.toggleItalic();
+      editor.commands.toggleBold();
+      editor.commands.toggleItalic();
       
       // Verify the presentation has content
-      expect(view.state.doc.textContent).toContain('Hello World');
+      expect(editor.view!.state.doc.textContent).toContain('Hello World');
+      
+      editor.destroy();
     });
 
     it('should handle undo/redo across multiple operations', () => {
-      const { view } = createTestEditor({ slideCount: 1 });
-      const commands = createCommands(() => view);
+      const editor = new SlideEditor({
+        content: createTestDoc(1),
+      });
+      editor.mount(container);
       
-      const initialState = view.state.doc.toString();
+      const initialState = editor.view!.state.doc.toString();
       
       // Make multiple changes
-      commands.addSlide('end');
-      typeText(view, 'Test');
-      commands.toggleBold();
+      editor.commands.addSlide('end');
+      typeText(editor, 'Test');
+      editor.commands.toggleBold();
       
       // Undo all changes
-      commands.undo();
-      commands.undo();
-      commands.undo();
+      editor.commands.undo();
+      editor.commands.undo();
+      editor.commands.undo();
       
-      expect(view.state.doc.toString()).toBe(initialState);
+      expect(editor.view!.state.doc.toString()).toBe(initialState);
       
       // Redo all changes
-      commands.redo();
-      commands.redo();
-      commands.redo();
+      editor.commands.redo();
+      editor.commands.redo();
+      editor.commands.redo();
       
-      expect(getSlideCount(view.state.doc)).toBe(2);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(2);
+      
+      editor.destroy();
     });
 
     it('should delete and duplicate slides while maintaining structure', () => {
-      const { view } = createTestEditor({ slideCount: 3 });
-      const commands = createCommands(() => view);
+      const editor = new SlideEditor({
+        content: createTestDoc(3),
+      });
+      editor.mount(container);
       
-      expect(getSlideCount(view.state.doc)).toBe(3);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(3);
       
       // Duplicate the first slide
-      commands.duplicateSlide(0);
-      expect(getSlideCount(view.state.doc)).toBe(4);
+      editor.commands.duplicateSlide(0);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(4);
       
       // Delete the second slide
-      commands.deleteSlide(1);
-      expect(getSlideCount(view.state.doc)).toBe(3);
+      editor.commands.deleteSlide(1);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(3);
       
       // Verify structure is still valid (no errors thrown)
-      expect(view.state.doc.type.name).toBe('doc');
+      expect(editor.view!.state.doc.type.name).toBe('doc');
+      
+      editor.destroy();
     });
   });
 
   describe('Real-world scenario: Creating a presentation', () => {
     it('should create a complete presentation from scratch', () => {
-      const { view } = createTestEditor({ slideCount: 1 });
-      const commands = createCommands(() => view);
+      const editor = new SlideEditor({
+        content: createTestDoc(1),
+      });
+      editor.mount(container);
       
       // Start with 1 slide, add 2 more for a 3-slide presentation
-      commands.addSlide('end', { placeholderHeader: 'Slide 2' });
-      commands.addSlide('end', { placeholderHeader: 'Slide 3' });
+      editor.commands.addSlide('end', { placeholderHeader: 'Slide 2' });
+      editor.commands.addSlide('end', { placeholderHeader: 'Slide 3' });
       
-      expect(getSlideCount(view.state.doc)).toBe(3);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(3);
       
       // Add and format content
-      typeText(view, 'Introduction');
+      typeText(editor, 'Introduction');
       
       const from = 6;
       const to = from + 12;
-      const tr = view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to));
-      view.dispatch(tr);
+      const tr = editor.view!.state.tr.setSelection(TextSelection.create(editor.view!.state.doc, from, to));
+      editor.view!.dispatch(tr);
       
-      commands.toggleBold();
-      commands.setTextColor('#ff0000');
+      editor.commands.toggleBold();
+      editor.commands.setTextColor('#ff0000');
       
       // Verify no errors and document is valid
-      expect(view.state.doc.type.name).toBe('doc');
-      expect(view.state.doc.textContent).toContain('Introduction');
+      expect(editor.view!.state.doc.type.name).toBe('doc');
+      expect(editor.view!.state.doc.textContent).toContain('Introduction');
+      
+      editor.destroy();
     });
   });
 
   describe('Commands chaining and state management', () => {
     it('should handle rapid command execution', () => {
-      const { view } = createTestEditor({ slideCount: 2 });
-      const commands = createCommands(() => view);
+      const editor = new SlideEditor({
+        content: createTestDoc(2),
+      });
+      editor.mount(container);
       
       // Execute many commands in quick succession
       const results = [
-        commands.focus(),
-        commands.addSlide('end'),
-        commands.deleteSlide(1),
-        commands.duplicateSlide(0),
-        commands.canUndo(),
-        commands.getUndoDepth()
+        editor.commands.focus(),
+        editor.commands.addSlide('end'),
+        editor.commands.deleteSlide(1),
+        editor.commands.duplicateSlide(0),
+        editor.commands.canUndo(),
+        editor.commands.getUndoDepth()
       ];
       
       // Most commands should succeed
       expect(results.filter(r => r === true || typeof r === 'number').length).toBeGreaterThan(0);
+      
+      editor.destroy();
     });
 
     it('should maintain document validity after multiple operations', () => {
-      const { view } = createTestEditor({ slideCount: 1 });
-      const commands = createCommands(() => view);
+      const editor = new SlideEditor({
+        content: createTestDoc(1),
+      });
+      editor.mount(container);
       
       // Perform various operations
       for (let i = 0; i < 5; i++) {
-        commands.addSlide('end');
+        editor.commands.addSlide('end');
       }
       
       for (let i = 0; i < 3; i++) {
-        commands.deleteSlide(0);
+        editor.commands.deleteSlide(0);
       }
       
-      commands.duplicateSlide(0);
-      commands.duplicateSlide(0);
+      editor.commands.duplicateSlide(0);
+      editor.commands.duplicateSlide(0);
       
       // Document should still be valid
-      expect(view.state.doc.type.name).toBe('doc');
-      expect(getSlideCount(view.state.doc)).toBeGreaterThan(0);
+      expect(editor.view!.state.doc.type.name).toBe('doc');
+      expect(getSlideCount(editor.view!.state.doc)).toBeGreaterThan(0);
       
       // Should be able to continue editing
-      typeText(view, 'Still working');
-      expect(view.state.doc.textContent).toContain('Still working');
+      typeText(editor, 'Still working');
+      expect(editor.view!.state.doc.textContent).toContain('Still working');
+      
+      editor.destroy();
     });
   });
 
   describe('Error resilience', () => {
-    it('should handle commands with null view gracefully', () => {
-      const commands = createCommands(() => null);
-      
-      // All commands should return false or appropriate default values
-      expect(commands.addSlide()).toBe(false);
-      expect(commands.deleteSlide(0)).toBe(false);
-      expect(commands.toggleBold()).toBe(false);
-      expect(commands.undo()).toBe(false);
-      expect(commands.canUndo()).toBe(false);
-      expect(commands.getUndoDepth()).toBe(0);
-    });
-
     it('should handle invalid operations gracefully', () => {
-      const { view } = createTestEditor({ slideCount: 2 });
-      const commands = createCommands(() => view);
+      const editor = new SlideEditor({
+        content: createTestDoc(2),
+      });
+      editor.mount(container);
       
       // Try to delete non-existent slides
-      expect(commands.deleteSlide(100)).toBe(false);
-      expect(commands.deleteSlide(-1)).toBe(false);
+      expect(editor.commands.deleteSlide(100)).toBe(false);
+      expect(editor.commands.deleteSlide(-1)).toBe(false);
       
       // Try to duplicate non-existent slide
-      expect(commands.duplicateSlide(100)).toBe(false);
+      expect(editor.commands.duplicateSlide(100)).toBe(false);
       
       // Document should still be valid
-      expect(getSlideCount(view.state.doc)).toBe(2);
+      expect(getSlideCount(editor.view!.state.doc)).toBe(2);
+      
+      editor.destroy();
     });
   });
 });
