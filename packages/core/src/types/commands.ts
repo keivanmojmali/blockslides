@@ -33,10 +33,15 @@ export interface CommandProps {
 }
 
 /**
- * A raw command function that receives CommandProps and returns success/failure
+ * A raw command function that receives CommandProps and returns a value
  * This is what extensions return from addCommands()
+ * 
+ * Most commands return boolean (success/failure), but some return other types:
+ * - getSelectedText() returns string
+ * - getUndoDepth() returns number
+ * - getSlideInfo() returns SlideInfo object
  */
-export type RawCommand = (...args: any[]) => (props: CommandProps) => boolean;
+export type RawCommand = (...args: any[]) => (props: CommandProps) => any;
 
 /**
  * Object containing raw command definitions (from extensions)
@@ -45,10 +50,11 @@ export type RawCommand = (...args: any[]) => (props: CommandProps) => boolean;
 export type AnyCommands = Record<string, RawCommand>;
 
 /**
- * Commands that execute immediately and return boolean
+ * Commands that execute immediately and return a value
+ * Most return boolean, but some return other types (string, number, objects)
  * This is what you get from editor.commands.*
  */
-export type SingleCommands = Record<string, (...args: any[]) => boolean>;
+export type SingleCommands = Record<string, (...args: any[]) => any>;
 
 /**
  * Commands that can be chained and must call .run() to execute
