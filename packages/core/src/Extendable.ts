@@ -180,8 +180,250 @@ export interface MarkConfig<Options = any, Storage = any>
   }) => Record<string, any> | {}
 }
 
-// Placeholder types for Node (will be created in Step 7)
-export interface NodeConfig<Options = any, Storage = any> extends ExtendableConfig<Options, Storage, NodeConfig<Options, Storage>, any> {}
+// Node configuration type
+// NodeConfig is re-exported from Node.ts for public API
+export interface NodeConfig<Options = any, Storage = any>
+  extends ExtendableConfig<Options, Storage, NodeConfig<Options, Storage>, NodeType> {
+  /**
+   * Custom node view renderer
+   */
+  addNodeView?:
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        editor: any // SlideEditor
+        type: NodeType
+        parent: ParentConfig<NodeConfig<Options, Storage>>['addNodeView']
+      }) => any)
+    | null
+
+  /**
+   * Top level node (doc)
+   */
+  topNode?: boolean
+
+  /**
+   * Content expression
+   */
+  content?:
+    | NodeSpec['content']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['content']
+        editor?: any
+      }) => NodeSpec['content'])
+
+  /**
+   * Marks allowed in this node
+   */
+  marks?:
+    | NodeSpec['marks']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['marks']
+        editor?: any
+      }) => NodeSpec['marks'])
+
+  /**
+   * Node group
+   */
+  group?:
+    | NodeSpec['group']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['group']
+        editor?: any
+      }) => NodeSpec['group'])
+
+  /**
+   * Inline node
+   */
+  inline?:
+    | NodeSpec['inline']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['inline']
+        editor?: any
+      }) => NodeSpec['inline'])
+
+  /**
+   * Atom node
+   */
+  atom?:
+    | NodeSpec['atom']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['atom']
+        editor?: any
+      }) => NodeSpec['atom'])
+
+  /**
+   * Selectable
+   */
+  selectable?:
+    | NodeSpec['selectable']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['selectable']
+        editor?: any
+      }) => NodeSpec['selectable'])
+
+  /**
+   * Draggable
+   */
+  draggable?:
+    | NodeSpec['draggable']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['draggable']
+        editor?: any
+      }) => NodeSpec['draggable'])
+
+  /**
+   * Code node
+   */
+  code?:
+    | NodeSpec['code']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['code']
+        editor?: any
+      }) => NodeSpec['code'])
+
+  /**
+   * Whitespace handling
+   */
+  whitespace?:
+    | NodeSpec['whitespace']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['whitespace']
+        editor?: any
+      }) => NodeSpec['whitespace'])
+
+  /**
+   * Linebreak replacement
+   */
+  linebreakReplacement?:
+    | NodeSpec['linebreakReplacement']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['linebreakReplacement']
+        editor?: any
+      }) => NodeSpec['linebreakReplacement'])
+
+  /**
+   * Defining
+   */
+  defining?:
+    | NodeSpec['defining']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['defining']
+        editor?: any
+      }) => NodeSpec['defining'])
+
+  /**
+   * Isolating
+   */
+  isolating?:
+    | NodeSpec['isolating']
+    | ((this: {
+        name: string
+        options: Options
+        storage: Storage
+        parent: ParentConfig<NodeConfig<Options, Storage>>['isolating']
+        editor?: any
+      }) => NodeSpec['isolating'])
+
+  /**
+   * Parse HTML
+   */
+  parseHTML?: (this: {
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<NodeConfig<Options, Storage>>['parseHTML']
+    editor?: any
+  }) => NodeSpec['parseDOM']
+
+  /**
+   * Render HTML
+   */
+  renderHTML?:
+    | ((
+        this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['renderHTML']
+          editor?: any
+        },
+        props: {
+          node: any // ProseMirrorNode
+          HTMLAttributes: Record<string, any>
+        },
+      ) => DOMOutputSpec)
+    | null
+
+  /**
+   * Render text
+   */
+  renderText?:
+    | ((
+        this: {
+          name: string
+          options: Options
+          storage: Storage
+          parent: ParentConfig<NodeConfig<Options, Storage>>['renderText']
+          editor?: any
+        },
+        props: {
+          node: any // ProseMirrorNode
+          pos: number
+          parent: any // ProseMirrorNode
+          index: number
+        },
+      ) => string)
+    | null
+
+  /**
+   * Add attributes
+   */
+  addAttributes?: (this: {
+    name: string
+    options: Options
+    storage: Storage
+    parent: ParentConfig<NodeConfig<Options, Storage>>['addAttributes']
+    editor?: any
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  }) => Record<string, any> | {}
+}
+
+// Placeholder types for rules
 export interface InputRule {}
 export interface PasteRule {}
 export interface Mark {}
