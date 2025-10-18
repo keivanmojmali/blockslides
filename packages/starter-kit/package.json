@@ -1,0 +1,62 @@
+{
+  "name": "@autoartifacts/starter-kit",
+  "description": "Starter kit for autoartifacts - includes all essential extensions",
+  "version": "0.0.1",
+  "homepage": "https://github.com/keivanmojmali/autoartifacts",
+  "keywords": [
+    "autoartifacts",
+    "editor",
+    "slides",
+    "starter-kit"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "dependencies": {
+    "@autoartifacts/core": "workspace:*",
+    "@autoartifacts/extension-blockquote": "workspace:*",
+    "@autoartifacts/extension-bold": "workspace:*",
+    "@autoartifacts/extension-bullet-list": "workspace:*",
+    "@autoartifacts/extension-code": "workspace:*",
+    "@autoartifacts/extension-code-block": "workspace:*",
+    "@autoartifacts/extension-document": "workspace:*",
+    "@autoartifacts/extension-hard-break": "workspace:*",
+    "@autoartifacts/extension-heading": "workspace:*",
+    "@autoartifacts/extension-horizontal-rule": "workspace:*",
+    "@autoartifacts/extension-italic": "workspace:*",
+    "@autoartifacts/extension-link": "workspace:*",
+    "@autoartifacts/extension-list": "workspace:*",
+    "@autoartifacts/extension-ordered-list": "workspace:*",
+    "@autoartifacts/extension-paragraph": "workspace:*",
+    "@autoartifacts/extension-strike": "workspace:*",
+    "@autoartifacts/extension-text": "workspace:*",
+    "@autoartifacts/extension-underline": "workspace:*",
+    "@autoartifacts/extension-placeholder": "workspace:*",
+    "@autoartifacts/extension-slide": "workspace:*",
+    "@autoartifacts/extension-add-slide-button": "workspace:*",
+    "@autoartifacts/extensions": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/autoartifacts",
+    "directory": "packages/starter-kit"
+  },
+  "scripts": {
+    "build": "tsup"
+  }
+}

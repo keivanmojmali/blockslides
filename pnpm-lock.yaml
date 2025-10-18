@@ -233,6 +233,15 @@ importers:
         specifier: workspace:^
         version: link:../core
 
+  packages/extension-layout-picker:
+    devDependencies:
+      '@autoartifacts/core':
+        specifier: workspace:^
+        version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:^
+        version: link:../pm
+
   packages/extension-link:
     dependencies:
       linkifyjs:
@@ -291,6 +300,15 @@ importers:
       '@autoartifacts/core':
         specifier: workspace:^
         version: link:../core
+
+  packages/extension-placeholder:
+    devDependencies:
+      '@autoartifacts/core':
+        specifier: workspace:^
+        version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:^
+        version: link:../pm
 
   packages/extension-slide:
     dependencies:
