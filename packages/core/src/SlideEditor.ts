@@ -409,7 +409,8 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
         const name =
           typeof nameOrPluginKey === "string"
             ? `${nameOrPluginKey}$`
-            : nameOrPluginKey.key;
+            : //@ts-ignore igonoring for now since from tiptap
+              nameOrPluginKey.key;
 
         // @ts-ignore
         plugins = plugins.filter((plugin) => !plugin.key.startsWith(name));
@@ -676,8 +677,9 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
     }
 
     // Only emit the latest between focus and blur events
+    //@ts-ignore igonoring for now since from tiptap
     const mostRecentFocusTr = transactions.findLast(
-      (tr) => tr.getMeta("focus") || tr.getMeta("blur")
+      (tr: Transaction) => tr.getMeta("focus") || tr.getMeta("blur")
     );
     const focus = mostRecentFocusTr?.getMeta("focus");
     const blur = mostRecentFocusTr?.getMeta("blur");

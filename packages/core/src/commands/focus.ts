@@ -4,7 +4,7 @@ import type { FocusPosition, RawCommands } from "../types.js";
 import { isAndroid } from "../utilities/isAndroid.js";
 import { isiOS } from "../utilities/isiOS.js";
 
-declare module "@autoartifact/core" {
+declare module "@autoartifacts/core" {
   interface Commands<ReturnType> {
     focus: {
       /**
