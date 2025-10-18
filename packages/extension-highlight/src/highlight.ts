@@ -1,4 +1,9 @@
-import { Mark, markInputRule, markPasteRule, mergeAttributes } from '@autoartifacts/core'
+import {
+  Mark,
+  markInputRule,
+  markPasteRule,
+  mergeAttributes,
+} from "@autoartifacts/core";
 
 export interface HighlightOptions {
   /**
@@ -6,17 +11,17 @@ export interface HighlightOptions {
    * @default false
    * @example true
    */
-  multicolor: boolean
+  multicolor: boolean;
 
   /**
    * HTML attributes to add to the highlight element.
    * @default {}
    * @example { class: 'foo' }
    */
-  HTMLAttributes: Record<string, any>
+  HTMLAttributes: Record<string, any>;
 }
 
-declare module '@autoartifacts/core' {
+declare module "@autoartifacts/core" {
   interface Commands<ReturnType> {
     highlight: {
       /**
@@ -24,136 +29,143 @@ declare module '@autoartifacts/core' {
        * @param attributes The highlight attributes
        * @example editor.commands.setHighlight({ color: 'red' })
        */
-      setHighlight: (attributes?: { color: string }) => ReturnType
+      setHighlight: (attributes?: { color: string }) => ReturnType;
       /**
        * Toggle a highlight mark
        * @param attributes The highlight attributes
        * @example editor.commands.toggleHighlight({ color: 'red' })
        */
-      toggleHighlight: (attributes?: { color: string }) => ReturnType
+      toggleHighlight: (attributes?: { color: string }) => ReturnType;
       /**
        * Unset a highlight mark
        * @example editor.commands.unsetHighlight()
        */
-      unsetHighlight: () => ReturnType
-    }
+      unsetHighlight: () => ReturnType;
+    };
   }
 }
 
 /**
  * Matches a highlight to a ==highlight== on input.
  */
-export const inputRegex = /(?:^|\s)(==(?!\s+==)((?:[^=]+))==(?!\s+==))$/
+export const inputRegex = /(?:^|\s)(==(?!\s+==)((?:[^=]+))==(?!\s+==))$/;
 
 /**
  * Matches a highlight to a ==highlight== on paste.
  */
-export const pasteRegex = /(?:^|\s)(==(?!\s+==)((?:[^=]+))==(?!\s+==))/g
+export const pasteRegex = /(?:^|\s)(==(?!\s+==)((?:[^=]+))==(?!\s+==))/g;
 
 /**
  * This extension allows you to highlight text.
  * @see https://www.tiptap.dev/api/marks/highlight
  */
 export const Highlight = Mark.create<HighlightOptions>({
-  name: 'highlight',
+  name: "highlight",
 
   addOptions() {
     return {
       multicolor: false,
       HTMLAttributes: {},
-    }
+    };
   },
 
   addAttributes() {
     if (!this.options.multicolor) {
-      return {}
+      return {};
     }
 
     return {
       color: {
         default: null,
-        parseHTML: element => element.getAttribute('data-color') || element.style.backgroundColor,
-        renderHTML: attributes => {
+        parseHTML: (element) =>
+          element.getAttribute("data-color") || element.style.backgroundColor,
+        renderHTML: (attributes) => {
           if (!attributes.color) {
-            return {}
+            return {};
           }
 
           return {
-            'data-color': attributes.color,
+            "data-color": attributes.color,
             style: `background-color: ${attributes.color}; color: inherit`,
-          }
+          };
         },
       },
-    }
+    };
   },
 
   parseHTML() {
     return [
       {
-        tag: 'mark',
+        tag: "mark",
       },
-    ]
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['mark', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    return [
+      "mark",
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      0,
+    ];
   },
 
   renderMarkdown: (node, h) => {
-    return `==${h.renderChildren(node)}==`
+    return `==${h.renderChildren(node)}==`;
   },
 
   parseMarkdown: (token, h) => {
-    return h.applyMark('highlight', h.parseInline(token.tokens || []))
+    return h.applyMark("highlight", h.parseInline(token.tokens || []));
   },
 
   markdownTokenizer: {
-    name: 'highlight',
-    level: 'inline',
-    start: (src: string) => src.indexOf('=='),
+    name: "highlight",
+    level: "inline",
+    start: (src: string) => src.indexOf("=="),
     tokenize(src, _, h) {
-      const rule = /^(==)([^=]+)(==)/ // ==highlighted text==
-      const match = rule.exec(src)
+      const rule = /^(==)([^=]+)(==)/; // ==highlighted text==
+      const match = rule.exec(src);
 
       if (match) {
-        const innerContent = match[2].trim()
+        const innerContent = match[2].trim();
 
-        const children = h.inlineTokens(innerContent)
+        const children = h.inlineTokens(innerContent);
 
         return {
-          type: 'highlight',
+          type: "highlight",
           raw: match[0],
           text: innerContent,
           tokens: children,
-        }
+        };
       }
+
+      return undefined;
     },
   },
 
   addCommands() {
     return {
       setHighlight:
-        attributes =>
+        (attributes) =>
         ({ commands }) => {
-          return commands.setMark(this.name, attributes)
+          return commands.setMark(this.name, attributes);
         },
       toggleHighlight:
-        attributes =>
+        (attributes) =>
         ({ commands }) => {
-          return commands.toggleMark(this.name, attributes)
+          return commands.toggleMark(this.name, attributes);
         },
       unsetHighlight:
         () =>
         ({ commands }) => {
-          return commands.unsetMark(this.name)
+          return commands.unsetMark(this.name);
         },
-    }
+    };
   },
 
   addKeyboardShortcuts() {
     return {
-      'Mod-Shift-h': () => this.editor.commands.toggleHighlight(),
-    }
+      "Mod-Shift-h": () => this.editor.commands.toggleHighlight(),
+    };
   },
 
   addInputRules() {
@@ -162,7 +174,7 @@ export const Highlight = Mark.create<HighlightOptions>({
         find: inputRegex,
         type: this.type,
       }),
-    ]
+    ];
   },
 
   addPasteRules() {
@@ -171,6 +183,6 @@ export const Highlight = Mark.create<HighlightOptions>({
         find: pasteRegex,
         type: this.type,
       }),
-    ]
+    ];
   },
-})
+});

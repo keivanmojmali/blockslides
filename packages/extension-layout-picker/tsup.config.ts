@@ -5,5 +5,5 @@ export default defineConfig({
   format: ["cjs", "esm"],
   dts: true,
   clean: true,
-  external: ["@autoartifacts/core", "@autoartifacts/pm"],
+  external: ["@autoartifacts/core", /^@autoartifacts\/pm\/.*/],
 });
