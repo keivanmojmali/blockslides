@@ -10,13 +10,13 @@
     // Stricter for production builds
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
 
     // Paths for built packages (prioritize dist over src)
     "paths": {
       "@autoartifacts/*": ["packages/*/src", "packages/*/dist"],
-      "@autoartifacts/pm/*": ["packages/pm/dist/*", "packages/pm/src/*"],
+      "@autoartifacts/pm/*": ["packages/pm/dist/*", "packages/pm/*"],
       "@autoartifacts/core": ["packages/core/dist", "packages/core/src"],
       "@autoartifacts/react": ["packages/react/dist", "packages/react/src"],
       "@autoartifacts/extensions/*": [

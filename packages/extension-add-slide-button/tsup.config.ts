@@ -2,8 +2,10 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["src/index.ts"],
-  format: ["cjs", "esm"],
+  tsconfig: "../../tsconfig.build.json",
+  outDir: "dist",
   dts: true,
   clean: true,
-  external: ["@autoartifacts/core", /^@autoartifacts\/pm\/.*/],
+  sourcemap: true,
+  format: ["esm", "cjs"],
 });
