@@ -4,6 +4,7 @@ packages:
   - "packages/html"
   - "packages/markdown"
   - "packages/static-renderer"
+  - "packages/react"
   - "packages/extension-*"
   # Exclude packages that depend on missing external dependencies
   - "!packages/extension-drag-handle" # needs extension-collaboration + y-tiptap

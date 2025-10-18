@@ -1,0 +1,50 @@
+{
+  "name": "@autoartifacts/extension-floating-menu",
+  "description": "floating-menu extension for autoartifacts",
+  "version": "0.1.0",
+  "homepage": "https://github.com/keivanmojmali/autoartifacts",
+  "keywords": [
+    "autoartifacts",
+    "autoartifacts extension",
+    "floating-menu"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@floating-ui/dom": "^1.6.12",
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/pm": "workspace:^"
+  },
+  "peerDependencies": {
+    "@floating-ui/dom": "^1.0.0",
+    "@autoartifacts/core": "workspace:^",
+    "@autoartifacts/pm": "workspace:^"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/autoartifacts",
+    "directory": "packages/extension-floating-menu"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

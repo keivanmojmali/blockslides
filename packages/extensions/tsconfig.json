@@ -6,8 +6,14 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "@autoartifacts/pm/*": ["../../packages/pm/dist/*", "../../packages/pm/*"],
-      "@autoartifacts/core": ["../../packages/core/dist", "../../packages/core/src"]
+      "@autoartifacts/pm/*": [
+        "../../packages/pm/dist/*",
+        "../../packages/pm/*"
+      ],
+      "@autoartifacts/core": [
+        "../../packages/core/dist",
+        "../../packages/core/src"
+      ]
     }
   },
   "include": ["src/**/*"],
