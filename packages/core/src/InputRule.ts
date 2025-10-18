@@ -1,141 +1,156 @@
-import type { Node as ProseMirrorNode } from '@autoartifacts/pm/model'
-import { Fragment } from '@autoartifacts/pm/model'
-import type { EditorState, TextSelection } from '@autoartifacts/pm/state'
-import { Plugin } from '@autoartifacts/pm/state'
+import type { Node as ProseMirrorNode } from "@autoartifacts/pm/model";
+import { Fragment } from "@autoartifacts/pm/model";
+import type { EditorState, TextSelection } from "@autoartifacts/pm/state";
+import { Plugin } from "@autoartifacts/pm/state";
 
-import { CommandManager } from './CommandManager.js'
-import type { Editor } from './Editor.js'
-import { createChainableState } from './helpers/createChainableState.js'
-import { getHTMLFromFragment } from './helpers/getHTMLFromFragment.js'
-import { getTextContentFromNodes } from './helpers/getTextContentFromNodes.js'
-import type { CanCommands, ChainedCommands, ExtendedRegExpMatchArray, Range, SingleCommands } from './types.js'
-import { isRegExp } from './utilities/isRegExp.js'
+import { CommandManager } from "./CommandManager.js";
+import { SlideEditor as Editor } from "./SlideEditor.js";
+import { createChainableState } from "./helpers/createChainableState.js";
+import { getHTMLFromFragment } from "./helpers/getHTMLFromFragment.js";
+import { getTextContentFromNodes } from "./helpers/getTextContentFromNodes.js";
+import type {
+  CanCommands,
+  ChainedCommands,
+  ExtendedRegExpMatchArray,
+  Range,
+  SingleCommands,
+} from "./types.js";
+import { isRegExp } from "./utilities/isRegExp.js";
 
 export type InputRuleMatch = {
-  index: number
-  text: string
-  replaceWith?: string
-  match?: RegExpMatchArray
-  data?: Record<string, any>
-}
+  index: number;
+  text: string;
+  replaceWith?: string;
+  match?: RegExpMatchArray;
+  data?: Record<string, any>;
+};
 
-export type InputRuleFinder = RegExp | ((text: string) => InputRuleMatch | null)
+export type InputRuleFinder =
+  | RegExp
+  | ((text: string) => InputRuleMatch | null);
 
 export class InputRule {
-  find: InputRuleFinder
+  find: InputRuleFinder;
 
   handler: (props: {
-    state: EditorState
-    range: Range
-    match: ExtendedRegExpMatchArray
-    commands: SingleCommands
-    chain: () => ChainedCommands
-    can: () => CanCommands
-  }) => void | null
+    state: EditorState;
+    range: Range;
+    match: ExtendedRegExpMatchArray;
+    commands: SingleCommands;
+    chain: () => ChainedCommands;
+    can: () => CanCommands;
+  }) => void | null;
 
-  undoable: boolean
+  undoable: boolean;
 
   constructor(config: {
-    find: InputRuleFinder
+    find: InputRuleFinder;
     handler: (props: {
-      state: EditorState
-      range: Range
-      match: ExtendedRegExpMatchArray
-      commands: SingleCommands
-      chain: () => ChainedCommands
-      can: () => CanCommands
-    }) => void | null
-    undoable?: boolean
+      state: EditorState;
+      range: Range;
+      match: ExtendedRegExpMatchArray;
+      commands: SingleCommands;
+      chain: () => ChainedCommands;
+      can: () => CanCommands;
+    }) => void | null;
+    undoable?: boolean;
   }) {
-    this.find = config.find
-    this.handler = config.handler
-    this.undoable = config.undoable ?? true
+    this.find = config.find;
+    this.handler = config.handler;
+    this.undoable = config.undoable ?? true;
   }
 }
 
-const inputRuleMatcherHandler = (text: string, find: InputRuleFinder): ExtendedRegExpMatchArray | null => {
+const inputRuleMatcherHandler = (
+  text: string,
+  find: InputRuleFinder
+): ExtendedRegExpMatchArray | null => {
   if (isRegExp(find)) {
-    return find.exec(text)
+    return find.exec(text);
   }
 
-  const inputRuleMatch = find(text)
+  const inputRuleMatch = find(text);
 
   if (!inputRuleMatch) {
-    return null
+    return null;
   }
 
-  const result: ExtendedRegExpMatchArray = [inputRuleMatch.text]
+  const result: ExtendedRegExpMatchArray = [inputRuleMatch.text];
 
-  result.index = inputRuleMatch.index
-  result.input = text
-  result.data = inputRuleMatch.data
+  result.index = inputRuleMatch.index;
+  result.input = text;
+  result.data = inputRuleMatch.data;
 
   if (inputRuleMatch.replaceWith) {
     if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
-      console.warn('[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".')
+      console.warn(
+        '[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".'
+      );
     }
 
-    result.push(inputRuleMatch.replaceWith)
+    result.push(inputRuleMatch.replaceWith);
   }
 
-  return result
-}
+  return result;
+};
 
 function run(config: {
-  editor: Editor
-  from: number
-  to: number
-  text: string
-  rules: InputRule[]
-  plugin: Plugin
+  editor: Editor;
+  from: number;
+  to: number;
+  text: string;
+  rules: InputRule[];
+  plugin: Plugin;
 }): boolean {
-  const { editor, from, to, text, rules, plugin } = config
-  const { view } = editor
+  const { editor, from, to, text, rules, plugin } = config;
+  const { view } = editor;
 
   if (view.composing) {
-    return false
+    return false;
   }
 
-  const $from = view.state.doc.resolve(from)
+  const $from = view.state.doc.resolve(from);
 
   if (
     // check for code node
     $from.parent.type.spec.code ||
     // check for code mark
-    !!($from.nodeBefore || $from.nodeAfter)?.marks.find(mark => mark.type.spec.code)
+    !!($from.nodeBefore || $from.nodeAfter)?.marks.find(
+      (mark) => mark.type.spec.code
+    )
   ) {
-    return false
+    return false;
   }
 
-  let matched = false
+  let matched = false;
 
-  const textBefore = getTextContentFromNodes($from) + text
+  const textBefore = getTextContentFromNodes($from) + text;
 
-  rules.forEach(rule => {
+  rules.forEach((rule) => {
     if (matched) {
-      return
+      return;
     }
 
-    const match = inputRuleMatcherHandler(textBefore, rule.find)
+    const match = inputRuleMatcherHandler(textBefore, rule.find);
 
     if (!match) {
-      return
+      return;
     }
 
-    const tr = view.state.tr
+    const tr = view.state.tr;
     const state = createChainableState({
       state: view.state,
       transaction: tr,
-    })
+    });
     const range = {
       from: from - (match[0].length - text.length),
       to,
-    }
+    };
 
     const { commands, chain, can } = new CommandManager({
       editor,
       state,
-    })
+    });
 
     const handler = rule.handler({
       state,
@@ -144,11 +159,11 @@ function run(config: {
       commands,
       chain,
       can,
-    })
+    });
 
     // stop if there are no changes
     if (handler === null || !tr.steps.length) {
-      return
+      return;
     }
 
     // store transform as meta data
@@ -159,14 +174,14 @@ function run(config: {
         from,
         to,
         text,
-      })
+      });
     }
 
-    view.dispatch(tr)
-    matched = true
-  })
+    view.dispatch(tr);
+    matched = true;
+  });
 
-  return matched
+  return matched;
 }
 
 /**
@@ -174,41 +189,44 @@ function run(config: {
  * input that matches any of the given rules to trigger the rule’s
  * action.
  */
-export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }): Plugin {
-  const { editor, rules } = props
+export function inputRulesPlugin(props: {
+  editor: Editor;
+  rules: InputRule[];
+}): Plugin {
+  const { editor, rules } = props;
   const plugin = new Plugin({
     state: {
       init() {
-        return null
+        return null;
       },
       apply(tr, prev, state) {
-        const stored = tr.getMeta(plugin)
+        const stored = tr.getMeta(plugin);
 
         if (stored) {
-          return stored
+          return stored;
         }
 
         // if InputRule is triggered by insertContent()
-        const simulatedInputMeta = tr.getMeta('applyInputRules') as
+        const simulatedInputMeta = tr.getMeta("applyInputRules") as
           | undefined
           | {
-              from: number
-              text: string | ProseMirrorNode | Fragment
-            }
-        const isSimulatedInput = !!simulatedInputMeta
+              from: number;
+              text: string | ProseMirrorNode | Fragment;
+            };
+        const isSimulatedInput = !!simulatedInputMeta;
 
         if (isSimulatedInput) {
           setTimeout(() => {
-            let { text } = simulatedInputMeta
+            let { text } = simulatedInputMeta;
 
-            if (typeof text === 'string') {
-              text = text as string
+            if (typeof text === "string") {
+              text = text as string;
             } else {
-              text = getHTMLFromFragment(Fragment.from(text), state.schema)
+              text = getHTMLFromFragment(Fragment.from(text), state.schema);
             }
 
-            const { from } = simulatedInputMeta
-            const to = from + text.length
+            const { from } = simulatedInputMeta;
+            const to = from + text.length;
 
             run({
               editor,
@@ -217,11 +235,11 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
               text,
               rules,
               plugin,
-            })
-          })
+            });
+          });
         }
 
-        return tr.selectionSet || tr.docChanged ? null : prev
+        return tr.selectionSet || tr.docChanged ? null : prev;
       },
     },
 
@@ -234,57 +252,57 @@ export function inputRulesPlugin(props: { editor: Editor; rules: InputRule[] }):
           text,
           rules,
           plugin,
-        })
+        });
       },
 
       handleDOMEvents: {
-        compositionend: view => {
+        compositionend: (view) => {
           setTimeout(() => {
-            const { $cursor } = view.state.selection as TextSelection
+            const { $cursor } = view.state.selection as TextSelection;
 
             if ($cursor) {
               run({
                 editor,
                 from: $cursor.pos,
                 to: $cursor.pos,
-                text: '',
+                text: "",
                 rules,
                 plugin,
-              })
+              });
             }
-          })
+          });
 
-          return false
+          return false;
         },
       },
 
       // add support for input rules to trigger on enter
       // this is useful for example for code blocks
       handleKeyDown(view, event) {
-        if (event.key !== 'Enter') {
-          return false
+        if (event.key !== "Enter") {
+          return false;
         }
 
-        const { $cursor } = view.state.selection as TextSelection
+        const { $cursor } = view.state.selection as TextSelection;
 
         if ($cursor) {
           return run({
             editor,
             from: $cursor.pos,
             to: $cursor.pos,
-            text: '\n',
+            text: "\n",
             rules,
             plugin,
-          })
+          });
         }
 
-        return false
+        return false;
       },
     },
 
     // @ts-ignore
     isInputRules: true,
-  }) as Plugin
+  }) as Plugin;
 
-  return plugin
+  return plugin;
 }

@@ -1,252 +1,282 @@
-import type { Fragment, Node, ResolvedPos } from '@autoartifacts/pm/model'
+import type { Fragment, Node, ResolvedPos } from "@autoartifacts/pm/model";
 
-import type { Editor } from './Editor.js'
-import type { Content, Range } from './types.js'
+import { SlideEditor as Editor } from "./SlideEditor.js";
+import type { Content, Range } from "./types.js";
 
 export class NodePos {
-  private resolvedPos: ResolvedPos
+  private resolvedPos: ResolvedPos;
 
-  private isBlock: boolean
+  private isBlock: boolean;
 
-  private editor: Editor
+  private editor: Editor;
 
   private get name(): string {
-    return this.node.type.name
+    return this.node.type.name;
   }
 
-  constructor(pos: ResolvedPos, editor: Editor, isBlock = false, node: Node | null = null) {
-    this.isBlock = isBlock
-    this.resolvedPos = pos
-    this.editor = editor
-    this.currentNode = node
+  constructor(
+    pos: ResolvedPos,
+    editor: Editor,
+    isBlock = false,
+    node: Node | null = null
+  ) {
+    this.isBlock = isBlock;
+    this.resolvedPos = pos;
+    this.editor = editor;
+    this.currentNode = node;
   }
 
-  private currentNode: Node | null = null
+  private currentNode: Node | null = null;
 
   get node(): Node {
-    return this.currentNode || this.resolvedPos.node()
+    return this.currentNode || this.resolvedPos.node();
   }
 
   get element(): HTMLElement {
-    return this.editor.view.domAtPos(this.pos).node as HTMLElement
+    return this.editor.view.domAtPos(this.pos).node as HTMLElement;
   }
 
-  public actualDepth: number | null = null
+  public actualDepth: number | null = null;
 
   get depth(): number {
-    return this.actualDepth ?? this.resolvedPos.depth
+    return this.actualDepth ?? this.resolvedPos.depth;
   }
 
   get pos(): number {
-    return this.resolvedPos.pos
+    return this.resolvedPos.pos;
   }
 
   get content(): Fragment {
-    return this.node.content
+    return this.node.content;
   }
 
   set content(content: Content) {
-    let from = this.from
-    let to = this.to
+    let from = this.from;
+    let to = this.to;
 
     if (this.isBlock) {
       if (this.content.size === 0) {
-        console.error(`You can’t set content on a block node. Tried to set content on ${this.name} at ${this.pos}`)
-        return
+        console.error(
+          `You can’t set content on a block node. Tried to set content on ${this.name} at ${this.pos}`
+        );
+        return;
       }
 
-      from = this.from + 1
-      to = this.to - 1
+      from = this.from + 1;
+      to = this.to - 1;
     }
 
-    this.editor.commands.insertContentAt({ from, to }, content)
+    this.editor.commands.insertContentAt({ from, to }, content);
   }
 
   get attributes(): { [key: string]: any } {
-    return this.node.attrs
+    return this.node.attrs;
   }
 
   get textContent(): string {
-    return this.node.textContent
+    return this.node.textContent;
   }
 
   get size(): number {
-    return this.node.nodeSize
+    return this.node.nodeSize;
   }
 
   get from(): number {
     if (this.isBlock) {
-      return this.pos
+      return this.pos;
     }
 
-    return this.resolvedPos.start(this.resolvedPos.depth)
+    return this.resolvedPos.start(this.resolvedPos.depth);
   }
 
   get range(): Range {
     return {
       from: this.from,
       to: this.to,
-    }
+    };
   }
 
   get to(): number {
     if (this.isBlock) {
-      return this.pos + this.size
+      return this.pos + this.size;
     }
 
-    return this.resolvedPos.end(this.resolvedPos.depth) + (this.node.isText ? 0 : 1)
+    return (
+      this.resolvedPos.end(this.resolvedPos.depth) + (this.node.isText ? 0 : 1)
+    );
   }
 
   get parent(): NodePos | null {
     if (this.depth === 0) {
-      return null
+      return null;
     }
 
-    const parentPos = this.resolvedPos.start(this.resolvedPos.depth - 1)
-    const $pos = this.resolvedPos.doc.resolve(parentPos)
+    const parentPos = this.resolvedPos.start(this.resolvedPos.depth - 1);
+    const $pos = this.resolvedPos.doc.resolve(parentPos);
 
-    return new NodePos($pos, this.editor)
+    return new NodePos($pos, this.editor);
   }
 
   get before(): NodePos | null {
-    let $pos = this.resolvedPos.doc.resolve(this.from - (this.isBlock ? 1 : 2))
+    let $pos = this.resolvedPos.doc.resolve(this.from - (this.isBlock ? 1 : 2));
 
     if ($pos.depth !== this.depth) {
-      $pos = this.resolvedPos.doc.resolve(this.from - 3)
+      $pos = this.resolvedPos.doc.resolve(this.from - 3);
     }
 
-    return new NodePos($pos, this.editor)
+    return new NodePos($pos, this.editor);
   }
 
   get after(): NodePos | null {
-    let $pos = this.resolvedPos.doc.resolve(this.to + (this.isBlock ? 2 : 1))
+    let $pos = this.resolvedPos.doc.resolve(this.to + (this.isBlock ? 2 : 1));
 
     if ($pos.depth !== this.depth) {
-      $pos = this.resolvedPos.doc.resolve(this.to + 3)
+      $pos = this.resolvedPos.doc.resolve(this.to + 3);
     }
 
-    return new NodePos($pos, this.editor)
+    return new NodePos($pos, this.editor);
   }
 
   get children(): NodePos[] {
-    const children: NodePos[] = []
+    const children: NodePos[] = [];
 
     this.node.content.forEach((node, offset) => {
-      const isBlock = node.isBlock && !node.isTextblock
-      const isNonTextAtom = node.isAtom && !node.isText
+      const isBlock = node.isBlock && !node.isTextblock;
+      const isNonTextAtom = node.isAtom && !node.isText;
 
-      const targetPos = this.pos + offset + (isNonTextAtom ? 0 : 1)
+      const targetPos = this.pos + offset + (isNonTextAtom ? 0 : 1);
 
       // Check if targetPos is within valid document range
       if (targetPos < 0 || targetPos > this.resolvedPos.doc.nodeSize - 2) {
-        return
+        return;
       }
 
-      const $pos = this.resolvedPos.doc.resolve(targetPos)
+      const $pos = this.resolvedPos.doc.resolve(targetPos);
 
       if (!isBlock && $pos.depth <= this.depth) {
-        return
+        return;
       }
 
-      const childNodePos = new NodePos($pos, this.editor, isBlock, isBlock ? node : null)
+      const childNodePos = new NodePos(
+        $pos,
+        this.editor,
+        isBlock,
+        isBlock ? node : null
+      );
 
       if (isBlock) {
-        childNodePos.actualDepth = this.depth + 1
+        childNodePos.actualDepth = this.depth + 1;
       }
 
-      children.push(new NodePos($pos, this.editor, isBlock, isBlock ? node : null))
-    })
+      children.push(
+        new NodePos($pos, this.editor, isBlock, isBlock ? node : null)
+      );
+    });
 
-    return children
+    return children;
   }
 
   get firstChild(): NodePos | null {
-    return this.children[0] || null
+    return this.children[0] || null;
   }
 
   get lastChild(): NodePos | null {
-    const children = this.children
+    const children = this.children;
 
-    return children[children.length - 1] || null
+    return children[children.length - 1] || null;
   }
 
-  closest(selector: string, attributes: { [key: string]: any } = {}): NodePos | null {
-    let node: NodePos | null = null
-    let currentNode = this.parent
+  closest(
+    selector: string,
+    attributes: { [key: string]: any } = {}
+  ): NodePos | null {
+    let node: NodePos | null = null;
+    let currentNode = this.parent;
 
     while (currentNode && !node) {
       if (currentNode.node.type.name === selector) {
         if (Object.keys(attributes).length > 0) {
-          const nodeAttributes = currentNode.node.attrs
-          const attrKeys = Object.keys(attributes)
+          const nodeAttributes = currentNode.node.attrs;
+          const attrKeys = Object.keys(attributes);
 
           for (let index = 0; index < attrKeys.length; index += 1) {
-            const key = attrKeys[index]
+            const key = attrKeys[index];
 
             if (nodeAttributes[key] !== attributes[key]) {
-              break
+              break;
             }
           }
         } else {
-          node = currentNode
+          node = currentNode;
         }
       }
 
-      currentNode = currentNode.parent
+      currentNode = currentNode.parent;
     }
 
-    return node
+    return node;
   }
 
-  querySelector(selector: string, attributes: { [key: string]: any } = {}): NodePos | null {
-    return this.querySelectorAll(selector, attributes, true)[0] || null
+  querySelector(
+    selector: string,
+    attributes: { [key: string]: any } = {}
+  ): NodePos | null {
+    return this.querySelectorAll(selector, attributes, true)[0] || null;
   }
 
-  querySelectorAll(selector: string, attributes: { [key: string]: any } = {}, firstItemOnly = false): NodePos[] {
-    let nodes: NodePos[] = []
+  querySelectorAll(
+    selector: string,
+    attributes: { [key: string]: any } = {},
+    firstItemOnly = false
+  ): NodePos[] {
+    let nodes: NodePos[] = [];
 
     if (!this.children || this.children.length === 0) {
-      return nodes
+      return nodes;
     }
-    const attrKeys = Object.keys(attributes)
+    const attrKeys = Object.keys(attributes);
 
     /**
      * Finds all children recursively that match the selector and attributes
      * If firstItemOnly is true, it will return the first item found
      */
-    this.children.forEach(childPos => {
+    this.children.forEach((childPos) => {
       // If we already found a node and we only want the first item, we dont need to keep going
       if (firstItemOnly && nodes.length > 0) {
-        return
+        return;
       }
 
       if (childPos.node.type.name === selector) {
-        const doesAllAttributesMatch = attrKeys.every(key => attributes[key] === childPos.node.attrs[key])
+        const doesAllAttributesMatch = attrKeys.every(
+          (key) => attributes[key] === childPos.node.attrs[key]
+        );
 
         if (doesAllAttributesMatch) {
-          nodes.push(childPos)
+          nodes.push(childPos);
         }
       }
 
       // If we already found a node and we only want the first item, we can stop here and skip the recursion
       if (firstItemOnly && nodes.length > 0) {
-        return
+        return;
       }
 
-      nodes = nodes.concat(childPos.querySelectorAll(selector, attributes, firstItemOnly))
-    })
+      nodes = nodes.concat(
+        childPos.querySelectorAll(selector, attributes, firstItemOnly)
+      );
+    });
 
-    return nodes
+    return nodes;
   }
 
   setAttribute(attributes: { [key: string]: any }) {
-    const { tr } = this.editor.state
+    const { tr } = this.editor.state;
 
     tr.setNodeMarkup(this.from, undefined, {
       ...this.node.attrs,
       ...attributes,
-    })
+    });
 
-    this.editor.view.dispatch(tr)
+    this.editor.view.dispatch(tr);
   }
 }

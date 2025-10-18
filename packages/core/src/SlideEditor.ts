@@ -52,10 +52,10 @@ export * as extensions from "./extensions/index.js";
 
 // @ts-ignore
 export interface TiptapEditorHTMLElement extends HTMLElement {
-  editor?: Editor;
+  editor?: SlideEditor;
 }
 
-export class Editor extends EventEmitter<EditorEvents> {
+export class SlideEditor extends EventEmitter<EditorEvents> {
   private commandManager!: CommandManager;
 
   public extensionManager!: ExtensionManager;
@@ -836,3 +836,6 @@ export class Editor extends EventEmitter<EditorEvents> {
     return this.$pos(0);
   }
 }
+
+/** @deprecated Use SlideEditor instead */
+export { SlideEditor as Editor };
