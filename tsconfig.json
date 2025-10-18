@@ -1,46 +1,26 @@
 {
   "compilerOptions": {
-    // Base config - development environment
     "noEmit": true,
-    "target": "ES2020",
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-
-    // Module resolution
-    "moduleResolution": "bundler",
+    "target": "es2019",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "react-jsx",
+    "importHelpers": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-
-    // Type checking
-    "strict": true,
-    "skipLibCheck": true,
-
-    // JSX
-    "jsx": "react-jsx",
-
-    // Advanced
-    "verbatimModuleSyntax": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": ".",
     "allowJs": true,
     "checkJs": false,
-
-    // Source maps for debugging
-    "sourceMap": true,
-
-    // Paths for monorepo packages
-    "baseUrl": ".",
     "paths": {
-      "@autoartifacts/core": ["packages/core/src"],
-      "@autoartifacts/react": ["packages/react/src"],
-      "@autoartifacts/extensions/*": ["packages/extensions/*/src"],
-      "@autoartifacts/plugins/*": ["packages/plugins/*/src"]
-    }
+      "@autoartifacts/*": ["packages/*/src", "packages/*/dist"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "include": [
-    "packages/**/*.ts",
-    "packages/**/*.tsx",
-    "demo/**/*.ts",
-    "demo/**/*.tsx"
-  ],
-  "exclude": ["**/node_modules", "**/dist", "**/coverage"]
+  "include": ["**/*.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["**/node_modules", "**/dist"]
 }
