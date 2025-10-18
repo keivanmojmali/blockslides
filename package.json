@@ -4,8 +4,8 @@
   "description": "AutoArtifacts monorepo - ProseMirror-based slide editor",
   "private": true,
   "scripts": {
-    "build": "pnpm run build --filter @autoartifacts/*",
-    "dev": "pnpm run dev --filter @autoartifacts/*",
+    "build": "pnpm --filter '@autoartifacts/*' --recursive run build",
+    "dev": "pnpm --filter '@autoartifacts/*' --recursive run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
