@@ -1,302 +1,206 @@
-import { EditorState, Plugin, Transaction } from "prosemirror-state";
-import { EditorView } from "prosemirror-view";
-import { history } from "prosemirror-history";
-import { keymap } from "prosemirror-keymap";
-import { baseKeymap } from "prosemirror-commands";
-import { undo, redo } from "prosemirror-history";
-import { schema } from "./schema";
-import { Extension } from "./Extension";
-import { ExtensionManager } from "./ExtensionManager";
-import { CommandManager } from "./CommandManager";
-import { CoreCommands } from "./extensions/CoreCommands";
-import { applyAllLayouts } from "./utilities/layoutParser";
-import { createMarkdownInputRules } from "./plugins/markdownInputRules";
-import { createStyleTag } from "./utils/createStyleTag";
-import { style } from "./style";
-import type { DocNode, Commands, ChainedCommands, CanCommands } from "./types";
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+import type {
+  MarkType,
+  Node as ProseMirrorNode,
+  NodeType,
+  Schema,
+} from "@autoartifacts/pm/model";
+import type { Plugin, PluginKey, Transaction } from "@autoartifacts/pm/state";
+import { EditorState } from "@autoartifacts/pm/state";
+import { EditorView } from "@autoartifacts/pm/view";
 
-/**
- * SlideEditor Options
- *
- * Configuration options for the SlideEditor.
- * Supports both extensions (high-level) and raw plugins (low-level escape hatch).
- */
-export interface SlideEditorOptions {
-  // Content (required)
-  content: DocNode;
-  onChange?: (content: DocNode) => void;
+import { CommandManager } from "./CommandManager.js";
+import { EventEmitter } from "./EventEmitter.js";
+import { ExtensionManager } from "./ExtensionManager.js";
+import {
+  ClipboardTextSerializer,
+  Commands,
+  Delete,
+  Drop,
+  Editable,
+  FocusEvents,
+  Keymap,
+  Paste,
+  Tabindex,
+} from "./extensions/index.js";
+import { createDocument } from "./helpers/createDocument.js";
+import { getAttributes } from "./helpers/getAttributes.js";
+import { getHTMLFromFragment } from "./helpers/getHTMLFromFragment.js";
+import { getText } from "./helpers/getText.js";
+import { getTextSerializersFromSchema } from "./helpers/getTextSerializersFromSchema.js";
+import { isActive } from "./helpers/isActive.js";
+import { isNodeEmpty } from "./helpers/isNodeEmpty.js";
+import { resolveFocusPosition } from "./helpers/resolveFocusPosition.js";
+import type { Storage } from "./index.js";
+import { NodePos } from "./NodePos.js";
+import { style } from "./style.js";
+import type {
+  CanCommands,
+  ChainedCommands,
+  DocumentType,
+  EditorEvents,
+  EditorOptions,
+  NodeType as TNodeType,
+  SingleCommands,
+  TextSerializer,
+  TextType as TTextType,
+} from "./types.js";
+import { createStyleTag } from "./utilities/createStyleTag.js";
+import { isFunction } from "./utilities/isFunction.js";
 
-  // Appearance
-  editorTheme?: "light" | "dark";
-  editorMode?: "edit" | "preview" | "present";
-  readOnly?: boolean;
+export * as extensions from "./extensions/index.js";
 
-  // Slide navigation
-  currentSlide?: number;
-  onSlideChange?: (slideIndex: number) => void;
-
-  // History
-  historyDepth?: number;
-  newGroupDelay?: number;
-
-  // Callbacks
-  onCreate?: (editor: SlideEditor) => void;
-  onDestroy?: () => void;
-  onUpdate?: (params: any) => void;
-  onContentChange?: (params: any) => void;
-  onSelectionUpdate?: (params: any) => void;
-  onFocus?: (params: any) => void;
-  onBlur?: (params: any) => void;
-  onTransaction?: (params: any) => void;
-  onUndo?: (params: any) => void;
-  onRedo?: (params: any) => void;
-  onError?: (error: Error) => void;
-
-  // Validation
-  validationMode?: "off" | "lenient" | "strict";
-  autoFixContent?: boolean;
-  onValidationError?: (result: any) => void;
-
-  // Features
-  enableMarkdown?: boolean; // Enable markdown input rules (default: true)
-  injectCSS?: boolean; // Inject default ProseMirror styles (default: true)
-  injectNonce?: string; // Nonce for Content Security Policy (CSP)
-
-  // Extensibility (BOTH patterns supported)
-  extensions?: Extension[]; // High-level (recommended, TipTap-style)
-  plugins?: Plugin[]; // Low-level (escape hatch for advanced users)
+// @ts-ignore
+export interface TiptapEditorHTMLElement extends HTMLElement {
+  editor?: Editor;
 }
 
-/**
- * SlideEditor
- *
- * Main editor class for AutoArtifacts.
- * Follows TipTap's architecture:
- * - Creates plugins once in constructor
- * - Supports extensions (high-level) and raw plugins (low-level)
- * - Provides mount/unmount lifecycle
- */
-export class SlideEditor {
-  private options: SlideEditorOptions;
-  public view: EditorView | null = null;
-  private extensionManager: ExtensionManager;
-  private commandManager: CommandManager;
-  private plugins: Plugin[] = [];
-  private mounted = false;
+export class Editor extends EventEmitter<EditorEvents> {
+  private commandManager!: CommandManager;
+
+  public extensionManager!: ExtensionManager;
+
   private css: HTMLStyleElement | null = null;
-  public commands: Commands;
 
-  constructor(options: SlideEditorOptions) {
-    this.options = {
-      editorTheme: "light",
-      editorMode: "edit",
-      readOnly: false,
-      currentSlide: 0,
-      historyDepth: 100,
-      newGroupDelay: 500,
-      validationMode: "lenient",
-      autoFixContent: false,
-      injectCSS: true,
-      ...options,
-    };
+  public schema!: Schema;
 
-    // Inject default ProseMirror styles
-    this.injectCSS();
+  private editorView: EditorView | null = null;
 
-    // Combine CoreCommands with user extensions
-    // CoreCommands is always loaded first (provides all core editing commands)
-    const allExtensions = [
-      new CoreCommands(),
-      ...(this.options.extensions || []),
-    ];
+  public isFocused = false;
 
-    // Create extension manager with ALL extensions (core + user)
-    this.extensionManager = new ExtensionManager(allExtensions, this);
-
-    // Initialize command manager
-    // Note: Type casting temporary until CommandManager is updated in later steps
-    this.commandManager = new CommandManager(
-      this,
-      this.extensionManager.commands as any
-    );
-
-    // Create plugins once in constructor (fixes duplicate plugin error)
-    this.plugins = this.createPlugins();
-
-    // Initialize commands API using CommandManager
-    // Cast to Commands type since CoreCommands provides all the required methods
-    this.commands = this.commandManager.commands as Commands;
-  }
+  private editorState!: EditorState;
 
   /**
-   * Create all plugins (core + extensions + raw)
-   * This is called once in the constructor
+   * The editor is considered initialized after the `create` event has been emitted.
    */
-  private createPlugins(): Plugin[] {
-    // 1. Core ProseMirror plugins (always included)
-    const corePlugins: Plugin[] = [
-      history({
-        depth: this.options.historyDepth,
-        newGroupDelay: this.options.newGroupDelay,
-      }),
-    ];
+  public isInitialized = false;
 
-    // Add markdown input rules if enabled (default: true)
-    if (this.options.enableMarkdown !== false) {
-      corePlugins.push(createMarkdownInputRules(schema));
-    }
+  public extensionStorage: Storage = {} as Storage;
 
-    corePlugins.push(
-      keymap({
-        "Mod-z": undo,
-        "Mod-y": redo,
-        "Mod-Shift-z": redo,
-      }),
-      keymap(baseKeymap)
+  /**
+   * A unique ID for this editor instance.
+   */
+  public instanceId = Math.random().toString(36).slice(2, 9);
+
+  public options: EditorOptions = {
+    element:
+      typeof document !== "undefined" ? document.createElement("div") : null,
+    content: "",
+    injectCSS: true,
+    injectNonce: undefined,
+    extensions: [],
+    autofocus: false,
+    editable: true,
+    editorProps: {},
+    parseOptions: {},
+    coreExtensionOptions: {},
+    enableInputRules: true,
+    enablePasteRules: true,
+    enableCoreExtensions: true,
+    enableContentCheck: false,
+    emitContentError: false,
+    onBeforeCreate: () => null,
+    onCreate: () => null,
+    onMount: () => null,
+    onUnmount: () => null,
+    onUpdate: () => null,
+    onSelectionUpdate: () => null,
+    onTransaction: () => null,
+    onFocus: () => null,
+    onBlur: () => null,
+    onDestroy: () => null,
+    onContentError: ({ error }) => {
+      throw error;
+    },
+    onPaste: () => null,
+    onDrop: () => null,
+    onDelete: () => null,
+  };
+
+  constructor(options: Partial<EditorOptions> = {}) {
+    super();
+    this.setOptions(options);
+    this.createExtensionManager();
+    this.createCommandManager();
+    this.createSchema();
+    this.on("beforeCreate", this.options.onBeforeCreate);
+    this.emit("beforeCreate", { editor: this });
+    this.on("mount", this.options.onMount);
+    this.on("unmount", this.options.onUnmount);
+    this.on("contentError", this.options.onContentError);
+    this.on("create", this.options.onCreate);
+    this.on("update", this.options.onUpdate);
+    this.on("selectionUpdate", this.options.onSelectionUpdate);
+    this.on("transaction", this.options.onTransaction);
+    this.on("focus", this.options.onFocus);
+    this.on("blur", this.options.onBlur);
+    this.on("destroy", this.options.onDestroy);
+    this.on("drop", ({ event, slice, moved }) =>
+      this.options.onDrop(event, slice, moved)
     );
+    this.on("paste", ({ event, slice }) => this.options.onPaste(event, slice));
+    this.on("delete", this.options.onDelete);
 
-    // 2. Extension plugins (from user-provided extensions)
-    // Get plugins from extensions
-    const extensionPlugins = this.extensionManager?.plugins || [];
+    const initialDoc = this.createDoc();
+    const selection = resolveFocusPosition(initialDoc, this.options.autofocus);
 
-    // 3. Raw plugins (escape hatch for advanced users)
-    const rawPlugins = this.options.plugins || [];
-
-    // Combine all plugins
-    const allPlugins = [...corePlugins, ...extensionPlugins, ...rawPlugins];
-
-    // 4. DEDUPLICATE: Filter out plugins with duplicate keys
-    // ProseMirror identifies plugins by their PluginKey - keep only the first instance
-    const seenKeys = new Set<any>();
-    const uniquePlugins = allPlugins.filter((plugin) => {
-      const key = (plugin as any).key;
-      if (!key) return true; // Keep plugins without keys (they're not tracked)
-
-      if (seenKeys.has(key)) {
-        console.warn(
-          `[AutoArtifacts] Skipping duplicate plugin with key: ${key}`
-        );
-        return false; // Skip duplicate
-      }
-
-      seenKeys.add(key);
-      return true; // Keep first instance
+    // Set editor state immediately, so that it's available independently from the view
+    this.editorState = EditorState.create({
+      doc: initialDoc,
+      schema: this.schema,
+      selection: selection || undefined,
     });
 
-    return uniquePlugins;
+    if (this.options.element) {
+      this.mount(this.options.element);
+    }
   }
 
   /**
-   * Inject default ProseMirror CSS styles into the document
-   * Only injects if injectCSS option is true and we're in a browser environment
+   * Attach the editor to the DOM, creating a new editor view.
    */
-  private injectCSS(): void {
-    // Skip if injection is disabled
-    if (this.options.injectCSS === false) {
-      return;
+  public mount(el: NonNullable<EditorOptions["element"]> & {}) {
+    if (typeof document === "undefined") {
+      throw new Error(
+        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`
+      );
+    }
+    this.createView(el);
+    this.emit("mount", { editor: this });
+
+    if (this.css && !document.head.contains(this.css)) {
+      document.head.appendChild(this.css);
     }
 
-    // Skip on server-side
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    // Inject the CSS and store reference to the style element
-    this.css = createStyleTag(style, this.options.injectNonce);
-  }
-
-  /**
-   * Mount the editor to a DOM element
-   */
-  public mount(element: HTMLElement): void {
-    if (this.mounted) {
-      console.warn("[AutoArtifacts] Editor already mounted");
-      return;
-    }
-
-    try {
-      // TODO: Add validation logic here if needed
-      const contentToUse = this.options.content;
-
-      // Create ProseMirror state
-      const state = EditorState.create({
-        doc: schema.nodeFromJSON(contentToUse),
-        schema,
-        plugins: this.plugins, // Use plugins created in constructor
-      });
-
-      // Create ProseMirror view
-      this.view = new EditorView(element, {
-        state,
-        editable: () =>
-          this.options.editorMode === "edit" && !this.options.readOnly,
-        dispatchTransaction: this.dispatchTransaction.bind(this),
-
-        // Handle focus/blur events
-        handleDOMEvents: {
-          focus: (_view, event) => {
-            if (this.options.onFocus) {
-              this.options.onFocus({
-                editor: this,
-                event: event as FocusEvent,
-              });
-            }
-            return false;
-          },
-
-          blur: (_view, event) => {
-            if (this.options.onBlur) {
-              this.options.onBlur({
-                editor: this,
-                event: event as FocusEvent,
-              });
-            }
-            return false;
-          },
-        },
-      });
-
-      this.mounted = true;
-
-      // Post-mount setup
-      setTimeout(() => {
-        applyAllLayouts(element);
-
-        // Fire onCreate callback
-        if (this.options.onCreate) {
-          this.options.onCreate(this);
-        }
-
-        // Note: Extension onCreate hooks are handled by ExtensionManager.setupExtensions()
-        // which is called in the constructor
-      }, 0);
-    } catch (error) {
-      if (this.options.onError && error instanceof Error) {
-        this.options.onError(error);
-      } else {
-        console.error("[AutoArtifacts] Error mounting editor:", error);
+    window.setTimeout(() => {
+      if (this.isDestroyed) {
+        return;
       }
-    }
+
+      this.commands.focus(this.options.autofocus);
+      this.emit("create", { editor: this });
+      this.isInitialized = true;
+    }, 0);
   }
 
   /**
-   * Unmount the editor from the DOM
+   * Remove the editor from the DOM, but still allow remounting at a different point in time
    */
-  public unmount(): void {
-    if (!this.mounted) return;
+  public unmount() {
+    if (this.editorView) {
+      // Cleanup our reference to prevent circular references which caused memory leaks
+      // @ts-ignore
+      const dom = this.editorView.dom as TiptapEditorHTMLElement;
 
-    // Fire onDestroy callback
-    if (this.options.onDestroy) {
-      this.options.onDestroy();
+      if (dom?.editor) {
+        delete dom.editor;
+      }
+      this.editorView.destroy();
     }
+    this.editorView = null;
+    this.isInitialized = false;
 
-    // Note: Extension onDestroy hooks are handled by ExtensionManager event listeners
-    // which were set up in setupExtensions()    // Destroy ProseMirror view
-    this.view?.destroy();
-    this.view = null;
-    this.mounted = false;
-
-    // Remove injected CSS
+    // Safely remove CSS element with fallback for test environments
     if (this.css) {
       try {
         if (typeof this.css.remove === "function") {
@@ -305,145 +209,630 @@ export class SlideEditor {
           this.css.parentNode.removeChild(this.css);
         }
       } catch (error) {
-        // Silently handle any DOM removal errors in test environments
-        console.warn("[AutoArtifacts] Failed to remove CSS element:", error);
-      }
-      this.css = null;
-    }
-  }
-
-  /**
-   * Handle ProseMirror transactions
-   */
-  private dispatchTransaction(transaction: Transaction): void {
-    if (!this.view) return;
-
-    const oldState = this.view.state;
-    const newState = this.view.state.apply(transaction);
-    this.view.updateState(newState);
-
-    // Fire onTransaction callback
-    if (this.options.onTransaction) {
-      this.options.onTransaction({ editor: this, transaction });
-    }
-
-    // Handle document changes
-    if (transaction.docChanged) {
-      const newContent = newState.doc.toJSON();
-
-      if (this.options.onUpdate) {
-        this.options.onUpdate({ editor: this, transaction });
-      }
-
-      if (this.options.onChange) {
-        this.options.onChange(newContent as DocNode);
-      }
-
-      if (this.options.onContentChange) {
-        this.options.onContentChange({ editor: this, content: newContent });
+        // Silently handle any unexpected DOM removal errors in test environments
+        console.warn("Failed to remove CSS element:", error);
       }
     }
-
-    // Handle selection changes
-    if (!oldState.selection.eq(newState.selection)) {
-      if (this.options.onSelectionUpdate) {
-        this.options.onSelectionUpdate({
-          editor: this,
-          selection: newState.selection,
-        });
-      }
-    }
-
-    // Handle undo/redo
-    const historyMeta = transaction.getMeta("history$");
-    if (historyMeta) {
-      if (historyMeta.undo && this.options.onUndo) {
-        this.options.onUndo({ editor: this });
-      } else if (historyMeta.redo && this.options.onRedo) {
-        this.options.onRedo({ editor: this });
-      }
-    }
+    this.css = null;
+    this.emit("unmount", { editor: this });
   }
 
-  // Public API
-
   /**
-   * Get the ProseMirror EditorView
+   * Returns the editor storage.
    */
-  public get editorView(): EditorView | null {
-    return this.view;
+  public get storage(): Storage {
+    return this.extensionStorage;
   }
 
   /**
-   * Get document as JSON
+   * An object of all registered commands.
    */
-  public getJSON(): DocNode {
-    return (
-      (this.view?.state.doc.toJSON() as DocNode) || { type: "doc", content: [] }
-    );
+  public get commands(): SingleCommands {
+    return this.commandManager.commands;
   }
 
   /**
-   * Set document content
-   */
-  public setContent(content: DocNode): void {
-    if (!this.view) return;
-
-    const newState = EditorState.create({
-      doc: schema.nodeFromJSON(content),
-      schema,
-      plugins: this.view.state.plugins,
-    });
-
-    this.view.updateState(newState);
-  }
-
-  /**
-   * Set editable state
-   */
-  public setEditable(editable: boolean): void {
-    if (!this.view) return;
-    this.view.setProps({ editable: () => editable });
-  }
-
-  /**
-   * Destroy the editor
-   */
-  public destroy(): void {
-    this.unmount();
-  }
-
-  /**
-   * Create a command chain for batched execution
-   *
-   * Commands in a chain are executed sequentially and batched into a single transaction.
-   * Must call .run() to execute the chain.
-   *
-   * @example
-   * ```typescript
-   * editor.chain()
-   *   .toggleBold()
-   *   .toggleItalic()
-   *   .run();
-   * ```
+   * Create a command chain to call multiple commands at once.
    */
   public chain(): ChainedCommands {
     return this.commandManager.chain();
   }
 
   /**
-   * Test if commands can be executed without actually running them
-   *
-   * Useful for enabling/disabling UI elements based on command availability.
-   *
-   * @example
-   * ```typescript
-   * if (editor.can().toggleBold()) {
-   *   showBoldButton();
-   * }
-   * ```
+   * Check if a command or a command chain can be executed. Without executing it.
    */
   public can(): CanCommands {
     return this.commandManager.can();
+  }
+
+  /**
+   * Inject CSS styles.
+   */
+  private injectCSS(): void {
+    if (this.options.injectCSS && typeof document !== "undefined") {
+      this.css = createStyleTag(style, this.options.injectNonce);
+    }
+  }
+
+  /**
+   * Update editor options.
+   *
+   * @param options A list of options
+   */
+  public setOptions(options: Partial<EditorOptions> = {}): void {
+    this.options = {
+      ...this.options,
+      ...options,
+    };
+
+    if (!this.editorView || !this.state || this.isDestroyed) {
+      return;
+    }
+
+    if (this.options.editorProps) {
+      this.view.setProps(this.options.editorProps);
+    }
+
+    this.view.updateState(this.state);
+  }
+
+  /**
+   * Update editable state of the editor.
+   */
+  public setEditable(editable: boolean, emitUpdate = true): void {
+    this.setOptions({ editable });
+
+    if (emitUpdate) {
+      this.emit("update", {
+        editor: this,
+        transaction: this.state.tr,
+        appendedTransactions: [],
+      });
+    }
+  }
+
+  /**
+   * Returns whether the editor is editable.
+   */
+  public get isEditable(): boolean {
+    // since plugins are applied after creating the view
+    // `editable` is always `true` for one tick.
+    // that’s why we also have to check for `options.editable`
+    return this.options.editable && this.view && this.view.editable;
+  }
+
+  /**
+   * Returns the editor state.
+   */
+  public get view(): EditorView {
+    if (this.editorView) {
+      return this.editorView;
+    }
+
+    return new Proxy(
+      {
+        state: this.editorState,
+        updateState: (
+          state: EditorState
+        ): ReturnType<EditorView["updateState"]> => {
+          this.editorState = state;
+        },
+        dispatch: (tr: Transaction): ReturnType<EditorView["dispatch"]> => {
+          this.dispatchTransaction(tr);
+        },
+
+        // Stub some commonly accessed properties to prevent errors
+        composing: false,
+        dragging: null,
+        editable: true,
+        isDestroyed: false,
+      } as EditorView,
+      {
+        get: (obj, key) => {
+          if (this.editorView) {
+            // If the editor view is available, but the caller has a stale reference to the proxy,
+            // Just return what the editor view has.
+            return this.editorView[key as keyof EditorView];
+          }
+          // Specifically always return the most recent editorState
+          if (key === "state") {
+            return this.editorState;
+          }
+          if (key in obj) {
+            return Reflect.get(obj, key);
+          }
+
+          // We throw an error here, because we know the view is not available
+          throw new Error(
+            `[tiptap error]: The editor view is not available. Cannot access view['${
+              key as string
+            }']. The editor may not be mounted yet.`
+          );
+        },
+      }
+    ) as EditorView;
+  }
+
+  /**
+   * Returns the editor state.
+   */
+  public get state(): EditorState {
+    if (this.editorView) {
+      this.editorState = this.view.state;
+    }
+
+    return this.editorState;
+  }
+
+  /**
+   * Register a ProseMirror plugin.
+   *
+   * @param plugin A ProseMirror plugin
+   * @param handlePlugins Control how to merge the plugin into the existing plugins.
+   * @returns The new editor state
+   */
+  public registerPlugin(
+    plugin: Plugin,
+    handlePlugins?: (newPlugin: Plugin, plugins: Plugin[]) => Plugin[]
+  ): EditorState {
+    const plugins = isFunction(handlePlugins)
+      ? handlePlugins(plugin, [...this.state.plugins])
+      : [...this.state.plugins, plugin];
+
+    const state = this.state.reconfigure({ plugins });
+
+    this.view.updateState(state);
+
+    return state;
+  }
+
+  /**
+   * Unregister a ProseMirror plugin.
+   *
+   * @param nameOrPluginKeyToRemove The plugins name
+   * @returns The new editor state or undefined if the editor is destroyed
+   */
+  public unregisterPlugin(
+    nameOrPluginKeyToRemove: string | PluginKey | (string | PluginKey)[]
+  ): EditorState | undefined {
+    if (this.isDestroyed) {
+      return undefined;
+    }
+
+    const prevPlugins = this.state.plugins;
+    let plugins = prevPlugins;
+
+    ([] as (string | PluginKey)[])
+      .concat(nameOrPluginKeyToRemove)
+      .forEach((nameOrPluginKey) => {
+        // @ts-ignore
+        const name =
+          typeof nameOrPluginKey === "string"
+            ? `${nameOrPluginKey}$`
+            : nameOrPluginKey.key;
+
+        // @ts-ignore
+        plugins = plugins.filter((plugin) => !plugin.key.startsWith(name));
+      });
+
+    if (prevPlugins.length === plugins.length) {
+      // No plugin was removed, so we don’t need to update the state
+      return undefined;
+    }
+
+    const state = this.state.reconfigure({
+      plugins,
+    });
+
+    this.view.updateState(state);
+
+    return state;
+  }
+
+  /**
+   * Creates an extension manager.
+   */
+  private createExtensionManager(): void {
+    const coreExtensions = this.options.enableCoreExtensions
+      ? [
+          Editable,
+          ClipboardTextSerializer.configure({
+            blockSeparator:
+              this.options.coreExtensionOptions?.clipboardTextSerializer
+                ?.blockSeparator,
+          }),
+          Commands,
+          FocusEvents,
+          Keymap,
+          Tabindex,
+          Drop,
+          Paste,
+          Delete,
+        ].filter((ext) => {
+          if (typeof this.options.enableCoreExtensions === "object") {
+            return (
+              this.options.enableCoreExtensions[
+                ext.name as keyof typeof this.options.enableCoreExtensions
+              ] !== false
+            );
+          }
+          return true;
+        })
+      : [];
+    const allExtensions = [
+      ...coreExtensions,
+      ...this.options.extensions,
+    ].filter((extension) => {
+      return ["extension", "node", "mark"].includes(extension?.type);
+    });
+
+    this.extensionManager = new ExtensionManager(allExtensions, this);
+  }
+
+  /**
+   * Creates an command manager.
+   */
+  private createCommandManager(): void {
+    this.commandManager = new CommandManager({
+      editor: this,
+    });
+  }
+
+  /**
+   * Creates a ProseMirror schema.
+   */
+  private createSchema(): void {
+    this.schema = this.extensionManager.schema;
+  }
+
+  /**
+   * Creates the initial document.
+   */
+  private createDoc(): ProseMirrorNode {
+    let doc: ProseMirrorNode;
+
+    try {
+      doc = createDocument(
+        this.options.content,
+        this.schema,
+        this.options.parseOptions,
+        {
+          errorOnInvalidContent: this.options.enableContentCheck,
+        }
+      );
+    } catch (e) {
+      if (
+        !(e instanceof Error) ||
+        ![
+          "[tiptap error]: Invalid JSON content",
+          "[tiptap error]: Invalid HTML content",
+        ].includes(e.message)
+      ) {
+        // Not the content error we were expecting
+        throw e;
+      }
+      this.emit("contentError", {
+        editor: this,
+        error: e as Error,
+        disableCollaboration: () => {
+          if (
+            "collaboration" in this.storage &&
+            typeof this.storage.collaboration === "object" &&
+            this.storage.collaboration
+          ) {
+            (this.storage.collaboration as any).isDisabled = true;
+          }
+          // To avoid syncing back invalid content, reinitialize the extensions without the collaboration extension
+          this.options.extensions = this.options.extensions.filter(
+            (extension) => extension.name !== "collaboration"
+          );
+
+          // Restart the initialization process by recreating the extension manager with the new set of extensions
+          this.createExtensionManager();
+        },
+      });
+
+      // Content is invalid, but attempt to create it anyway, stripping out the invalid parts
+      doc = createDocument(
+        this.options.content,
+        this.schema,
+        this.options.parseOptions,
+        {
+          errorOnInvalidContent: false,
+        }
+      );
+    }
+    return doc;
+  }
+
+  /**
+   * Creates a ProseMirror view.
+   */
+  private createView(element: NonNullable<EditorOptions["element"]>): void {
+    this.editorView = new EditorView(element, {
+      ...this.options.editorProps,
+      attributes: {
+        // add `role="textbox"` to the editor element
+        role: "textbox",
+        ...this.options.editorProps?.attributes,
+      },
+      dispatchTransaction: this.dispatchTransaction.bind(this),
+      state: this.editorState,
+      markViews: this.extensionManager.markViews,
+      nodeViews: this.extensionManager.nodeViews,
+    });
+
+    // `editor.view` is not yet available at this time.
+    // Therefore we will add all plugins and node views directly afterwards.
+    const newState = this.state.reconfigure({
+      plugins: this.extensionManager.plugins,
+    });
+
+    this.view.updateState(newState);
+
+    this.prependClass();
+    this.injectCSS();
+
+    // Let’s store the editor instance in the DOM element.
+    // So we’ll have access to it for tests.
+    // @ts-ignore
+    const dom = this.view.dom as TiptapEditorHTMLElement;
+
+    dom.editor = this;
+  }
+
+  /**
+   * Creates all node and mark views.
+   */
+  public createNodeViews(): void {
+    if (this.view.isDestroyed) {
+      return;
+    }
+
+    this.view.setProps({
+      markViews: this.extensionManager.markViews,
+      nodeViews: this.extensionManager.nodeViews,
+    });
+  }
+
+  /**
+   * Prepend class name to element.
+   */
+  public prependClass(): void {
+    this.view.dom.className = `tiptap ${this.view.dom.className}`;
+  }
+
+  public isCapturingTransaction = false;
+
+  private capturedTransaction: Transaction | null = null;
+
+  public captureTransaction(fn: () => void) {
+    this.isCapturingTransaction = true;
+    fn();
+    this.isCapturingTransaction = false;
+
+    const tr = this.capturedTransaction;
+
+    this.capturedTransaction = null;
+
+    return tr;
+  }
+
+  /**
+   * The callback over which to send transactions (state updates) produced by the view.
+   *
+   * @param transaction An editor state transaction
+   */
+  private dispatchTransaction(transaction: Transaction): void {
+    // if the editor / the view of the editor was destroyed
+    // the transaction should not be dispatched as there is no view anymore.
+    if (this.view.isDestroyed) {
+      return;
+    }
+
+    if (this.isCapturingTransaction) {
+      if (!this.capturedTransaction) {
+        this.capturedTransaction = transaction;
+
+        return;
+      }
+
+      transaction.steps.forEach((step) => this.capturedTransaction?.step(step));
+
+      return;
+    }
+
+    // Apply transaction and get resulting state and transactions
+    const { state, transactions } = this.state.applyTransaction(transaction);
+    const selectionHasChanged = !this.state.selection.eq(state.selection);
+    const rootTrWasApplied = transactions.includes(transaction);
+    const prevState = this.state;
+
+    this.emit("beforeTransaction", {
+      editor: this,
+      transaction,
+      nextState: state,
+    });
+
+    // If transaction was filtered out, we can return early
+    if (!rootTrWasApplied) {
+      return;
+    }
+
+    this.view.updateState(state);
+
+    // Emit transaction event with appended transactions info
+    this.emit("transaction", {
+      editor: this,
+      transaction,
+      appendedTransactions: transactions.slice(1),
+    });
+
+    if (selectionHasChanged) {
+      this.emit("selectionUpdate", {
+        editor: this,
+        transaction,
+      });
+    }
+
+    // Only emit the latest between focus and blur events
+    const mostRecentFocusTr = transactions.findLast(
+      (tr) => tr.getMeta("focus") || tr.getMeta("blur")
+    );
+    const focus = mostRecentFocusTr?.getMeta("focus");
+    const blur = mostRecentFocusTr?.getMeta("blur");
+
+    if (focus) {
+      this.emit("focus", {
+        editor: this,
+        event: focus.event,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        transaction: mostRecentFocusTr!,
+      });
+    }
+
+    if (blur) {
+      this.emit("blur", {
+        editor: this,
+        event: blur.event,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        transaction: mostRecentFocusTr!,
+      });
+    }
+
+    // Compare states for update event
+    if (
+      transaction.getMeta("preventUpdate") ||
+      !transactions.some((tr) => tr.docChanged) ||
+      prevState.doc.eq(state.doc)
+    ) {
+      return;
+    }
+
+    this.emit("update", {
+      editor: this,
+      transaction,
+      appendedTransactions: transactions.slice(1),
+    });
+  }
+
+  /**
+   * Get attributes of the currently selected node or mark.
+   */
+  public getAttributes(
+    nameOrType: string | NodeType | MarkType
+  ): Record<string, any> {
+    return getAttributes(this.state, nameOrType);
+  }
+
+  /**
+   * Returns if the currently selected node or mark is active.
+   *
+   * @param name Name of the node or mark
+   * @param attributes Attributes of the node or mark
+   */
+  public isActive(name: string, attributes?: {}): boolean;
+  public isActive(attributes: {}): boolean;
+  public isActive(
+    nameOrAttributes: string,
+    attributesOrUndefined?: {}
+  ): boolean {
+    const name = typeof nameOrAttributes === "string" ? nameOrAttributes : null;
+
+    const attributes =
+      typeof nameOrAttributes === "string"
+        ? attributesOrUndefined
+        : nameOrAttributes;
+
+    return isActive(this.state, name, attributes);
+  }
+
+  /**
+   * Get the document as JSON.
+   */
+  public getJSON(): DocumentType<
+    Record<string, any> | undefined,
+    TNodeType<
+      string,
+      undefined | Record<string, any>,
+      any,
+      (TNodeType | TTextType)[]
+    >[]
+  > {
+    return this.state.doc.toJSON();
+  }
+
+  /**
+   * Get the document as HTML.
+   */
+  public getHTML(): string {
+    return getHTMLFromFragment(this.state.doc.content, this.schema);
+  }
+
+  /**
+   * Get the document as text.
+   */
+  public getText(options?: {
+    blockSeparator?: string;
+    textSerializers?: Record<string, TextSerializer>;
+  }): string {
+    const { blockSeparator = "\n\n", textSerializers = {} } = options || {};
+
+    return getText(this.state.doc, {
+      blockSeparator,
+      textSerializers: {
+        ...getTextSerializersFromSchema(this.schema),
+        ...textSerializers,
+      },
+    });
+  }
+
+  /**
+   * Check if there is no content.
+   */
+  public get isEmpty(): boolean {
+    return isNodeEmpty(this.state.doc);
+  }
+
+  /**
+   * Destroy the editor.
+   */
+  public destroy(): void {
+    this.emit("destroy");
+
+    this.unmount();
+
+    this.removeAllListeners();
+  }
+
+  /**
+   * Check if the editor is already destroyed.
+   */
+  public get isDestroyed(): boolean {
+    return this.editorView?.isDestroyed ?? true;
+  }
+
+  public $node(
+    selector: string,
+    attributes?: { [key: string]: any }
+  ): NodePos | null {
+    return this.$doc?.querySelector(selector, attributes) || null;
+  }
+
+  public $nodes(
+    selector: string,
+    attributes?: { [key: string]: any }
+  ): NodePos[] | null {
+    return this.$doc?.querySelectorAll(selector, attributes) || null;
+  }
+
+  public $pos(pos: number) {
+    const $pos = this.state.doc.resolve(pos);
+
+    return new NodePos($pos, this);
+  }
+
+  get $doc() {
+    return this.$pos(0);
   }
 }
