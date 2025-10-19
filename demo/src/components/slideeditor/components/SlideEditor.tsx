@@ -1,4 +1,4 @@
-import { EditorContent, SlideEditor } from '@autoartifacts/react'
+import { EditorContent } from '@autoartifacts/react'
 import React from 'react'
 
 import { useSlideEditor } from '@/components/slideeditor/hooks/useSlideEditor'
@@ -6,7 +6,7 @@ import { useSlideEditor } from '@/components/slideeditor/hooks/useSlideEditor'
 //TODO: Check to see which styles we need to bring over from PP 
 //import '@/components/slideeditor/styles/index.css'
 
-export const BlockEditor = ({
+export const SlideEditor = ({
   content,
   onUpdate,
 }: {
@@ -25,7 +25,7 @@ export const BlockEditor = ({
   )
 }
 
-export default SlideEditor
+
 
 
 

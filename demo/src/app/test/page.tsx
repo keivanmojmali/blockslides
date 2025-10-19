@@ -1,6 +1,6 @@
 'use client'
 
-import { BlockEditor } from '@/components/slideeditor/components/SlideEditor'
+import { SlideEditor } from '@/components/slideeditor/components/SlideEditor'
 
 const TestPage = () => {
     // Sample content following your doc -> slide -> block structure
@@ -147,7 +147,7 @@ const TestPage = () => {
 
     return (
         <div>
-            <BlockEditor content={content} />
+            <SlideEditor content={content} />
         </div>
     )
 }
