@@ -2,24 +2,24 @@
   "name": "@autoartifacts/core",
   "version": "0.0.1",
   "description": "Core ProseMirror-based slide editor with essential plugins",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./src/index.ts",
-      "require": "./src/index.ts",
-      "types": "./src/index.ts"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./jsx-runtime": {
-      "import": "./jsx-runtime/index.js",
-      "require": "./jsx-runtime/index.cjs",
-      "types": "./jsx-runtime/index.d.ts"
+      "import": "./dist/jsx-runtime/jsx-runtime.mjs",
+      "require": "./dist/jsx-runtime/jsx-runtime.js",
+      "types": "./dist/jsx-runtime/jsx-runtime.d.ts"
     },
     "./jsx-dev-runtime": {
-      "import": "./jsx-dev-runtime/index.js",
-      "require": "./jsx-dev-runtime/index.cjs",
-      "types": "./jsx-dev-runtime/index.d.ts"
+      "import": "./dist/jsx-dev-runtime/jsx-dev-runtime.mjs",
+      "require": "./dist/jsx-dev-runtime/jsx-dev-runtime.js",
+      "types": "./dist/jsx-dev-runtime/jsx-dev-runtime.d.ts"
     }
   },
   "files": [

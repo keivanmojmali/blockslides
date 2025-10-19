@@ -32,7 +32,14 @@ export const useSlideEditor = ({
         // When debounce is added, use: debouncedUpdate(JSON.stringify(ctx.editor.getJSON()))
         handleUpdate(JSON.stringify(ctx.editor.getJSON()));
       },
-      extensions: [ExtensionKit],
+      extensions: [
+        ExtensionKit.configure({
+          // Disable everything except the essentials
+          addSlideButton: false,
+          invisibleCharacters: false,
+          layoutPicker: false,
+        }),
+      ],
       editorProps: {
         attributes: {
           autocomplete: "off",

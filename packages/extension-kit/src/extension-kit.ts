@@ -9,8 +9,6 @@ import type { CodeOptions } from "@autoartifacts/extension-code";
 import { Code } from "@autoartifacts/extension-code";
 import type { CodeBlockOptions } from "@autoartifacts/extension-code-block";
 import { CodeBlock } from "@autoartifacts/extension-code-block";
-import type { CodeBlockLowlightOptions } from "@autoartifacts/extension-code-block-lowlight";
-import { CodeBlockLowlight } from "@autoartifacts/extension-code-block-lowlight";
 import type { ColorOptions } from "@autoartifacts/extension-color";
 import { Color } from "@autoartifacts/extension-color";
 import { Document } from "@autoartifacts/extension-document";
@@ -162,15 +160,9 @@ export interface ExtensionKitOptions {
    * Code block extension
    * @default {}
    * @example codeBlock: false
+   * @example codeBlock: { defaultLanguage: 'javascript' }
    */
   codeBlock?: Partial<CodeBlockOptions> | false;
-
-  /**
-   * Code block with syntax highlighting extension
-   * @default {}
-   * @example codeBlockLowlight: false
-   */
-  codeBlockLowlight?: Partial<CodeBlockLowlightOptions> | false;
 
   /**
    * Text color extension
@@ -557,12 +549,6 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
 
     if (this.options.codeBlock !== false) {
       extensions.push(CodeBlock.configure(this.options.codeBlock || {}));
-    }
-
-    if (this.options.codeBlockLowlight !== false) {
-      extensions.push(
-        CodeBlockLowlight.configure(this.options.codeBlockLowlight || {})
-      );
     }
 
     if (this.options.horizontalRule !== false) {
