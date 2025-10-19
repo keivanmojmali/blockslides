@@ -17,8 +17,6 @@ import { Document } from "@autoartifacts/extension-document";
 import { Details } from "@autoartifacts/extension-details";
 import { DetailsContent } from "@autoartifacts/extension-details";
 import { DetailsSummary } from "@autoartifacts/extension-details";
-import type { EmojiOptions } from "@autoartifacts/extension-emoji";
-import { Emoji } from "@autoartifacts/extension-emoji";
 import type { FileHandlerOptions } from "@autoartifacts/extension-file-handler";
 import { FileHandler } from "@autoartifacts/extension-file-handler";
 import type { FontFamilyOptions } from "@autoartifacts/extension-font-family";
@@ -37,6 +35,8 @@ import type { InvisibleCharactersOptions } from "@autoartifacts/extension-invisi
 import { InvisibleCharacters } from "@autoartifacts/extension-invisible-characters";
 import type { ItalicOptions } from "@autoartifacts/extension-italic";
 import { Italic } from "@autoartifacts/extension-italic";
+import type { LayoutPickerOptions } from "@autoartifacts/extension-layout-picker";
+import { LayoutPicker } from "@autoartifacts/extension-layout-picker";
 import type { LinkOptions } from "@autoartifacts/extension-link";
 import { Link } from "@autoartifacts/extension-link";
 import type {
@@ -66,7 +66,12 @@ import { Subscript } from "@autoartifacts/extension-subscript";
 import type { SuperscriptExtensionOptions } from "@autoartifacts/extension-superscript";
 import { Superscript } from "@autoartifacts/extension-superscript";
 import type { TableOptions } from "@autoartifacts/extension-table";
-import { Table, TableCell, TableHeader, TableRow } from "@autoartifacts/extension-table";
+import {
+  Table,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@autoartifacts/extension-table";
 import type { TableOfContentsOptions } from "@autoartifacts/extension-table-of-contents";
 import { TableOfContents } from "@autoartifacts/extension-table-of-contents";
 import { Text } from "@autoartifacts/extension-text";
@@ -101,7 +106,7 @@ import {
 
 /**
  * ExtensionKit Options Interface
- * 
+ *
  * Each extension can be:
  * - undefined (default): Extension will be included with default options
  * - false: Extension will be excluded
@@ -198,13 +203,6 @@ export interface ExtensionKitOptions {
   dropcursor?: Partial<DropcursorOptions> | false;
 
   /**
-   * Emoji extension
-   * @default {}
-   * @example emoji: false
-   */
-  emoji?: Partial<EmojiOptions> | false;
-
-  /**
    * File handler extension (drag & drop, paste)
    * @default {}
    * @example fileHandler: false
@@ -284,6 +282,13 @@ export interface ExtensionKitOptions {
    * @example italic: false
    */
   italic?: Partial<ItalicOptions> | false;
+
+  /**
+   * Layout picker extension
+   * @default {}
+   * @example layoutPicker: false
+   */
+  layoutPicker?: Partial<LayoutPickerOptions> | false;
 
   /**
    * Link extension
@@ -454,10 +459,10 @@ export interface ExtensionKitOptions {
 
 /**
  * ExtensionKit - A comprehensive bundle of all available extensions
- * 
+ *
  * This extension allows you to easily configure which extensions to include
  * in your editor and customize their options.
- * 
+ *
  * @example
  * ```typescript
  * const editor = useSlideEditor({
@@ -555,11 +560,15 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     }
 
     if (this.options.codeBlockLowlight !== false) {
-      extensions.push(CodeBlockLowlight.configure(this.options.codeBlockLowlight || {}));
+      extensions.push(
+        CodeBlockLowlight.configure(this.options.codeBlockLowlight || {})
+      );
     }
 
     if (this.options.horizontalRule !== false) {
-      extensions.push(HorizontalRule.configure(this.options.horizontalRule || {}));
+      extensions.push(
+        HorizontalRule.configure(this.options.horizontalRule || {})
+      );
     }
 
     // List extensions
@@ -589,6 +598,10 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     }
 
     // Interactive extensions
+    if (this.options.layoutPicker !== false) {
+      extensions.push(LayoutPicker.configure(this.options.layoutPicker || {}));
+    }
+
     if (this.options.link !== false) {
       extensions.push(Link.configure(this.options.link || {}));
     }
@@ -608,14 +621,12 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     }
 
     if (this.options.tableOfContents !== false) {
-      extensions.push(TableOfContents.configure(this.options.tableOfContents || {}));
+      extensions.push(
+        TableOfContents.configure(this.options.tableOfContents || {})
+      );
     }
 
     // Special content extensions
-    if (this.options.emoji !== false) {
-      extensions.push(Emoji.configure(this.options.emoji || {}));
-    }
-
     if (this.options.mathematics !== false) {
       extensions.push(Mathematics.configure(this.options.mathematics || {}));
     }
@@ -647,7 +658,9 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     }
 
     if (this.options.invisibleCharacters !== false) {
-      extensions.push(InvisibleCharacters.configure(this.options.invisibleCharacters || {}));
+      extensions.push(
+        InvisibleCharacters.configure(this.options.invisibleCharacters || {})
+      );
     }
 
     if (this.options.bubbleMenu !== false) {
@@ -681,7 +694,9 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     }
 
     if (this.options.addSlideButton !== false) {
-      extensions.push(AddSlideButton.configure(this.options.addSlideButton || {}));
+      extensions.push(
+        AddSlideButton.configure(this.options.addSlideButton || {})
+      );
     }
 
     return extensions;

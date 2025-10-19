@@ -258,6 +258,135 @@ importers:
         specifier: workspace:^
         version: link:../core
 
+  packages/extension-kit:
+    dependencies:
+      '@autoartifacts/core':
+        specifier: workspace:*
+        version: link:../core
+      '@autoartifacts/extension-add-slide-button':
+        specifier: workspace:*
+        version: link:../extension-add-slide-button
+      '@autoartifacts/extension-blockquote':
+        specifier: workspace:*
+        version: link:../extension-blockquote
+      '@autoartifacts/extension-bold':
+        specifier: workspace:*
+        version: link:../extension-bold
+      '@autoartifacts/extension-bubble-menu':
+        specifier: workspace:*
+        version: link:../extension-bubble-menu
+      '@autoartifacts/extension-code':
+        specifier: workspace:*
+        version: link:../extension-code
+      '@autoartifacts/extension-code-block':
+        specifier: workspace:*
+        version: link:../extension-code-block
+      '@autoartifacts/extension-code-block-lowlight':
+        specifier: workspace:*
+        version: link:../extension-code-block-lowlight
+      '@autoartifacts/extension-color':
+        specifier: workspace:*
+        version: link:../extension-color
+      '@autoartifacts/extension-details':
+        specifier: workspace:*
+        version: link:../extension-details
+      '@autoartifacts/extension-document':
+        specifier: workspace:*
+        version: link:../extension-document
+      '@autoartifacts/extension-file-handler':
+        specifier: workspace:*
+        version: link:../extension-file-handler
+      '@autoartifacts/extension-floating-menu':
+        specifier: workspace:*
+        version: link:../extension-floating-menu
+      '@autoartifacts/extension-font-family':
+        specifier: workspace:*
+        version: link:../extension-font-family
+      '@autoartifacts/extension-hard-break':
+        specifier: workspace:*
+        version: link:../extension-hard-break
+      '@autoartifacts/extension-heading':
+        specifier: workspace:*
+        version: link:../extension-heading
+      '@autoartifacts/extension-highlight':
+        specifier: workspace:*
+        version: link:../extension-highlight
+      '@autoartifacts/extension-horizontal-rule':
+        specifier: workspace:*
+        version: link:../extension-horizontal-rule
+      '@autoartifacts/extension-image':
+        specifier: workspace:*
+        version: link:../extension-image
+      '@autoartifacts/extension-invisible-characters':
+        specifier: workspace:*
+        version: link:../extension-invisible-characters
+      '@autoartifacts/extension-italic':
+        specifier: workspace:*
+        version: link:../extension-italic
+      '@autoartifacts/extension-layout-picker':
+        specifier: workspace:*
+        version: link:../extension-layout-picker
+      '@autoartifacts/extension-link':
+        specifier: workspace:*
+        version: link:../extension-link
+      '@autoartifacts/extension-list':
+        specifier: workspace:*
+        version: link:../extension-list
+      '@autoartifacts/extension-mathematics':
+        specifier: workspace:*
+        version: link:../extension-mathematics
+      '@autoartifacts/extension-node-range':
+        specifier: workspace:*
+        version: link:../extension-node-range
+      '@autoartifacts/extension-paragraph':
+        specifier: workspace:*
+        version: link:../extension-paragraph
+      '@autoartifacts/extension-placeholder':
+        specifier: workspace:*
+        version: link:../extension-placeholder
+      '@autoartifacts/extension-slide':
+        specifier: workspace:*
+        version: link:../extension-slide
+      '@autoartifacts/extension-strike':
+        specifier: workspace:*
+        version: link:../extension-strike
+      '@autoartifacts/extension-subscript':
+        specifier: workspace:*
+        version: link:../extension-subscript
+      '@autoartifacts/extension-superscript':
+        specifier: workspace:*
+        version: link:../extension-superscript
+      '@autoartifacts/extension-table':
+        specifier: workspace:*
+        version: link:../extension-table
+      '@autoartifacts/extension-table-of-contents':
+        specifier: workspace:*
+        version: link:../extension-table-of-contents
+      '@autoartifacts/extension-text':
+        specifier: workspace:*
+        version: link:../extension-text
+      '@autoartifacts/extension-text-align':
+        specifier: workspace:*
+        version: link:../extension-text-align
+      '@autoartifacts/extension-text-style':
+        specifier: workspace:*
+        version: link:../extension-text-style
+      '@autoartifacts/extension-typography':
+        specifier: workspace:*
+        version: link:../extension-typography
+      '@autoartifacts/extension-underline':
+        specifier: workspace:*
+        version: link:../extension-underline
+      '@autoartifacts/extension-unique-id':
+        specifier: workspace:*
+        version: link:../extension-unique-id
+      '@autoartifacts/extension-youtube':
+        specifier: workspace:*
+        version: link:../extension-youtube
+      '@autoartifacts/extensions':
+        specifier: workspace:*
+        version: link:../extensions
+
   packages/extension-layout-picker:
     devDependencies:
       '@autoartifacts/core':
@@ -448,6 +577,15 @@ importers:
       '@autoartifacts/core':
         specifier: workspace:^
         version: link:../core
+
+  packages/extensions:
+    dependencies:
+      '@autoartifacts/core':
+        specifier: workspace:^
+        version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:^
+        version: link:../pm
 
   packages/html:
     devDependencies:
