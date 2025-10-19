@@ -1,3 +1,5 @@
+"use client";
+
 import { useEditor } from "@autoartifacts/react";
 import type { AnyExtension, Editor } from "@autoartifacts/core";
 import { ExtensionKit } from "@autoartifacts/extension-kit";
@@ -35,9 +37,9 @@ export const useSlideEditor = ({
       extensions: [
         ExtensionKit.configure({
           // Disable everything except the essentials
-          addSlideButton: false,
-          invisibleCharacters: false,
-          layoutPicker: false,
+          addSlideButton: false, //TODO: FIX THESE - they throw an error
+          invisibleCharacters: false, //TODO: FIX THESE - they throw an error
+          layoutPicker: false, //TODO: FIX THESE - they throw an error
         }),
       ],
       editorProps: {

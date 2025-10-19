@@ -1,8 +1,23 @@
 'use client'
 
-import { SlideEditor } from '@/components/slideeditor/components/SlideEditor'
+import dynamic from 'next/dynamic'
+import { useMemo } from 'react'
 
 const TestPage = () => {
+    const SlideEditor = useMemo(
+        () =>
+            dynamic(
+                () =>
+                    import('@/components/slideeditor/components/SlideEditor').then(
+                        (mod) => mod.SlideEditor
+                    ),
+                {
+                    ssr: false,
+                }
+            ),
+        []
+    )
+
     // Sample content following your doc -> slide -> block structure
     const content = {
         type: 'doc',
