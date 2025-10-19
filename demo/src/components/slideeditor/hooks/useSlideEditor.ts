@@ -19,10 +19,8 @@ export type { UseSlideEditorProps };
 export const useSlideEditor = ({
   content,
   onUpdate,
-  extensions = [ExtensionKit], // ✅ Default to ExtensionKit here!
 }: UseSlideEditorProps = {}) => {
   // TODO: Add debounce extension for performance optimization
-
   const handleUpdate = onUpdate ?? (() => {});
 
   const editor = useEditor(
