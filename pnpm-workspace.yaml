@@ -1,4 +1,5 @@
 packages:
+  - "demo"
   - "packages/core"
   - "packages/pm"
   - "packages/html"

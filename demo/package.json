@@ -8,6 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@autoartifacts/core": "workspace:*",
+    "@autoartifacts/extension-kit": "workspace:*",
+    "@autoartifacts/react": "workspace:*",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "next": "15.5.6"
