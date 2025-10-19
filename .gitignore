@@ -97,7 +97,4 @@ coverage/
 *.bak
 *.orig
 
-#Demo app 
-/demo
-demo
-/plans
+
