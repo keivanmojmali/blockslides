@@ -87,7 +87,7 @@ img.ProseMirror-separator {
   outline: none;
 }
 
-.autoartifacts-editor [data-type="slide"] {
+.autoartifacts-editor section {
   background-color: var(--slide-bg, #ffffff);
   border: 1px solid var(--slide-border, #e5e5e5);
   border-radius: var(--slide-border-radius, 12px);
