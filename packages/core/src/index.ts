@@ -19,6 +19,7 @@ export * from "./pasteRules/index.js";
 export * from "./Tracker.js";
 export * from "./types.js";
 export * from "./utilities/index.js";
+export * from "./themes/index.js";
 
 // eslint-disable-next-line
 export interface Commands<ReturnType = any> {}

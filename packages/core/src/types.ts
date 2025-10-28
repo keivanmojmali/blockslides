@@ -305,6 +305,24 @@ export interface EditorOptions {
    */
   extensions: Extensions;
   /**
+   * Editor theme for UI styling
+   *
+   * Can be:
+   * - String: 'light' or 'dark' (built-in themes)
+   * - Full theme object with all colors
+   * - Partial theme with extends property to override built-in theme
+   *
+   * @default undefined (no theme applied)
+   * @example 'light'
+   * @example 'dark'
+   * @example { name: 'custom', colors: { background: '#000', ... } }
+   * @example { extends: 'dark', colors: { background: '#0a0a0a' } }
+   */
+  theme?:
+    | string
+    | import("./themes/types.js").Theme
+    | import("./themes/types.js").ThemeConfig;
+  /**
    * Whether to inject base CSS styles
    */
   injectCSS: boolean;

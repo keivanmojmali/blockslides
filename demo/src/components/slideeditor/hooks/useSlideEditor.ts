@@ -1,8 +1,8 @@
 "use client";
 
 import { useEditor } from "@autoartifacts/react";
-import type { AnyExtension, Editor } from "@autoartifacts/core";
 import { ExtensionKit } from "@autoartifacts/extension-kit";
+import type { AnyExtension, Editor } from "@autoartifacts/core";
 
 declare global {
   interface Window {
@@ -30,6 +30,7 @@ export const useSlideEditor = ({
       immediatelyRender: false,
       shouldRerenderOnTransaction: false,
       content,
+      theme: "light",
       onUpdate: (ctx: { editor: Editor }) => {
         // When debounce is added, use: debouncedUpdate(JSON.stringify(ctx.editor.getJSON()))
         handleUpdate(JSON.stringify(ctx.editor.getJSON()));

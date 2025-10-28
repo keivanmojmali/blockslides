@@ -21,7 +21,9 @@ export const SlideEditor = ({
 
 
   return (
-    <EditorContent editor={editor} />
+    <div className='p-8'>
+      <EditorContent editor={editor} />
+    </div>
   )
 }
 

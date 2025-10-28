@@ -68,4 +68,31 @@ img.ProseMirror-separator {
 
 .ProseMirror-focused .ProseMirror-gapcursor {
   display: block;
-}`
+}
+
+.autoartifacts-editor {
+  background-color: var(--editor-bg, transparent);
+  color: var(--editor-fg, #1a1a1a);
+}
+
+.autoartifacts-editor .ProseMirror ::selection {
+  background-color: var(--editor-selection-bg, rgba(59, 130, 246, 0.1));
+}
+
+.autoartifacts-editor .ProseMirror-selectednode {
+  outline: 2px solid var(--editor-selection, #3b82f6);
+}
+
+.autoartifacts-editor:focus-within {
+  outline: none;
+}
+
+.autoartifacts-editor [data-type="slide"] {
+  background-color: var(--slide-bg, #ffffff);
+  border: 1px solid var(--slide-border, #e5e5e5);
+  border-radius: var(--slide-border-radius, 12px);
+  box-shadow: var(--slide-shadow, 0 4px 12px rgba(0, 0, 0, 0.08));
+  margin-bottom: var(--slide-margin-bottom, 32px);
+  padding: var(--slide-padding, 48px);
+  min-height: var(--slide-min-height, 540px);
+}`;

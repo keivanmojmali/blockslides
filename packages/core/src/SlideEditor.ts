@@ -34,6 +34,8 @@ import { resolveFocusPosition } from "./helpers/resolveFocusPosition.js";
 import type { Storage } from "./index.js";
 import { NodePos } from "./NodePos.js";
 import { style } from "./style.js";
+import { resolveTheme, applyTheme } from "./themes/index.js";
+import type { ResolvedTheme } from "./themes/types.js";
 import type {
   CanCommands,
   ChainedCommands,
@@ -78,6 +80,11 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
   public extensionStorage: Storage = {} as Storage;
 
   /**
+   * Resolved editor theme (null if no theme applied)
+   */
+  private resolvedTheme: ResolvedTheme;
+
+  /**
    * A unique ID for this editor instance.
    */
   public instanceId = Math.random().toString(36).slice(2, 9);
@@ -120,6 +127,10 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
   constructor(options: Partial<EditorOptions> = {}) {
     super();
     this.setOptions(options);
+
+    // Resolve theme early in constructor
+    this.resolvedTheme = resolveTheme(this.options.theme);
+
     this.createExtensionManager();
     this.createCommandManager();
     this.createSchema();
@@ -574,8 +585,11 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
     this.prependClass();
     this.injectCSS();
 
-    // Let’s store the editor instance in the DOM element.
-    // So we’ll have access to it for tests.
+    // Apply theme to editor element
+    applyTheme(this.resolvedTheme, this.view.dom as HTMLElement);
+
+    // Let's store the editor instance in the DOM element.
+    // So we'll have access to it for tests.
     // @ts-ignore
     const dom = this.view.dom as TiptapEditorHTMLElement;
 
@@ -600,7 +614,7 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
    * Prepend class name to element.
    */
   public prependClass(): void {
-    this.view.dom.className = `tiptap ${this.view.dom.className}`;
+    this.view.dom.className = `autoartifacts-editor ${this.view.dom.className}`;
   }
 
   public isCapturingTransaction = false;
@@ -794,6 +808,39 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
    */
   public get isEmpty(): boolean {
     return isNodeEmpty(this.state.doc);
+  }
+
+  /**
+   * Set or change the editor theme
+   *
+   * @param theme - Theme to apply (string, full theme object, or partial theme)
+   *
+   * @example
+   * // Switch to built-in dark theme
+   * editor.setTheme('dark');
+   *
+   * @example
+   * // Apply custom theme
+   * editor.setTheme({
+   *   extends: 'dark',
+   *   colors: { background: '#0a0a0a' }
+   * });
+   */
+  public setTheme(theme: typeof this.options.theme): void {
+    this.resolvedTheme = resolveTheme(theme);
+
+    if (this.editorView) {
+      applyTheme(this.resolvedTheme, this.view.dom as HTMLElement);
+    }
+  }
+
+  /**
+   * Get the current theme
+   *
+   * @returns Current resolved theme (null if no theme applied)
+   */
+  public getTheme(): ResolvedTheme {
+    return this.resolvedTheme;
   }
 
   /**
