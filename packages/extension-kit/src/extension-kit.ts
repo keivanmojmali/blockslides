@@ -29,8 +29,6 @@ import type { HorizontalRuleOptions } from "@autoartifacts/extension-horizontal-
 import { HorizontalRule } from "@autoartifacts/extension-horizontal-rule";
 import type { ImageOptions } from "@autoartifacts/extension-image";
 import { Image } from "@autoartifacts/extension-image";
-import type { InvisibleCharactersOptions } from "@autoartifacts/extension-invisible-characters";
-import { InvisibleCharacters } from "@autoartifacts/extension-invisible-characters";
 import type { ItalicOptions } from "@autoartifacts/extension-italic";
 import { Italic } from "@autoartifacts/extension-italic";
 import type { LayoutPickerOptions } from "@autoartifacts/extension-layout-picker";
@@ -262,13 +260,6 @@ export interface ExtensionKitOptions {
    * @example image: { inline: true, allowBase64: true }
    */
   image?: Partial<ImageOptions> | false;
-
-  /**
-   * Invisible characters extension
-   * @default {}
-   * @example invisibleCharacters: false
-   */
-  invisibleCharacters?: Partial<InvisibleCharactersOptions> | false;
 
   /**
    * Italic extension
@@ -643,12 +634,6 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     // UI extensions
     if (this.options.placeholder !== false) {
       extensions.push(Placeholder.configure(this.options.placeholder || {}));
-    }
-
-    if (this.options.invisibleCharacters !== false) {
-      extensions.push(
-        InvisibleCharacters.configure(this.options.invisibleCharacters || {})
-      );
     }
 
     if (this.options.bubbleMenu !== false) {

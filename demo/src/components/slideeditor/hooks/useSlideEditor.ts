@@ -30,15 +30,13 @@ export const useSlideEditor = ({
       immediatelyRender: false,
       shouldRerenderOnTransaction: false,
       content,
-      theme: "dark", //TODO: Test to make sure we can extend/customize themes here
+      theme: "light",
       onUpdate: (ctx: { editor: Editor }) => {
         // When debounce is added, use: debouncedUpdate(JSON.stringify(ctx.editor.getJSON()))
         handleUpdate(JSON.stringify(ctx.editor.getJSON()));
       },
       extensions: [
         ExtensionKit.configure({
-          // Disable everything except the essentials
-          invisibleCharacters: false, //TODO: FIX THESE - they throw an error
           layoutPicker: false, //TODO: FIX THESE - they throw an error
         }),
       ],
