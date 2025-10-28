@@ -95,4 +95,43 @@ img.ProseMirror-separator {
   margin-bottom: var(--slide-margin-bottom, 32px);
   padding: var(--slide-padding, 48px);
   min-height: var(--slide-min-height, 540px);
+}
+
+.slide-wrapper {
+  position: relative;
+}
+
+.add-slide-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 16px auto 32px auto; //TODO: make sure this is cented since the slides have only bottom padding 
+  padding: 0;
+  border: 2px solid var(--slide-border, #e5e5e5);
+  border-radius: 25%;
+  background-color: var(--slide-bg, #ffffff);
+  color: var(--editor-fg, #1a1a1a);
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--slide-shadow, 0 4px 12px rgba(0, 0, 0, 0.08));
+}
+
+.add-slide-button:hover {
+  background-color: var(--editor-hover, #f0f0f0);
+  border-color: var(--editor-selection, #3b82f6);
+  transform: scale(1.05);
+}
+
+.add-slide-button:active {
+  background-color: var(--editor-active, #e8e8e8);
+  transform: scale(0.95);
+}
+
+.add-slide-button:focus {
+  outline: 2px solid var(--editor-focus, #3b82f6);
+  outline-offset: 2px;
 }`;

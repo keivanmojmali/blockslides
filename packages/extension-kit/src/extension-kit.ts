@@ -85,6 +85,7 @@ import { UniqueID } from "@autoartifacts/extension-unique-id";
 import type { YoutubeOptions } from "@autoartifacts/extension-youtube";
 import { Youtube } from "@autoartifacts/extension-youtube";
 import { Slide } from "@autoartifacts/extension-slide";
+import type { AddSlideButtonOptions } from "@autoartifacts/extension-add-slide-button";
 import { AddSlideButton } from "@autoartifacts/extension-add-slide-button";
 import type { BubbleMenuOptions } from "@autoartifacts/extension-bubble-menu";
 import { BubbleMenu } from "@autoartifacts/extension-bubble-menu";
@@ -115,8 +116,9 @@ export interface ExtensionKitOptions {
    * Add slide button extension
    * @default {}
    * @example addSlideButton: false
+   * @example addSlideButton: { content: '➕', buttonStyle: { width: '64px' } }
    */
-  addSlideButton?: false;
+  addSlideButton?: Partial<AddSlideButtonOptions> | false;
 
   /**
    * Blockquote extension
