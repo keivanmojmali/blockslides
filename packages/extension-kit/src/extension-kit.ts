@@ -32,7 +32,10 @@ import { Image } from "@autoartifacts/extension-image";
 import type { ItalicOptions } from "@autoartifacts/extension-italic";
 import { Italic } from "@autoartifacts/extension-italic";
 import type { LayoutPickerOptions } from "@autoartifacts/extension-layout-picker";
-import { LayoutPicker } from "@autoartifacts/extension-layout-picker";
+import {
+  LayoutPicker,
+  LayoutPickerPlaceholder,
+} from "@autoartifacts/extension-layout-picker";
 import type { LinkOptions } from "@autoartifacts/extension-link";
 import { Link } from "@autoartifacts/extension-link";
 import type {
@@ -83,6 +86,8 @@ import { UniqueID } from "@autoartifacts/extension-unique-id";
 import type { YoutubeOptions } from "@autoartifacts/extension-youtube";
 import { Youtube } from "@autoartifacts/extension-youtube";
 import { Slide } from "@autoartifacts/extension-slide";
+import { Row } from "@autoartifacts/extension-row";
+import { Column } from "@autoartifacts/extension-column";
 import type { AddSlideButtonOptions } from "@autoartifacts/extension-add-slide-button";
 import { AddSlideButton } from "@autoartifacts/extension-add-slide-button";
 import type { BubbleMenuOptions } from "@autoartifacts/extension-bubble-menu";
@@ -578,6 +583,7 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
 
     // Interactive extensions
     if (this.options.layoutPicker !== false) {
+      extensions.push(LayoutPickerPlaceholder.configure({}));
       extensions.push(LayoutPicker.configure(this.options.layoutPicker || {}));
     }
 
@@ -665,6 +671,9 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     if (this.options.slide !== false) {
       extensions.push(Slide.configure(this.options.slide || {}));
     }
+
+    extensions.push(Row.configure({}));
+    extensions.push(Column.configure({}));
 
     if (this.options.addSlideButton !== false) {
       extensions.push(
