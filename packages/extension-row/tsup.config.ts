@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts"],
+  entry: ["src/index.ts", "src/row.css"],
   outDir: "dist",
   format: ["cjs", "esm"],
   dts: true,
@@ -9,4 +9,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   treeshake: true,
+  loader: {
+    ".css": "copy",
+  },
 });
