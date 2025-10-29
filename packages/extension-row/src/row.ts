@@ -5,7 +5,6 @@ const rowStyles = `
 .row {
   display: flex;
   flex: 1;
-  gap: 1rem;
   min-height: 0;
 }
 `;
