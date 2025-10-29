@@ -2,33 +2,45 @@
  * Slide Extension
  *
  * Defines individual slide nodes in AutoArtifacts presentations.
- * Each slide contains block content (paragraphs, headings, lists, etc.)
+ * Each slide contains rows which contain columns or block content.
  *
  * Based on Tiptap's extension patterns
  * Copyright (c) 2025, Tiptap GmbH
  * Licensed under MIT License
  */
 
-import { Node } from "@autoartifacts/core";
+import { Node, mergeAttributes } from "@autoartifacts/core";
+import "./slide.css";
 
-/**
- * The Slide extension defines individual slides in a presentation.
- * @see https://tiptap.dev/api/nodes
- */
 export const Slide = Node.create({
   name: "slide",
 
-  content: "block+",
+  content: "row+",
 
   group: "slide",
 
   defining: true,
 
-  parseHTML() {
-    return [{ tag: "section" }];
+  addAttributes() {
+    return {
+      className: {
+        default: "",
+      },
+    };
   },
 
-  renderHTML() {
-    return ["section", 0];
+  parseHTML() {
+    return [{ tag: "div.slide" }];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return [
+      "div",
+      mergeAttributes(HTMLAttributes, {
+        class: "slide",
+        "data-node-type": "slide",
+      }),
+      0,
+    ];
   },
 });
