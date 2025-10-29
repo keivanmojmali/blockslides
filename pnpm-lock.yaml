@@ -373,9 +373,6 @@ importers:
       '@autoartifacts/extension-italic':
         specifier: workspace:*
         version: link:../extension-italic
-      '@autoartifacts/extension-layout-picker':
-        specifier: workspace:*
-        version: link:../extension-layout-picker
       '@autoartifacts/extension-link':
         specifier: workspace:*
         version: link:../extension-link
@@ -439,15 +436,6 @@ importers:
       '@autoartifacts/extensions':
         specifier: workspace:*
         version: link:../extensions
-
-  packages/extension-layout-picker:
-    devDependencies:
-      '@autoartifacts/core':
-        specifier: workspace:^
-        version: link:../core
-      '@autoartifacts/pm':
-        specifier: workspace:^
-        version: link:../pm
 
   packages/extension-link:
     dependencies:

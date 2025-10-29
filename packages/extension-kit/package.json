@@ -49,7 +49,6 @@
     "@autoartifacts/extension-horizontal-rule": "workspace:*",
     "@autoartifacts/extension-image": "workspace:*",
     "@autoartifacts/extension-italic": "workspace:*",
-    "@autoartifacts/extension-layout-picker": "workspace:*",
     "@autoartifacts/extension-link": "workspace:*",
     "@autoartifacts/extension-list": "workspace:*",
     "@autoartifacts/extension-mathematics": "workspace:*",

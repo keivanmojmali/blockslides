@@ -31,11 +31,6 @@ import type { ImageOptions } from "@autoartifacts/extension-image";
 import { Image } from "@autoartifacts/extension-image";
 import type { ItalicOptions } from "@autoartifacts/extension-italic";
 import { Italic } from "@autoartifacts/extension-italic";
-import type { LayoutPickerOptions } from "@autoartifacts/extension-layout-picker";
-import {
-  LayoutPicker,
-  LayoutPickerPlaceholder,
-} from "@autoartifacts/extension-layout-picker";
 import type { LinkOptions } from "@autoartifacts/extension-link";
 import { Link } from "@autoartifacts/extension-link";
 import type {
@@ -272,13 +267,6 @@ export interface ExtensionKitOptions {
    * @example italic: false
    */
   italic?: Partial<ItalicOptions> | false;
-
-  /**
-   * Layout picker extension
-   * @default {}
-   * @example layoutPicker: false
-   */
-  layoutPicker?: Partial<LayoutPickerOptions> | false;
 
   /**
    * Link extension
@@ -582,11 +570,6 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     }
 
     // Interactive extensions
-    if (this.options.layoutPicker !== false) {
-      extensions.push(LayoutPickerPlaceholder.configure({}));
-      extensions.push(LayoutPicker.configure(this.options.layoutPicker || {}));
-    }
-
     if (this.options.link !== false) {
       extensions.push(Link.configure(this.options.link || {}));
     }

@@ -136,18 +136,10 @@ class SlideNodeView implements NodeView {
         // Default: insert new slide after current one
         const schema = this.view.state.schema;
         const slideType = schema.nodes.slide;
-        const placeholderType = schema.nodes.layoutPickerPlaceholder;
         const paragraphType = schema.nodes.paragraph;
 
-        // Check if layoutPickerPlaceholder node exists in schema
-        let slideContent;
-        if (placeholderType) {
-          // Insert slide with layout picker placeholder
-          slideContent = placeholderType.create();
-        } else {
-          // Fallback: insert slide with empty paragraph
-          slideContent = paragraphType.create();
-        }
+        // Insert slide with empty paragraph
+        const slideContent = paragraphType.create();
 
         const slide = slideType.create(null, slideContent);
         const tr = this.view.state.tr.insert(pos + this.node.nodeSize, slide);

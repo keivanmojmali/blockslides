@@ -1,4 +1,4 @@
-import { mergeAttributes, Node, createStyleTag } from "@autoartifacts/core";
+import { mergeAttributes, Node, createStyleTag, applyAllLayouts } from "@autoartifacts/core";
 import { Plugin, PluginKey } from "@autoartifacts/pm/state";
 
 const rowStyles = `
@@ -47,6 +47,8 @@ export const Row = Node.create<RowOptions>({
     };
   },
 
+  
+
   addAttributes() {
     return {
       layout: {
@@ -91,9 +93,19 @@ export const Row = Node.create<RowOptions>({
             if (this.options.injectCSS && document) {
               createStyleTag(rowStyles, this.options.injectNonce, "row");
             }
-            return {};
+            return { layoutsApplied: false };
           },
           apply: (tr, pluginState) => pluginState,
+        },
+        view: (editorView) => {
+          // Apply layouts once on mount
+          console.log("view", editorView); //TODO: Apply layouts once on mount
+          // setTimeout(() => {
+          //   const editorElement = editorView.dom.parentElement || editorView.dom;
+          //   applyAllLayouts(editorElement);
+          // }, 0);
+
+          return {};
         },
       }),
     ];
