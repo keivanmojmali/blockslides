@@ -199,6 +199,22 @@ importers:
         specifier: workspace:^
         version: link:../extension-text-style
 
+  packages/extension-column:
+    dependencies:
+      '@autoartifacts/core':
+        specifier: workspace:*
+        version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:*
+        version: link:../pm
+    devDependencies:
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/extension-details:
     devDependencies:
       '@autoartifacts/core':
@@ -286,18 +302,6 @@ importers:
         specifier: workspace:^
         version: link:../core
 
-  packages/extension-invisible-characters:
-    devDependencies:
-      '@autoartifacts/core':
-        specifier: workspace:^
-        version: link:../core
-      '@autoartifacts/extension-text-style':
-        specifier: workspace:^
-        version: link:../extension-text-style
-      '@autoartifacts/pm':
-        specifier: workspace:^
-        version: link:../pm
-
   packages/extension-italic:
     devDependencies:
       '@autoartifacts/core':
@@ -333,6 +337,9 @@ importers:
       '@autoartifacts/extension-color':
         specifier: workspace:*
         version: link:../extension-color
+      '@autoartifacts/extension-column':
+        specifier: workspace:*
+        version: link:../extension-column
       '@autoartifacts/extension-details':
         specifier: workspace:*
         version: link:../extension-details
@@ -363,9 +370,6 @@ importers:
       '@autoartifacts/extension-image':
         specifier: workspace:*
         version: link:../extension-image
-      '@autoartifacts/extension-invisible-characters':
-        specifier: workspace:*
-        version: link:../extension-invisible-characters
       '@autoartifacts/extension-italic':
         specifier: workspace:*
         version: link:../extension-italic
@@ -390,6 +394,9 @@ importers:
       '@autoartifacts/extension-placeholder':
         specifier: workspace:*
         version: link:../extension-placeholder
+      '@autoartifacts/extension-row':
+        specifier: workspace:*
+        version: link:../extension-row
       '@autoartifacts/extension-slide':
         specifier: workspace:*
         version: link:../extension-slide
@@ -510,11 +517,30 @@ importers:
         specifier: workspace:^
         version: link:../pm
 
+  packages/extension-row:
+    dependencies:
+      '@autoartifacts/core':
+        specifier: workspace:*
+        version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:*
+        version: link:../pm
+    devDependencies:
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/extension-slide:
     dependencies:
       '@autoartifacts/core':
         specifier: workspace:*
         version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:*
+        version: link:../pm
     devDependencies:
       tsup:
         specifier: ^8.0.0

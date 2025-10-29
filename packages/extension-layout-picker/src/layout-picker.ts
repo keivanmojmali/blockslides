@@ -314,7 +314,11 @@ export const LayoutPicker = Extension.create<LayoutPickerOptions>({
         state: {
           init: () => {
             if (options.injectCSS && document) {
-              createStyleTag(layoutPickerStyles, options.injectNonce, "layout-picker");
+              createStyleTag(
+                layoutPickerStyles,
+                options.injectNonce,
+                "layout-picker"
+              );
             }
             return {};
           },
