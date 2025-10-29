@@ -3,18 +3,19 @@
  *
  * Displays a visual template selector on empty/new slides.
  * Users can click a template to apply a specific column layout.
- * Framework-agnostic using ProseMirror widgets.
+ * Uses a placeholder node that gets replaced with the chosen layout.
  */
 
-import { Extension } from "@autoartifacts/core";
-import { Plugin, PluginKey } from "@autoartifacts/pm/state";
-import { Decoration, DecorationSet } from "@autoartifacts/pm/view";
-import type { EditorState } from "@autoartifacts/pm/state";
-import type { EditorView } from "@autoartifacts/pm/view";
+import { Extension, Node } from "@autoartifacts/core";
+import { applyAllLayouts } from "@autoartifacts/core";
 import type { Node as ProseMirrorNode } from "@autoartifacts/pm/model";
+import { Plugin, PluginKey } from "@autoartifacts/pm/state";
+import { NodeView } from "@autoartifacts/pm/view";
+import type { EditorView } from "@autoartifacts/pm/view";
 
 import type { LayoutTemplate } from "./layout-templates.js";
 import { DEFAULT_LAYOUTS } from "./layout-templates.js";
+import { layoutPickerStyles } from "./styles.js";
 
 export interface LayoutPickerOptions {
   /**
@@ -65,13 +66,224 @@ export interface LayoutPickerOptions {
     | null;
 }
 
+/**
+ * The placeholder node that gets inserted into empty slides
+ */
+export const LayoutPickerPlaceholder = Node.create({
+  name: "layoutPickerPlaceholder",
+
+  group: "block",
+
+  atom: true,
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-type="layout-picker-placeholder"]',
+      },
+    ];
+  },
+
+  renderHTML() {
+    return ["div", { "data-type": "layout-picker-placeholder" }, 0];
+  },
+});
+
+class LayoutPickerPlaceholderNodeView implements NodeView {
+  dom: HTMLElement;
+  contentDOM?: HTMLElement;
+  pickerContainer: HTMLElement;
+  options: LayoutPickerOptions;
+  view: EditorView;
+  getPos: () => number | undefined;
+  node: ProseMirrorNode;
+
+  constructor(
+    node: ProseMirrorNode,
+    view: EditorView,
+    getPos: () => number | undefined,
+    options: LayoutPickerOptions
+  ) {
+    this.node = node;
+    this.view = view;
+    this.getPos = getPos;
+    this.options = options;
+
+    // Create the picker container as the main dom
+    this.dom = document.createElement("div");
+    this.dom.classList.add("layout-picker-placeholder-wrapper");
+
+    // Create and render the picker widget
+    this.pickerContainer = this.createLayoutPickerWidget();
+    this.dom.appendChild(this.pickerContainer);
+  }
+
+  createLayoutPickerWidget(): HTMLElement {
+    const container = document.createElement("div");
+    container.className = `layout-picker ${this.options.className}`.trim();
+    container.contentEditable = "false";
+
+    // Apply custom styles
+    Object.entries(this.options.style).forEach(([key, value]) => {
+      container.style[key as any] = value;
+    });
+
+    // Create header
+    const headerEl = document.createElement("h3");
+    headerEl.className = "layout-picker-header";
+    headerEl.textContent = this.options.subtitle;
+    container.appendChild(headerEl);
+
+    // Create templates container
+    const templatesContainer = document.createElement("div");
+    templatesContainer.className = "layout-picker-templates";
+    container.appendChild(templatesContainer);
+
+    // Create template cards
+    this.options.layouts.forEach((layout) => {
+      const card = document.createElement("div");
+      card.className =
+        `layout-template ${this.options.templateClassName}`.trim();
+      card.setAttribute("data-layout-id", layout.id);
+
+      // Apply custom template styles
+      Object.entries(this.options.templateStyle).forEach(([key, value]) => {
+        card.style[key as any] = value;
+      });
+
+      // Create icon container
+      const iconContainer = document.createElement("div");
+      iconContainer.className = "layout-template-icon";
+      iconContainer.style.maxWidth = this.options.iconMaxWidth;
+      iconContainer.innerHTML = layout.icon;
+      card.appendChild(iconContainer);
+
+      // Create label
+      const label = document.createElement("span");
+      label.className = "layout-template-label";
+      label.textContent = layout.label;
+      card.appendChild(label);
+
+      // Add click handler
+      card.addEventListener("click", (event: MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const pos = this.getPos();
+        if (pos === undefined) return;
+
+        if (this.options.onLayoutSelect) {
+          // Use custom handler
+          this.options.onLayoutSelect(layout.id, this.dom);
+        } else {
+          // Default behavior: apply the layout directly
+          this.applyLayout(layout.id);
+        }
+      });
+
+      templatesContainer.appendChild(card);
+    });
+
+    return container;
+  }
+
+  applyLayout(layoutId: string) {
+    try {
+      const pos = this.getPos();
+      if (pos === undefined) return;
+
+      const state = this.view.state;
+      const $pos = state.doc.resolve(pos);
+
+      // Find the parent slide node
+      let slideDepth = -1;
+      for (let d = $pos.depth; d >= 0; d--) {
+        if ($pos.node(d).type.name === "slide") {
+          slideDepth = d;
+          break;
+        }
+      }
+
+      if (slideDepth === -1) {
+        console.warn("[LayoutPicker] Could not find parent slide");
+        return;
+      }
+
+      const slideNode = $pos.node(slideDepth);
+      const slidePos = $pos.before(slideDepth);
+
+      // Parse layout
+      const columnCount = layoutId.split("-").length;
+      const ratios = parseLayout(layoutId, columnCount);
+
+      if (!ratios || ratios.length === 0) {
+        console.warn("[LayoutPicker] Invalid layout format");
+        return;
+      }
+
+      // Create placeholder content for empty slide
+      const newColumns = createPlaceholderContent(
+        layoutId,
+        state.schema,
+        columnCount
+      );
+
+      if (newColumns.length === 0) {
+        console.error("[LayoutPicker] Failed to create columns");
+        return;
+      }
+
+      // Create new row and slide
+      const rowType = state.schema.nodes.row;
+      const slideType = state.schema.nodes.slide;
+
+      if (!rowType || !slideType) {
+        console.error("[LayoutPicker] Missing node types");
+        return;
+      }
+
+      const newRow = rowType.create({ layout: layoutId }, newColumns);
+      const newSlide = slideType.create({ ...slideNode.attrs }, [newRow]);
+
+      // Replace the entire slide (which removes the placeholder)
+      const tr = state.tr.replaceRangeWith(
+        slidePos,
+        slidePos + slideNode.nodeSize,
+        newSlide
+      );
+
+      this.view.dispatch(tr);
+
+      // Apply layout styles - need to wait for DOM update
+      setTimeout(() => {
+        const editorElement =
+          (this.view.dom.closest(".autoartifacts-editor") as HTMLElement) ||
+          this.view.dom;
+        applyAllLayouts(editorElement);
+      }, 10);
+    } catch (error) {
+      console.error("[LayoutPicker] Error applying layout:", error);
+    }
+  }
+
+  update(node: ProseMirrorNode) {
+    if (node.type.name !== "layoutPickerPlaceholder") return false;
+    this.node = node;
+    return true;
+  }
+
+  destroy() {
+    // Cleanup if needed
+  }
+}
+
 export const LayoutPicker = Extension.create<LayoutPickerOptions>({
   name: "layoutPicker",
 
   addOptions() {
     return {
       layouts: DEFAULT_LAYOUTS,
-      placeholderHeader: "Slide Header",
+      placeholderHeader: "Untitled card",
       subtitle: "Or start with a template",
       className: "",
       style: {},
@@ -82,77 +294,41 @@ export const LayoutPicker = Extension.create<LayoutPickerOptions>({
     };
   },
 
+  onCreate() {
+    // Inject styles
+    const styleId = "layout-picker-styles";
+    if (!document.getElementById(styleId)) {
+      const styleEl = document.createElement("style");
+      styleEl.id = styleId;
+      styleEl.textContent = layoutPickerStyles;
+      document.head.appendChild(styleEl);
+    }
+  },
+
+  onDestroy() {
+    // Clean up styles when extension is destroyed
+    const styleEl = document.getElementById("layout-picker-styles");
+    if (styleEl) {
+      styleEl.remove();
+    }
+  },
+
   addProseMirrorPlugins() {
     const options = this.options;
-    let editorView: EditorView | null = null;
 
     return [
       new Plugin({
         key: new PluginKey("layoutPicker"),
-        view(view: EditorView) {
-          editorView = view;
-          return {
-            update(view: EditorView) {
-              editorView = view;
-            },
-            destroy() {
-              editorView = null;
-            },
-          };
-        },
         props: {
-          decorations: (state: EditorState) => {
-            const decorations: Decoration[] = [];
-
-            // Find all empty slides
-            state.doc.forEach((node: ProseMirrorNode, offset: number) => {
-              if (node.type.name === "slide" && isSlideEmpty(node)) {
-                // Find position after the heading
-                // Structure: slide > row > column > [heading, paragraph]
-                const rowNode = node.child(0);
-                if (rowNode && rowNode.type.name === "row") {
-                  const columnNode = rowNode.child(0);
-                  if (
-                    columnNode &&
-                    columnNode.type.name === "column" &&
-                    columnNode.childCount >= 1
-                  ) {
-                    const headingNode = columnNode.child(0);
-                    if (headingNode && headingNode.type.name === "heading") {
-                      // Calculate position: offset + slide_start + row_start + column_start + heading_size
-                      const widgetPos =
-                        offset + 1 + 1 + 1 + headingNode.nodeSize;
-
-                      const widget = Decoration.widget(
-                        widgetPos,
-                        () => {
-                          return createLayoutPickerWidget(
-                            options.layouts,
-                            options.subtitle,
-                            options.className,
-                            options.style,
-                            options.templateClassName,
-                            options.templateStyle,
-                            options.iconMaxWidth,
-                            options.onLayoutSelect,
-                            offset,
-                            () => editorView
-                          );
-                        },
-                        {
-                          side: 1,
-                          ignoreSelection: true,
-                        }
-                      );
-
-                      decorations.push(widget);
-                    }
-                  }
-                }
-              }
-            });
-
-            return DecorationSet.create(state.doc, decorations);
+          nodeViews: {
+            layoutPickerPlaceholder: (node, view, getPos) => {
+              return new LayoutPickerPlaceholderNodeView(
+                node,
+                view,
+                getPos as () => number,
+                options
+              );
+            },
           },
         },
       }),
@@ -161,235 +337,46 @@ export const LayoutPicker = Extension.create<LayoutPickerOptions>({
 });
 
 /**
- * Check if a slide is empty (only has placeholder content)
+ * Parse layout string to ratios
  */
-function isSlideEmpty(node: ProseMirrorNode): boolean {
-  // TODO: Import from @autoartifacts/core if available
-  // For now, basic implementation
-  if (!node.textContent || node.textContent.trim() === "") {
-    return true;
-  }
-  return false;
-}
-
-/**
- * Creates the layout picker widget DOM element
- */
-function createLayoutPickerWidget(
-  layouts: LayoutTemplate[],
-  subtitle: string,
-  className: string,
-  style: Record<string, string>,
-  templateClassName: string,
-  templateStyle: Record<string, string>,
-  iconMaxWidth: string,
-  onLayoutSelect:
-    | ((layoutId: string, slideElement: HTMLElement | null) => void)
-    | null,
-  slideOffset: number,
-  getView: () => EditorView | null
-): HTMLElement {
-  // Create main container
-  const container = document.createElement("div");
-  container.className = `layout-picker ${className}`.trim();
-  container.contentEditable = "false";
-
-  // Apply custom styles
-  Object.entries(style).forEach(([key, value]) => {
-    container.style[key as any] = value;
-  });
-
-  // Create subtitle
-  const subtitleEl = document.createElement("p");
-  subtitleEl.className = "layout-picker-subtitle";
-  subtitleEl.textContent = subtitle;
-  container.appendChild(subtitleEl);
-
-  // Create templates container
-  const templatesContainer = document.createElement("div");
-  templatesContainer.className = "layout-picker-templates";
-  container.appendChild(templatesContainer);
-
-  // Create template cards
-  layouts.forEach((layout) => {
-    const card = document.createElement("div");
-    card.className = `layout-template ${templateClassName}`.trim();
-    card.setAttribute("data-layout-id", layout.id);
-
-    // Apply custom template styles
-    Object.entries(templateStyle).forEach(([key, value]) => {
-      card.style[key as any] = value;
-    });
-
-    // Create icon container
-    const iconContainer = document.createElement("div");
-    iconContainer.className = "layout-template-icon";
-    iconContainer.style.maxWidth = iconMaxWidth;
-    iconContainer.innerHTML = layout.icon;
-    card.appendChild(iconContainer);
-
-    // Create label
-    const label = document.createElement("span");
-    label.className = "layout-template-label";
-    label.textContent = layout.label;
-    card.appendChild(label);
-
-    // Add click handler
-    card.addEventListener("click", (event: MouseEvent) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      // Get the editor view from the closure
-      const editorView = getView();
-      if (!editorView) {
-        console.warn("[AutoArtifacts] Could not find editor view");
-        return;
-      }
-
-      const slideElement = card.closest(
-        '[data-node-type="slide"]'
-      ) as HTMLElement;
-
-      if (onLayoutSelect) {
-        // Use custom handler
-        onLayoutSelect(layout.id, slideElement);
-      } else {
-        // Default behavior: apply the layout directly
-        applySlideLayoutDirect(editorView, slideOffset, layout.id);
-      }
-    });
-
-    templatesContainer.appendChild(card);
-  });
-
-  return container;
-}
-
-/**
- * Applies slide layout directly using transaction
- * This is called when no custom handler is provided
- */
-function applySlideLayoutDirect(
-  view: EditorView,
-  slideOffset: number,
-  layout: string
-): void {
-  try {
-    const state = view.state;
-    const $pos = state.doc.resolve(slideOffset + 1);
-
-    // Find the slide node
-    let slideDepth = -1;
-    for (let d = $pos.depth; d >= 0; d--) {
-      if ($pos.node(d).type.name === "slide") {
-        slideDepth = d;
-        break;
-      }
-    }
-
-    if (slideDepth === -1) {
-      console.warn("[AutoArtifacts] Slide not found");
-      return;
-    }
-
-    const slideNode = $pos.node(slideDepth);
-    const slidePos = $pos.before(slideDepth);
-
-    // Parse layout
-    const columnCount = layout.split("-").length;
-    const ratios = parseLayout(layout, columnCount);
-
-    if (!ratios || ratios.length === 0) {
-      console.warn("[AutoArtifacts] Invalid layout format");
-      return;
-    }
-
-    // Check if slide is empty - use placeholder content if so
-    const isEmpty = isSlideEmpty(slideNode);
-    let newColumns: ProseMirrorNode[];
-
-    if (isEmpty) {
-      // Create placeholder content for empty slide
-      newColumns = createPlaceholderContent(layout, state.schema);
-    } else {
-      // Redistribute existing content
-      const existingBlocks = extractContentBlocks(slideNode);
-      newColumns = redistributeContent(
-        existingBlocks,
-        columnCount,
-        state.schema
-      );
-    }
-
-    if (newColumns.length === 0) {
-      console.error("[AutoArtifacts] Failed to create columns");
-      return;
-    }
-
-    // Create new row and slide
-    const rowType = state.schema.nodes.row;
-    const slideType = state.schema.nodes.slide;
-
-    if (!rowType || !slideType) {
-      console.error("[AutoArtifacts] Missing node types");
-      return;
-    }
-
-    const newRow = rowType.create({ layout }, newColumns);
-    const newSlide = slideType.create({ ...slideNode.attrs, layout }, [newRow]);
-
-    // Replace the slide
-    const tr = state.tr.replaceRangeWith(
-      slidePos,
-      slidePos + slideNode.nodeSize,
-      newSlide
-    );
-
-    view.dispatch(tr);
-
-    // Apply layout styles - need to wait for DOM update
-    setTimeout(() => {
-      // Use view.dom.parentElement to get the editor wrapper, or view.dom itself
-      const editorElement =
-        (view.dom.closest(".autoartifacts-editor") as HTMLElement) || view.dom;
-      applyAllLayouts(editorElement);
-    }, 10);
-  } catch (error) {
-    console.error("[AutoArtifacts] Error applying layout:", error);
-  }
-}
-
-// TODO: Import these from @autoartifacts/core when available
 function parseLayout(layout: string, _columnCount: number): number[] | null {
-  // Placeholder implementation
   return layout.split("-").map(Number);
 }
 
+/**
+ * Create placeholder content for columns
+ * The layout ratios are now stored on the row, not individual columns
+ */
 function createPlaceholderContent(
-  _layout: string,
-  schema: any
+  layout: string,
+  schema: any,
+  columnCount: number
 ): ProseMirrorNode[] {
-  // Placeholder implementation
+  const columnType = schema.nodes.column;
   const paragraphType = schema.nodes.paragraph;
-  return [paragraphType.create()];
-}
 
-function extractContentBlocks(_node: ProseMirrorNode): ProseMirrorNode[] {
-  // Placeholder implementation
-  return [];
-}
+  if (!columnType || !paragraphType) {
+    return [];
+  }
 
-function redistributeContent(
-  _blocks: ProseMirrorNode[],
-  _count: number,
-  schema: any
-): ProseMirrorNode[] {
-  // Placeholder implementation
-  const paragraphType = schema.nodes.paragraph;
-  return [paragraphType.create()];
-}
+  const columns: ProseMirrorNode[] = [];
 
-function applyAllLayouts(_element: HTMLElement): void {
-  // Placeholder implementation
-  console.log("[AutoArtifacts] Apply layouts called");
+  // Create columns without width attribute
+  // The layout ratios are applied via the row's layout attribute
+  for (let i = 0; i < columnCount; i++) {
+    const column = columnType.create(
+      {
+        // Use default column attributes
+        className: "",
+        contentMode: "default",
+        verticalAlign: "top",
+        horizontalAlign: "left",
+        padding: "medium",
+      },
+      paragraphType.create()
+    );
+    columns.push(column);
+  }
+
+  return columns;
 }
