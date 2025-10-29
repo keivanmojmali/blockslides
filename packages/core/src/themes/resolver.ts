@@ -53,8 +53,7 @@ function isPartialTheme(theme: any): boolean {
     !theme.slide.borderRadius ||
     !theme.slide.shadow ||
     !theme.slide.marginBottom ||
-    !theme.slide.padding ||
-    !theme.slide.minHeight
+    !theme.slide.padding
   ) {
     return true;
   }
@@ -184,7 +183,9 @@ export function applyTheme(theme: ResolvedTheme, element: HTMLElement): void {
   element.style.setProperty("--slide-shadow", slide.shadow);
   element.style.setProperty("--slide-margin-bottom", slide.marginBottom);
   element.style.setProperty("--slide-padding", slide.padding);
-  element.style.setProperty("--slide-min-height", slide.minHeight);
+  if (slide.minHeight) {
+    element.style.setProperty("--slide-min-height", slide.minHeight);
+  }
 }
 
 /**

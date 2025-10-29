@@ -18,7 +18,6 @@ export const lightTheme: Theme = {
     shadow: "0 4px 12px rgba(0, 0, 0, 0.08)", // Drop shadow
     marginBottom: "32px", // Space between slides
     padding: "48px", // Inner padding
-    minHeight: "540px", // Min height
   },
 
   // Shared/general styling

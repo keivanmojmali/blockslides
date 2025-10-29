@@ -26,7 +26,7 @@ export interface Theme {
     shadow: string; // Drop shadow
     marginBottom: string; // Space between slides
     padding: string; // Inner content padding
-    minHeight: string; // Minimum slide height
+    minHeight?: string; // Optional minimum slide height
   };
 
   // General/shared properties (apply to both editor and slides)
