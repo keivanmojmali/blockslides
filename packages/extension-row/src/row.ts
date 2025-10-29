@@ -1,12 +1,57 @@
-import { mergeAttributes, Node, createStyleTag, applyAllLayouts } from "@autoartifacts/core";
+import { mergeAttributes, Node, createStyleTag } from "@autoartifacts/core";
 import { Plugin, PluginKey } from "@autoartifacts/pm/state";
 
-const rowStyles = `
+const baseRowStyles = `
 .row {
   display: flex;
   flex: 1;
   min-height: 0;
 }
+`;
+
+const layoutStyles = `
+/* Default: equal width columns */
+.row > .column {
+  flex: 1;
+}
+
+/* Single column layout */
+.row[data-layout="1"] > .column {
+  flex: 1;
+}
+
+/* Two column layouts */
+.row[data-layout="1-1"] > .column:nth-child(1) { flex: 1; }
+.row[data-layout="1-1"] > .column:nth-child(2) { flex: 1; }
+
+.row[data-layout="2-1"] > .column:nth-child(1) { flex: 2; }
+.row[data-layout="2-1"] > .column:nth-child(2) { flex: 1; }
+
+.row[data-layout="1-2"] > .column:nth-child(1) { flex: 1; }
+.row[data-layout="1-2"] > .column:nth-child(2) { flex: 2; }
+
+/* Three column layouts */
+.row[data-layout="1-1-1"] > .column:nth-child(1) { flex: 1; }
+.row[data-layout="1-1-1"] > .column:nth-child(2) { flex: 1; }
+.row[data-layout="1-1-1"] > .column:nth-child(3) { flex: 1; }
+
+.row[data-layout="2-1-1"] > .column:nth-child(1) { flex: 2; }
+.row[data-layout="2-1-1"] > .column:nth-child(2) { flex: 1; }
+.row[data-layout="2-1-1"] > .column:nth-child(3) { flex: 1; }
+
+.row[data-layout="1-2-1"] > .column:nth-child(1) { flex: 1; }
+.row[data-layout="1-2-1"] > .column:nth-child(2) { flex: 2; }
+.row[data-layout="1-2-1"] > .column:nth-child(3) { flex: 1; }
+
+.row[data-layout="1-1-2"] > .column:nth-child(1) { flex: 1; }
+.row[data-layout="1-1-2"] > .column:nth-child(2) { flex: 1; }
+.row[data-layout="1-1-2"] > .column:nth-child(3) { flex: 2; }
+
+/* Four column layouts */
+.row[data-layout="1-1-1-1"] > .column:nth-child(1) { flex: 1; }
+.row[data-layout="1-1-1-1"] > .column:nth-child(2) { flex: 1; }
+.row[data-layout="1-1-1-1"] > .column:nth-child(3) { flex: 1; }
+.row[data-layout="1-1-1-1"] > .column:nth-child(4) { flex: 1; }
 `;
 
 export interface RowOptions {
@@ -17,10 +62,15 @@ export interface RowOptions {
    */
   HTMLAttributes: Record<string, any>;
   /**
-   * Whether to inject CSS styles
+   * Whether to inject base CSS styles for row layout
    * @default true
    */
   injectCSS: boolean;
+  /**
+   * Whether to inject layout-specific CSS (data-layout selectors)
+   * @default true
+   */
+  enableLayoutCSS: boolean;
   /**
    * Content Security Policy nonce
    */
@@ -43,6 +93,7 @@ export const Row = Node.create<RowOptions>({
     return {
       HTMLAttributes: {},
       injectCSS: true,
+      enableLayoutCSS: true,
       injectNonce: undefined,
     };
   },
@@ -91,21 +142,14 @@ export const Row = Node.create<RowOptions>({
         state: {
           init: () => {
             if (this.options.injectCSS && document) {
-              createStyleTag(rowStyles, this.options.injectNonce, "row");
+              createStyleTag(baseRowStyles, this.options.injectNonce, "row");
             }
-            return { layoutsApplied: false };
+            if (this.options.enableLayoutCSS && document) {
+              createStyleTag(layoutStyles, this.options.injectNonce, "row-layouts");
+            }
+            return {};
           },
           apply: (tr, pluginState) => pluginState,
-        },
-        view: (editorView) => {
-          // Apply layouts once on mount
-          console.log("view", editorView); //TODO: Apply layouts once on mount
-          // setTimeout(() => {
-          //   const editorElement = editorView.dom.parentElement || editorView.dom;
-          //   applyAllLayouts(editorElement);
-          // }, 0);
-
-          return {};
         },
       }),
     ];
