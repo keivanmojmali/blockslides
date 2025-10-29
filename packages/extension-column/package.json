@@ -19,7 +19,8 @@
     "build": "tsup"
   },
   "dependencies": {
-    "@autoartifacts/core": "workspace:*"
+    "@autoartifacts/core": "workspace:*",
+    "@autoartifacts/pm": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.5.0",

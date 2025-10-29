@@ -1,5 +1,14 @@
-import { mergeAttributes, Node } from "@autoartifacts/core";
-import "./row.css";
+import { mergeAttributes, Node, createStyleTag } from "@autoartifacts/core";
+import { Plugin, PluginKey } from "@autoartifacts/pm/state";
+
+const rowStyles = `
+.row {
+  display: flex;
+  flex: 1;
+  gap: 1rem;
+  min-height: 0;
+}
+`;
 
 export interface RowOptions {
   /**
@@ -8,7 +17,18 @@ export interface RowOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>;
+  /**
+   * Whether to inject CSS styles
+   * @default true
+   */
+  injectCSS: boolean;
+  /**
+   * Content Security Policy nonce
+   */
+  injectNonce?: string;
 }
+
+const RowPluginKey = new PluginKey("row");
 
 /**
  * The Row extension defines horizontal containers that can hold columns or blocks.
@@ -23,6 +43,8 @@ export const Row = Node.create<RowOptions>({
   addOptions() {
     return {
       HTMLAttributes: {},
+      injectCSS: true,
+      injectNonce: undefined,
     };
   },
 
@@ -58,6 +80,23 @@ export const Row = Node.create<RowOptions>({
         "data-node-type": "row",
       }),
       0,
+    ];
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: RowPluginKey,
+        state: {
+          init: () => {
+            if (this.options.injectCSS && document) {
+              createStyleTag(rowStyles, this.options.injectNonce, "row");
+            }
+            return {};
+          },
+          apply: (tr, pluginState) => pluginState,
+        },
+      }),
     ];
   },
 });

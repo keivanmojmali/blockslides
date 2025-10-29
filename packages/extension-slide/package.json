@@ -10,7 +10,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@autoartifacts/core": "workspace:*"
+    "@autoartifacts/core": "workspace:*",
+    "@autoartifacts/pm": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.0.0",

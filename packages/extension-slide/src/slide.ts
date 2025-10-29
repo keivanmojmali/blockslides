@@ -9,10 +9,39 @@
  * Licensed under MIT License
  */
 
-import { Node, mergeAttributes } from "@autoartifacts/core";
-import "./slide.css";
+import { Node, mergeAttributes, createStyleTag } from "@autoartifacts/core";
+import { Plugin, PluginKey } from "@autoartifacts/pm/state";
 
-export const Slide = Node.create({
+const slideStyles = `
+.slide {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+`;
+
+export interface SlideOptions {
+  /**
+   * The HTML attributes for a slide node.
+   * @default {}
+   * @example { class: 'foo' }
+   */
+  HTMLAttributes: Record<string, any>;
+  /**
+   * Whether to inject CSS styles
+   * @default true
+   */
+  injectCSS: boolean;
+  /**
+   * Content Security Policy nonce
+   */
+  injectNonce?: string;
+}
+
+const SlidePluginKey = new PluginKey("slide");
+
+export const Slide = Node.create<SlideOptions>({
   name: "slide",
 
   content: "row+",
@@ -20,6 +49,14 @@ export const Slide = Node.create({
   group: "slide",
 
   defining: true,
+
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+      injectCSS: true,
+      injectNonce: undefined,
+    };
+  },
 
   addAttributes() {
     return {
@@ -36,11 +73,28 @@ export const Slide = Node.create({
   renderHTML({ HTMLAttributes }) {
     return [
       "div",
-      mergeAttributes(HTMLAttributes, {
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
         class: "slide",
         "data-node-type": "slide",
       }),
       0,
+    ];
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: SlidePluginKey,
+        state: {
+          init: () => {
+            if (this.options.injectCSS && document) {
+              createStyleTag(slideStyles, this.options.injectNonce, "slide");
+            }
+            return {};
+          },
+          apply: (tr, pluginState) => pluginState,
+        },
+      }),
     ];
   },
 });

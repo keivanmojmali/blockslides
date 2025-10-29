@@ -6,7 +6,7 @@
  * Uses a placeholder node that gets replaced with the chosen layout.
  */
 
-import { Extension, Node } from "@autoartifacts/core";
+import { Extension, Node, createStyleTag } from "@autoartifacts/core";
 import { applyAllLayouts } from "@autoartifacts/core";
 import type { Node as ProseMirrorNode } from "@autoartifacts/pm/model";
 import { Plugin, PluginKey } from "@autoartifacts/pm/state";
@@ -64,6 +64,15 @@ export interface LayoutPickerOptions {
   onLayoutSelect:
     | ((layoutId: string, slideElement: HTMLElement | null) => void)
     | null;
+  /**
+   * Whether to inject CSS styles
+   * @default true
+   */
+  injectCSS: boolean;
+  /**
+   * Content Security Policy nonce
+   */
+  injectNonce?: string;
 }
 
 /**
@@ -291,26 +300,9 @@ export const LayoutPicker = Extension.create<LayoutPickerOptions>({
       templateStyle: {},
       iconMaxWidth: "100px",
       onLayoutSelect: null,
+      injectCSS: true,
+      injectNonce: undefined,
     };
-  },
-
-  onCreate() {
-    // Inject styles
-    const styleId = "layout-picker-styles";
-    if (!document.getElementById(styleId)) {
-      const styleEl = document.createElement("style");
-      styleEl.id = styleId;
-      styleEl.textContent = layoutPickerStyles;
-      document.head.appendChild(styleEl);
-    }
-  },
-
-  onDestroy() {
-    // Clean up styles when extension is destroyed
-    const styleEl = document.getElementById("layout-picker-styles");
-    if (styleEl) {
-      styleEl.remove();
-    }
   },
 
   addProseMirrorPlugins() {
@@ -319,6 +311,15 @@ export const LayoutPicker = Extension.create<LayoutPickerOptions>({
     return [
       new Plugin({
         key: new PluginKey("layoutPicker"),
+        state: {
+          init: () => {
+            if (options.injectCSS && document) {
+              createStyleTag(layoutPickerStyles, options.injectNonce, "layout-picker");
+            }
+            return {};
+          },
+          apply: (tr, pluginState) => pluginState,
+        },
         props: {
           nodeViews: {
             layoutPickerPlaceholder: (node, view, getPos) => {
