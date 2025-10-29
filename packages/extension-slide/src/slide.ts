@@ -14,10 +14,16 @@ import { Plugin, PluginKey } from "@autoartifacts/pm/state";
 
 const slideStyles = `
 .slide {
-  height: 100vh;
+  height: var(--slide-height, 100%);
+  min-height: var(--slide-min-height, 250px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background-color: var(--slide-bg);
+  border: 1px solid var(--slide-border);
+  border-radius: var(--slide-border-radius);
+  box-shadow: var(--slide-shadow);
+  margin-bottom: var(--slide-margin-bottom);
 }
 `;
 
@@ -55,14 +61,6 @@ export const Slide = Node.create<SlideOptions>({
       HTMLAttributes: {},
       injectCSS: true,
       injectNonce: undefined,
-    };
-  },
-
-  addAttributes() {
-    return {
-      className: {
-        default: "",
-      },
     };
   },
 

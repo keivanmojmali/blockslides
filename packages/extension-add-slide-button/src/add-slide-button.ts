@@ -1,4 +1,4 @@
-import { Extension } from "@autoartifacts/core";
+import { Extension, createStyleTag } from "@autoartifacts/core";
 import type { Node as ProseMirrorNode } from "@autoartifacts/pm/model";
 import { Plugin, PluginKey } from "@autoartifacts/pm/state";
 import { NodeView } from "@autoartifacts/pm/view";
@@ -7,6 +7,16 @@ import type { EditorView } from "@autoartifacts/pm/view";
 //TODO: Add ability to easy choose a layout type like 1-1, 1-1-1, etc.
 
 export interface AddSlideButtonOptions {
+  /**
+   * Whether to inject CSS styles for the button.
+   * @default true
+   */
+  injectCSS?: boolean;
+  /**
+   * Nonce for Content Security Policy.
+   * @default undefined
+   */
+  injectNonce?: string;
   /**
    * Custom CSS styles for the button element.
    * These will override or extend the default theme styles.
@@ -60,8 +70,30 @@ class SlideNodeView implements NodeView {
     this.dom = document.createElement("div");
     this.dom.classList.add("slide-wrapper");
 
-    // Create the actual slide section (contentDOM)
-    this.contentDOM = document.createElement("section");
+    // Use the slide node's type to render the correct DOM from Slide extension
+    const slideSpec = node.type.spec;
+    const rendered = slideSpec.toDOM ? slideSpec.toDOM(node) : null;
+
+    if (rendered && Array.isArray(rendered)) {
+      const [tag, attrs] = rendered;
+      this.contentDOM = document.createElement(tag as string);
+
+      // Apply all attributes from the Slide extension's renderHTML
+      if (attrs && typeof attrs === "object") {
+        Object.entries(attrs).forEach(([key, value]) => {
+          if (key === "class") {
+            this.contentDOM.className = value as string;
+          } else {
+            this.contentDOM.setAttribute(key, String(value));
+          }
+        });
+      }
+    } else {
+      // Fallback if toDOM isn't defined (shouldn't happen)
+      this.contentDOM = document.createElement("div");
+      this.contentDOM.className = "slide";
+      this.contentDOM.setAttribute("data-node-type", "slide");
+    }
 
     // Create the add button
     this.button = document.createElement("button");
@@ -139,11 +171,54 @@ class SlideNodeView implements NodeView {
   }
 }
 
+const addSlideButtonStyles = `
+.slide-wrapper {
+  position: relative;
+}
+
+.add-slide-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 16px auto 32px auto;
+  padding: 0;
+  border: 2px solid var(--slide-border, #e5e5e5);
+  border-radius: 25%;
+  background-color: var(--slide-bg, #ffffff);
+  color: var(--editor-fg, #1a1a1a);
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--slide-shadow, 0 4px 12px rgba(0, 0, 0, 0.08));
+}
+
+.add-slide-button:hover {
+  background-color: var(--editor-hover, #f0f0f0);
+  border-color: var(--editor-selection, #3b82f6);
+  transform: scale(1.05);
+}
+
+.add-slide-button:active {
+  background-color: var(--editor-active, #e8e8e8);
+  transform: scale(0.95);
+}
+
+.add-slide-button:focus {
+  outline: 2px solid var(--editor-focus, #3b82f6);
+  outline-offset: 2px;
+}
+`;
+
 export const AddSlideButton = Extension.create<AddSlideButtonOptions>({
   name: "addSlideButton",
 
   addOptions() {
     return {
+      injectCSS: true,
+      injectNonce: undefined,
       buttonStyle: {},
       content: "+",
       onClick: null,
@@ -152,6 +227,15 @@ export const AddSlideButton = Extension.create<AddSlideButtonOptions>({
 
   addProseMirrorPlugins() {
     const options = this.options;
+
+    // Inject CSS styles if enabled
+    if (options.injectCSS) {
+      createStyleTag(
+        addSlideButtonStyles,
+        options.injectNonce,
+        "add-slide-button"
+      );
+    }
 
     return [
       new Plugin({

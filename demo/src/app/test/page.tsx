@@ -247,7 +247,7 @@ const TestPage = () => {
     }
 
     return (
-        <div>
+        <div >
             <SlideEditor content={content} />
         </div>
     )
