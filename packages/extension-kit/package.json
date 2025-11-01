@@ -72,6 +72,7 @@
     "@autoartifacts/extension-underline": "workspace:*",
     "@autoartifacts/extension-unique-id": "workspace:*",
     "@autoartifacts/extension-youtube": "workspace:*",
+    "@autoartifacts/extension-image-block": "workspace:*",
     "@autoartifacts/extensions": "workspace:*"
   },
   "repository": {

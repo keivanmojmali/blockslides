@@ -302,6 +302,22 @@ importers:
         specifier: workspace:^
         version: link:../core
 
+  packages/extension-image-block:
+    dependencies:
+      '@autoartifacts/core':
+        specifier: workspace:*
+        version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:*
+        version: link:../pm
+    devDependencies:
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/extension-italic:
     devDependencies:
       '@autoartifacts/core':
