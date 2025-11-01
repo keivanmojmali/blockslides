@@ -22,12 +22,14 @@ const TestPage = () => {
     const content = {
         type: 'doc',
         content: [
+  
+
             {
                 "type": "slide",
                 "content": [
                   {
                     "type": "row",
-                    "attrs": { "layout": "1" },
+                    "attrs": { "layout": "1-1", "className": "bg-red-500" },
                     "content": [
                       {
                         "type": "column",
@@ -35,64 +37,28 @@ const TestPage = () => {
                           {
                             "type": "imageBlock",
                             "attrs": {
-                              "src": "https://picsum.photos/seed/default-block/1600/900",
-                              "alt": "Abstract blue gradient waves",
-                              //"caption": "Default layout using intrinsic size",
-                              //"credit": "Picsum Seed default-block"
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "slide",
-                "content": [
-                  {
-                    "type": "row",
-                    "attrs": { "layout": "1" },
-                    "content": [
-                      {
-                        "type": "column",
-                        "content": [
-                          {
-                            "type": "imageBlock",
-                            "attrs": {
-                              "src": "https://picsum.photos/seed/cover-block/1600/900",
-                              "layout": "cover",
-                              "align": "stretch",
-                              "caption": "Cover layout stretched to fill the column",
-                              "credit": "Picsum Seed cover-block"
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "slide",
-                "content": [
-                  {
-                    "type": "row",
-                    "attrs": { "layout": "1" },
-                    "content": [
-                      {
-                        "type": "column",
-                        "content": [
-                          {
-                            "type": "imageBlock",
-                            "attrs": {
-                              "src": "https://picsum.photos/seed/contain-block/900/900",
+                              "src": "https://picsum.photos/seed/cover-left/1600/900",
                               "layout": "contain",
-                              "align": "left",
+                              "align": "stretch",
+                              "fullBleed": true,
+                              "alt": "Blue gradient abstract waves",
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "column",
+                        "content": [
+                          {
+                            "type": "imageBlock",
+                            "attrs": {
+                              "src": "https://picsum.photos/seed/cover-right/1600/900",
+                              "layout": "cover",
+                              "align": "center",
                               "width": "420px",
                               "height": "320px",
-                              "caption": "Contain layout with fixed dimensions and left alignment",
-                              "credit": "Picsum Seed contain-block"
+                              "assetId": "demo-cover-right",
+                              "alt": "Purple abstract hills",
                             }
                           }
                         ]
@@ -101,90 +67,8 @@ const TestPage = () => {
                   }
                 ]
               },
-              {
-                "type": "slide",
-                "content": [
-                  {
-                    "type": "row",
-                    "attrs": { "layout": "1" },
-                    "content": [
-                      {
-                        "type": "column",
-                        "content": [
-                          {
-                            "type": "imageBlock",
-                            "attrs": {
-                              "src": "https://picsum.photos/seed/fill-block/1400/900",
-                              "layout": "fill",
-                              "align": "right",
-                              "assetId": "demo-fill-image",
-                              "caption": "Fill layout anchored to the right edge",
-                              "credit": "Picsum Seed fill-block"
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "slide",
-                "content": [
-                  {
-                    "type": "row",
-                    "attrs": { "layout": "1" },
-                    "content": [
-                      {
-                        "type": "column",
-                        "content": [
-                          {
-                            "type": "imageBlock",
-                            "attrs": {
-                              "src": "https://picsum.photos/seed/focus-block/1600/900",
-                              "layout": "focus",
-                              "align": "center",
-                              "fullBleed": true,
-                              "focalX": 28,
-                              "focalY": 42,
-                              "caption": "Focus layout with spotlight on the subject",
-                              "credit": "Picsum Seed focus-block"
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "slide",
-                "content": [
-                  {
-                    "type": "row",
-                    "attrs": { "layout": "1" },
-                    "content": [
-                      {
-                        "type": "column",
-                        "content": [
-                          {
-                            "type": "imageBlock",
-                            "attrs": {
-                              "src": "https://picsum.photos/seed/pattern-block/400/400",
-                              "layout": "pattern",
-                              "align": "center",
-                              "width": "280px",
-                              "height": "280px",
-                              "caption": "Pattern layout tiling the image as a background",
-                              "credit": "Picsum Seed pattern-block"
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
+
+              
             {
                 type: 'slide',
                 attrs: { id: 'intro-slide' },

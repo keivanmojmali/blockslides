@@ -109,6 +109,7 @@ export const Row = Node.create<RowOptions>({
           if (!attributes.layout) {
             return {};
           }
+
           return {
             "data-layout": attributes.layout,
           };
@@ -125,12 +126,18 @@ export const Row = Node.create<RowOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
+    const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes);
+    const className = [merged.class, merged.className, "row"].filter(Boolean).join(" ");
+
+    delete merged.className;
+
     return [
       "div",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        class: "row",
+      {
+        ...merged,
+        class: className,
         "data-node-type": "row",
-      }),
+      },
       0,
     ];
   },
