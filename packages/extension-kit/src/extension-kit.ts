@@ -39,6 +39,8 @@ import type {
   ListKeymapOptions,
   OrderedListOptions,
 } from "@autoartifacts/extension-list";
+import type { ImageBlockOptions } from "@autoartifacts/extension-image-block";
+import { ImageBlock } from "@autoartifacts/extension-image-block";
 import {
   BulletList,
   ListItem,
@@ -299,6 +301,13 @@ export interface ExtensionKitOptions {
    * @example mathematics: false
    */
   mathematics?: Partial<MathematicsOptions> | false;
+
+  /**
+   * Image block extension
+   * @default {}
+   * @example imageBlock: false
+   */
+  imageBlock?: Partial<ImageBlockOptions> | false;
 
   /**
    * Markdown extension (parse/serialize markdown)
@@ -619,6 +628,10 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     if (this.options.markdown !== false) {
       extensions.push(Markdown.configure(this.options.markdown || {}));
     }
+
+    if (this.options.imageBlock !== false) {
+      extensions.push(ImageBlock.configure(this.options.imageBlock || {}));
+    } 
 
     // Editor behavior extensions
     if (this.options.hardBreak !== false) {
