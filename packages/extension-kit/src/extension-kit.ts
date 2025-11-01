@@ -47,6 +47,8 @@ import {
 } from "@autoartifacts/extension-list";
 import type { MathematicsOptions } from "@autoartifacts/extension-mathematics";
 import { Mathematics } from "@autoartifacts/extension-mathematics";
+import type { MarkdownExtensionOptions } from "@autoartifacts/markdown";
+import { Markdown } from "@autoartifacts/markdown";
 import type { NodeRangeOptions } from "@autoartifacts/extension-node-range";
 import { NodeRange } from "@autoartifacts/extension-node-range";
 import type { ParagraphOptions } from "@autoartifacts/extension-paragraph";
@@ -297,6 +299,13 @@ export interface ExtensionKitOptions {
    * @example mathematics: false
    */
   mathematics?: Partial<MathematicsOptions> | false;
+
+  /**
+   * Markdown extension (parse/serialize markdown)
+   * @default {}
+   * @example markdown: false
+   */
+  markdown?: Partial<MarkdownExtensionOptions> | false;
 
   /**
    * Node range extension
@@ -605,6 +614,10 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     // Special content extensions
     if (this.options.mathematics !== false) {
       extensions.push(Mathematics.configure(this.options.mathematics || {}));
+    }
+
+    if (this.options.markdown !== false) {
+      extensions.push(Markdown.configure(this.options.markdown || {}));
     }
 
     // Editor behavior extensions

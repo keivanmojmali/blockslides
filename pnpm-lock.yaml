@@ -439,6 +439,9 @@ importers:
       '@autoartifacts/extensions':
         specifier: workspace:*
         version: link:../extensions
+      '@autoartifacts/markdown':
+        specifier: workspace:*
+        version: link:../markdown
 
   packages/extension-link:
     dependencies:
