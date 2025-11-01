@@ -17,7 +17,6 @@ const baseStyles = `
     gap: 0.5rem;
     align-items: stretch;
     justify-content: center;
-    border-radius: 16px;
     overflow: hidden;
     width: var(--image-block-inline-width);
     height: var(--image-block-block-size);

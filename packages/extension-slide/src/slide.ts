@@ -20,7 +20,6 @@ const slideStyles = `
   flex-direction: column;
   overflow: hidden;
   background-color: var(--slide-bg);
-  border: 1px solid var(--slide-border);
   border-radius: var(--slide-border-radius);
   box-shadow: var(--slide-shadow);
   margin-bottom: var(--slide-margin-bottom);
