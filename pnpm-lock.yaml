@@ -394,6 +394,9 @@ importers:
       '@autoartifacts/extension-row':
         specifier: workspace:*
         version: link:../extension-row
+      '@autoartifacts/extension-select-within-slide':
+        specifier: workspace:*
+        version: link:../extension-select-within-slide
       '@autoartifacts/extension-slide':
         specifier: workspace:*
         version: link:../extension-slide
@@ -520,6 +523,15 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+
+  packages/extension-select-within-slide:
+    dependencies:
+      '@autoartifacts/core':
+        specifier: workspace:*
+        version: link:../core
+      '@autoartifacts/pm':
+        specifier: workspace:*
+        version: link:../pm
 
   packages/extension-slide:
     dependencies:

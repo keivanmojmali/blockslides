@@ -1,0 +1,20 @@
+{
+  "name": "@autoartifacts/extension-select-within-slide",
+  "version": "0.1.0",
+  "description": "Override Mod-A so selection grows until the slide, never the full doc.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "author": "AutoArtifacts",
+  "license": "MIT",
+  "dependencies": {
+    "@autoartifacts/core": "workspace:*",
+    "@autoartifacts/pm": "workspace:*"
+  },
+  "peerDependencies": {
+    "@autoartifacts/core": "*",
+    "@autoartifacts/pm": "*"
+  },
+  "scripts": {
+    "build": "tsup"
+  }
+}

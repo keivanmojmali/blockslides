@@ -58,6 +58,7 @@
     "@autoartifacts/extension-row": "workspace:*",
     "@autoartifacts/extension-column": "workspace:*",
     "@autoartifacts/extension-slide": "workspace:*",
+    "@autoartifacts/extension-select-within-slide": "workspace:*",
     "@autoartifacts/extension-strike": "workspace:*",
     "@autoartifacts/extension-subscript": "workspace:*",
     "@autoartifacts/extension-superscript": "workspace:*",

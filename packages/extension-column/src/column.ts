@@ -39,7 +39,7 @@ export const Column = Node.create<ColumnOptions>({
   content: "(row | block)+",
   isolating: true,
   defining: true,
-
+  selectable:true,
   addOptions() {
     return {
       HTMLAttributes: {},

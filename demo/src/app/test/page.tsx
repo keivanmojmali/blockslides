@@ -18,13 +18,13 @@ const TestPage = () => {
         []
     )
 
-    // Sample content with different row layouts
+    // Sample content with real slide layouts for selection testing
     const content = {
         type: 'doc',
         content: [
-            // Slide 1: Single column (layout: "1")
             {
                 type: 'slide',
+                attrs: { id: 'intro-slide' },
                 content: [
                     {
                         type: 'row',
@@ -32,19 +32,30 @@ const TestPage = () => {
                         content: [
                             {
                                 type: 'column',
-                                attrs: { className: 'bg-purple-100 p-4' },
+                                attrs: {
+                                    className: 'bg-slate-900 text-white p-8 rounded-xl space-y-4',
+                                },
                                 content: [
                                     {
                                         type: 'heading',
                                         attrs: { level: 1 },
-                                        content: [{ type: 'text', text: 'Single Column Layout' }],
+                                        content: [
+                                            { type: 'text', text: 'Select-All Demo' },
+                                        ],
                                     },
                                     {
                                         type: 'paragraph',
                                         content: [
-                                            { type: 'text', text: 'This slide uses a ' },
-                                            { type: 'text', marks: [{ type: 'bold' }], text: 'single column' },
-                                            { type: 'text', text: ' layout (1). Full width content.' },
+                                            { type: 'text', text: 'Press ' },
+                                            {
+                                                type: 'text',
+                                                marks: [{ type: 'bold' }],
+                                                text: 'Ctrl/⌘ + A',
+                                            },
+                                            {
+                                                type: 'text',
+                                                text: ' repeatedly to grow the selection. It never crosses this slide.',
+                                            },
                                         ],
                                     },
                                 ],
@@ -53,9 +64,9 @@ const TestPage = () => {
                     },
                 ],
             },
-            // Slide 2: Two equal columns (layout: "1-1")
             {
                 type: 'slide',
+                attrs: { id: 'two-col' },
                 content: [
                     {
                         type: 'row',
@@ -63,16 +74,25 @@ const TestPage = () => {
                         content: [
                             {
                                 type: 'column',
-                                attrs: { className: 'bg-blue-100 p-4' },
+                                attrs: {
+                                    className: 'bg-blue-100 p-6 rounded-lg gap-3 flex flex-col',
+                                },
                                 content: [
                                     {
                                         type: 'heading',
                                         attrs: { level: 2 },
-                                        content: [{ type: 'text', text: 'Left Column' }],
+                                        content: [
+                                            { type: 'text', text: 'Left column' },
+                                        ],
                                     },
                                     {
                                         type: 'paragraph',
-                                        content: [{ type: 'text', text: 'This is a 50% width column.' }],
+                                        content: [
+                                            {
+                                                type: 'text',
+                                                text: 'Grow selection here → column → row → slide.',
+                                            },
+                                        ],
                                     },
                                     {
                                         type: 'bulletList',
@@ -82,7 +102,9 @@ const TestPage = () => {
                                                 content: [
                                                     {
                                                         type: 'paragraph',
-                                                        content: [{ type: 'text', text: 'Equal width' }],
+                                                        content: [
+                                                            { type: 'text', text: 'Stay inside this slide' },
+                                                        ],
                                                     },
                                                 ],
                                             },
@@ -91,7 +113,12 @@ const TestPage = () => {
                                                 content: [
                                                     {
                                                         type: 'paragraph',
-                                                        content: [{ type: 'text', text: 'Layout: 1-1' }],
+                                                        content: [
+                                                            {
+                                                                type: 'text',
+                                                                text: 'Highlight stops at row layout 1-1',
+                                                            },
+                                                        ],
                                                     },
                                                 ],
                                             },
@@ -101,24 +128,31 @@ const TestPage = () => {
                             },
                             {
                                 type: 'column',
-                                attrs: { className: 'bg-green-100 p-4' },
+                                attrs: { className: 'bg-green-100 p-6 rounded-lg' },
                                 content: [
                                     {
                                         type: 'heading',
-                                        attrs: { level: 2 },
-                                        content: [{ type: 'text', text: 'Right Column' }],
+                                        attrs: { level: 3 },
+                                        content: [
+                                            { type: 'text', text: 'Right column' },
+                                        ],
                                     },
                                     {
                                         type: 'paragraph',
-                                        content: [{ type: 'text', text: 'This is also a 50% width column.' }],
-                                    },
-                                    {
-                                        type: 'codeBlock',
-                                        attrs: { language: 'javascript' },
                                         content: [
                                             {
                                                 type: 'text',
-                                                text: 'const layout = "1-1";\n// 50/50 split',
+                                                text: 'Even if you start here, selection never jumps into the left column.',
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        type: 'codeBlock',
+                                        attrs: { language: 'json' },
+                                        content: [
+                                            {
+                                                type: 'text',
+                                                text: '{\n  "layout": "1-1",\n  "columns": 2\n}',
                                             },
                                         ],
                                     },
@@ -128,9 +162,9 @@ const TestPage = () => {
                     },
                 ],
             },
-            // Slide 3: Two unequal columns (layout: "2-1")
             {
                 type: 'slide',
+                attrs: { id: 'nested-rows' },
                 content: [
                     {
                         type: 'row',
@@ -138,103 +172,87 @@ const TestPage = () => {
                         content: [
                             {
                                 type: 'column',
-                                attrs: { className: 'bg-orange-100 p-4' },
+                                attrs: {
+                                    className: 'bg-orange-100 p-6 rounded-lg space-y-4',
+                                },
                                 content: [
                                     {
                                         type: 'heading',
                                         attrs: { level: 2 },
-                                        content: [{ type: 'text', text: 'Main Content (66%)' }],
+                                        content: [
+                                            { type: 'text', text: 'Nested layout' },
+                                        ],
                                     },
                                     {
-                                        type: 'paragraph',
+                                        type: 'row',
+                                        attrs: { layout: '1-1-1' },
                                         content: [
-                                            { type: 'text', text: 'This column takes up ' },
-                                            { type: 'text', marks: [{ type: 'bold' }], text: '2/3 of the width' },
-                                            { type: 'text', text: ' (66.66%).' },
+                                            {
+                                                type: 'column',
+                                                attrs: {
+                                                    className: 'bg-white/60 p-3 rounded-md',
+                                                },
+                                                content: [
+                                                    {
+                                                        type: 'paragraph',
+                                                        content: [
+                                                            { type: 'text', text: 'Inner column 1' },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                            {
+                                                type: 'column',
+                                                attrs: {
+                                                    className: 'bg-white/60 p-3 rounded-md',
+                                                },
+                                                content: [
+                                                    {
+                                                        type: 'paragraph',
+                                                        content: [
+                                                            { type: 'text', text: 'Inner column 2' },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                            {
+                                                type: 'column',
+                                                attrs: {
+                                                    className: 'bg-white/60 p-3 rounded-md',
+                                                },
+                                                content: [
+                                                    {
+                                                        type: 'paragraph',
+                                                        content: [
+                                                            { type: 'text', text: 'Inner column 3' },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
                                         ],
                                     },
                                     {
                                         type: 'paragraph',
-                                        content: [{ type: 'text', text: 'Perfect for main content with a sidebar.' }],
-                                    },
-                                ],
-                            },
-                            {
-                                type: 'column',
-                                attrs: { className: 'bg-yellow-100 p-4' },
-                                content: [
-                                    {
-                                        type: 'heading',
-                                        attrs: { level: 3 },
-                                        content: [{ type: 'text', text: 'Sidebar (33%)' }],
-                                    },
-                                    {
-                                        type: 'paragraph',
-                                        content: [{ type: 'text', text: 'This column is 1/3 width.' }],
-                                    },
-                                    {
-                                        type: 'paragraph',
                                         content: [
-                                            { type: 'text', marks: [{ type: 'italic' }], text: 'Layout: 2-1' },
+                                            {
+                                                type: 'text',
+                                                text: 'Press Ctrl/⌘ + A inside an inner column to watch it climb.',
+                                            },
                                         ],
                                     },
                                 ],
                             },
-                        ],
-                    },
-                ],
-            },
-            // Slide 4: Three equal columns (layout: "1-1-1")
-            {
-                type: 'slide',
-                content: [
-                    {
-                        type: 'row',
-                        attrs: { layout: '1-1-1' },
-                        content: [
                             {
                                 type: 'column',
-                                attrs: { className: 'bg-red-100 p-4' },
+                                attrs: { className: 'bg-yellow-100 p-6 rounded-lg' },
                                 content: [
-                                    {
-                                        type: 'heading',
-                                        attrs: { level: 3 },
-                                        content: [{ type: 'text', text: 'Column 1' }],
-                                    },
-                                    {
-                                        type: 'paragraph',
-                                        content: [{ type: 'text', text: '33.33% width' }],
-                                    },
-                                ],
-                            },
-                            {
-                                type: 'column',
-                                attrs: { className: 'bg-pink-100 p-4' },
-                                content: [
-                                    {
-                                        type: 'heading',
-                                        attrs: { level: 3 },
-                                        content: [{ type: 'text', text: 'Column 2' }],
-                                    },
-                                    {
-                                        type: 'paragraph',
-                                        content: [{ type: 'text', text: '33.33% width' }],
-                                    },
-                                ],
-                            },
-                            {
-                                type: 'column',
-                                attrs: { className: 'bg-indigo-100 p-4' },
-                                content: [
-                                    {
-                                        type: 'heading',
-                                        attrs: { level: 3 },
-                                        content: [{ type: 'text', text: 'Column 3' }],
-                                    },
                                     {
                                         type: 'paragraph',
                                         content: [
-                                            { type: 'text', marks: [{ type: 'bold' }], text: 'Layout: 1-1-1' },
+                                            {
+                                                type: 'text',
+                                                text: 'Sidebar stays isolated. Selection can grow to this entire column, then to the outer row, but no further.',
+                                            },
                                         ],
                                     },
                                 ],

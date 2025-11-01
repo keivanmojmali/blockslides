@@ -49,7 +49,7 @@ const SlidePluginKey = new PluginKey("slide");
 
 export const Slide = Node.create<SlideOptions>({
   name: "slide",
-
+  isolating: true,
   content: "row+",
 
   group: "slide",

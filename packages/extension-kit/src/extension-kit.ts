@@ -83,6 +83,7 @@ import { Youtube } from "@autoartifacts/extension-youtube";
 import { Slide } from "@autoartifacts/extension-slide";
 import { Row } from "@autoartifacts/extension-row";
 import { Column } from "@autoartifacts/extension-column";
+import { SelectWithinSlide } from "@autoartifacts/extension-select-within-slide";
 import type { AddSlideButtonOptions } from "@autoartifacts/extension-add-slide-button";
 import { AddSlideButton } from "@autoartifacts/extension-add-slide-button";
 import type { BubbleMenuOptions } from "@autoartifacts/extension-bubble-menu";
@@ -332,6 +333,13 @@ export interface ExtensionKitOptions {
    * @example slide: false
    */
   slide?: false;
+
+  /**
+   * Select-within-slide keyboard shortcut override
+   * @default {}
+   * @example selectWithinSlide: false
+   */
+  selectWithinSlide?: false;
 
   /**
    * Strike-through extension
@@ -653,6 +661,10 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     // Slide-specific extensions
     if (this.options.slide !== false) {
       extensions.push(Slide.configure(this.options.slide || {}));
+    }
+
+    if (this.options.selectWithinSlide !== false) {
+      extensions.push(SelectWithinSlide);
     }
 
     extensions.push(Row.configure({}));
