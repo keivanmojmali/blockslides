@@ -386,6 +386,9 @@ importers:
       '@autoartifacts/extension-image':
         specifier: workspace:*
         version: link:../extension-image
+      '@autoartifacts/extension-image-block':
+        specifier: workspace:*
+        version: link:../extension-image-block
       '@autoartifacts/extension-italic':
         specifier: workspace:*
         version: link:../extension-italic

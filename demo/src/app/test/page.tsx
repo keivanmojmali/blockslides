@@ -23,6 +23,46 @@ const TestPage = () => {
         type: 'doc',
         content: [
             {
+                "type": "row",
+                "attrs": { "layout": "1-1" },
+                "content": [
+                  {
+                    "type": "column",
+                    "content": [
+                      {
+                        "type": "imageBlock",
+                        "attrs": {
+                          "src": "https://picsum.photos/seed/cover-left/1200/900",
+                          "layout": "cover",
+                          "align": "stretch",
+                          "caption": "Cover layout spans the column",
+                          "credit": "Picsum Seed cover-left"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "column",
+                    "content": [
+                      {
+                        "type": "imageBlock",
+                        "attrs": {
+                          "src": "https://picsum.photos/seed/focus-right/1200/900",
+                          "layout": "focus",
+                          "align": "center",
+                          "width": "420px",
+                          "height": "320px",
+                          "focalX": 30,
+                          "focalY": 35,
+                          "caption": "Focus layout with spotlight on subject",
+                          "credit": "Picsum Seed focus-right"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+            {
                 type: 'slide',
                 attrs: { id: 'intro-slide' },
                 content: [
