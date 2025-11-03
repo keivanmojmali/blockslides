@@ -22,7 +22,7 @@ export type NodeProps<TNodeType = any, TChildren = any> = {
    */
   renderElement: (props: {
     /**
-     * Tiptap JSON content to render
+     * Autoartifacts JSON content to render
      */
     content: TNodeType
     /**

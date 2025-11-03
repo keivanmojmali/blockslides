@@ -90,7 +90,7 @@ const pasteRuleMatcherHandler = (
     if (pasteRuleMatch.replaceWith) {
       if (!pasteRuleMatch.text.includes(pasteRuleMatch.replaceWith)) {
         console.warn(
-          '[tiptap warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".'
+          '[autoartifacts warn]: "pasteRuleMatch.replaceWith" must be part of "pasteRuleMatch.text".'
         );
       }
 

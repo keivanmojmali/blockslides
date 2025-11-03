@@ -54,7 +54,7 @@ export function mapNodeExtensionToReactNode<T>(
       extension.name,
       () => {
         throw new Error(
-          `[tiptap error]: Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method, please implement it or override the corresponding "nodeMapping" method to have a custom rendering`,
+          `[autoartifacts error] Node ${extension.name} cannot be rendered, it is missing a "renderToHTML" method, please implement it or override the corresponding "nodeMapping" method to have a custom rendering`,
         )
       },
     ]
@@ -72,7 +72,7 @@ export function mapNodeExtensionToReactNode<T>(
         )(children)
       } catch (e) {
         throw new Error(
-          `[tiptap error]: Node ${
+          `[autoartifacts error] Node ${
             extension.name
           } cannot be rendered, it's "renderToHTML" method threw an error: ${(e as Error).message}`,
           { cause: e },
@@ -127,7 +127,7 @@ export function mapMarkExtensionToReactNode<T>(
         )(children)
       } catch (e) {
         throw new Error(
-          `[tiptap error]: Mark ${
+          `[autoartifacts error] Mark ${
             extension.name
           } cannot be rendered, it's "renderToHTML" method threw an error: ${(e as Error).message}`,
           { cause: e },

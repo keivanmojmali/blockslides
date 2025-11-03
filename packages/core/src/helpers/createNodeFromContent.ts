@@ -52,10 +52,10 @@ export function createNodeFromContent(
       return node
     } catch (error) {
       if (options.errorOnInvalidContent) {
-        throw new Error('[tiptap error]: Invalid JSON content', { cause: error as Error })
+        throw new Error('[autoartifacts error] Invalid JSON content', { cause: error as Error })
       }
 
-      console.warn('[tiptap warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
+      console.warn('[autoartifacts warn]: Invalid content.', 'Passed value:', content, 'Error:', error)
 
       return createNodeFromContent('', schema, options)
     }
@@ -100,7 +100,7 @@ export function createNodeFromContent(
       }
 
       if (options.errorOnInvalidContent && hasInvalidContent) {
-        throw new Error('[tiptap error]: Invalid HTML content', {
+        throw new Error('[autoartifacts error] Invalid HTML content', {
           cause: new Error(`Invalid element found: ${invalidContent}`),
         })
       }

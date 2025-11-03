@@ -1,17 +1,12 @@
 {
   "name": "@autoartifacts/markdown",
-  "description": "markdown parser and serializer for tiptap",
+  "description": "markdown parser and serializer for autoartifacts",
   "version": "3.0.0-beta.0",
-  "homepage": "https://tiptap.dev",
   "keywords": [
-    "tiptap",
-    "tiptap utility"
+    "autoartifacts",
+    "autoartifacts utility"
   ],
   "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ueberdosis"
-  },
   "exports": {
     ".": {
       "types": {
@@ -46,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/keivanmojmali/autoartifacts",
     "directory": "packages/markdown"
   },
   "scripts": {

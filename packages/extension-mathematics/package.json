@@ -1,20 +1,15 @@
 {
   "name": "@autoartifacts/extension-mathematics",
-  "description": "latex math extension for tiptap",
+  "description": "latex math extension for autoartifacts",
   "version": "3.6.7",
-  "homepage": "https://tiptap.dev/api/extensions/mathematics",
   "keywords": [
-    "tiptap",
-    "tiptap extension"
+    "autoartifacts",
+    "autoartifacts extension"
   ],
   "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ueberdosis"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/keivanmojmali/autoartifacts",
     "directory": "packages/extension-mathematics"
   },
   "type": "module",

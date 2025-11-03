@@ -9,10 +9,6 @@
     "slides"
   ],
   "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ueberdosis"
-  },
   "type": "module",
   "exports": {
     ".": {

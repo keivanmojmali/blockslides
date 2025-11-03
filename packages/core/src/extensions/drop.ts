@@ -8,7 +8,7 @@ export const Drop = Extension.create({
   addProseMirrorPlugins() {
     return [
       new Plugin({
-        key: new PluginKey('tiptapDrop'),
+        key: new PluginKey('AutoartifactsDrop'),
 
         props: {
           handleDrop: (_, e, slice, moved) => {

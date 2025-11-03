@@ -1,20 +1,15 @@
 {
   "name": "@autoartifacts/extension-drag-handle-vue-3",
-  "description": "drag handle extension for tiptap with vue 3",
+  "description": "drag handle extension for autoartifacts with vue 3",
   "version": "3.6.7",
-  "homepage": "https://tiptap.dev",
   "keywords": [
-    "tiptap",
-    "tiptap extension"
+    "autoartifacts",
+    "autoartifacts extension"
   ],
-  "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ueberdosis"
-  },
+  "license": "MIT", 
   "repository": {
     "type": "git",
-    "url": "https://github.com/ueberdosis/tiptap",
+    "url": "https://github.com/keivanmojmali/autoartifacts",
     "directory": "packages/extension-drag-handle-vue-3"
   },
   "type": "module",

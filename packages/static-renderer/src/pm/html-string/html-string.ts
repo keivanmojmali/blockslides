@@ -66,7 +66,7 @@ export function domOutputSpecToHTMLString(content: DOMOutputSpec): (children?: s
 
   // TODO support DOM elements? How to handle them?
   throw new Error(
-    '[tiptap error]: Unsupported DomOutputSpec type, check the `renderHTML` method output or implement a node mapping',
+    '[autoartifacts error]: Unsupported DomOutputSpec type, check the `renderHTML` method output or implement a node mapping',
     {
       cause: content,
     },

@@ -8,7 +8,7 @@ export const Paste = Extension.create({
   addProseMirrorPlugins() {
     return [
       new Plugin({
-        key: new PluginKey('tiptapPaste'),
+        key: new PluginKey('AutoartifactsPaste'),
 
         props: {
           handlePaste: (_view, e, slice) => {

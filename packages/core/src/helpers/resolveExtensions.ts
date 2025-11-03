@@ -6,8 +6,8 @@ import { sortExtensions } from './sortExtensions.js'
 /**
  * Returns a flattened and sorted extension list while
  * also checking for duplicated extensions and warns the user.
- * @param extensions An array of Tiptap extensions
- * @returns An flattened and sorted array of Tiptap extensions
+ * @param extensions An array of Autoartifacts extensions
+ * @returns An flattened and sorted array of Autoartifacts extensions
  */
 export function resolveExtensions(extensions: Extensions): Extensions {
   const resolvedExtensions = sortExtensions(flattenExtensions(extensions))
@@ -15,7 +15,7 @@ export function resolveExtensions(extensions: Extensions): Extensions {
 
   if (duplicatedNames.length) {
     console.warn(
-      `[tiptap warn]: Duplicate extension names found: [${duplicatedNames
+      `[autoartifacts warn]: Duplicate extension names found: [${duplicatedNames
         .map(item => `'${item}'`)
         .join(', ')}]. This can lead to issues.`,
     )

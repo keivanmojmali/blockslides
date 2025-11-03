@@ -702,7 +702,7 @@ export interface NodeViewRendererProps {
    * But if you, for example, want to create a nested editor with the content, it may make sense to provide it with the inner decorations.
    */
   innerDecorations: Parameters<NodeViewConstructor>[4];
-  // tiptap-specific
+  // autoartifacts-specific
   /**
    * The editor instance.
    */
@@ -736,7 +736,7 @@ export interface MarkViewRendererProps {
    * indicates whether the mark's content is inline
    */
   inline: Parameters<MarkViewConstructor>[2];
-  // tiptap-specific
+  // autoartifacts-specific
   /**
    * The editor instance.
    */
@@ -852,7 +852,7 @@ export type MarkdownHelpers = {
 };
 
 /**
- * Helpers specifically for parsing markdown tokens into Tiptap JSON.
+ * Helpers specifically for parsing markdown tokens into autoartifacts JSON.
  * These are provided to extension parse handlers.
  */
 export type MarkdownParseHelpers = {

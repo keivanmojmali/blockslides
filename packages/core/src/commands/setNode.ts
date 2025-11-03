@@ -32,7 +32,7 @@ export const setNode: RawCommands['setNode'] =
 
     // TODO: use a fallback like insertContent?
     if (!type.isTextblock) {
-      console.warn('[tiptap warn]: Currently "setNode()" only supports text block nodes.')
+      console.warn('[autoartifacts warn]: Currently "setNode()" only supports text block nodes.')
 
       return false
     }

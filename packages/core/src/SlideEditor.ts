@@ -173,7 +173,7 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
   public mount(el: NonNullable<EditorOptions["element"]> & {}) {
     if (typeof document === "undefined") {
       throw new Error(
-        `[tiptap error]: The editor cannot be mounted because there is no 'document' defined in this environment.`
+        `[autoartifacts error]: The editor cannot be mounted because there is no 'document' defined in this environment.`
       );
     }
     this.createView(el);
@@ -355,7 +355,7 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
 
           // We throw an error here, because we know the view is not available
           throw new Error(
-            `[tiptap error]: The editor view is not available. Cannot access view['${
+            `[autoartifacts error] The editor view is not available. Cannot access view['${
               key as string
             }']. The editor may not be mounted yet.`
           );
@@ -516,8 +516,8 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
       if (
         !(e instanceof Error) ||
         ![
-          "[tiptap error]: Invalid JSON content",
-          "[tiptap error]: Invalid HTML content",
+          "[autoartifacts error] Invalid JSON content",
+          "[autoartifacts error] Invalid HTML content",
         ].includes(e.message)
       ) {
         // Not the content error we were expecting
