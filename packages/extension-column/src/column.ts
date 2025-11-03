@@ -63,7 +63,7 @@ export const Column = Node.create<ColumnOptions>({
         default: "left",
       },
       padding: {
-        default: "medium",
+        default: "none",
       },
     };
   },

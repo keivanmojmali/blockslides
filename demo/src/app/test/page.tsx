@@ -42,9 +42,8 @@ const TestPage = () => {
                             "attrs": {
                               "src": "https://picsum.photos/seed/cover-left/1600/900",
                               "layout": "fill",
-                              "align": "stretch",
                               "fullBleed": true,
-                              "alt": "Blue gradient abstract waves",
+                              "height": "100%",
                             }
                           }
                         ]
