@@ -96,6 +96,7 @@ const DEFAULT_LAYOUTS: Record<string, ImageBlockLayoutDefinition> = {
     label: "Cover",
     vars: {
       "--image-block-object-fit": "cover",
+      "--image-block-block-size": "100%",
     },
   },
   contain: {

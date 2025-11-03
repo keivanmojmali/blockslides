@@ -41,9 +41,8 @@ const TestPage = () => {
                             "type": "imageBlock",
                             "attrs": {
                               "src": "https://picsum.photos/seed/cover-left/1600/900",
-                              "layout": "fill",
+                              "layout": "cover",
                               "fullBleed": true,
-                              "height": "100%",
                             }
                           }
                         ]
