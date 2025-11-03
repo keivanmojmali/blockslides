@@ -29,16 +29,19 @@ const TestPage = () => {
                 "content": [
                   {
                     "type": "row",
-                    "attrs": { "layout": "1-1", "className": "bg-red-500" },
+                    "attrs": { "layout": "1-1" },
                     "content": [
                       {
                         "type": "column",
+                        "attrs": {
+                          className: "bg-red-500",
+                        },
                         "content": [
                           {
                             "type": "imageBlock",
                             "attrs": {
                               "src": "https://picsum.photos/seed/cover-left/1600/900",
-                              "layout": "contain",
+                              "layout": "fill",
                               "align": "stretch",
                               "fullBleed": true,
                               "alt": "Blue gradient abstract waves",
