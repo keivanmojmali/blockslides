@@ -149,10 +149,6 @@ export interface MarkConfig<Options = any, Storage = any>
   }) => Attributes | {};
 }
 
-/**
- * The Mark class is used to create custom mark extensions.
- * @see https://tiptap.dev/api/extensions#create-a-new-extension
- */
 export class Mark<Options = any, Storage = any> extends Extendable<
   Options,
   Storage,

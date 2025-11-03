@@ -84,7 +84,7 @@ const inputRuleMatcherHandler = (
   if (inputRuleMatch.replaceWith) {
     if (!inputRuleMatch.text.includes(inputRuleMatch.replaceWith)) {
       console.warn(
-        '[tiptap warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".'
+        '[autoartifacts warn]: "inputRuleMatch.replaceWith" must be part of "inputRuleMatch.text".'
       );
     }
 

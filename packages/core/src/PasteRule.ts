@@ -32,10 +32,7 @@ export type PasteRuleFinder =
       event?: ClipboardEvent | null
     ) => PasteRuleMatch[] | null | undefined);
 
-/**
- * Paste rules are used to react to pasted content.
- * @see https://tiptap.dev/docs/editor/extensions/custom-extensions/extend-existing#paste-rules
- */
+
 export class PasteRule {
   find: PasteRuleFinder;
 

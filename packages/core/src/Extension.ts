@@ -10,10 +10,6 @@ export interface ExtensionConfig<Options = any, Storage = any>
     null
   > {}
 
-/**
- * The Extension class is the base class for all extensions.
- * @see https://tiptap.dev/api/extensions#create-a-new-extension
- */
 export class Extension<Options = any, Storage = any> extends Extendable<
   Options,
   Storage,

@@ -83,7 +83,7 @@ export interface NodeConfig<Options = any, Storage = any>
    * which can be referred to in the content expressions for the
    * schema.
    *
-   * By default Tiptap uses the groups 'block' and 'inline' for nodes. You
+   * By default Autoartifacts uses the groups 'block' and 'inline' for nodes. You
    * can also use custom groups if you want to group specific nodes together
    * and handle them in your schema.
    * @example group: 'block'
@@ -345,10 +345,6 @@ export interface NodeConfig<Options = any, Storage = any>
   }) => Attributes | {};
 }
 
-/**
- * The Node class is used to create custom node extensions.
- * @see https://tiptap.dev/api/extensions#create-a-new-extension
- */
 export class Node<Options = any, Storage = any> extends Extendable<
   Options,
   Storage,

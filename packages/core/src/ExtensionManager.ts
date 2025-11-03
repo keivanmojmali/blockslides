@@ -102,11 +102,6 @@ export class ExtensionManager {
   get plugins(): Plugin[] {
     const { editor } = this;
 
-    // With ProseMirror, first plugins within an array are executed first.
-    // In Tiptap, we provide the ability to override plugins,
-    // so it feels more natural to run plugins at the end of an array first.
-    // That’s why we have to reverse the `extensions` array and sort again
-    // based on the `priority` option.
     const extensions = sortExtensions([...this.extensions].reverse());
 
     const allPlugins = extensions.flatMap((extension) => {
@@ -274,7 +269,7 @@ export class ExtensionManager {
               getPos: getPos as () => number,
               decorations,
               innerDecorations,
-              // tiptap-specific
+              // autoartifacts-specific
               editor,
               extension,
               HTMLAttributes,
@@ -326,7 +321,7 @@ export class ExtensionManager {
               mark,
               view,
               inline,
-              // tiptap-specific
+              // autoartifacts-specific
               editor,
               extension,
               HTMLAttributes,

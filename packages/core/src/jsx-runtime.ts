@@ -13,7 +13,7 @@ export type DOMOutputSpecArray =
   | [string, Attributes, DOMOutputSpecArray | 0]
   | [string, DOMOutputSpecArray]
 
-// JSX types for Tiptap's JSX runtime
+// JSX types for AA's JSX runtime
 // These types only apply when using @jsxImportSource @autoartifacts/core
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace JSX {

@@ -57,62 +57,18 @@ export interface ExtendableConfig<
    */
   priority?: number;
 
-  /**
-   * This method will add options to this extension
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#settings
-   * @example
-   * addOptions() {
-   *  return {
-   *    myOption: 'foo',
-   *    myOtherOption: 10,
-   * }
-   */
   addOptions?: (this: {
     name: string;
     parent: ParentConfig<Config>["addOptions"];
   }) => Options;
 
-  /**
-   * The default storage this extension can save data to.
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#storage
-   * @example
-   * defaultStorage: {
-   *   prefetchedUsers: [],
-   *   loading: false,
-   * }
-   */
+  
   addStorage?: (this: {
     name: string;
     options: Options;
     parent: ParentConfig<Config>["addStorage"];
   }) => Storage;
 
-  /**
-   * This function adds globalAttributes to specific nodes.
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#global-attributes
-   * @example
-   * addGlobalAttributes() {
-   *   return [
-   *     {
-           // Extend the following extensions
-   *       types: [
-   *         'heading',
-   *         'paragraph',
-   *       ],
-   *       // … with those attributes
-   *       attributes: {
-   *         textAlign: {
-   *           default: 'left',
-   *           renderHTML: attributes => ({
-   *             style: `text-align: ${attributes.textAlign}`,
-   *           }),
-   *           parseHTML: element => element.style.textAlign || 'left',
-   *         },
-   *       },
-   *     },
-   *   ]
-   * }
-   */
   addGlobalAttributes?: (this: {
     name: string;
     options: Options;
@@ -121,16 +77,6 @@ export interface ExtendableConfig<
     parent: ParentConfig<Config>["addGlobalAttributes"];
   }) => GlobalAttributes;
 
-  /**
-   * This function adds commands to the editor
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#commands
-   * @example
-   * addCommands() {
-   *   return {
-   *     myCommand: () => ({ chain }) => chain().setMark('type', 'foo').run(),
-   *   }
-   * }
-   */
   addCommands?: (this: {
     name: string;
     options: Options;
@@ -140,16 +86,6 @@ export interface ExtendableConfig<
     parent: ParentConfig<Config>["addCommands"];
   }) => Partial<RawCommands>;
 
-  /**
-   * This function registers keyboard shortcuts.
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#keyboard-shortcuts
-   * @example
-   * addKeyboardShortcuts() {
-   *   return {
-   *     'Mod-l': () => this.editor.commands.toggleBulletList(),
-   *   }
-   * },
-   */
   addKeyboardShortcuts?: (this: {
     name: string;
     options: Options;
@@ -161,19 +97,6 @@ export interface ExtendableConfig<
     [key: string]: KeyboardShortcutCommand;
   };
 
-  /**
-   * This function adds input rules to the editor.
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#input-rules
-   * @example
-   * addInputRules() {
-   *   return [
-   *     markInputRule({
-   *       find: inputRegex,
-   *       type: this.type,
-   *     }),
-   *   ]
-   * },
-   */
   addInputRules?: (this: {
     name: string;
     options: Options;
@@ -183,19 +106,6 @@ export interface ExtendableConfig<
     parent: ParentConfig<Config>["addInputRules"];
   }) => InputRule[];
 
-  /**
-   * This function adds paste rules to the editor.
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#paste-rules
-   * @example
-   * addPasteRules() {
-   *   return [
-   *     markPasteRule({
-   *       find: pasteRegex,
-   *       type: this.type,
-   *     }),
-   *   ]
-   * },
-   */
   addPasteRules?: (this: {
     name: string;
     options: Options;
@@ -205,16 +115,6 @@ export interface ExtendableConfig<
     parent: ParentConfig<Config>["addPasteRules"];
   }) => PasteRule[];
 
-  /**
-   * This function adds Prosemirror plugins to the editor
-   * @see https://tiptap.dev/docs/editor/guide/custom-extensions#prosemirror-plugins
-   * @example
-   * addProseMirrorPlugins() {
-   *   return [
-   *     customPlugin(),
-   *   ]
-   * }
-   */
   addProseMirrorPlugins?: (this: {
     name: string;
     options: Options;
@@ -224,18 +124,6 @@ export interface ExtendableConfig<
     parent: ParentConfig<Config>["addProseMirrorPlugins"];
   }) => Plugin[];
 
-  /**
-   * This function adds additional extensions to the editor. This is useful for
-   * building extension kits.
-   * @example
-   * addExtensions() {
-   *   return [
-   *     BulletList,
-   *     OrderedList,
-   *     ListItem
-   *   ]
-   * }
-   */
   addExtensions?: (this: {
     name: string;
     options: Options;
@@ -243,14 +131,6 @@ export interface ExtendableConfig<
     parent: ParentConfig<Config>["addExtensions"];
   }) => Extensions;
 
-  /**
-   * The markdown token name
-   *
-   * This is the name of the token that this extension uses to parse and render markdown and comes from the Marked Lexer.
-   *
-   * @see https://github.com/markedjs/marked/blob/master/src/Tokens.ts
-   *
-   */
   markdownTokenName?: string;
 
   /**
