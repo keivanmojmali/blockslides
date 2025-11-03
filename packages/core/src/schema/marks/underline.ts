@@ -1,4 +1,4 @@
-import type { DOMOutputSpec } from "prosemirror-model";
+import type { DOMOutputSpec } from "@autoartifacts/pm/model";
 
 export const underline = {
   parseDOM: [{ tag: "u" }, { style: "text-decoration=underline" }],

@@ -55,7 +55,7 @@ const TestPage = () => {
                             "attrs": {
                               "src": "https://picsum.photos/seed/cover-right/1600/900",
                               "layout": "cover",
-                              "align": "center",
+                              "align": "left",
                               "width": "420px",
                               "height": "320px",
                               "assetId": "demo-cover-right",

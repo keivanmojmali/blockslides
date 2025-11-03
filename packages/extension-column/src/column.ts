@@ -36,7 +36,7 @@ const ColumnPluginKey = new PluginKey("column");
 export const Column = Node.create<ColumnOptions>({
   name: "column",
 
-  content: "(row | block)+",
+  content: "(block | row)+",
   isolating: true,
   defining: true,
   selectable:true,

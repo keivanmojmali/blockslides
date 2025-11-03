@@ -1,4 +1,4 @@
-import { Schema } from "prosemirror-model";
+import { Schema } from "@autoartifacts/pm/model";
 import { nodes } from "./nodes";
 import { marks } from "./marks";
 
