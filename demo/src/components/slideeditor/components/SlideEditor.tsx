@@ -1,7 +1,7 @@
 import { EditorContent } from '@autoartifacts/react'
 import React from 'react'
 
-import { useSlideEditor } from '@/components/slideeditor/hooks/useSlideEditor'
+import { useSlideEditor } from '@/components/SlideEditor/hooks/useSlideEditor'
 
 //TODO: Check to see which styles we need to bring over from PP 
 //import '@/components/slideeditor/styles/index.css'

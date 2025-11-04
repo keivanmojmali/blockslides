@@ -19,6 +19,17 @@ export interface HeadingOptions {
    * @example { class: 'foo' }
    */
   HTMLAttributes: Record<string, any>
+
+  /**
+   * Inject opinionated CSS for headings.
+   * @default true
+   */
+  injectCSS: boolean
+
+  /**
+   * The CSS string injected when `injectCSS` is true.
+   */
+  styles: string
 }
 
 declare module '@autoartifacts/core' {
@@ -51,6 +62,65 @@ export const Heading = Node.create<HeadingOptions>({
     return {
       levels: [1, 2, 3, 4, 5, 6],
       HTMLAttributes: {},
+      injectCSS: true,
+      styles: `
+      [data-node-type="slide"] h1 {
+        font-weight: 700;
+        font-size: 2.8rem;
+        line-height: 3.5rem;
+        letter-spacing: -0.08rem;
+        font-variant-ligatures: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+      }
+    
+      [data-node-type="slide"] h2 {
+        font-weight: 700;
+        font-size: 2.2rem;
+        line-height: 2.8rem;
+        letter-spacing: -0.06rem;
+        font-variant-ligatures: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+    
+      [data-node-type="slide"] h3 {
+        font-weight: 600;
+        font-size: 1.8rem;
+        line-height: 2.2rem;
+        letter-spacing: -0.04rem;
+        font-variant-ligatures: none;
+      }
+    
+      [data-node-type="slide"] h4 {
+        font-weight: 600;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        letter-spacing: -0.02rem;
+      }
+    
+      [data-node-type="slide"] h5 {
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+      }
+    
+      [data-node-type="slide"] h6 {
+        font-weight: 600;
+        font-size: 1.05rem;
+        line-height: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08rem;
+      }
+    
+      [data-node-type="slide"] h1 + p,
+      [data-node-type="slide"] h2 + p,
+      [data-node-type="slide"] h3 + p {
+        margin-top: 0.75rem;
+      }
+    `,
     }
   },
 
@@ -67,6 +137,22 @@ export const Heading = Node.create<HeadingOptions>({
         rendered: false,
       },
     }
+  },
+
+  onCreate() {
+    if (!this.options.injectCSS || typeof document === 'undefined') {
+      return
+    }
+
+    const styleId = 'autoartifacts-heading-defaults'
+    if (document.getElementById(styleId)) {
+      return
+    }
+
+    const style = document.createElement('style')
+    style.id = styleId
+    style.textContent = this.options.styles.trim()
+    document.head.appendChild(style)
   },
 
   parseHTML() {
