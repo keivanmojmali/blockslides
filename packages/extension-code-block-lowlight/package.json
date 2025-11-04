@@ -1,11 +1,13 @@
 {
   "name": "@autoartifacts/extension-code-block-lowlight",
   "description": "code block extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
-    "autoartifacts extension"
+    "autoartifacts extension",
+    "code block lowlight"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -35,8 +37,8 @@
     "@autoartifacts/core": "workspace:^",
     "@autoartifacts/extension-code-block": "workspace:^",
     "@autoartifacts/pm": "workspace:^",
-    "lowlight": "^2 || ^3",
-    "highlight.js": "^11"
+    "highlight.js": "^11",
+    "lowlight": "^2 || ^3"
   },
   "repository": {
     "type": "git",

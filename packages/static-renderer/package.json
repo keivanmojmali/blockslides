@@ -1,13 +1,13 @@
 {
   "name": "@autoartifacts/static-renderer",
   "description": "statically render autoartifacts JSON",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts static renderer",
     "autoartifacts react renderer"
   ],
-  "license": "MIT", 
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -88,5 +88,6 @@
   "scripts": {
     "build": "tsup",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
-  }
+  },
+  "author": "keivanmojmali"
 }

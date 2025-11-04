@@ -1,7 +1,7 @@
 {
   "name": "@autoartifacts/extension-list",
   "description": "List extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension"
@@ -81,6 +81,7 @@
     "src",
     "dist"
   ],
+  "author": "keivanmojmali",
   "devDependencies": {
     "@autoartifacts/core": "workspace:^",
     "@autoartifacts/pm": "workspace:^"

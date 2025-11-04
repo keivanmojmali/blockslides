@@ -1,11 +1,12 @@
 {
   "name": "@autoartifacts/extension-paragraph",
   "description": "paragraph extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {

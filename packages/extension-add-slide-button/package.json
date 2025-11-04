@@ -1,7 +1,8 @@
 {
   "name": "@autoartifacts/extension-add-slide-button",
   "description": "add slide button extension for autoartifacts",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "author": "keivanmojmali",
   "homepage": "https://github.com/keivanmojmali/autoartifacts",
   "keywords": [
     "autoartifacts",

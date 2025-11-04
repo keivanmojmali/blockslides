@@ -1,7 +1,7 @@
 {
   "name": "@autoartifacts/pm",
   "description": "prosemirror wrapper package for autoartifacts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/keivanmojmali/autoartifacts",
   "keywords": [
     "autoartifacts",
@@ -204,5 +204,6 @@
   },
   "scripts": {
     "build": "tsup"
-  }
+  },
+  "author": "keivanmojmali"
 }

@@ -1,7 +1,7 @@
 {
   "name": "@autoartifacts/html",
   "description": "utility package to render autoartifacts JSON as HTML",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts utility"
@@ -55,5 +55,6 @@
   "scripts": {
     "build": "tsup",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
-  }
+  },
+  "author": "keivanmojmali"
 }

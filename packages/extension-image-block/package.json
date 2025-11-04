@@ -1,6 +1,6 @@
 {
   "name": "@autoartifacts/extension-image-block",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -18,9 +18,14 @@
   "scripts": {
     "build": "tsup"
   },
+  "author": "keivanmojmali",
+  "peerDependencies": {
+    "@autoartifacts/core": "^0.1.0",
+    "@autoartifacts/pm": "^0.1.0"
+  },
   "dependencies": {
-    "@autoartifacts/core": "workspace:*",
-    "@autoartifacts/pm": "workspace:*"
+    "@autoartifacts/core": "^0.1.0",
+    "@autoartifacts/pm": "^0.1.0"
   },
   "devDependencies": {
     "tsup": "^8.5.0",

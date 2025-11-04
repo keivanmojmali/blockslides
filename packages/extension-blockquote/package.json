@@ -1,11 +1,13 @@
 {
   "name": "@autoartifacts/extension-blockquote",
   "description": "blockquote extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
-    "autoartifacts extension"
+    "autoartifacts extension",
+    "blockquote"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {

@@ -1,6 +1,6 @@
 {
   "name": "@autoartifacts/core",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Core ProseMirror-based slide editor with essential plugins",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -60,6 +60,6 @@
     "slides",
     "presentation"
   ],
-  "author": "",
+  "author": "keivanmojmali",
   "license": "MIT"
 }

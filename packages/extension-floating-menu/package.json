@@ -8,6 +8,7 @@
     "autoartifacts extension",
     "floating-menu"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -28,14 +29,14 @@
     "dist"
   ],
   "devDependencies": {
-    "@floating-ui/dom": "^1.6.12",
     "@autoartifacts/core": "workspace:^",
-    "@autoartifacts/pm": "workspace:^"
+    "@autoartifacts/pm": "workspace:^",
+    "@floating-ui/dom": "^1.6.12"
   },
   "peerDependencies": {
-    "@floating-ui/dom": "^1.0.0",
     "@autoartifacts/core": "workspace:^",
-    "@autoartifacts/pm": "workspace:^"
+    "@autoartifacts/pm": "workspace:^",
+    "@floating-ui/dom": "^1.0.0"
   },
   "repository": {
     "type": "git",

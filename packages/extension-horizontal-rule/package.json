@@ -1,7 +1,7 @@
 {
   "name": "@autoartifacts/extension-horizontal-rule",
   "description": "horizontal rule extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension"
@@ -29,6 +29,7 @@
     "@autoartifacts/core": "workspace:^",
     "@autoartifacts/pm": "workspace:^"
   },
+  "author": "keivanmojmali",
   "peerDependencies": {
     "@autoartifacts/core": "workspace:^",
     "@autoartifacts/pm": "workspace:^"

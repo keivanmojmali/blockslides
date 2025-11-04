@@ -1,11 +1,12 @@
 {
   "name": "@autoartifacts/extension-drag-handle-react",
   "description": "drag handle extension for autoartifacts with react",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "repository": {
     "type": "git",

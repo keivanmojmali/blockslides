@@ -1,12 +1,12 @@
 {
   "name": "@autoartifacts/extension-underline",
   "description": "underline extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension"
   ],
-  "license": "MIT", 
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -39,5 +39,6 @@
   "scripts": {
     "build": "tsup",
     "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
-  }
+  },
+  "author": "keivanmojmali"
 }

@@ -1,11 +1,13 @@
 {
   "name": "@autoartifacts/extension-color",
   "description": "text color extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
-    "autoartifacts extension"
+    "autoartifacts extension",
+    "color"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {

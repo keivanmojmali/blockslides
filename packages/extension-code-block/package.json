@@ -1,11 +1,13 @@
 {
   "name": "@autoartifacts/extension-code-block",
   "description": "code block extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
-    "autoartifacts extension"
+    "autoartifacts extension",
+    "code block"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {

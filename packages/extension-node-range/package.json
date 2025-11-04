@@ -1,7 +1,7 @@
 {
   "name": "@autoartifacts/extension-node-range",
   "description": "node range extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension"
@@ -23,6 +23,7 @@
       "require": "./dist/index.cjs"
     }
   },
+  "author": "keivanmojmali",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",

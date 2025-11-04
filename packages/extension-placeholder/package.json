@@ -1,13 +1,14 @@
 {
   "name": "@autoartifacts/extension-placeholder",
   "description": "placeholder extension for autoartifacts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/keivanmojmali/autoartifacts",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension",
     "placeholder"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {

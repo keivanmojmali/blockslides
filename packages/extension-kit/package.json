@@ -1,7 +1,7 @@
 {
   "name": "@autoartifacts/extension-kit",
   "description": "Complete extension kit for autoartifacts - includes all available extensions with configurable options",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/keivanmojmali/autoartifacts",
   "keywords": [
     "autoartifacts",
@@ -10,6 +10,7 @@
     "extension-kit",
     "extensions"
   ],
+  "author": "keivanmojmali",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -38,6 +39,7 @@
     "@autoartifacts/extension-code-block": "workspace:*",
     "@autoartifacts/extension-code-block-lowlight": "workspace:*",
     "@autoartifacts/extension-color": "workspace:*",
+    "@autoartifacts/extension-column": "workspace:*",
     "@autoartifacts/extension-details": "workspace:*",
     "@autoartifacts/extension-document": "workspace:*",
     "@autoartifacts/extension-file-handler": "workspace:*",
@@ -48,6 +50,7 @@
     "@autoartifacts/extension-highlight": "workspace:*",
     "@autoartifacts/extension-horizontal-rule": "workspace:*",
     "@autoartifacts/extension-image": "workspace:*",
+    "@autoartifacts/extension-image-block": "workspace:*",
     "@autoartifacts/extension-italic": "workspace:*",
     "@autoartifacts/extension-link": "workspace:*",
     "@autoartifacts/extension-list": "workspace:*",
@@ -56,11 +59,9 @@
     "@autoartifacts/extension-paragraph": "workspace:*",
     "@autoartifacts/extension-placeholder": "workspace:*",
     "@autoartifacts/extension-row": "workspace:*",
-    "@autoartifacts/extension-column": "workspace:*",
-    "@autoartifacts/extension-slide": "workspace:*",
     "@autoartifacts/extension-select-within-slide": "workspace:*",
+    "@autoartifacts/extension-slide": "workspace:*",
     "@autoartifacts/extension-strike": "workspace:*",
-    "@autoartifacts/markdown": "workspace:*",
     "@autoartifacts/extension-subscript": "workspace:*",
     "@autoartifacts/extension-superscript": "workspace:*",
     "@autoartifacts/extension-table": "workspace:*",
@@ -72,8 +73,8 @@
     "@autoartifacts/extension-underline": "workspace:*",
     "@autoartifacts/extension-unique-id": "workspace:*",
     "@autoartifacts/extension-youtube": "workspace:*",
-    "@autoartifacts/extension-image-block": "workspace:*",
-    "@autoartifacts/extensions": "workspace:*"
+    "@autoartifacts/extensions": "workspace:*",
+    "@autoartifacts/markdown": "workspace:*"
   },
   "repository": {
     "type": "git",

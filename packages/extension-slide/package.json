@@ -1,6 +1,6 @@
 {
   "name": "@autoartifacts/extension-slide",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Slide node extension for AutoArtifacts slide editor",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -9,12 +9,22 @@
     "build": "tsup",
     "dev": "tsup --watch"
   },
+  "keywords": [
+    "autoartifacts",
+    "autoartifacts extension",
+    "slide"
+  ],
+  "peerDependencies": {
+    "@autoartifacts/core": "^0.1.0",
+    "@autoartifacts/pm": "^0.1.0"
+  },
   "dependencies": {
-    "@autoartifacts/core": "workspace:*",
-    "@autoartifacts/pm": "workspace:*"
+    "@autoartifacts/core": "^0.1.0",
+    "@autoartifacts/pm": "^0.1.0"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.3.3"
-  }
+  },
+  "author": "keivanmojmali"
 }

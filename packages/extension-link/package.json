@@ -1,7 +1,7 @@
 {
   "name": "@autoartifacts/extension-link",
   "description": "link extension for autoartifacts",
-  "version": "3.6.7",
+  "version": "0.1.0",
   "keywords": [
     "autoartifacts",
     "autoartifacts extension"
@@ -25,6 +25,7 @@
     "src",
     "dist"
   ],
+  "author": "keivanmojmali",
   "dependencies": {
     "linkifyjs": "^4.3.2"
   },

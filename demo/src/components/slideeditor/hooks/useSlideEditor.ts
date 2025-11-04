@@ -30,7 +30,7 @@ export const useSlideEditor = ({
       immediatelyRender: false,
       shouldRerenderOnTransaction: false,
       content,
-      theme: "light",
+      theme: "dark",
       onUpdate: (ctx: { editor: Editor }) => {
         // When debounce is added, use: debouncedUpdate(JSON.stringify(ctx.editor.getJSON()))
         handleUpdate(JSON.stringify(ctx.editor.getJSON()));
