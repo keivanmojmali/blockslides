@@ -13,10 +13,11 @@ AutoArtifacts is a ProseMirror-powered slide authoring toolkit that provides the
 - [pnpm](https://pnpm.io/) v8 or newer
 
 ## Installation
-pnpm installThis bootstraps every package in the monorepo (`packages/*`, individual extensions, and the demo application) via the workspace configuration in `pnpm-workspace.yaml`.
+1. pnpm i
+2. pnpm build (from root)
 
 ## Running the Demo
-pnpm --filter demo dev — starts the Next.js demo at http://localhost:3000 and hot-reloads local workspace packages (`@autoartifacts/core`, extensions, React bindings).
+3. pnpm dev from /demo
 
 
 ## Schema Overview
