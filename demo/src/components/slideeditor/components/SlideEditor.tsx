@@ -3,8 +3,6 @@ import React from 'react'
 
 import { useSlideEditor } from '@/components/SlideEditor/hooks/useSlideEditor'
 
-//import '@/components/slideeditor/styles/index.css'
-
 export const SlideEditor = ({
   content,
   onUpdate,

@@ -18,8 +18,13 @@ export const content = {
                             content: [
                                 {
                                     type: 'heading',
-                                    attrs: { level: 1, },
+                                    attrs: { level: 2, },
                                     content: [{ type: 'text', text: 'Aurelius Labs' }],
+                                },
+                                {
+                                    type: 'paragraph',
+                                    content: [
+                                        { type: 'text', text: 'Accelerating automotive innovation with intelligent software.' },                                    ],
                                 },
                             ],
                         },
