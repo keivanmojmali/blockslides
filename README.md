@@ -13,7 +13,7 @@ AutoArtifacts is a ProseMirror-powered slide authoring toolkit that provides the
 ## Prerequisites
 - Node.js 18.17+
 
-## Quickstart 
+## Quickstart for React
 
 __Step 1 - Install Dependencies__ 
 ```
