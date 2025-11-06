@@ -5,10 +5,10 @@ AutoArtifacts is a ProseMirror-powered slide authoring toolkit that provides the
 <img src="demo/public/images/slides-screenshot.png" alt="AutoArtifacts slide editor" width="600">
 
 ## Features
-- ProseMirror schema tailored for slide decks (`slide`, `row`, `column`, etc.)
+- Slide-first schema: built-in slide, row, and column nodes with layout-aware behaviors tailored to deck authoring.
 - Core editor runtime exposed via `@autoartifacts/core`
 - React bindings (`@autoartifacts/react`) and a prebuilt extension kit for rapid prototyping
-- Demo Next.js application that showcases composing slides with rich text, media, and layout controls
+
 
 ## Prerequisites
 - Node.js 18.17+
