@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@blockslides/pm/*": [
+        "../../packages/pm/dist/*",
+        "../../packages/pm/*"
+      ],
+      "@blockslides/core": [
+        "../../packages/core/dist",
+        "../../packages/core/src"
+      ]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

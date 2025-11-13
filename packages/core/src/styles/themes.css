@@ -1,0 +1,21 @@
+/* Editor container */
+.blockslides-editor {
+  background-color: var(--editor-bg);
+  color: var(--editor-fg);
+  border: 1px solid var(--editor-border);
+}
+
+/* Selection */
+.blockslides-editor .ProseMirror ::selection {
+  background-color: var(--editor-selection-bg);
+}
+
+.blockslides-editor .ProseMirror-selectednode {
+  outline: 2px solid var(--editor-selection);
+}
+
+/* Focus ring */
+.blockslides-editor:focus-within {
+  outline: 2px solid var(--editor-focus);
+  outline-offset: -2px;
+}

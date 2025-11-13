@@ -1,0 +1,87 @@
+{
+  "name": "@blockslides/extension-kit",
+  "description": "Complete extension kit for blockslides - includes all available extensions with configurable options",
+  "version": "0.1.0",
+  "homepage": "https://github.com/keivanmojmali/blockslides",
+  "keywords": [
+    "blockslides",
+    "editor",
+    "slides",
+    "extension-kit",
+    "extensions"
+  ],
+  "author": "keivanmojmali",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "dependencies": {
+    "@blockslides/core": "workspace:*",
+    "@blockslides/extension-add-slide-button": "workspace:*",
+    "@blockslides/extension-blockquote": "workspace:*",
+    "@blockslides/extension-bold": "workspace:*",
+    "@blockslides/extension-bubble-menu": "workspace:*",
+    "@blockslides/extension-code": "workspace:*",
+    "@blockslides/extension-code-block": "workspace:*",
+    "@blockslides/extension-code-block-lowlight": "workspace:*",
+    "@blockslides/extension-color": "workspace:*",
+    "@blockslides/extension-column": "workspace:*",
+    "@blockslides/extension-details": "workspace:*",
+    "@blockslides/extension-document": "workspace:*",
+    "@blockslides/extension-file-handler": "workspace:*",
+    "@blockslides/extension-floating-menu": "workspace:*",
+    "@blockslides/extension-font-family": "workspace:*",
+    "@blockslides/extension-hard-break": "workspace:*",
+    "@blockslides/extension-heading": "workspace:*",
+    "@blockslides/extension-highlight": "workspace:*",
+    "@blockslides/extension-horizontal-rule": "workspace:*",
+    "@blockslides/extension-image": "workspace:*",
+    "@blockslides/extension-image-block": "workspace:*",
+    "@blockslides/extension-italic": "workspace:*",
+    "@blockslides/extension-link": "workspace:*",
+    "@blockslides/extension-list": "workspace:*",
+    "@blockslides/extension-mathematics": "workspace:*",
+    "@blockslides/extension-node-range": "workspace:*",
+    "@blockslides/extension-paragraph": "workspace:*",
+    "@blockslides/extension-placeholder": "workspace:*",
+    "@blockslides/extension-row": "workspace:*",
+    "@blockslides/extension-select-within-slide": "workspace:*",
+    "@blockslides/extension-slide": "workspace:*",
+    "@blockslides/extension-strike": "workspace:*",
+    "@blockslides/extension-subscript": "workspace:*",
+    "@blockslides/extension-superscript": "workspace:*",
+    "@blockslides/extension-table": "workspace:*",
+    "@blockslides/extension-table-of-contents": "workspace:*",
+    "@blockslides/extension-text": "workspace:*",
+    "@blockslides/extension-text-align": "workspace:*",
+    "@blockslides/extension-text-style": "workspace:*",
+    "@blockslides/extension-typography": "workspace:*",
+    "@blockslides/extension-underline": "workspace:*",
+    "@blockslides/extension-unique-id": "workspace:*",
+    "@blockslides/extension-youtube": "workspace:*",
+    "@blockslides/extensions": "workspace:*",
+    "@blockslides/markdown": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/extension-kit"
+  },
+  "scripts": {
+    "build": "tsup"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "name": "@blockslides/extension-list",
+  "description": "List extension for blockslides",
+  "version": "0.1.0",
+  "keywords": [
+    "blockslides",
+    "blockslides extension"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./bullet-list": {
+      "types": {
+        "import": "./dist/bullet-list/index.d.ts",
+        "require": "./dist/bullet-list/index.d.cts"
+      },
+      "import": "./dist/bullet-list/index.js",
+      "require": "./dist/bullet-list/index.cjs"
+    },
+    "./item": {
+      "types": {
+        "import": "./dist/item/index.d.ts",
+        "require": "./dist/item/index.d.cts"
+      },
+      "import": "./dist/item/index.js",
+      "require": "./dist/item/index.cjs"
+    },
+    "./keymap": {
+      "types": {
+        "import": "./dist/keymap/index.d.ts",
+        "require": "./dist/keymap/index.d.cts"
+      },
+      "import": "./dist/keymap/index.js",
+      "require": "./dist/keymap/index.cjs"
+    },
+    "./kit": {
+      "types": {
+        "import": "./dist/kit/index.d.ts",
+        "require": "./dist/kit/index.d.cts"
+      },
+      "import": "./dist/kit/index.js",
+      "require": "./dist/kit/index.cjs"
+    },
+    "./ordered-list": {
+      "types": {
+        "import": "./dist/ordered-list/index.d.ts",
+        "require": "./dist/ordered-list/index.d.cts"
+      },
+      "import": "./dist/ordered-list/index.js",
+      "require": "./dist/ordered-list/index.cjs"
+    },
+    "./task-item": {
+      "types": {
+        "import": "./dist/task-item/index.d.ts",
+        "require": "./dist/task-item/index.d.cts"
+      },
+      "import": "./dist/task-item/index.js",
+      "require": "./dist/task-item/index.cjs"
+    },
+    "./task-list": {
+      "types": {
+        "import": "./dist/task-list/index.d.ts",
+        "require": "./dist/task-list/index.d.cts"
+      },
+      "import": "./dist/task-list/index.js",
+      "require": "./dist/task-list/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "author": "keivanmojmali",
+  "devDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/extension-list"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

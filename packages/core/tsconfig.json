@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "../..",
+    "paths": {
+      "@blockslides/core": ["packages/core/src"],
+      "@blockslides/core/*": ["packages/core/src/*"],
+      "@blockslides/pm": ["packages/pm/dist", "packages/pm"],
+      "@blockslides/pm/*": ["packages/pm/dist/*", "packages/pm/*"]
+    }
+  },
+  "include": ["src"]
+}

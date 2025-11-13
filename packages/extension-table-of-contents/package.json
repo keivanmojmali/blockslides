@@ -1,0 +1,50 @@
+{
+  "name": "@blockslides/extension-table-of-contents",
+  "description": "table of contents extension for blockslides",
+  "version": "0.1.0",
+  "keywords": [
+    "blockslides",
+    "blockslides extension"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/extension-table-of-contents"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^",
+    "@types/uuid": "^10.0.0"
+  },
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  },
+  "author": "keivanmojmali"
+}

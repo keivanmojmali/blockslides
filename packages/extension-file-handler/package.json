@@ -1,0 +1,48 @@
+{
+  "name": "@blockslides/extension-file-handler",
+  "description": "file handler extension for blockslides",
+  "version": "0.1.0",
+  "keywords": [
+    "blockslides",
+    "blockslides extension"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "author": "keivanmojmali",
+  "devDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/extension-text-style": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/extension-text-style": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/extension-file-handler"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

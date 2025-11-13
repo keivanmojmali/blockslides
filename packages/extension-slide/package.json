@@ -1,0 +1,30 @@
+{
+  "name": "@blockslides/extension-slide",
+  "version": "0.1.0",
+  "description": "Slide node extension for BlockSlides slide editor",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "keywords": [
+    "blockslides",
+    "blockslides extension",
+    "slide"
+  ],
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "dependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.3"
+  },
+  "author": "keivanmojmali"
+}

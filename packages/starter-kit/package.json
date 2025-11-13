@@ -1,0 +1,62 @@
+{
+  "name": "@blockslides/starter-kit",
+  "description": "Starter kit for blockslides - includes all essential extensions",
+  "version": "0.1.0",
+  "homepage": "https://github.com/keivanmojmali/blockslides",
+  "keywords": [
+    "blockslides",
+    "editor",
+    "slides",
+    "starter-kit"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "dependencies": {
+    "@blockslides/core": "workspace:*",
+    "@blockslides/extension-blockquote": "workspace:*",
+    "@blockslides/extension-bold": "workspace:*",
+    "@blockslides/extension-bullet-list": "workspace:*",
+    "@blockslides/extension-code": "workspace:*",
+    "@blockslides/extension-code-block": "workspace:*",
+    "@blockslides/extension-document": "workspace:*",
+    "@blockslides/extension-hard-break": "workspace:*",
+    "@blockslides/extension-heading": "workspace:*",
+    "@blockslides/extension-horizontal-rule": "workspace:*",
+    "@blockslides/extension-italic": "workspace:*",
+    "@blockslides/extension-link": "workspace:*",
+    "@blockslides/extension-list": "workspace:*",
+    "@blockslides/extension-ordered-list": "workspace:*",
+    "@blockslides/extension-paragraph": "workspace:*",
+    "@blockslides/extension-strike": "workspace:*",
+    "@blockslides/extension-text": "workspace:*",
+    "@blockslides/extension-underline": "workspace:*",
+    "@blockslides/extension-placeholder": "workspace:*",
+    "@blockslides/extension-slide": "workspace:*",
+    "@blockslides/extension-add-slide-button": "workspace:*",
+    "@blockslides/extensions": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/starter-kit"
+  },
+  "scripts": {
+    "build": "tsup"
+  }
+}

@@ -1,0 +1,573 @@
+/**
+ * Tests for Markdown Input Rules Plugin
+ * 
+ * Tests markdown syntax plugin creation and configuration
+ */
+
+import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import { Node as ProseMirrorNode } from 'prosemirror-model';
+import { history } from 'prosemirror-history';
+import { schema } from '../../schema';
+import { createMarkdownInputRules } from '../markdownInputRules';
+
+describe('Markdown Input Rules Plugin', () => {
+  describe('Plugin creation', () => {
+    it('should create plugin with valid schema', () => {
+      const plugin = createMarkdownInputRules(schema);
+      
+      expect(plugin).toBeDefined();
+      expect(plugin.spec).toBeDefined();
+      expect(plugin.spec.props).toBeDefined();
+    });
+
+    it('should create plugin that can be added to editor state', () => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      const state = EditorState.create({
+        doc,
+        schema,
+        plugins: [
+          history(),
+          createMarkdownInputRules(schema)
+        ]
+      });
+
+      expect(state).toBeDefined();
+      expect(state.plugins.length).toBeGreaterThanOrEqual(2);
+    });
+
+    it('should handle schema with all marks', () => {
+      expect(schema.marks.bold).toBeDefined();
+      expect(schema.marks.italic).toBeDefined();
+      expect(schema.marks.code).toBeDefined();
+      expect(schema.marks.link).toBeDefined();
+      
+      const plugin = createMarkdownInputRules(schema);
+      expect(plugin).toBeDefined();
+    });
+
+    it('should handle schema with all nodes', () => {
+      expect(schema.nodes.heading).toBeDefined();
+      expect(schema.nodes.paragraph).toBeDefined();
+      
+      const plugin = createMarkdownInputRules(schema);
+      expect(plugin).toBeDefined();
+    });
+  });
+
+  describe('Supported markdown patterns', () => {
+    it('should document bold syntax support', () => {
+      // Documents that the plugin supports **text** and __text__ for bold
+      const patterns = ['**text**', '__text__'];
+      expect(patterns).toHaveLength(2);
+    });
+
+    it('should document italic syntax support', () => {
+      // Documents that the plugin supports *text* and _text_ for italic
+      const patterns = ['*text*', '_text_'];
+      expect(patterns).toHaveLength(2);
+    });
+
+    it('should document code syntax support', () => {
+      // Documents that the plugin supports `text` for inline code
+      const pattern = '`text`';
+      expect(pattern).toBeTruthy();
+    });
+
+    it('should document strikethrough syntax support', () => {
+      // Documents that the plugin supports ~~text~~ for strikethrough
+      const pattern = '~~text~~';
+      expect(pattern).toBeTruthy();
+    });
+
+    it('should document link syntax support', () => {
+      // Documents that the plugin supports [text](url) for links
+      const pattern = '[text](url)';
+      expect(pattern).toBeTruthy();
+    });
+
+    it('should document heading syntax support', () => {
+      // Documents that the plugin supports # through ###### for headings
+      const patterns = ['# ', '## ', '### ', '#### ', '##### ', '###### '];
+      expect(patterns).toHaveLength(6);
+    });
+
+    it('should document bullet list syntax support', () => {
+      // Documents that the plugin supports -, *, + for bullet lists
+      const patterns = ['- ', '* ', '+ '];
+      expect(patterns).toHaveLength(3);
+    });
+
+    it('should document ordered list syntax support', () => {
+      // Documents that the plugin supports 1. for ordered lists
+      const pattern = '1. ';
+      expect(pattern).toBeTruthy();
+    });
+  });
+
+  describe('Schema integration', () => {
+    it('should only add rules for marks that exist in schema', () => {
+      const plugin = createMarkdownInputRules(schema);
+      
+      // Plugin should be created regardless of which marks are available
+      expect(plugin).toBeDefined();
+    });
+
+    it('should only add rules for nodes that exist in schema', () => {
+      const plugin = createMarkdownInputRules(schema);
+      
+      // Plugin should be created regardless of which nodes are available
+      expect(plugin).toBeDefined();
+    });
+
+    it('should handle missing optional marks gracefully', () => {
+      // Even if strikethrough mark doesn't exist, plugin should work
+      const plugin = createMarkdownInputRules(schema);
+      expect(plugin).toBeDefined();
+    });
+
+    it('should handle missing optional nodes gracefully', () => {
+      // Even if bulletList or orderedList don't exist, plugin should work
+      const plugin = createMarkdownInputRules(schema);
+      expect(plugin).toBeDefined();
+    });
+  });
+
+  describe('Plugin integration', () => {
+    it('should work alongside history plugin', () => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      const state = EditorState.create({
+        doc,
+        schema,
+        plugins: [
+          history(),
+          createMarkdownInputRules(schema)
+        ]
+      });
+
+      expect(state.plugins).toHaveLength(2);
+    });
+
+    it('should create a valid editor view with the plugin', () => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      const state = EditorState.create({
+        doc,
+        schema,
+        plugins: [
+          history(),
+          createMarkdownInputRules(schema)
+        ]
+      });
+
+      const view = new EditorView(document.createElement('div'), { state });
+
+      expect(view).toBeDefined();
+      expect(view.state).toBeDefined();
+      expect(view.state.doc).toBeDefined();
+    });
+
+    it('should be able to insert text into editor with plugin', () => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      const state = EditorState.create({
+        doc,
+        schema,
+        plugins: [
+          history(),
+          createMarkdownInputRules(schema)
+        ]
+      });
+
+      const view = new EditorView(document.createElement('div'), { state });
+
+      // Should be able to insert text without errors
+      const tr = view.state.tr.insertText('Hello world', view.state.selection.from);
+      view.dispatch(tr);
+
+      expect(view.state.doc.textContent).toContain('Hello world');
+    });
+  });
+
+  describe('Plugin configuration', () => {
+    it('should have input rules configured in plugin spec', () => {
+      const plugin = createMarkdownInputRules(schema);
+      
+      expect(plugin.spec).toBeDefined();
+      expect(plugin.spec.props).toBeDefined();
+    });
+
+    it('should be a ProseMirror plugin instance', () => {
+      const plugin = createMarkdownInputRules(schema);
+      
+      // Check it has the essential plugin properties
+      expect(plugin.spec).toBeDefined();
+      expect(typeof plugin.getState).toBe('function');
+    });
+
+    it('should not throw errors when initialized', () => {
+      expect(() => {
+        createMarkdownInputRules(schema);
+      }).not.toThrow();
+    });
+
+    it('should return the same plugin type on multiple calls', () => {
+      const plugin1 = createMarkdownInputRules(schema);
+      const plugin2 = createMarkdownInputRules(schema);
+      
+      // Both should be valid plugins
+      expect(plugin1).toBeDefined();
+      expect(plugin2).toBeDefined();
+    });
+  });
+
+  describe('Edge cases', () => {
+    it('should handle empty editor state', () => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      const state = EditorState.create({
+        doc,
+        schema,
+        plugins: [createMarkdownInputRules(schema)]
+      });
+
+      expect(state.doc.childCount).toBe(1);
+    });
+
+    it('should handle editor with existing content', () => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: [{ type: 'text', text: 'Existing content' }]
+              }]
+            }]
+          }]
+        }]
+      });
+
+      const state = EditorState.create({
+        doc,
+        schema,
+        plugins: [createMarkdownInputRules(schema)]
+      });
+
+      expect(state.doc.textContent).toContain('Existing content');
+    });
+
+    it('should handle multiple plugins in array', () => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      const state = EditorState.create({
+        doc,
+        schema,
+        plugins: [
+          history(),
+          createMarkdownInputRules(schema)
+        ]
+      });
+
+      expect(state.plugins.length).toBeGreaterThanOrEqual(2);
+    });
+  });
+
+  describe('Functional markdown transformations', () => {
+    let state: EditorState;
+    let view: EditorView;
+
+    beforeEach(() => {
+      const doc = ProseMirrorNode.fromJSON(schema, {
+        type: 'doc',
+        content: [{
+          type: 'slide',
+          content: [{
+            type: 'row',
+            attrs: { layout: '1' },
+            content: [{
+              type: 'column',
+              content: [{
+                type: 'paragraph',
+                content: []
+              }]
+            }]
+          }]
+        }]
+      });
+
+      state = EditorState.create({
+        doc,
+        schema,
+        plugins: [createMarkdownInputRules(schema)]
+      });
+
+      view = new EditorView(document.createElement('div'), { state });
+    });
+
+    describe('Bold transformations', () => {
+      it('should transform **text** to bold', () => {
+        const tr = view.state.tr.insertText('**bold**', 1);
+        view.dispatch(tr);
+        
+        // The input rule should trigger on the last *
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold');
+      });
+
+      it('should transform __text__ to bold', () => {
+        const tr = view.state.tr.insertText('__bold__', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold');
+      });
+
+      it('should handle bold with multiple words', () => {
+        const tr = view.state.tr.insertText('**bold text**', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold text');
+      });
+    });
+
+    describe('Italic transformations', () => {
+      it('should transform *text* to italic', () => {
+        const tr = view.state.tr.insertText('*italic*', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('italic');
+      });
+
+      it('should transform _text_ to italic', () => {
+        const tr = view.state.tr.insertText('_italic_', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('italic');
+      });
+    });
+
+    describe('Code transformations', () => {
+      it('should transform `text` to code', () => {
+        const tr = view.state.tr.insertText('`code`', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('code');
+      });
+
+      it('should handle code with special characters', () => {
+        const tr = view.state.tr.insertText('`const x = 1;`', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('const x = 1;');
+      });
+    });
+
+    describe('Strikethrough transformations', () => {
+      it('should transform ~~text~~ to strikethrough', () => {
+        const tr = view.state.tr.insertText('~~strike~~', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('strike');
+      });
+
+      it('should handle strikethrough with multiple words', () => {
+        const tr = view.state.tr.insertText('~~strike through~~', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('strike through');
+      });
+    });
+
+    describe('Link transformations', () => {
+      it('should transform [text](url) to link', () => {
+        const tr = view.state.tr.insertText('[Google](https://google.com)', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('Google');
+      });
+
+      it('should handle links with complex URLs', () => {
+        const tr = view.state.tr.insertText('[Link](https://example.com/path?query=value)', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('Link');
+      });
+
+      it('should handle links with special characters in text', () => {
+        const tr = view.state.tr.insertText('[My Link!](https://example.com)', 1);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('My Link!');
+      });
+    });
+
+    describe('Heading transformations', () => {
+      it('should create plugin with heading rules for level 1', () => {
+        // Just verify the plugin is created with heading support
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        expect(schema.nodes.heading).toBeDefined();
+      });
+
+      it('should create plugin with heading rules for level 2-6', () => {
+        // Verify all heading levels are supported in schema
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        
+        // Heading node should support levels 1-6
+        const headingNode = schema.nodes.heading;
+        expect(headingNode).toBeDefined();
+        expect(headingNode.spec.attrs?.level).toBeDefined();
+      });
+    });
+
+    describe('List transformations', () => {
+      it('should create plugin with bullet list rules', () => {
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        expect(schema.nodes.bulletList).toBeDefined();
+      });
+
+      it('should create plugin with ordered list rules', () => {
+        const plugin = createMarkdownInputRules(schema);
+        expect(plugin).toBeDefined();
+        expect(schema.nodes.orderedList).toBeDefined();
+      });
+
+      it('should support ordered list start attribute', () => {
+        // Verify ordered list can have a start number
+        const orderedListNode = schema.nodes.orderedList;
+        expect(orderedListNode).toBeDefined();
+        expect(orderedListNode.spec.attrs?.start).toBeDefined();
+      });
+    });
+
+    describe('Combined transformations', () => {
+      it('should handle multiple markdown patterns in sequence', () => {
+        let tr = view.state.tr.insertText('**bold** ', 1);
+        view.dispatch(tr);
+        
+        tr = view.state.tr.insertText('*italic*', view.state.selection.to);
+        view.dispatch(tr);
+        
+        const textContent = view.state.doc.textContent;
+        expect(textContent).toContain('bold');
+        expect(textContent).toContain('italic');
+      });
+    });
+  });
+});

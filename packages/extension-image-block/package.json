@@ -1,0 +1,34 @@
+{
+  "name": "@blockslides/extension-image-block",
+  "version": "0.1.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup"
+  },
+  "author": "keivanmojmali",
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "dependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  }
+}

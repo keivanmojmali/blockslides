@@ -1,0 +1,50 @@
+{
+  "name": "@blockslides/extension-drag-handle-vue-3",
+  "description": "drag handle extension for blockslides with vue 3",
+  "version": "0.1.0",
+    "keywords": [
+    "blockslides",
+    "blockslides extension"
+  ],
+  "author": "keivanmojmali",
+  "license": "MIT", 
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/extension-drag-handle-vue-3"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "peerDependencies": {
+    "@blockslides/extension-drag-handle": "workspace:^",
+    "@blockslides/pm": "workspace:^",
+    "@blockslides/vue-3": "workspace:^",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@blockslides/extension-drag-handle": "workspace:^",
+    "@blockslides/pm": "workspace:^",
+    "@blockslides/vue-3": "workspace:^",
+    "vue": "^3.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

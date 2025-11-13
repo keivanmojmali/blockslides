@@ -1,0 +1,17 @@
+{
+  "name": "blockslides-monorepo",
+  "version": "0.1.0",
+  "description": "BlockSlides monorepo - ProseMirror-based slide editor",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter '@blockslides/*' --recursive run build",
+    "dev": "pnpm --filter '@blockslides/*' --recursive run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "keivanmojmali",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}

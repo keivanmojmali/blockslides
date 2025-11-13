@@ -1,0 +1,60 @@
+{
+  "name": "@blockslides/html",
+  "description": "utility package to render blockslides JSON as HTML",
+  "version": "0.1.0",
+  "keywords": [
+    "blockslides",
+    "blockslides utility"
+  ],
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": {
+        "browser": "./dist/index.js",
+        "node": "./dist/server/index.js",
+        "default": "./dist/index.js"
+      },
+      "require": "./dist/index.cjs"
+    },
+    "./server": {
+      "types": {
+        "import": "./dist/server/index.d.ts",
+        "require": "./dist/server/index.d.cts"
+      },
+      "import": "./dist/server/index.js",
+      "require": "./dist/server/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^",
+    "happy-dom": "^20.0.0"
+  },
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^",
+    "happy-dom": "^20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/html"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  },
+  "author": "keivanmojmali"
+}
