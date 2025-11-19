@@ -82,6 +82,7 @@ import { Typography } from "@blockslides/extension-typography";
 import type { UnderlineOptions } from "@blockslides/extension-underline";
 import { Underline } from "@blockslides/extension-underline";
 import { UniqueID } from "@blockslides/extension-unique-id";
+import type { UniqueIDOptions } from "@blockslides/extension-unique-id";
 import type { YoutubeOptions } from "@blockslides/extension-youtube";
 import { Youtube } from "@blockslides/extension-youtube";
 import { Slide } from "@blockslides/extension-slide";
@@ -443,7 +444,7 @@ export interface ExtensionKitOptions {
    * @default {}
    * @example uniqueId: false
    */
-  uniqueId?: false;
+  uniqueId?: Partial<UniqueIDOptions> | false;
 
   /**
    * Trailing node extension
