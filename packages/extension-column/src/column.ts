@@ -73,17 +73,19 @@ export const Column = Node.create<ColumnOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const { contentMode, verticalAlign, horizontalAlign, padding, className } =
-      HTMLAttributes;
+    const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes);
+    const { contentMode, verticalAlign, horizontalAlign, padding } = merged;
+    const className = [merged.class, merged.className].filter(Boolean).join(" ");
+
+    delete merged.className;
 
     return [
       "div",
-      mergeAttributes(this.options.HTMLAttributes, {
-        class: `column ${
-          className || ""
-        } content-${contentMode} v-align-${verticalAlign} h-align-${horizontalAlign} padding-${padding}`.trim(),
+      {
+        ...merged,
+        class: `column ${className} content-${contentMode} v-align-${verticalAlign} h-align-${horizontalAlign} padding-${padding}`.trim(),
         "data-node-type": "column",
-      }),
+      },
       0,
     ];
   },
