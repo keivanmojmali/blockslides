@@ -344,6 +344,9 @@ importers:
       '@blockslides/extension-add-slide-button':
         specifier: workspace:*
         version: link:../extension-add-slide-button
+      '@blockslides/extension-asset-document':
+        specifier: workspace:*
+        version: link:../extension-asset-document
       '@blockslides/extension-blockquote':
         specifier: workspace:*
         version: link:../extension-blockquote
