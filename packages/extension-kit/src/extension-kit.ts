@@ -12,6 +12,7 @@ import { CodeBlock } from "@blockslides/extension-code-block";
 import type { ColorOptions } from "@blockslides/extension-color";
 import { Color } from "@blockslides/extension-color";
 import { Document } from "@blockslides/extension-document";
+import AssetDocument from "@blockslides/extension-asset-document";
 import { Details } from "@blockslides/extension-details";
 import { DetailsContent } from "@blockslides/extension-details";
 import { DetailsSummary } from "@blockslides/extension-details";
@@ -116,6 +117,13 @@ import {
  * - Partial<ExtensionOptions>: Extension will be included with custom options
  */
 export interface ExtensionKitOptions {
+  /**
+   * Select which top-level document node to use.
+   * 'slide' => default slideshow doc (slide+)
+   * 'asset' => asset doc (block+)
+   * @default 'slide'
+   */
+  topLevelDoc?: "slide" | "asset";
   /**
    * Add slide button extension
    * @default {}
@@ -490,7 +498,12 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
 
     // Core extensions
     if (this.options.document !== false) {
-      extensions.push(Document.configure(this.options.document || {}));
+      const docType = this.options.topLevelDoc ?? "slide";
+      if (docType === "asset") {
+        extensions.push(AssetDocument);
+      } else {
+        extensions.push(Document.configure({}));
+      }
     }
 
     if (this.options.text !== false) {

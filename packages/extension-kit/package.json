@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-kit",
   "description": "Complete extension kit for blockslides - includes all available extensions with configurable options",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",
@@ -31,6 +31,7 @@
   ],
   "dependencies": {
     "@blockslides/core": "workspace:*",
+    "@blockslides/extension-asset-document": "workspace:*",
     "@blockslides/extension-add-slide-button": "workspace:*",
     "@blockslides/extension-blockquote": "workspace:*",
     "@blockslides/extension-bold": "workspace:*",
