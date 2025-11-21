@@ -7,6 +7,7 @@ packages:
   - "packages/static-renderer"
   - "packages/react"
   - "packages/extensions"
+  - "packages/ai-context"
   - "packages/extension-*"
   # Exclude packages that depend on missing external dependencies
   - "!packages/extension-drag-handle" # needs extension-collaboration 
