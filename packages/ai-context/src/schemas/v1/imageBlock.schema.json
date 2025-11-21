@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "imageBlock",
+  "type": "object",
+  "properties": {
+    "type": { "const": "imageBlock" },
+    "attrs": {
+      "type": "object",
+      "properties": {
+        "src": { "type": "string", "minLength": 1 },
+        "alt": { "type": "string" },
+        "caption": { "type": "string" },
+        "credit": { "type": "string" },
+        "layout": { "enum": ["cover", "contain", "fill", "focus", "pattern", null] },
+        "align": { "enum": ["left", "center", "right", "stretch", null] },
+        "width": { "type": ["number", "string", "null"] },
+        "height": { "type": ["number", "string", "null"] },
+        "fullBleed": { "type": "boolean" },
+        "assetId": { "type": ["string", "null"] },
+        "focalX": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "focalY": { "type": ["number", "null"], "minimum": 0, "maximum": 100 }
+      },
+      "required": ["src"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+

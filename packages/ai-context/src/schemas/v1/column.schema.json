@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "column",
+  "type": "object",
+  "properties": {
+    "type": { "const": "column" },
+    "attrs": {
+      "type": "object",
+      "properties": {
+        "className": { "type": ["string", "null"] },
+        "contentMode": { "enum": ["default", null] },
+        "verticalAlign": { "enum": ["top", "center", "bottom", null] },
+        "horizontalAlign": { "enum": ["left", "center", "right", "stretch", null] },
+        "padding": { "enum": ["none", null] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+

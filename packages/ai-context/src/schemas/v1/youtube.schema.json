@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "youtube",
+  "type": "object",
+  "properties": {
+    "type": { "const": "youtube" },
+    "attrs": {
+      "type": "object",
+      "properties": {
+        "src": { "type": ["string", "null"] },
+        "start": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+

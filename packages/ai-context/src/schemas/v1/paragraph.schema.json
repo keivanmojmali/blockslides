@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "paragraph",
+  "type": "object",
+  "properties": {
+    "type": { "const": "paragraph" },
+    "attrs": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+

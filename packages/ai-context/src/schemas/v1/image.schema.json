@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "image",
+  "type": "object",
+  "properties": {
+    "type": { "const": "image" },
+    "attrs": {
+      "type": "object",
+      "properties": {
+        "src": { "type": ["string", "null"] },
+        "alt": { "type": ["string", "null"] },
+        "title": { "type": ["string", "null"] },
+        "width": { "type": ["number", "null"] },
+        "height": { "type": ["number", "null"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+

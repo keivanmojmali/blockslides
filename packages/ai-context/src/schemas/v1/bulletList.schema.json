@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "bulletList",
+  "type": "object",
+  "properties": {
+    "type": { "const": "bulletList" },
+    "attrs": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+

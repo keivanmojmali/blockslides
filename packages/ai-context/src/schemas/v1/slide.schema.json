@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "slide",
+  "type": "object",
+  "properties": {
+    "type": { "const": "slide" },
+    "attrs": {
+      "type": "object",
+      "properties": {
+        "id": { "type": ["string", "null"] },
+        "className": { "type": ["string", "null"] },
+        "size": {
+          "enum": [
+            "16x9",
+            "4x3",
+            "a4-portrait",
+            "a4-landscape",
+            "letter-portrait",
+            "letter-landscape",
+            "linkedin-banner",
+            null
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+

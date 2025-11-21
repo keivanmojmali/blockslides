@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "row",
+  "type": "object",
+  "properties": {
+    "type": { "const": "row" },
+    "attrs": {
+      "type": "object",
+      "properties": {
+        "layout": {
+          "enum": ["", "1", "1-1", "2-1", "1-2", "1-1-1", "2-1-1", "1-2-1", "1-1-2", "1-1-1-1", null]
+        },
+        "className": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": false
+}
+
+
