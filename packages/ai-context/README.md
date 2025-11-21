@@ -2,8 +2,6 @@
 
 Versioned context atoms, examples, schemas, and types for guiding LLMs to create/edit **BlockSlides JSON** (slides, rows, columns, image blocks, sizing, etc).
 
-This package is designed to be read by **LLMs** and **humans**: it gives you ready‑made prompt text, examples, and schemas so another AI can reliably generate and edit BlockSlides documents.
-
 ---
 
 ### Install
