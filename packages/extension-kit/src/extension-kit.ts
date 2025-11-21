@@ -87,6 +87,7 @@ import type { UniqueIDOptions } from "@blockslides/extension-unique-id";
 import type { YoutubeOptions } from "@blockslides/extension-youtube";
 import { Youtube } from "@blockslides/extension-youtube";
 import { Slide } from "@blockslides/extension-slide";
+import type { SlideOptions } from "@blockslides/extension-slide";
 import { Row } from "@blockslides/extension-row";
 import { Column } from "@blockslides/extension-column";
 import { SelectWithinSlide } from "@blockslides/extension-select-within-slide";
@@ -358,8 +359,9 @@ export interface ExtensionKitOptions {
    * Slide extension
    * @default {}
    * @example slide: false
+   * @example slide: { renderMode: 'fixed' }
    */
-  slide?: false;
+  slide?: Partial<SlideOptions> | false;
 
   /**
    * Select-within-slide keyboard shortcut override
