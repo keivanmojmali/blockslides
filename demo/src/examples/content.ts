@@ -3,7 +3,7 @@ export const content = {
     content: [
         {
             type: 'slide',
-            attrs: { id: 'title-gradient-center' },
+            attrs: { id: 'title-gradient-center', size: 'linkedin-banner'},
             content: [
                 {
                     type: 'row',

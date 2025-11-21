@@ -19,7 +19,9 @@ export const SlideEditor = ({
 
   return (
     <div className='p-8'>
-      <EditorContent editor={editor} />
+      <div className="bs-viewport" style={{ ['--zoom' as any]: 1 }}>
+        <EditorContent editor={editor} />
+      </div>
     </div>
   )
 }

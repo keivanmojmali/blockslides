@@ -35,7 +35,7 @@ export const useSlideEditor = ({
         // When debounce is added, use: debouncedUpdate(JSON.stringify(ctx.editor.getJSON()))
         handleUpdate(JSON.stringify(ctx.editor.getJSON()));
       },
-      extensions: [ExtensionKit.configure({})],
+      extensions: [ExtensionKit.configure({ slide: { renderMode: "fixed" } })],
       editorProps: {
         attributes: {
           autocomplete: "off",
