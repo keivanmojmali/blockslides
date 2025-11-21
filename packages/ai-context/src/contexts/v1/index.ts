@@ -7,5 +7,13 @@ export { slide } from "./slide";
 export { style } from "./style";
 export { editingRules } from "./editingRules";
 export { sizing } from "./sizing";
-
+export { blockquote } from "./blockquote";
+export { bulletList } from "./bulletList";
+export { codeBlock } from "./codeBlock";
+export { hardBreak } from "./hardBreak";
+export { horizontalRule } from "./horizontalRule";
+export { image } from "./image";
+export { heading } from "./heading";
+export { paragraph } from "./paragraph";
+export { youtube } from "./youtube";
 
