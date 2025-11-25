@@ -17,6 +17,17 @@ export const editingRules = `
   - After:  column.attrs = { verticalAlign: "center", horizontalAlign: "center", padding: "none" }
 </Centering content in a column>
 
+<Backgrounds (slides, rows, columns)>
+- Prefer structured background attrs over raw Tailwind bg-[url(...)] when setting background images.
+- For slide-level backgrounds (hero/flyer):
+  - Use slide.attrs.backgroundMode = "color" | "image" | "imageOverlay".
+  - For images, set slide.attrs.backgroundImage to the image URL.
+  - For overlays, set slide.attrs.backgroundOverlayColor (e.g., "rgba(0,0,0,0.8)") and slide.attrs.backgroundOverlayOpacity (0–1).
+- For horizontal bands, use row-level backgrounds (row.attrs.background*).
+- For panel-style sections, use column-level backgrounds (column.attrs.background*).
+- Do not mix multiple background images on the same node; prefer one backgroundMode per slide/row/column and layer additional visuals as imageBlock nodes.
+</Backgrounds (slides, rows, columns)>
+
 <Text editing (headings and paragraphs)>
 - Preserve semantic types: do not turn headings into paragraphs or vice versa unless explicitly asked.
 - To change heading level, update heading.attrs.level (1–6) without changing its id.

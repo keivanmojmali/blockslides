@@ -20,7 +20,14 @@
             "linkedin-banner",
             null
           ]
-        }
+        },
+        "backgroundMode": {
+          "enum": ["none", "color", "image", "imageOverlay", null]
+        },
+        "backgroundColor": { "type": ["string", "null"] },
+        "backgroundImage": { "type": ["string", "null"] },
+        "backgroundOverlayColor": { "type": ["string", "null"] },
+        "backgroundOverlayOpacity": { "type": ["number", "null"] }
       },
       "additionalProperties": true
     }

@@ -11,7 +11,14 @@
         "contentMode": { "enum": ["default", null] },
         "verticalAlign": { "enum": ["top", "center", "bottom", null] },
         "horizontalAlign": { "enum": ["left", "center", "right", "stretch", null] },
-        "padding": { "enum": ["none", null] }
+        "padding": { "enum": ["none", null] },
+        "backgroundMode": {
+          "enum": ["none", "color", "image", "imageOverlay", null]
+        },
+        "backgroundColor": { "type": ["string", "null"] },
+        "backgroundImage": { "type": ["string", "null"] },
+        "backgroundOverlayColor": { "type": ["string", "null"] },
+        "backgroundOverlayOpacity": { "type": ["number", "null"] }
       },
       "additionalProperties": true
     }

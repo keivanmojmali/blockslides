@@ -10,7 +10,14 @@
         "layout": {
           "enum": ["", "1", "1-1", "2-1", "1-2", "1-1-1", "2-1-1", "1-2-1", "1-1-2", "1-1-1-1", null]
         },
-        "className": { "type": ["string", "null"] }
+        "className": { "type": ["string", "null"] },
+        "backgroundMode": {
+          "enum": ["none", "color", "image", "imageOverlay", null]
+        },
+        "backgroundColor": { "type": ["string", "null"] },
+        "backgroundImage": { "type": ["string", "null"] },
+        "backgroundOverlayColor": { "type": ["string", "null"] },
+        "backgroundOverlayOpacity": { "type": ["number", "null"] }
       },
       "additionalProperties": true
     }
