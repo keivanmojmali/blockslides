@@ -6,16 +6,6 @@ export const editingRules = `
 - Keep the document valid: slide > row > column > blocks.
 </General editing rules>
 
-<Layout and structure>
-- Do not change the overall hierarchy: doc > slide > row > column > blocks.
-- You may add, remove, or reorder blocks inside a column if requested, but keep the slide/row/column structure intact.
-- When duplicating content, generate new ids for new nodes but keep existing ids unchanged.
-- Example (valid move):
-  - Move a heading block from one column's content array to another column's content array within the same slide.
-- Example (invalid change):
-  - Replacing a slide node with a column node, or inserting a column directly under doc.
-</Layout and structure>
-
 <Centering content in a column>
 - Columns are flex containers. Use their alignment attrs instead of per-block hacks.
 - To center all content vertically and horizontally inside a column:

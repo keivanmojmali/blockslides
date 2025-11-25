@@ -1,5 +1,4 @@
 export const row = `
-<Context>
 <row>
 Node: row
 Attrs:
@@ -15,7 +14,6 @@ Semantics:
   - 1-1-1-1: four equal columns
 - Empty layout ("", "1") acts as a single full-width column.
 </row>
-</Context>
 `.trim();
 
 
