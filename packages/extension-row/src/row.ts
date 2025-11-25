@@ -3,9 +3,31 @@ import { Plugin, PluginKey } from "@blockslides/pm/state";
 
 const baseRowStyles = `
 .row {
+  position: relative;
   display: flex;
   flex: 1;
   min-height: 0;
+}
+
+/* Background helpers (driven by data attributes + inline CSS vars) */
+.row[data-bg-mode="color"] {
+  background-color: var(--row-bg-color);
+}
+
+.row[data-bg-mode="image"],
+.row[data-bg-mode="imageOverlay"] {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.row[data-bg-mode="imageOverlay"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: var(--row-bg-overlay-color, #000);
+  opacity: var(--row-bg-overlay-opacity, 0.35);
 }
 `;
 
@@ -118,6 +140,21 @@ export const Row = Node.create<RowOptions>({
       className: {
         default: "",
       },
+      backgroundMode: {
+        default: "none",
+      },
+      backgroundColor: {
+        default: null,
+      },
+      backgroundImage: {
+        default: null,
+      },
+      backgroundOverlayColor: {
+        default: null,
+      },
+      backgroundOverlayOpacity: {
+        default: null,
+      },
     };
   },
 
@@ -127,16 +164,49 @@ export const Row = Node.create<RowOptions>({
 
   renderHTML({ HTMLAttributes }) {
     const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes);
-    const className = [merged.class, merged.className, "row"].filter(Boolean).join(" ");
+    const {
+      backgroundMode,
+      backgroundColor,
+      backgroundImage,
+      backgroundOverlayColor,
+      backgroundOverlayOpacity,
+      ...rest
+    } = merged;
 
-    delete merged.className;
+    const styleParts: string[] = [];
+
+    if (backgroundColor) {
+      styleParts.push(`--row-bg-color: ${backgroundColor}`);
+    }
+
+    if (backgroundImage) {
+      const escaped = String(backgroundImage).replace(/"/g, '\\"');
+      styleParts.push(`background-image: url("${escaped}")`);
+    }
+
+    if (backgroundOverlayColor) {
+      styleParts.push(`--row-bg-overlay-color: ${backgroundOverlayColor}`);
+    }
+
+    if (backgroundOverlayOpacity != null) {
+      styleParts.push(`--row-bg-overlay-opacity: ${backgroundOverlayOpacity}`);
+    }
+
+    const style = [rest.style, styleParts.join("; ")].filter(Boolean).join("; ");
+
+    const className = [rest.class, rest.className, "row"].filter(Boolean).join(" ");
+
+    delete (rest as any).className;
+    delete (rest as any).class;
 
     return [
       "div",
       {
-        ...merged,
+        ...rest,
         class: className,
         "data-node-type": "row",
+        "data-bg-mode": backgroundMode || "none",
+        style: style || undefined,
       },
       0,
     ];
