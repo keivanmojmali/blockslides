@@ -18,7 +18,8 @@ export const editingRules = `
 </Centering content in a column>
 
 <Backgrounds (slides, rows, columns)>
-- Prefer structured background attrs over raw Tailwind bg-[url(...)] when setting background images.
+- Use structured background attrs instead of raw Tailwind bg-[url(...)] when setting background images.
+- If you use bg-[...], the image will not work because the tailwind classes we need have been tree shaken off - instead use the attributes.
 - For slide-level backgrounds (hero/flyer):
   - Use slide.attrs.backgroundMode = "color" | "image" | "imageOverlay".
   - For images, set slide.attrs.backgroundImage to the image URL.
