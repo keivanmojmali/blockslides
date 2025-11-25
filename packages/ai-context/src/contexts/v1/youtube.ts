@@ -1,4 +1,5 @@
 export const youtube = `
+<youtube>
 Node: youtube
 Attrs:
 - src (required): string (public YouTube URL).
@@ -13,6 +14,7 @@ Semantics:
 - Renders as an embedded YouTube iframe wrapped in a container <div>.
 - Use for video embeds inside a column or row; keep other text in separate paragraphs/columns.
 - Do not embed raw <iframe> HTML directly; always use the youtube node with attrs.
+</youtube>
 `.trim();
 
 

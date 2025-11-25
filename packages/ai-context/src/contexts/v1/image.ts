@@ -1,4 +1,5 @@
 export const image = `
+<image>
 Node: image
 Attrs:
 - src (required): string (URL to the image).
@@ -12,6 +13,7 @@ Content:
 Semantics:
 - Renders as a simple <img>, unlike imageBlock which adds rich framing/caption UI.
 - Prefer imageBlock for designed layouts; use image for simple inline images in paragraphs.
+</image>
 `.trim();
 
 

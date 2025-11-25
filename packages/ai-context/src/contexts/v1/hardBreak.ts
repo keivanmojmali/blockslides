@@ -1,4 +1,5 @@
 export const hardBreak = `
+<hardBreak>
 Node: hardBreak
 Attrs:
 - None (HTML-only); behaves like a manual line break.
@@ -9,6 +10,7 @@ Content:
 Semantics:
 - Renders as <br> and as a newline in plain text exports.
 - Use when the user requests a line break without starting a new paragraph.
+</hardBreak>
 `.trim();
 
 

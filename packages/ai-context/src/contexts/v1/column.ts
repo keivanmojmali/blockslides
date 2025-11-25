@@ -1,4 +1,5 @@
 export const column = `
+<column>
 Node: column
 Attrs:
 - className (optional): string
@@ -10,6 +11,7 @@ Attrs:
 Notes:
 - Use className for spacing, colors, typography (e.g., Tailwind).
 - Keep nesting shallow; columns can contain rows or blocks as needed.
+</column>
 `.trim();
 
 

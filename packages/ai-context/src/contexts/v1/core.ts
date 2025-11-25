@@ -1,4 +1,5 @@
 export const core = `
+<core>
 You are given a BlockSlides document to CREATE or EDIT.
 
 Document shape:
@@ -12,6 +13,7 @@ Rules:
 - Use only known node types and valid attrs. Do not invent attributes.
 - Prefer stable references: preserve slide.attrs.id if present.
 - Slides and flyers share the same JSON; flyers are slides sized via attrs and theme.
+</core>
 `.trim();
 
 

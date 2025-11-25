@@ -1,4 +1,5 @@
 export const imageBlock = `
+<imageBlock>
 Node: imageBlock
 Attrs:
 - src (required): string (URL)
@@ -22,6 +23,7 @@ Behavior:
   - focus: Cover + radial spotlight at focalX/focalY.
   - pattern: Hide <img>; use tiled background (from src).
 - Do not set unknown attributes. Preserve existing valid attrs.
+</imageBlock>
 `.trim();
 
 

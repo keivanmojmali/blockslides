@@ -1,13 +1,12 @@
 import * as ctx from "../../contexts/v1";
 
 /**
- * All v1 context atoms concatenated into a single string.
- *
- * Intended for:
- * - LLMs that should know about every supported node type and layout primitive
- * - Power users who want a “maximal” context (structure + nodes + editing rules + sizing)
+ * All v1 context atoms concatenated into a single string,
+ * wrapped in a top-level <Context>…</Context> block.
  */
-export const allContexts = [
+export const allContexts = `
+<Context>
+${[
   ctx.core,
   ctx.fullDocument,
   ctx.slide,
@@ -26,7 +25,9 @@ export const allContexts = [
   ctx.horizontalRule,
   ctx.youtube,
   ctx.editingRules,
-].join("\n\n");
+].join("\n\n")}
+</Context>
+`.trim();
 
 
 

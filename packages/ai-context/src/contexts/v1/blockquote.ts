@@ -1,4 +1,5 @@
 export const blockquote = `
+<blockquote>
 Node: blockquote
 Attrs:
 - HTML-only; no required JSON attrs beyond optional styling such as className.
@@ -9,6 +10,7 @@ Content:
 Semantics:
 - Use for quoted text or callouts inside a column or row.
 - Styling should be applied via className on the surrounding column/slide, not by inventing new attrs here.
+</blockquote>
 `.trim();
 
 

@@ -1,4 +1,5 @@
 export const slide = `
+<slide>
 Node: slide
 Attrs:
 - id (optional): string (stable identifier; preserve if present)
@@ -11,6 +12,7 @@ Content:
 Notes:
 - Flyers are slides sized for paper (e.g., size: "a4-portrait").
 - Set size to control canvas dimensions; theme applies the exact width/height.
+</slide>
 `.trim();
 
 
