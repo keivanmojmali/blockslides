@@ -8,6 +8,31 @@ const columnStyles = `
   flex: 1;
   min-width: 0;
 }
+
+/* Vertical alignment (main axis: column) */
+.column.v-align-top {
+  justify-content: flex-start;
+}
+.column.v-align-center {
+  justify-content: center;
+}
+.column.v-align-bottom {
+  justify-content: flex-end;
+}
+
+/* Horizontal alignment (cross axis) */
+.column.h-align-left {
+  align-items: flex-start;
+  text-align: left;
+}
+.column.h-align-center {
+  align-items: center;
+  text-align: center;
+}
+.column.h-align-right {
+  align-items: flex-end;
+  text-align: right;
+}
 `;
 
 export interface ColumnOptions {
