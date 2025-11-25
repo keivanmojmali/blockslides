@@ -3,6 +3,7 @@ import { Plugin, PluginKey } from "@blockslides/pm/state";
 
 const columnStyles = `
 .column {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -32,6 +33,27 @@ const columnStyles = `
 .column.h-align-right {
   align-items: flex-end;
   text-align: right;
+}
+
+/* Background helpers (driven by data attributes + inline CSS vars) */
+.column[data-bg-mode="color"] {
+  background-color: var(--column-bg-color);
+}
+
+.column[data-bg-mode="image"],
+.column[data-bg-mode="imageOverlay"] {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.column[data-bg-mode="imageOverlay"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: var(--column-bg-overlay-color, #000);
+  opacity: var(--column-bg-overlay-opacity, 0.35);
 }
 `;
 
@@ -90,6 +112,21 @@ export const Column = Node.create<ColumnOptions>({
       padding: {
         default: "none",
       },
+      backgroundMode: {
+        default: "none",
+      },
+      backgroundColor: {
+        default: null,
+      },
+      backgroundImage: {
+        default: null,
+      },
+      backgroundOverlayColor: {
+        default: null,
+      },
+      backgroundOverlayOpacity: {
+        default: null,
+      },
     };
   },
 
@@ -99,17 +136,53 @@ export const Column = Node.create<ColumnOptions>({
 
   renderHTML({ HTMLAttributes }) {
     const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes);
-    const { contentMode, verticalAlign, horizontalAlign, padding } = merged;
-    const className = [merged.class, merged.className].filter(Boolean).join(" ");
+    const {
+      contentMode,
+      verticalAlign,
+      horizontalAlign,
+      padding,
+      backgroundMode,
+      backgroundColor,
+      backgroundImage,
+      backgroundOverlayColor,
+      backgroundOverlayOpacity,
+      ...rest
+    } = merged;
 
-    delete merged.className;
+    const styleParts: string[] = [];
+
+    if (backgroundColor) {
+      styleParts.push(`--column-bg-color: ${backgroundColor}`);
+    }
+
+    if (backgroundImage) {
+      const escaped = String(backgroundImage).replace(/"/g, '\\"');
+      styleParts.push(`background-image: url("${escaped}")`);
+    }
+
+    if (backgroundOverlayColor) {
+      styleParts.push(`--column-bg-overlay-color: ${backgroundOverlayColor}`);
+    }
+
+    if (backgroundOverlayOpacity != null) {
+      styleParts.push(`--column-bg-overlay-opacity: ${backgroundOverlayOpacity}`);
+    }
+
+    const style = [rest.style, styleParts.join("; ")].filter(Boolean).join("; ");
+
+    const className = [rest.class, rest.className].filter(Boolean).join(" ");
+
+    delete (rest as any).className;
+    delete (rest as any).class;
 
     return [
       "div",
       {
-        ...merged,
+        ...rest,
         class: `column ${className} content-${contentMode} v-align-${verticalAlign} h-align-${horizontalAlign} padding-${padding}`.trim(),
         "data-node-type": "column",
+        "data-bg-mode": backgroundMode || "none",
+        style: style || undefined,
       },
       0,
     ];
