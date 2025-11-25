@@ -3,6 +3,7 @@ import { Plugin, PluginKey } from "@blockslides/pm/state";
 
 const slideStyles = `
 .slide {
+  position: relative;
   height: var(--slide-height, 100%);
   min-height: var(--slide-min-height, 250px);
   display: flex;
@@ -12,6 +13,27 @@ const slideStyles = `
   border-radius: var(--slide-border-radius);
   box-shadow: var(--slide-shadow);
   margin-bottom: var(--slide-margin-bottom);
+}
+
+/* Background helpers (driven by data attributes + inline CSS vars) */
+.slide[data-bg-mode="color"] {
+  background-color: var(--slide-bg-color, var(--slide-bg));
+}
+
+.slide[data-bg-mode="image"],
+.slide[data-bg-mode="imageOverlay"] {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.slide[data-bg-mode="imageOverlay"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: var(--slide-bg-overlay-color, #000);
+  opacity: var(--slide-bg-overlay-opacity, 0.35);
 }
 `;
 
@@ -129,6 +151,21 @@ export const Slide = Node.create<SlideOptions>({
       id: {
         default: null,
       },
+      backgroundMode: {
+        default: "none",
+      },
+      backgroundColor: {
+        default: null,
+      },
+      backgroundImage: {
+        default: null,
+      },
+      backgroundOverlayColor: {
+        default: null,
+      },
+      backgroundOverlayOpacity: {
+        default: null,
+      },
     };
   },
 
@@ -137,12 +174,51 @@ export const Slide = Node.create<SlideOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
+    const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes);
+    const {
+      backgroundMode,
+      backgroundColor,
+      backgroundImage,
+      backgroundOverlayColor,
+      backgroundOverlayOpacity,
+      ...rest
+    } = merged;
+
+    const styleParts: string[] = [];
+
+    if (backgroundColor) {
+      styleParts.push(`--slide-bg-color: ${backgroundColor}`);
+    }
+
+    if (backgroundImage) {
+      const escaped = String(backgroundImage).replace(/"/g, '\\"');
+      styleParts.push(`background-image: url("${escaped}")`);
+    }
+
+    if (backgroundOverlayColor) {
+      styleParts.push(`--slide-bg-overlay-color: ${backgroundOverlayColor}`);
+    }
+
+    if (backgroundOverlayOpacity != null) {
+      styleParts.push(`--slide-bg-overlay-opacity: ${backgroundOverlayOpacity}`);
+    }
+
+    const style = [rest.style, styleParts.join("; ")].filter(Boolean).join("; ");
+
+    const className = [rest.class, rest.className, "slide"].filter(Boolean).join(" ");
+
+    delete (rest as any).className;
+    delete (rest as any).class;
+
     return [
       "div",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        class: "slide",
+      {
+        ...rest,
+        class: className || "slide",
         "data-node-type": "slide",
-      }),
+        "data-bg-mode": backgroundMode || "none",
+        style: style || undefined,
+      },
       0,
     ];
   },
