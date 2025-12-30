@@ -190,6 +190,11 @@ const DEFAULT_LABELS: Record<BubbleMenuPresetItem, string> = {
   align: 'Align',
 }
 
+const ICONS = {
+  textColor: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20h14"/><path d="M7 20l5-14 5 14"/><path d="M10.7 14h2.6"/></svg>`,
+  highlightColor: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 18 2-2h6"/><path d="m2 22 3-3h6l3-3-6-6-3 3v6z"/><path d="M14 7l3-3 3 3-3 3z"/></svg>`,
+}
+
 interface MenuBuildResult {
   element: HTMLElement
   cleanup: Cleanup
@@ -583,9 +588,16 @@ function createColorPopover(args: {
   const toggle = document.createElement('button')
   toggle.type = 'button'
   toggle.className = 'bs-bmp-btn bs-bmp-btn-color'
-  toggle.textContent = args.label
   toggle.title = args.title
   toggle.setAttribute('aria-expanded', 'false')
+  toggle.setAttribute('aria-label', args.title)
+  if (args.label === DEFAULT_LABELS.textColor && ICONS.textColor) {
+    toggle.innerHTML = ICONS.textColor
+  } else if (args.label === DEFAULT_LABELS.highlightColor && ICONS.highlightColor) {
+    toggle.innerHTML = ICONS.highlightColor
+  } else {
+    toggle.textContent = args.label
+  }
 
   const popover = document.createElement('div')
   popover.className = 'bs-bmp-popover bs-bmp-hidden'
@@ -700,6 +712,7 @@ function injectStyles() {
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   color: #111827;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  z-index: 9999;
 }
 .bs-bmp-toolbar {
   display: inline-flex;
@@ -732,7 +745,7 @@ function injectStyles() {
   border: 1px solid #e5e7eb;
   background: #ffffff;
   color: inherit;
-  padding: 6px 8px;
+  padding: 6px 12px 6px 10px;
   border-radius: 12px;
   font-size: 13px;
   outline: none;
