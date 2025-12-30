@@ -174,6 +174,30 @@ importers:
         specifier: workspace:^
         version: link:../pm
 
+  packages/extension-bubble-menu-preset:
+    devDependencies:
+      '@blockslides/core':
+        specifier: workspace:^
+        version: link:../core
+      '@blockslides/extension-bubble-menu':
+        specifier: workspace:^
+        version: link:../extension-bubble-menu
+      '@blockslides/extension-highlight':
+        specifier: workspace:^
+        version: link:../extension-highlight
+      '@blockslides/extension-link':
+        specifier: workspace:^
+        version: link:../extension-link
+      '@blockslides/extension-text-align':
+        specifier: workspace:^
+        version: link:../extension-text-align
+      '@blockslides/extension-text-style':
+        specifier: workspace:^
+        version: link:../extension-text-style
+      '@blockslides/extensions':
+        specifier: workspace:^
+        version: link:../extensions
+
   packages/extension-bullet-list:
     devDependencies:
       '@blockslides/extension-list':

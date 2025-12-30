@@ -1,0 +1,61 @@
+{
+  "name": "@blockslides/extension-bubble-menu-preset",
+  "description": "Opinionated bubble menu preset with built-in formatting actions",
+  "version": "0.1.0",
+  "keywords": [
+    "blockslides",
+    "bubble menu",
+    "editor toolbar",
+    "blockslides extension"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/extension-bubble-menu": "workspace:^",
+    "@blockslides/extension-highlight": "workspace:^",
+    "@blockslides/extension-link": "workspace:^",
+    "@blockslides/extension-text-align": "workspace:^",
+    "@blockslides/extension-text-style": "workspace:^",
+    "@blockslides/extensions": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/extension-bubble-menu": "workspace:^",
+    "@blockslides/extension-highlight": "workspace:^",
+    "@blockslides/extension-link": "workspace:^",
+    "@blockslides/extension-text-align": "workspace:^",
+    "@blockslides/extension-text-style": "workspace:^",
+    "@blockslides/extensions": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/extension-bubble-menu-preset"
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  },
+  "author": "keivanmojmali"
+}
+
