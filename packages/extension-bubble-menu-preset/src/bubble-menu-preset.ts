@@ -696,7 +696,7 @@ function injectStyles() {
   background: #ffffff;
   border: 1px solid #e5e7eb;
   padding: 8px 10px;
-  border-radius: 20%;
+  border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   color: #111827;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

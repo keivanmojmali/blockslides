@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-bubble-menu-preset",
   "description": "Opinionated bubble menu preset with built-in formatting actions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "blockslides",
     "bubble menu",
