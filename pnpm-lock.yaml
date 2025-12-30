@@ -197,6 +197,9 @@ importers:
       '@blockslides/extensions':
         specifier: workspace:^
         version: link:../extensions
+      '@blockslides/pm':
+        specifier: workspace:^
+        version: link:../pm
 
   packages/extension-bullet-list:
     devDependencies:
