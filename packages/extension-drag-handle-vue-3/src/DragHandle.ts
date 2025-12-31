@@ -4,7 +4,7 @@ import {
   DragHandlePlugin,
   dragHandlePluginDefaultKey,
 } from '@blockslides/extension-drag-handle'
-import type { Editor } from '@blockslides/vue-3'
+import type { Editor } from '@blockslides/core'
 import type { PropType } from 'vue'
 import { defineComponent, h, onBeforeUnmount, onMounted, ref } from 'vue'
 

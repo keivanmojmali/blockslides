@@ -1,17 +1,18 @@
 {
-  "name": "@blockslides/extension-drag-handle-vue-2",
-  "description": "drag handle extension for blockslides with vue 2",
+  "name": "@blockslides/extension-drag-handle",
+  "description": "Drag handle plugin for BlockSlides editors",
   "version": "0.1.0",
+  "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",
-    "blockslides extension"
+    "blockslides extension",
+    "prosemirror"
   ],
-  "author": "keivanmojmali",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/keivanmojmali/blockslides",
-    "directory": "packages/extension-drag-handle-vue-2"
+    "directory": "packages/extension-drag-handle"
   },
   "type": "module",
   "exports": {
@@ -32,15 +33,19 @@
     "dist"
   ],
   "peerDependencies": {
-    "@blockslides/extension-drag-handle": "workspace:^",
+    "@blockslides/core": "workspace:^",
     "@blockslides/pm": "workspace:^",
-    "vue": "^2.0.0"
+    "@blockslides/extension-node-range": "workspace:^",
+    "@floating-ui/dom": "^1.6.13"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.6.13"
   },
   "devDependencies": {
-    "@blockslides/extension-drag-handle": "workspace:^",
+    "@blockslides/core": "workspace:^",
     "@blockslides/pm": "workspace:^",
-    "vue": "^2.0.0",
-    "vue-ts-types": "1.6.2"
+    "@blockslides/extension-node-range": "workspace:^",
+    "@floating-ui/dom": "^1.6.13"
   },
   "scripts": {
     "build": "tsup",

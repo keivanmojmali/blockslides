@@ -34,13 +34,11 @@
   "peerDependencies": {
     "@blockslides/extension-drag-handle": "workspace:^",
     "@blockslides/pm": "workspace:^",
-    "@blockslides/vue-3": "workspace:^",
     "vue": "^3.0.0"
   },
   "devDependencies": {
     "@blockslides/extension-drag-handle": "workspace:^",
     "@blockslides/pm": "workspace:^",
-    "@blockslides/vue-3": "workspace:^",
     "vue": "^3.0.0"
   },
   "scripts": {
