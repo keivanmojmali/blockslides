@@ -20,6 +20,12 @@ import type { FileHandlerOptions } from "@blockslides/extension-file-handler";
 import { FileHandler } from "@blockslides/extension-file-handler";
 import type { FontFamilyOptions } from "@blockslides/extension-font-family";
 import { FontFamily } from "@blockslides/extension-font-family";
+import type {
+  BackgroundColorOptions,
+  FontSizeOptions,
+  LineHeightOptions,
+} from "@blockslides/extension-text-style";
+import { BackgroundColor, FontSize, LineHeight } from "@blockslides/extension-text-style";
 import type { HardBreakOptions } from "@blockslides/extension-hard-break";
 import { HardBreak } from "@blockslides/extension-hard-break";
 import type { HeadingOptions } from "@blockslides/extension-heading";
@@ -188,6 +194,13 @@ export interface ExtensionKitOptions {
   color?: Partial<ColorOptions> | false;
 
   /**
+   * Background color extension
+   * @default {}
+   * @example backgroundColor: false
+   */
+  backgroundColor?: Partial<BackgroundColorOptions> | false;
+
+  /**
    * Details/Summary (collapsible) extension
    * @default {}
    * @example details: false
@@ -230,6 +243,20 @@ export interface ExtensionKitOptions {
    * @example fontFamily: { types: ['textStyle'] }
    */
   fontFamily?: Partial<FontFamilyOptions> | false;
+
+  /**
+   * Font size extension
+   * @default {}
+   * @example fontSize: false
+   */
+  fontSize?: Partial<FontSizeOptions> | false;
+
+  /**
+   * Line height extension
+   * @default {}
+   * @example lineHeight: false
+   */
+  lineHeight?: Partial<LineHeightOptions> | false;
 
   /**
    * Gap cursor extension
@@ -550,12 +577,26 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       extensions.push(TextStyle.configure(this.options.textStyle || {}));
     }
 
+    if (this.options.backgroundColor !== false) {
+      extensions.push(
+        BackgroundColor.configure(this.options.backgroundColor || {})
+      );
+    }
+
     if (this.options.color !== false) {
       extensions.push(Color.configure(this.options.color || {}));
     }
 
     if (this.options.fontFamily !== false) {
       extensions.push(FontFamily.configure(this.options.fontFamily || {}));
+    }
+
+    if (this.options.fontSize !== false) {
+      extensions.push(FontSize.configure(this.options.fontSize || {}));
+    }
+
+    if (this.options.lineHeight !== false) {
+      extensions.push(LineHeight.configure(this.options.lineHeight || {}));
     }
 
     if (this.options.highlight !== false) {
