@@ -305,6 +305,48 @@ function buildMenuElement(
   const toolbar = document.createElement('div')
   toolbar.className = 'bs-bmp-toolbar'
 
+  let fontFamilySelect: HTMLSelectElement | null = null
+  let fontSizeSelect: HTMLSelectElement | null = null
+
+  const normalizeFontFamily = (value?: string | null) => {
+    if (!value) return value
+    // take the first family name and strip quotes
+    return value.split(',')[0]?.trim().replace(/^['"]|['"]$/g, '') || value
+  }
+
+  const getComputedFontStyles = () => {
+    if (typeof window === 'undefined') return { fontFamily: undefined, fontSize: undefined }
+    const sel = window.getSelection()
+    const node = sel?.anchorNode
+    const el = (node instanceof HTMLElement ? node : node?.parentElement) ?? undefined
+    if (!el) return { fontFamily: undefined, fontSize: undefined }
+    const styles = window.getComputedStyle(el)
+    return {
+      fontFamily: normalizeFontFamily(styles.fontFamily || undefined),
+      fontSize: styles.fontSize || undefined,
+    }
+  }
+
+  const ensureOptionExists = (select: HTMLSelectElement, value: string) => {
+    const exists = Array.from(select.options).some(opt => opt.value === value)
+    if (!exists) {
+      const option = document.createElement('option')
+      option.value = value
+      option.textContent = value
+      select.appendChild(option)
+    }
+  }
+
+  const setSelectValue = (select: HTMLSelectElement | null, value?: string | null) => {
+    if (!select) return
+    if (!value) {
+      select.selectedIndex = -1
+      return
+    }
+    ensureOptionExists(select, value)
+    select.value = value
+  }
+
   const popovers: HTMLElement[] = []
   const cleanupFns: Cleanup[] = []
 
@@ -384,6 +426,7 @@ function buildMenuElement(
       runWithFocus(() => runChainCommand('setFontFamily', select.value))
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
+    fontFamilySelect = select
     wrapper.appendChild(select)
     toolbar.appendChild(wrapper)
   }
@@ -406,6 +449,7 @@ function buildMenuElement(
       runWithFocus(() => runChainCommand('setFontSize', select.value))
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
+    fontSizeSelect = select
     wrapper.appendChild(select)
     toolbar.appendChild(wrapper)
   }
@@ -566,6 +610,38 @@ function buildMenuElement(
   })
 
   element.appendChild(toolbar)
+
+  const syncSelectionState = () => {
+    const attrs = editor.getAttributes('textStyle') || {}
+    let family = attrs.fontFamily
+    let size = attrs.fontSize
+
+    // If not explicitly set via marks, fall back to computed DOM styles
+    if (!family || !size) {
+      const computed = getComputedFontStyles()
+      family = family || computed.fontFamily
+      size = size || computed.fontSize
+    }
+
+    setSelectValue(fontFamilySelect, normalizeFontFamily(family))
+    setSelectValue(fontSizeSelect, size)
+  }
+
+  const handleSelectionUpdate = () => syncSelectionState()
+  const handleTransaction = ({ transaction }: { transaction?: any }) => {
+    if (!transaction || transaction.docChanged || transaction.selectionSet) {
+      syncSelectionState()
+    }
+  }
+
+  editor.on('selectionUpdate', handleSelectionUpdate)
+  editor.on('transaction', handleTransaction)
+  cleanupFns.push(() => {
+    editor.off('selectionUpdate', handleSelectionUpdate)
+    editor.off('transaction', handleTransaction)
+  })
+
+  syncSelectionState()
 
   return {
     element,
