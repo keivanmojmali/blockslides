@@ -51,6 +51,7 @@
   },
   "optionalDependencies": {
     "@blockslides/extension-bubble-menu": "workspace:^",
+    "@blockslides/extension-bubble-menu-preset": "workspace:^",
     "@blockslides/extension-floating-menu": "workspace:^"
   },
   "peerDependencies": {
