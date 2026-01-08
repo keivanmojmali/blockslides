@@ -38,13 +38,14 @@ const slideStyles = `
 `;
 
 const fixedSizeStyles = `
-.slide[data-size="16x9"] { width: 1920px; height: 1080px; }
-.slide[data-size="4x3"] { width: 1600px; height: 1200px; }
-.slide[data-size="a4-portrait"] { width: 210mm; height: 297mm; }
-.slide[data-size="a4-landscape"] { width: 297mm; height: 210mm; }
-.slide[data-size="letter-portrait"] { width: 8.5in; height: 11in; }
-.slide[data-size="letter-landscape"] { width: 11in; height: 8.5in; }
-.slide[data-size="linkedin-banner"] { width: 1584px; height: 396px; }
+.slide { --slide-scale: 1; }
+.slide[data-size="16x9"] { width: calc(1920px * var(--slide-scale)); height: calc(1080px * var(--slide-scale)); }
+.slide[data-size="4x3"] { width: calc(1600px * var(--slide-scale)); height: calc(1200px * var(--slide-scale)); }
+.slide[data-size="a4-portrait"] { width: calc(210mm * var(--slide-scale)); height: calc(297mm * var(--slide-scale)); }
+.slide[data-size="a4-landscape"] { width: calc(297mm * var(--slide-scale)); height: calc(210mm * var(--slide-scale)); }
+.slide[data-size="letter-portrait"] { width: calc(8.5in * var(--slide-scale)); height: calc(11in * var(--slide-scale)); }
+.slide[data-size="letter-landscape"] { width: calc(11in * var(--slide-scale)); height: calc(8.5in * var(--slide-scale)); }
+.slide[data-size="linkedin-banner"] { width: calc(1584px * var(--slide-scale)); height: calc(396px * var(--slide-scale)); }
 `.trim();
 
 const dynamicSizeStyles = `
@@ -75,6 +76,61 @@ const printSizeStyles = `
   @page { size: Letter landscape; margin: 0; }
 }
 `.trim();
+
+const hoverableSelector = [
+  '[data-node-type]:not([data-node-type="slide"])',
+  "p",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "blockquote",
+  "ul",
+  "ol",
+  "li",
+  "pre",
+  "figure",
+  "table",
+].join(", ");
+
+const hoverOutlineStyles = `
+.slide[data-hover-outline="on"]
+  :where(${hoverableSelector}):hover:not(:has(:hover)) {
+  outline: var(--slide-hover-outline-width, 1.5px) solid var(--slide-hover-outline-color, rgba(59, 130, 246, 0.65));
+  outline-offset: var(--slide-hover-outline-offset, 4px);
+  transition: outline-color 120ms ease, outline-width 120ms ease;
+}
+
+/* Cascade: when hovering a container, outline its descendant blocks too */
+.slide[data-hover-outline="on"][data-hover-outline-cascade="on"]
+  :where(${hoverableSelector}):hover
+  :where(${hoverableSelector}) {
+  outline: var(--slide-hover-outline-width, 1.5px) solid var(--slide-hover-outline-color, rgba(59, 130, 246, 0.65));
+  outline-offset: var(--slide-hover-outline-offset, 4px);
+  transition: outline-color 120ms ease, outline-width 120ms ease;
+}
+`.trim();
+
+type SlideExperimentalOptions = {
+  /**
+   * Experimental scaling for fixed render mode.
+   * - number: multiply canonical size by this factor
+   * - "dynamic": fit to the container bounds (auto)
+   */
+  scale?: number | "dynamic";
+  /**
+   * Max scale applied when dynamic scaling is used.
+   * @default 1
+   */
+  maxScale?: number;
+  /**
+   * Min scale applied when dynamic scaling is used.
+   * @default 0.1
+   */
+  minScale?: number;
+};
 
 export interface SlideOptions {
   /**
@@ -109,6 +165,29 @@ export interface SlideOptions {
    * Content Security Policy nonce
    */
   injectNonce?: string;
+  /**
+   * Hover outline highlight for nodes within a slide.
+   * - false: disabled (default)
+   * - true: enabled with defaults
+   * - object: enabled with overrides
+   */
+  hoverOutline:
+    | false
+    | true
+    | {
+        color?: string;
+        width?: string;
+        offset?: string;
+      };
+  /**
+   * When enabled, hovering a container outlines its descendant blocks too.
+   * @default false
+   */
+  hoverOutlineCascade?: boolean;
+  /**
+   * Experimental flags; not part of the stable API yet.
+   */
+  experimental?: SlideExperimentalOptions;
 }
 
 const SlidePluginKey = new PluginKey("slide");
@@ -130,6 +209,13 @@ export const Slide = Node.create<SlideOptions>({
       defaultSize: "16x9",
       injectPrintCSS: true,
       injectNonce: undefined,
+      hoverOutline: false,
+      hoverOutlineCascade: false,
+      experimental: {
+        scale: undefined,
+        maxScale: 1,
+        minScale: 0.1,
+      },
     };
   },
 
@@ -186,6 +272,11 @@ export const Slide = Node.create<SlideOptions>({
 
     const styleParts: string[] = [];
 
+    const hoverEnabled = this.options.hoverOutline !== false;
+    const hoverConfig =
+      this.options.hoverOutline === true ? {} : (this.options.hoverOutline || {});
+    const hoverCascade = !!this.options.hoverOutlineCascade;
+
     if (backgroundColor) {
       styleParts.push(`--slide-bg-color: ${backgroundColor}`);
     }
@@ -203,6 +294,24 @@ export const Slide = Node.create<SlideOptions>({
       styleParts.push(`--slide-bg-overlay-opacity: ${backgroundOverlayOpacity}`);
     }
 
+    if (hoverEnabled) {
+      const {
+        color = "rgba(59, 130, 246, 0.65)",
+        width = "1.5px",
+        offset = "4px",
+      } = hoverConfig;
+      styleParts.push(`--slide-hover-outline-color: ${color}`);
+      styleParts.push(`--slide-hover-outline-width: ${width}`);
+      styleParts.push(`--slide-hover-outline-offset: ${offset}`);
+    }
+
+    const experimental = this.options.experimental || {};
+
+    // Apply numeric experimental scale to the slide CSS var.
+    if (typeof experimental.scale === "number") {
+      styleParts.push(`--slide-scale: ${experimental.scale}`);
+    }
+
     const style = [rest.style, styleParts.join("; ")].filter(Boolean).join("; ");
 
     const className = [rest.class, rest.className, "slide"].filter(Boolean).join(" ");
@@ -217,6 +326,8 @@ export const Slide = Node.create<SlideOptions>({
         class: className || "slide",
         "data-node-type": "slide",
         "data-bg-mode": backgroundMode || "none",
+        "data-hover-outline": hoverEnabled ? "on" : undefined,
+        "data-hover-outline-cascade": hoverCascade ? "on" : undefined,
         style: style || undefined,
       },
       0,
@@ -224,6 +335,18 @@ export const Slide = Node.create<SlideOptions>({
   },
 
   addProseMirrorPlugins() {
+    const experimental = this.options.experimental || {};
+
+    const sizePx: Record<string, { w: number; h: number }> = {
+      "16x9": { w: 1920, h: 1080 },
+      "4x3": { w: 1600, h: 1200 },
+      "a4-portrait": { w: 210 * 3.7795, h: 297 * 3.7795 }, // mm → px @96dpi approx
+      "a4-landscape": { w: 297 * 3.7795, h: 210 * 3.7795 },
+      "letter-portrait": { w: 8.5 * 96, h: 11 * 96 },
+      "letter-landscape": { w: 11 * 96, h: 8.5 * 96 },
+      "linkedin-banner": { w: 1584, h: 396 },
+    };
+
     return [
       new Plugin({
         key: SlidePluginKey,
@@ -242,10 +365,67 @@ export const Slide = Node.create<SlideOptions>({
                   createStyleTag(printCss, this.options.injectNonce, "slide-print");
                 }
               }
+              if (this.options.hoverOutline !== false) {
+                createStyleTag(
+                  hoverOutlineStyles,
+                  this.options.injectNonce,
+                  "slide-hover-outline"
+                );
+              }
             }
             return {};
           },
           apply: (_tr, pluginState: Record<string, never>) => pluginState,
+        },
+        view: (editorView) => {
+          if (this.options.renderMode !== "fixed") {
+            return {};
+          }
+
+          if (experimental.scale !== "dynamic") {
+            return {};
+          }
+
+          if (typeof window === "undefined" || typeof ResizeObserver === "undefined") {
+            return {};
+          }
+
+          const container = editorView.dom.parentElement ?? editorView.dom;
+          if (!container) {
+            return {};
+          }
+
+          const minScale = experimental.minScale ?? 0.1;
+          const maxScale = experimental.maxScale ?? 1;
+
+          const compute = () => {
+            const rect = container.getBoundingClientRect();
+            if (!rect.width || !rect.height) {
+              return;
+            }
+
+            const slides = editorView.dom.querySelectorAll<HTMLElement>('[data-node-type="slide"]');
+            slides.forEach((el) => {
+              const sizeKey = el.getAttribute("data-size") || this.options.defaultSize;
+              const base = sizePx[sizeKey] || sizePx["16x9"];
+              const raw = Math.min(rect.width / base.w, rect.height / base.h);
+              const clamped = Math.max(minScale, Math.min(raw, maxScale));
+              el.style.setProperty("--slide-scale", `${clamped}`);
+            });
+          };
+
+          const ro = new ResizeObserver(compute);
+          ro.observe(container);
+          window.addEventListener("resize", compute);
+          compute();
+
+          return {
+            update: compute,
+            destroy: () => {
+              ro.disconnect();
+              window.removeEventListener("resize", compute);
+            },
+          };
         },
       }),
     ];
