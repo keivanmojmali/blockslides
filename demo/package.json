@@ -10,6 +10,7 @@
   "dependencies": {
     "@blockslides/core": "workspace:*",
     "@blockslides/extension-kit": "workspace:*",
+    "@blockslides/ai-context": "workspace:*",
     "@blockslides/react": "workspace:*",
     "clsx": "^2.1.1",
     "next": "15.5.6",
