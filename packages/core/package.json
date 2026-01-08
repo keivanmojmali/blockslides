@@ -11,6 +11,7 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./styles/markdown.css": "./styles/markdown.css",
     "./jsx-runtime": {
       "import": "./dist/jsx-runtime/jsx-runtime.mjs",
       "require": "./dist/jsx-runtime/jsx-runtime.js",
@@ -23,7 +24,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "styles"
   ],
   "scripts": {
     "build": "tsup",

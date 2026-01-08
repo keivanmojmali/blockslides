@@ -1,0 +1,43 @@
+.blockslides-editor,
+[data-node-type="slide"] {
+  /* Ensure the scope has a positioning context for nested elements */
+  position: relative;
+}
+
+.blockslides-editor ul,
+.blockslides-editor ol,
+[data-node-type="slide"] ul,
+[data-node-type="slide"] ol {
+  list-style-position: outside;
+  margin: 0.5rem 0 0.5rem 1.25rem;
+  padding-left: 1rem;
+}
+
+.blockslides-editor ul,
+[data-node-type="slide"] ul {
+  list-style-type: disc;
+}
+
+.blockslides-editor ol,
+[data-node-type="slide"] ol {
+  list-style-type: decimal;
+}
+
+.blockslides-editor li,
+[data-node-type="slide"] li {
+  margin: 0.25rem 0;
+}
+
+.blockslides-editor blockquote,
+[data-node-type="slide"] blockquote {
+  border-left: 3px solid rgba(148, 163, 184, 0.7);
+  padding-left: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.blockslides-editor hr,
+[data-node-type="slide"] hr {
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.6);
+  margin: 1rem 0;
+}
