@@ -101,6 +101,8 @@ import type { AddSlideButtonOptions } from "@blockslides/extension-add-slide-but
 import { AddSlideButton } from "@blockslides/extension-add-slide-button";
 import type { BubbleMenuOptions } from "@blockslides/extension-bubble-menu";
 import { BubbleMenu } from "@blockslides/extension-bubble-menu";
+import type { BubbleMenuPresetOptions } from "@blockslides/extension-bubble-menu-preset";
+import { BubbleMenuPreset } from "@blockslides/extension-bubble-menu-preset";
 import type { FloatingMenuOptions } from "@blockslides/extension-floating-menu";
 import { FloatingMenu } from "@blockslides/extension-floating-menu";
 import type {
@@ -161,6 +163,14 @@ export interface ExtensionKitOptions {
    * @example bubbleMenu: false
    */
   bubbleMenu?: Partial<BubbleMenuOptions> | false;
+
+  /**
+   * Bubble menu preset (text+image dual-mode toolbar)
+   * @default {}
+   * @example bubbleMenuPreset: false
+   * @example bubbleMenuPreset: { items: ['bold', 'italic'] }
+   */
+  bubbleMenuPreset?: Partial<BubbleMenuPresetOptions> | false;
 
   /**
    * Bullet list extension
@@ -714,6 +724,12 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     // UI extensions
     if (this.options.placeholder !== false) {
       extensions.push(Placeholder.configure(this.options.placeholder || {}));
+    }
+
+    if (this.options.bubbleMenuPreset !== false) {
+      extensions.push(
+        BubbleMenuPreset.configure(this.options.bubbleMenuPreset || {})
+      );
     }
 
     if (this.options.bubbleMenu !== false) {
