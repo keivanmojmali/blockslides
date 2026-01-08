@@ -1,10 +1,11 @@
-import { Extension } from '@blockslides/core'
+import { Extension, isNodeSelection, isTextSelection } from '@blockslides/core'
 import type { Editor } from '@blockslides/core'
 import {
   BubbleMenuPlugin,
   type BubbleMenuPluginProps,
   type BubbleMenuOptions,
 } from '@blockslides/extension-bubble-menu'
+import { NodeSelection } from '@blockslides/pm/state'
 
 type BubbleMenuPresetItem =
   | 'undo'
@@ -75,7 +76,7 @@ type Cleanup = () => void
 
 const STYLE_ID = 'blockslides-bubble-menu-preset-styles'
 
-const DEFAULT_ITEMS: BubbleMenuPresetItem[] = [
+export const DEFAULT_ITEMS: BubbleMenuPresetItem[] = [
   'undo',
   'redo',
   'fontFamily',
@@ -89,7 +90,7 @@ const DEFAULT_ITEMS: BubbleMenuPresetItem[] = [
   'align',
 ]
 
-const DEFAULT_FONTS = [
+export const DEFAULT_FONTS = [
   'Inter',
   'Arial',
   'Helvetica',
@@ -99,12 +100,25 @@ const DEFAULT_FONTS = [
   'Monaco',
 ]
 
-const DEFAULT_FONT_SIZES = ['12px', '14px', '16px', '18px', '20px', '24px', '32px', '40px']
+export const DEFAULT_FONT_SIZES = [
+  '12px',
+  '14px',
+  '16px',
+  '18px',
+  '20px',
+  '24px',
+  '32px',
+  '40px',
+  '48px',
+  '56px',
+  '64px',
+  '72px',
+]
 
-const DEFAULT_ALIGNMENTS: TextAlignValue[] = ['left', 'center', 'right', 'justify']
+export const DEFAULT_ALIGNMENTS: TextAlignValue[] = ['left', 'center', 'right', 'justify']
 
 // A rich palette approximating the attached reference.
-const DEFAULT_COLOR_PALETTE: string[] = [
+export const DEFAULT_COLOR_PALETTE: string[] = [
   '#000000',
   '#434343',
   '#666666',
@@ -174,7 +188,7 @@ const DEFAULT_COLOR_PALETTE: string[] = [
   '#4c1130',
 ]
 
-const DEFAULT_HIGHLIGHT_PALETTE = DEFAULT_COLOR_PALETTE
+export const DEFAULT_HIGHLIGHT_PALETTE = DEFAULT_COLOR_PALETTE
 
 const DEFAULT_LABELS: Record<BubbleMenuPresetItem, string> = {
   undo: 'Undo',
@@ -218,13 +232,24 @@ export const BubbleMenuPreset = Extension.create<BubbleMenuPresetOptions>({
       updateDelay: 250,
       resizeDelay: 60,
       appendTo: undefined,
-      shouldShow: null,
       options: {
         placement: 'top',
         strategy: 'absolute',
         offset: 8,
         flip: {},
         shift: {},
+      },
+      shouldShow: ({ state, editor }) => {
+        const { selection } = state
+        const imageSelection =
+          (selection instanceof NodeSelection &&
+            ['image', 'imageBlock'].includes(selection.node.type.name)) ||
+          editor.isActive('image') ||
+          editor.isActive('imageBlock')
+
+        if (imageSelection) return true
+        if (isTextSelection(selection) && !selection.empty && !imageSelection) return true
+        return false
       },
     }
   },
@@ -280,7 +305,7 @@ export const BubbleMenuPreset = Extension.create<BubbleMenuPresetOptions>({
   },
 })
 
-function buildMenuElement(
+export function buildMenuElement(
   editor: Editor,
   opts: {
     items: BubbleMenuPresetItem[]
@@ -302,11 +327,16 @@ function buildMenuElement(
   element.setAttribute('data-bubble-menu-preset', 'true')
   element.tabIndex = 0
 
-  const toolbar = document.createElement('div')
-  toolbar.className = 'bs-bmp-toolbar'
+  const textToolbar = document.createElement('div')
+  textToolbar.className = 'bs-bmp-toolbar'
+
+  const imageToolbar = document.createElement('div')
+  imageToolbar.className = 'bs-bmp-toolbar bs-bmp-toolbar-image'
 
   let fontFamilySelect: HTMLSelectElement | null = null
   let fontSizeSelect: HTMLSelectElement | null = null
+  let imageAlignSelect: HTMLSelectElement | null = null
+  let imageDisplaySelect: HTMLSelectElement | null = null
 
   const normalizeFontFamily = (value?: string | null) => {
     if (!value) return value
@@ -325,6 +355,14 @@ function buildMenuElement(
       fontFamily: normalizeFontFamily(styles.fontFamily || undefined),
       fontSize: styles.fontSize || undefined,
     }
+  }
+
+  const isImageSelection = () => {
+    const sel = editor.state.selection
+    if (sel instanceof NodeSelection) {
+      return ['image', 'imageBlock'].includes(sel.node.type.name)
+    }
+    return editor.isActive('image') || editor.isActive('imageBlock')
   }
 
   const ensureOptionExists = (select: HTMLSelectElement, value: string) => {
@@ -369,6 +407,7 @@ function buildMenuElement(
   }
 
   const addButton = (
+    container: HTMLElement,
     item: BubbleMenuPresetItem,
     label: string,
     onClick: () => void,
@@ -391,17 +430,17 @@ function buildMenuElement(
         onClick()
       })
     }
-    toolbar.appendChild(btn)
+    container.appendChild(btn)
   }
 
   const addUndoRedo = () => {
     const hasUndo = typeof getCommand('undo') === 'function'
     const hasRedo = typeof getCommand('redo') === 'function'
-    addButton('undo', DEFAULT_LABELS.undo, () => runWithFocus(() => runChainCommand('undo')), {
+    addButton(textToolbar, 'undo', DEFAULT_LABELS.undo, () => runWithFocus(() => runChainCommand('undo')), {
       disabled: !hasUndo,
       title: 'Undo',
     })
-    addButton('redo', DEFAULT_LABELS.redo, () => runWithFocus(() => runChainCommand('redo')), {
+    addButton(textToolbar, 'redo', DEFAULT_LABELS.redo, () => runWithFocus(() => runChainCommand('redo')), {
       disabled: !hasRedo,
       title: 'Redo',
     })
@@ -428,7 +467,7 @@ function buildMenuElement(
     })
     fontFamilySelect = select
     wrapper.appendChild(select)
-    toolbar.appendChild(wrapper)
+    textToolbar.appendChild(wrapper)
   }
 
   const addFontSize = () => {
@@ -451,13 +490,14 @@ function buildMenuElement(
     })
     fontSizeSelect = select
     wrapper.appendChild(select)
-    toolbar.appendChild(wrapper)
+    textToolbar.appendChild(wrapper)
   }
 
   const addToggleMark = (item: BubbleMenuPresetItem, commandName: string, title: string) => {
     const fn = getCommand(commandName) as (() => boolean) | undefined
     const disabled = typeof fn !== 'function'
     addButton(
+      textToolbar,
       item,
       DEFAULT_LABELS[item],
       () => {
@@ -488,8 +528,8 @@ function buildMenuElement(
     })
     popovers.push(popover)
     cleanupFns.push(destroy)
-    toolbar.appendChild(toggle)
-    toolbar.appendChild(popover)
+    textToolbar.appendChild(toggle)
+    textToolbar.appendChild(popover)
   }
 
   const addHighlightColor = () => {
@@ -513,14 +553,15 @@ function buildMenuElement(
     })
     popovers.push(popover)
     cleanupFns.push(destroy)
-    toolbar.appendChild(toggle)
-    toolbar.appendChild(popover)
+    textToolbar.appendChild(toggle)
+    textToolbar.appendChild(popover)
   }
 
   const addLink = () => {
     const hasToggle = typeof getCommand('toggleLink') === 'function'
     const hasUnset = typeof getCommand('unsetLink') === 'function'
     addButton(
+      textToolbar,
       'link',
       DEFAULT_LABELS.link,
       () => {
@@ -565,7 +606,123 @@ function buildMenuElement(
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
     wrapper.appendChild(select)
-    toolbar.appendChild(wrapper)
+    textToolbar.appendChild(wrapper)
+  }
+
+  const addImageControls = () => {
+    const addImageButton = (label: string, title: string, handler: () => void) => {
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'bs-bmp-btn bs-bmp-btn-image'
+      btn.textContent = label
+      btn.title = title
+      btn.setAttribute('aria-label', title)
+      btn.addEventListener('click', () => {
+        closePopovers()
+        handler()
+      })
+      imageToolbar.appendChild(btn)
+    }
+
+    addImageButton('Replace', 'Replace image', () => {
+      const current = editor.getAttributes('image')?.src ?? editor.getAttributes('imageBlock')?.src ?? ''
+      const next = window.prompt('Image URL', current)
+      if (!next) return
+      const chain = (editor.chain as any)?.()
+      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
+        runner.setImageBlockMetadata({ src: next }).run?.()
+      } else if (typeof runner?.updateAttributes === 'function') {
+        runner.updateAttributes('image', { src: next }).run?.()
+      } else if (typeof runner?.replaceImageBlock === 'function') {
+        runner.replaceImageBlock({ src: next }).run?.()
+      }
+      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+    })
+
+    const alignWrapper = document.createElement('div')
+    alignWrapper.className = 'bs-bmp-select'
+    const alignSelect = document.createElement('select')
+    alignSelect.className = 'bs-bmp-select-input'
+    alignSelect.title = 'Align image'
+    ;['left', 'center', 'right'].forEach((alignment) => {
+      const option = document.createElement('option')
+      option.value = alignment
+      option.textContent = alignment.charAt(0).toUpperCase() + alignment.slice(1)
+      alignSelect.appendChild(option)
+    })
+    alignSelect.addEventListener('change', () => {
+      const value = alignSelect.value
+      const chain = (editor.chain as any)?.()
+      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockAlignment === 'function') {
+        runner.setImageBlockAlignment(value).run?.()
+      } else if (typeof runner?.updateAttributes === 'function') {
+        runner.updateAttributes('image', { align: value }).run?.()
+      }
+      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+    })
+    alignWrapper.appendChild(alignSelect)
+    imageToolbar.appendChild(alignWrapper)
+    imageAlignSelect = alignSelect
+
+    const displayWrapper = document.createElement('div')
+    displayWrapper.className = 'bs-bmp-select'
+    const displaySelect = document.createElement('select')
+    displaySelect.className = 'bs-bmp-select-input'
+    displaySelect.title = 'Image fit'
+    ;['default', 'cover', 'contain', 'fill'].forEach((mode) => {
+      const option = document.createElement('option')
+      option.value = mode
+      option.textContent = mode.charAt(0).toUpperCase() + mode.slice(1)
+      displaySelect.appendChild(option)
+    })
+    displaySelect.addEventListener('change', () => {
+      const value = displaySelect.value
+      const chain = (editor.chain as any)?.()
+      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
+        runner.setImageBlockMetadata({ display: value }).run?.()
+      } else if (typeof runner?.updateAttributes === 'function') {
+        runner.updateAttributes('image', { display: value }).run?.()
+      }
+      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+    })
+    displayWrapper.appendChild(displaySelect)
+    imageToolbar.appendChild(displayWrapper)
+    imageDisplaySelect = displaySelect
+
+    addImageButton('Full width', 'Set image width to 100%', () => {
+      const chain = (editor.chain as any)?.()
+      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockDimensions === 'function') {
+        runner.setImageBlockDimensions({ width: '100%', height: null }).run?.()
+      } else if (typeof runner?.updateAttributes === 'function') {
+        runner.updateAttributes('image', { width: '100%', height: null }).run?.()
+      }
+      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+    })
+
+    addImageButton('Alt', 'Set alt text', () => {
+      const current =
+        editor.getAttributes('image')?.alt ??
+        editor.getAttributes('imageBlock')?.alt ??
+        ''
+      const next = window.prompt('Alt text', current)
+      if (next === null) return
+      const chain = (editor.chain as any)?.()
+      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
+        runner.setImageBlockMetadata({ alt: next }).run?.()
+      } else if (typeof runner?.updateAttributes === 'function') {
+        runner.updateAttributes('image', { alt: next }).run?.()
+      }
+      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+    })
+
+    addImageButton('Delete', 'Delete image', () => {
+      editor.chain().focus().deleteSelection().run()
+    })
   }
 
   // Build in the order requested.
@@ -609,9 +766,13 @@ function buildMenuElement(
     }
   })
 
-  element.appendChild(toolbar)
+  addImageControls()
+
+  element.appendChild(textToolbar)
+  element.appendChild(imageToolbar)
 
   const syncSelectionState = () => {
+    if (isImageSelection()) return
     const attrs = editor.getAttributes('textStyle') || {}
     let family = attrs.fontFamily
     let size = attrs.fontSize
@@ -627,10 +788,35 @@ function buildMenuElement(
     setSelectValue(fontSizeSelect, size)
   }
 
-  const handleSelectionUpdate = () => syncSelectionState()
+  const syncImageState = () => {
+    if (!isImageSelection()) return
+    const sel = editor.state.selection
+    const attrs =
+      sel instanceof NodeSelection &&
+      ['image', 'imageBlock'].includes(sel.node.type.name) &&
+      sel.node.attrs
+        ? sel.node.attrs
+        : editor.isActive('imageBlock')
+          ? editor.getAttributes('imageBlock') || {}
+          : editor.getAttributes('image') || {}
+    setSelectValue(imageAlignSelect, attrs.align)
+    setSelectValue(imageDisplaySelect, attrs.display)
+  }
+
+  const syncToolbarVisibility = () => {
+    const imageVisible = isImageSelection()
+    textToolbar.style.display = imageVisible ? 'none' : ''
+    imageToolbar.style.display = imageVisible ? '' : 'none'
+  }
+
+  const handleSelectionUpdate = () => {
+    syncToolbarVisibility()
+    syncSelectionState()
+    syncImageState()
+  }
   const handleTransaction = ({ transaction }: { transaction?: any }) => {
     if (!transaction || transaction.docChanged || transaction.selectionSet) {
-      syncSelectionState()
+      handleSelectionUpdate()
     }
   }
 
@@ -641,7 +827,9 @@ function buildMenuElement(
     editor.off('transaction', handleTransaction)
   })
 
+  syncToolbarVisibility()
   syncSelectionState()
+  syncImageState()
 
   return {
     element,
