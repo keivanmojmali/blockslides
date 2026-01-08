@@ -1,4 +1,4 @@
-import { EditorContent } from '@blockslides/react'
+import { EditorContent, BubbleMenuPreset } from '@blockslides/react'
 import React from 'react'
 
 import { useSlideEditor } from '@/components/SlideEditor/hooks/useSlideEditor'
@@ -21,6 +21,7 @@ export const SlideEditor = ({
     <div className='p-8'>
       <div className="bs-viewport" style={{ ['--zoom' as any]: 1 }}>
         <EditorContent editor={editor} />
+          <BubbleMenuPreset editor={editor} />
       </div>
     </div>
   )
