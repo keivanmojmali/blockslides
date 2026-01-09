@@ -113,25 +113,6 @@ const hoverOutlineStyles = `
 }
 `.trim();
 
-type SlideExperimentalOptions = {
-  /**
-   * Experimental scaling for fixed render mode.
-   * - number: multiply canonical size by this factor
-   * - "dynamic": fit to the container bounds (auto)
-   */
-  scale?: number | "dynamic";
-  /**
-   * Max scale applied when dynamic scaling is used.
-   * @default 1
-   */
-  maxScale?: number;
-  /**
-   * Min scale applied when dynamic scaling is used.
-   * @default 0.1
-   */
-  minScale?: number;
-};
-
 export interface SlideOptions {
   /**
    * The HTML attributes for a slide node.
@@ -184,10 +165,6 @@ export interface SlideOptions {
    * @default false
    */
   hoverOutlineCascade?: boolean;
-  /**
-   * Experimental flags; not part of the stable API yet.
-   */
-  experimental?: SlideExperimentalOptions;
 }
 
 const SlidePluginKey = new PluginKey("slide");
@@ -211,11 +188,6 @@ export const Slide = Node.create<SlideOptions>({
       injectNonce: undefined,
       hoverOutline: false,
       hoverOutlineCascade: false,
-      experimental: {
-        scale: undefined,
-        maxScale: 1,
-        minScale: 0.1,
-      },
     };
   },
 
@@ -305,13 +277,6 @@ export const Slide = Node.create<SlideOptions>({
       styleParts.push(`--slide-hover-outline-offset: ${offset}`);
     }
 
-    const experimental = this.options.experimental || {};
-
-    // Apply numeric experimental scale to the slide CSS var.
-    if (typeof experimental.scale === "number") {
-      styleParts.push(`--slide-scale: ${experimental.scale}`);
-    }
-
     const style = [rest.style, styleParts.join("; ")].filter(Boolean).join("; ");
 
     const className = [rest.class, rest.className, "slide"].filter(Boolean).join(" ");
@@ -335,18 +300,6 @@ export const Slide = Node.create<SlideOptions>({
   },
 
   addProseMirrorPlugins() {
-    const experimental = this.options.experimental || {};
-
-    const sizePx: Record<string, { w: number; h: number }> = {
-      "16x9": { w: 1920, h: 1080 },
-      "4x3": { w: 1600, h: 1200 },
-      "a4-portrait": { w: 210 * 3.7795, h: 297 * 3.7795 }, // mm → px @96dpi approx
-      "a4-landscape": { w: 297 * 3.7795, h: 210 * 3.7795 },
-      "letter-portrait": { w: 8.5 * 96, h: 11 * 96 },
-      "letter-landscape": { w: 11 * 96, h: 8.5 * 96 },
-      "linkedin-banner": { w: 1584, h: 396 },
-    };
-
     return [
       new Plugin({
         key: SlidePluginKey,
@@ -376,56 +329,6 @@ export const Slide = Node.create<SlideOptions>({
             return {};
           },
           apply: (_tr, pluginState: Record<string, never>) => pluginState,
-        },
-        view: (editorView) => {
-          if (this.options.renderMode !== "fixed") {
-            return {};
-          }
-
-          if (experimental.scale !== "dynamic") {
-            return {};
-          }
-
-          if (typeof window === "undefined" || typeof ResizeObserver === "undefined") {
-            return {};
-          }
-
-          const container = editorView.dom.parentElement ?? editorView.dom;
-          if (!container) {
-            return {};
-          }
-
-          const minScale = experimental.minScale ?? 0.1;
-          const maxScale = experimental.maxScale ?? 1;
-
-          const compute = () => {
-            const rect = container.getBoundingClientRect();
-            if (!rect.width || !rect.height) {
-              return;
-            }
-
-            const slides = editorView.dom.querySelectorAll<HTMLElement>('[data-node-type="slide"]');
-            slides.forEach((el) => {
-              const sizeKey = el.getAttribute("data-size") || this.options.defaultSize;
-              const base = sizePx[sizeKey] || sizePx["16x9"];
-              const raw = Math.min(rect.width / base.w, rect.height / base.h);
-              const clamped = Math.max(minScale, Math.min(raw, maxScale));
-              el.style.setProperty("--slide-scale", `${clamped}`);
-            });
-          };
-
-          const ro = new ResizeObserver(compute);
-          ro.observe(container);
-          window.addEventListener("resize", compute);
-          compute();
-
-          return {
-            update: compute,
-            destroy: () => {
-              ro.disconnect();
-              window.removeEventListener("resize", compute);
-            },
-          };
         },
       }),
     ];

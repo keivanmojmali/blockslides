@@ -49,6 +49,16 @@ export interface AddSlideButtonOptions {
    */
   showPresets?: boolean;
   /**
+   * Background color for the preset modal content area.
+   * @default '#ffffff'
+   */
+  presetBackground?: string;
+  /**
+   * Text/icon color for the preset modal content area.
+   * @default '#000000'
+   */
+  presetForeground?: string;
+  /**
    * Presets to show in the modal when showPresets is true.
    */
   presets?: PresetTemplateOption[];
@@ -183,14 +193,23 @@ class SlideNodeView implements NodeView {
 
       const dialog = document.createElement("div");
       dialog.className = "add-slide-preset-dialog";
+      if (options.presetBackground) {
+        dialog.style.setProperty("--add-slide-preset-bg", options.presetBackground);
+      }
+      if (options.presetForeground) {
+        dialog.style.setProperty("--add-slide-preset-fg", options.presetForeground);
+      }
 
-      const header = document.createElement("div");
-      header.className = "add-slide-preset-header";
-      header.textContent = "Choose a template";
-      dialog.appendChild(header);
+      const search = document.createElement("input");
+      search.className = "add-slide-preset-search";
+      search.type = "search";
+      search.placeholder = "Choose a template";
+      dialog.appendChild(search);
 
       const list = document.createElement("div");
       list.className = "add-slide-preset-list";
+
+      const items: HTMLElement[] = [];
 
       (options.presets || []).forEach((preset) => {
         const item = document.createElement("button");
@@ -221,7 +240,18 @@ class SlideNodeView implements NodeView {
         };
 
         list.appendChild(item);
+        items.push(item);
       });
+
+      search.oninput = () => {
+        const term = search.value.toLowerCase();
+        items.forEach((item) => {
+          const label = item
+            .querySelector(".add-slide-preset-label")
+            ?.textContent?.toLowerCase();
+          item.style.display = !term || label?.includes(term) ? "" : "none";
+        });
+      };
 
       dialog.appendChild(list);
 
@@ -342,7 +372,7 @@ const addSlideButtonStyles = `
 .add-slide-button-group {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  width: 128px;
+  width: 180px;
   margin: 16px auto 32px auto;
   border: 1px solid var(--slide-border, #e5e5e5);
   border-radius: 12px;
@@ -368,6 +398,9 @@ const addSlideButtonStyles = `
 .add-slide-button-group .add-slide-button:last-child {
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
+  white-space: nowrap;
+  font-size: 14px;
+  padding: 0 12px;
 }
 
 .add-slide-preset-modal {
@@ -381,21 +414,30 @@ const addSlideButtonStyles = `
 }
 
 .add-slide-preset-dialog {
-  background: #0f172a;
-  color: #e5e7eb;
+  background: var(--add-slide-preset-bg, #ffffff);
+  color: var(--add-slide-preset-fg, #000000);
   border-radius: 8px;
   padding: 16px 16px 12px 16px;
-  min-width: 280px;
+  min-width: 140px;
   max-width: 480px;
   max-height: 60vh;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
-.add-slide-preset-header {
-  font-weight: 700;
-  font-size: 17px;
-  margin-bottom: 12px;
+.add-slide-preset-search {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--add-slide-preset-fg, #000000) 18%, transparent);
+  font-size: 14px;
+  color: inherit;
+  background: color-mix(in srgb, var(--add-slide-preset-bg, #ffffff) 90%, var(--add-slide-preset-fg, #000000) 10%);
+}
+.add-slide-preset-search:focus {
+  outline: 2px solid color-mix(in srgb, var(--add-slide-preset-fg, #3b82f6) 35%, transparent);
+  outline-offset: 1px;
 }
 
 .add-slide-preset-list {
@@ -414,15 +456,15 @@ const addSlideButtonStyles = `
 .add-slide-preset-item {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
   width: 100%;
   border: none;
   background: transparent;
   color: inherit;
   padding: 10px 0 12px 0;
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid color-mix(in srgb, var(--add-slide-preset-fg, #000000) 12%, transparent);
 }
 
 .add-slide-preset-item:last-child {
@@ -430,21 +472,26 @@ const addSlideButtonStyles = `
 }
 
 .add-slide-preset-item:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .add-slide-preset-icon {
-  display: inline-flex;
-  width: 36px;
-  height: 28px;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 100%;
+  height: auto;
+  line-height: 0;
+}
+.add-slide-preset-icon > svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .add-slide-preset-label {
-  text-align: left;
+  text-align: center;
   font-size: 14px;
   font-weight: 600;
+  width: 100%;
 }
 `;
 
@@ -459,8 +506,10 @@ export const AddSlideButton = Extension.create<AddSlideButtonOptions>({
       content: "+",
       showPresets: false,
       presets: [],
-      templateButtonContent: defaultTemplateIcon,
+      templateButtonContent: "Template +",
       onClick: null,
+      presetBackground: "#ffffff",
+      presetForeground: "#000000",
     };
   },
 

@@ -365,6 +365,15 @@ export function buildMenuElement(
     return editor.isActive('image') || editor.isActive('imageBlock')
   }
 
+  const getImageAttrs = () => {
+    const sel = editor.state.selection
+    if (sel instanceof NodeSelection && ['image', 'imageBlock'].includes(sel.node.type.name)) {
+      return sel.node.attrs || {}
+    }
+    if (editor.isActive('imageBlock')) return editor.getAttributes('imageBlock') || {}
+    return editor.getAttributes('image') || {}
+  }
+
   const ensureOptionExists = (select: HTMLSelectElement, value: string) => {
     const exists = Array.from(select.options).some(opt => opt.value === value)
     if (!exists) {
@@ -398,7 +407,10 @@ export function buildMenuElement(
   }
 
   const closePopovers = () => {
-    popovers.forEach((p) => p.classList.add('bs-bmp-hidden'))
+    popovers.forEach((p) => {
+      p.classList.add('bs-bmp-hidden')
+      p.style.display = 'none'
+    })
   }
 
   const runWithFocus = (fn?: () => boolean) => {
@@ -624,20 +636,26 @@ export function buildMenuElement(
       imageToolbar.appendChild(btn)
     }
 
+    const { popover: replacePopover, show: showReplacePopover } = createReplacePopover({
+      getCurrentValue: () => (getImageAttrs().src as string) ?? '',
+      onSave: (next) => {
+        const chain = (editor.chain as any)?.()
+        const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+        if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
+          runner.setImageBlockMetadata({ src: next }).run?.()
+        } else if (typeof runner?.updateAttributes === 'function') {
+          runner.updateAttributes('image', { src: next }).run?.()
+        } else if (typeof runner?.replaceImageBlock === 'function') {
+          runner.replaceImageBlock({ src: next }).run?.()
+        }
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      },
+    })
+    popovers.push(replacePopover)
+    imageToolbar.appendChild(replacePopover)
     addImageButton('Replace', 'Replace image', () => {
-      const current = editor.getAttributes('image')?.src ?? editor.getAttributes('imageBlock')?.src ?? ''
-      const next = window.prompt('Image URL', current)
-      if (!next) return
-      const chain = (editor.chain as any)?.()
-      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
-      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
-        runner.setImageBlockMetadata({ src: next }).run?.()
-      } else if (typeof runner?.updateAttributes === 'function') {
-        runner.updateAttributes('image', { src: next }).run?.()
-      } else if (typeof runner?.replaceImageBlock === 'function') {
-        runner.replaceImageBlock({ src: next }).run?.()
-      }
-      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      closePopovers()
+      showReplacePopover()
     })
 
     const alignWrapper = document.createElement('div')
@@ -681,8 +699,11 @@ export function buildMenuElement(
       const value = displaySelect.value
       const chain = (editor.chain as any)?.()
       const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
-      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
-        runner.setImageBlockMetadata({ display: value }).run?.()
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockLayout === 'function') {
+        if (value === 'cover' && typeof runner?.setImageBlockFullBleed === 'function') {
+          runner.setImageBlockFullBleed(true)
+        }
+        runner.setImageBlockLayout(value === 'default' ? 'cover' : value).run?.()
       } else if (typeof runner?.updateAttributes === 'function') {
         runner.updateAttributes('image', { display: value }).run?.()
       }
@@ -703,21 +724,24 @@ export function buildMenuElement(
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
 
+    const { popover: altPopover, show: showAltPopover } = createAltPopover({
+      getCurrentValue: () => (getImageAttrs().alt as string) ?? '',
+      onSave: (next) => {
+        const chain = (editor.chain as any)?.()
+        const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+        if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
+          runner.setImageBlockMetadata({ alt: next }).run?.()
+        } else if (typeof runner?.updateAttributes === 'function') {
+          runner.updateAttributes('image', { alt: next }).run?.()
+        }
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      },
+    })
+    popovers.push(altPopover)
+    imageToolbar.appendChild(altPopover)
     addImageButton('Alt', 'Set alt text', () => {
-      const current =
-        editor.getAttributes('image')?.alt ??
-        editor.getAttributes('imageBlock')?.alt ??
-        ''
-      const next = window.prompt('Alt text', current)
-      if (next === null) return
-      const chain = (editor.chain as any)?.()
-      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
-      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
-        runner.setImageBlockMetadata({ alt: next }).run?.()
-      } else if (typeof runner?.updateAttributes === 'function') {
-        runner.updateAttributes('image', { alt: next }).run?.()
-      }
-      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      closePopovers()
+      showAltPopover()
     })
 
     addImageButton('Delete', 'Delete image', () => {
@@ -790,17 +814,12 @@ export function buildMenuElement(
 
   const syncImageState = () => {
     if (!isImageSelection()) return
-    const sel = editor.state.selection
-    const attrs =
-      sel instanceof NodeSelection &&
-      ['image', 'imageBlock'].includes(sel.node.type.name) &&
-      sel.node.attrs
-        ? sel.node.attrs
-        : editor.isActive('imageBlock')
-          ? editor.getAttributes('imageBlock') || {}
-          : editor.getAttributes('image') || {}
-    setSelectValue(imageAlignSelect, attrs.align)
-    setSelectValue(imageDisplaySelect, attrs.display)
+    const attrs = getImageAttrs()
+    const fitValue = editor.isActive('imageBlock')
+      ? (attrs.layout as string | undefined) || 'cover'
+      : (attrs.display as string | undefined) || 'default'
+    setSelectValue(imageAlignSelect, attrs.align as string | undefined)
+    setSelectValue(imageDisplaySelect, fitValue)
   }
 
   const syncToolbarVisibility = () => {
@@ -958,6 +977,117 @@ function createColorPopover(args: {
   return { toggle, popover, destroy }
 }
 
+function createAltPopover(args: { getCurrentValue: () => string; onSave: (value: string) => void }) {
+  const popover = document.createElement('div')
+  popover.className = 'bs-bmp-popover bs-bmp-popover-alt bs-bmp-hidden'
+
+  const input = document.createElement('input')
+  input.type = 'text'
+  input.className = 'bs-bmp-text-input'
+  input.placeholder = 'Describe the image'
+  popover.appendChild(input)
+
+  const actions = document.createElement('div')
+  actions.className = 'bs-bmp-popover-actions'
+
+  const cancel = document.createElement('button')
+  cancel.type = 'button'
+  cancel.className = 'bs-bmp-btn bs-bmp-btn-ghost'
+  cancel.textContent = 'Cancel'
+  cancel.addEventListener('click', () => hide())
+
+  const save = document.createElement('button')
+  save.type = 'button'
+  save.className = 'bs-bmp-btn'
+  save.textContent = 'Save'
+  save.addEventListener('click', () => {
+    args.onSave(input.value.trim())
+    hide()
+  })
+
+  actions.appendChild(cancel)
+  actions.appendChild(save)
+  popover.appendChild(actions)
+
+  const hide = () => popover.classList.add('bs-bmp-hidden')
+  const show = () => {
+    input.value = args.getCurrentValue()
+    popover.classList.remove('bs-bmp-hidden')
+    popover.style.display = ''
+    input.focus()
+    input.select()
+  }
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      save.click()
+    }
+    if (event.key === 'Escape') hide()
+  })
+
+  hide()
+  return { popover, show, hide }
+}
+
+function createReplacePopover(args: { getCurrentValue: () => string; onSave: (value: string) => void }) {
+  const popover = document.createElement('div')
+  popover.className = 'bs-bmp-popover bs-bmp-popover-replace bs-bmp-hidden'
+
+  const input = document.createElement('input')
+  input.type = 'url'
+  input.className = 'bs-bmp-text-input'
+  input.placeholder = 'https://...'
+  popover.appendChild(input)
+
+  const actions = document.createElement('div')
+  actions.className = 'bs-bmp-popover-actions'
+
+  const cancel = document.createElement('button')
+  cancel.type = 'button'
+  cancel.className = 'bs-bmp-btn bs-bmp-btn-ghost'
+  cancel.textContent = 'Cancel'
+  cancel.addEventListener('click', () => hide())
+
+  const save = document.createElement('button')
+  save.type = 'button'
+  save.className = 'bs-bmp-btn'
+  save.textContent = 'Replace'
+  save.addEventListener('click', () => {
+    const val = input.value.trim()
+    if (!val) return
+    args.onSave(val)
+    hide()
+  })
+
+  actions.appendChild(cancel)
+  actions.appendChild(save)
+  popover.appendChild(actions)
+
+  const hide = () => {
+    popover.classList.add('bs-bmp-hidden')
+    popover.style.display = 'none'
+  }
+  const show = () => {
+    input.value = args.getCurrentValue()
+    popover.classList.remove('bs-bmp-hidden')
+    popover.style.display = ''
+    input.focus()
+    input.select()
+  }
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      save.click()
+    }
+    if (event.key === 'Escape') hide()
+  })
+
+  hide()
+  return { popover, show, hide }
+}
+
 function injectStyles() {
   if (typeof document === 'undefined') return
   if (document.getElementById(STYLE_ID)) return
@@ -1029,7 +1159,7 @@ function injectStyles() {
   z-index: 999;
 }
 .bs-bmp-hidden {
-  display: none;
+  display: none !important;
 }
 .bs-bmp-popover-header,
 .bs-bmp-popover-footer {
@@ -1074,6 +1204,25 @@ function injectStyles() {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   background: #ffffff;
+}
+.bs-bmp-popover-alt,
+.bs-bmp-popover-replace {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 260px;
+}
+.bs-bmp-text-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.bs-bmp-popover-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
 }
 `
 

@@ -21,7 +21,7 @@ export const SlideEditor = ({
     <div className='p-8'>
       <div className="bs-viewport" style={{ ['--zoom' as any]: 1 }}>
         <EditorContent editor={editor} />
-          <BubbleMenuPreset editor={editor} />
+        <BubbleMenuPreset editor={editor} />
       </div>
     </div>
   )
