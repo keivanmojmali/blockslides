@@ -27,8 +27,6 @@ export const useSlideEditor = ({
   content,
   onUpdate,
   presetTemplates,
-  templateButtonContent,
-  showPresetButton,
 }: UseSlideEditorProps = {}) => {
   const defaultPresets = useMemo(
     () => templatesV1.listPresetTemplates(),
@@ -72,11 +70,13 @@ export const useSlideEditor = ({
         ExtensionKit.configure(
           { 
             addSlideButton: {
-              showPresets: showPresetButton ?? true,
+              showPresets: true,
               presets,
+              presetBackground: "#0f172a",
+              presetForeground: "#e5e7eb",
             },
             slide: {
-              renderMode: "fixed",
+              renderMode: "dynamic",
               hoverOutline: { color: "#3b82f6", width: "1.5px", offset: "4px" },
               hoverOutlineCascade: false,
             },
