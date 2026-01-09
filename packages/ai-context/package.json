@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/ai-context",
   "description": "AI context snippets for BlockSlides (v1 atoms, examples, schemas, types)",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "keywords": [
     "blockslides",
     "ai",

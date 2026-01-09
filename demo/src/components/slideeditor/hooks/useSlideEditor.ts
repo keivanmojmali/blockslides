@@ -34,19 +34,6 @@ export const useSlideEditor = ({
   );
 
 
-  // this is where we are at 
-  // 1. we need to make sure the add ne slide button is how we want it - it seems to be working pretty well 
-  // 2. we need to make sure that the presets are good to go which they seem to be 
-  // 3. the final one is lets spend like 20 mins figuring out the fixed width 
-  // experimental one. lets not spend too much time we can ship that for now since its under unstasble release 
-  // then lets figure out how we can implement this stuff - update it to npm 
-  // update the semvars 
-  // then we can map the agent and get that flow going 
-  // !!!! do not spend an enormous time on the agent since we want to pass the eye test and for now we 
-  // want to get it going so that the app can be marketed and we can start gaining some traction 
-  // then lets release the blockslide asap with some good docs 
-
-
 
 
   const presets = useMemo(
