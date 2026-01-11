@@ -139,6 +139,11 @@ class SlideNodeView implements NodeView {
       btn.contentEditable = "false";
       if (options.buttonStyle) {
         Object.entries(options.buttonStyle).forEach(([key, value]) => {
+          // Preserve CSS custom properties; camel-case standard properties for React-style keys
+          if (key.startsWith("--")) {
+            btn.style.setProperty(key, value);
+            return;
+          }
           const camelKey = key.replace(/-([a-z])/g, (_, letter) =>
             letter.toUpperCase()
           );
