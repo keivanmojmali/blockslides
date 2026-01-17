@@ -37,8 +37,8 @@ const slideStyles = `
 }
 `;
 
-const fixedSizeStyles = `
-.slide { --slide-scale: 1; }
+const getFixedSizeStyles = (scale: number) => `
+.slide { --slide-scale: ${scale}; }
 .slide[data-size="16x9"] { width: calc(1920px * var(--slide-scale)); height: calc(1080px * var(--slide-scale)); }
 .slide[data-size="4x3"] { width: calc(1600px * var(--slide-scale)); height: calc(1200px * var(--slide-scale)); }
 .slide[data-size="a4-portrait"] { width: calc(210mm * var(--slide-scale)); height: calc(297mm * var(--slide-scale)); }
@@ -138,6 +138,12 @@ export interface SlideOptions {
    */
   defaultSize: "16x9" | "4x3" | "a4-portrait" | "a4-landscape" | "letter-portrait" | "letter-landscape" | "linkedin-banner";
   /**
+   * Scale factor for fixed-size slides.
+   * Only applies when renderMode is 'fixed'.
+   * @default 1
+   */
+  scale: number;
+  /**
    * Inject @media print/@page CSS for paper sizes
    * @default true
    */
@@ -184,6 +190,7 @@ export const Slide = Node.create<SlideOptions>({
       injectCSS: true,
       renderMode: "fixed",
       defaultSize: "16x9",
+      scale: 1,
       injectPrintCSS: true,
       injectNonce: undefined,
       hoverOutline: false,
@@ -305,10 +312,20 @@ export const Slide = Node.create<SlideOptions>({
         key: SlidePluginKey,
         state: {
           init: () => {
+            // Warn if scale is set but renderMode is not 'fixed'
+            if (this.options.scale !== 1 && this.options.renderMode !== "fixed") {
+              console.warn(
+                `[Slide] The 'scale' option only applies when renderMode is 'fixed'. ` +
+                `Current renderMode is '${this.options.renderMode}', so the scale value of ${this.options.scale} will be ignored.`
+              );
+            }
+
             if (this.options.injectCSS && typeof document !== "undefined") {
               createStyleTag(slideStyles, this.options.injectNonce, "slide");
               const sizingCss =
-                this.options.renderMode === "dynamic" ? dynamicSizeStyles : fixedSizeStyles;
+                this.options.renderMode === "dynamic"
+                  ? dynamicSizeStyles
+                  : getFixedSizeStyles(this.options.scale);
               if (sizingCss) {
                 createStyleTag(sizingCss, this.options.injectNonce, "slide-sizes");
               }
