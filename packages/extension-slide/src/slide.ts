@@ -140,6 +140,7 @@ export interface SlideOptions {
   /**
    * Scale factor for fixed-size slides.
    * Only applies when renderMode is 'fixed'.
+   * Helpful for shrinking/expanding fixed previews without changing size presets.
    * @default 1
    */
   scale: number;
