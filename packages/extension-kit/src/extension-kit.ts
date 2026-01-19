@@ -169,6 +169,8 @@ export interface ExtensionKitOptions {
    * @default {}
    * @example bubbleMenuPreset: false
    * @example bubbleMenuPreset: { items: ['bold', 'italic'] }
+   * @example bubbleMenuPreset: { onTextAction: (action, ctx) => { ... } }
+   * @example bubbleMenuPreset: { onImageReplace: (ctx) => { ... } }
    */
   bubbleMenuPreset?: Partial<BubbleMenuPresetOptions> | false;
 
