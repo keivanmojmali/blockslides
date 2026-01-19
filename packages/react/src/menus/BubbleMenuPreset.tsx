@@ -42,6 +42,8 @@ export const BubbleMenuPreset = React.forwardRef<HTMLElement, BubbleMenuPresetPr
       fonts,
       fontSizes,
       alignments,
+      onTextAction,
+      onImageReplace,
       ...rest
     },
     ref,
@@ -64,6 +66,8 @@ export const BubbleMenuPreset = React.forwardRef<HTMLElement, BubbleMenuPresetPr
         fonts: fonts ?? DEFAULT_FONTS,
         fontSizes: fontSizes ?? DEFAULT_FONT_SIZES,
         alignments: alignments ?? DEFAULT_ALIGNMENTS,
+          onTextAction,
+          onImageReplace,
       })
 
       menuEl.current = element
@@ -129,6 +133,8 @@ export const BubbleMenuPreset = React.forwardRef<HTMLElement, BubbleMenuPresetPr
       fonts,
       fontSizes,
       alignments,
+      onTextAction,
+      onImageReplace,
       ref,
     ])
 

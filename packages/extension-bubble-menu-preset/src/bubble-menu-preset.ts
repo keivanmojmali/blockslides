@@ -1,4 +1,4 @@
-import { Extension, isNodeSelection, isTextSelection } from '@blockslides/core'
+import { Extension, isNodeSelection, isTextSelection, posToDOMRect } from '@blockslides/core'
 import type { Editor } from '@blockslides/core'
 import {
   BubbleMenuPlugin,
@@ -21,6 +21,25 @@ type BubbleMenuPresetItem =
   | 'align'
 
 type TextAlignValue = 'left' | 'center' | 'right' | 'justify'
+
+export type BubbleMenuPresetTextAction = 'undo' | 'redo' | 'bold' | 'italic' | 'underline' | 'link'
+
+export interface BubbleMenuPresetActionContext {
+  editor: Editor
+  element: HTMLElement
+  trigger: HTMLElement
+  getTriggerRect: () => DOMRect | null
+  getMenuRect: () => DOMRect | null
+  getSelectionRect: () => DOMRect | null
+  closePopovers: () => void
+  defaultAction: () => void
+}
+
+export interface BubbleMenuPresetImageReplaceContext extends BubbleMenuPresetActionContext {
+  getCurrentValue: () => string
+  replaceWith: (value: string) => void
+  showDefaultPopover: () => void
+}
 
 export interface BubbleMenuPresetOptions
   extends Omit<BubbleMenuOptions, 'element'> {
@@ -70,6 +89,18 @@ export interface BubbleMenuPresetOptions
    * Alignments to expose in the align control.
    */
   alignments?: TextAlignValue[]
+
+  /**
+   * Override text button actions (undo/redo/bold/italic/underline/link).
+   * Use defaultAction() to fall back to built-in behavior.
+   */
+  onTextAction?: (action: BubbleMenuPresetTextAction, ctx: BubbleMenuPresetActionContext) => void
+
+  /**
+   * Override image replace behavior (e.g., open your own picker).
+   * Use showDefaultPopover() or replaceWith() to reuse built-in behavior.
+   */
+  onImageReplace?: (ctx: BubbleMenuPresetImageReplaceContext) => void
 }
 
 type Cleanup = () => void
@@ -271,6 +302,8 @@ export const BubbleMenuPreset = Extension.create<BubbleMenuPresetOptions>({
             fonts: options.fonts ?? DEFAULT_FONTS,
             fontSizes: options.fontSizes ?? DEFAULT_FONT_SIZES,
             alignments: options.alignments ?? DEFAULT_ALIGNMENTS,
+            onTextAction: options.onTextAction,
+            onImageReplace: options.onImageReplace,
           })
 
     this.storage.element = element
@@ -316,6 +349,8 @@ export function buildMenuElement(
     fonts: string[]
     fontSizes: string[]
     alignments: TextAlignValue[]
+    onTextAction?: BubbleMenuPresetOptions['onTextAction']
+    onImageReplace?: BubbleMenuPresetOptions['onImageReplace']
   },
 ): MenuBuildResult {
   if (opts.injectStyles) {
@@ -413,6 +448,39 @@ export function buildMenuElement(
     })
   }
 
+  const getMenuRect = () => element.getBoundingClientRect?.() ?? null
+  const getSelectionRect = () => {
+    const view = (editor as any).view
+    if (!view) return null
+    const { from, to } = editor.state.selection
+    return posToDOMRect(view, from, to)
+  }
+  const createActionContext = (
+    trigger: HTMLElement,
+    defaultAction: () => void,
+  ): BubbleMenuPresetActionContext => ({
+    editor,
+    element,
+    trigger,
+    getTriggerRect: () => trigger.getBoundingClientRect?.() ?? null,
+    getMenuRect,
+    getSelectionRect,
+    closePopovers,
+    defaultAction,
+  })
+
+  const runTextAction = (
+    action: BubbleMenuPresetTextAction,
+    trigger: HTMLElement,
+    defaultAction: () => void,
+  ) => {
+    if (!opts.onTextAction) {
+      defaultAction()
+      return
+    }
+    opts.onTextAction(action, createActionContext(trigger, defaultAction))
+  }
+
   const runWithFocus = (fn?: () => boolean) => {
     if (!fn) return false
     return !!fn()
@@ -422,7 +490,7 @@ export function buildMenuElement(
     container: HTMLElement,
     item: BubbleMenuPresetItem,
     label: string,
-    onClick: () => void,
+    onClick: (trigger: HTMLElement) => void,
     opts: { disabled?: boolean; title?: string } = {},
   ) => {
     const btn = document.createElement('button')
@@ -439,7 +507,7 @@ export function buildMenuElement(
     } else {
       btn.addEventListener('click', () => {
         closePopovers()
-        onClick()
+        onClick(btn)
       })
     }
     container.appendChild(btn)
@@ -448,14 +516,28 @@ export function buildMenuElement(
   const addUndoRedo = () => {
     const hasUndo = typeof getCommand('undo') === 'function'
     const hasRedo = typeof getCommand('redo') === 'function'
-    addButton(textToolbar, 'undo', DEFAULT_LABELS.undo, () => runWithFocus(() => runChainCommand('undo')), {
+    addButton(
+      textToolbar,
+      'undo',
+      DEFAULT_LABELS.undo,
+      (trigger) =>
+        runTextAction('undo', trigger, () => runWithFocus(() => runChainCommand('undo'))),
+      {
       disabled: !hasUndo,
       title: 'Undo',
-    })
-    addButton(textToolbar, 'redo', DEFAULT_LABELS.redo, () => runWithFocus(() => runChainCommand('redo')), {
+      },
+    )
+    addButton(
+      textToolbar,
+      'redo',
+      DEFAULT_LABELS.redo,
+      (trigger) =>
+        runTextAction('redo', trigger, () => runWithFocus(() => runChainCommand('redo'))),
+      {
       disabled: !hasRedo,
       title: 'Redo',
-    })
+      },
+    )
   }
 
   const addFontFamily = () => {
@@ -512,9 +594,10 @@ export function buildMenuElement(
       textToolbar,
       item,
       DEFAULT_LABELS[item],
-      () => {
-        runWithFocus(() => runChainCommand(commandName))
-      },
+      (trigger) =>
+        runTextAction(item as BubbleMenuPresetTextAction, trigger, () =>
+          runWithFocus(() => runChainCommand(commandName)),
+        ),
       { disabled, title },
     )
   }
@@ -572,24 +655,31 @@ export function buildMenuElement(
   const addLink = () => {
     const hasToggle = typeof getCommand('toggleLink') === 'function'
     const hasUnset = typeof getCommand('unsetLink') === 'function'
+    const { popover: linkPopover, show: showLinkPopover } = createLinkPopover({
+      getCurrentValue: () => editor.getAttributes('link')?.href ?? '',
+      onSave: (href) => {
+        if (hasToggle) {
+          runWithFocus(() => runChainCommand('toggleLink', { href }))
+        }
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      },
+      onClear: () => {
+        if (hasUnset) {
+          runWithFocus(() => runChainCommand('unsetLink'))
+        }
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      },
+    })
+    popovers.push(linkPopover)
+    textToolbar.appendChild(linkPopover)
     addButton(
       textToolbar,
       'link',
       DEFAULT_LABELS.link,
-      () => {
-        const currentHref = editor.getAttributes('link')?.href ?? ''
-        const href = window.prompt('Link URL', currentHref)
-        if (href === null) return
-        if (!href) {
-          if (hasUnset) {
-            runWithFocus(() => runChainCommand('unsetLink'))
-          }
-          return
-        }
-        if (hasToggle) {
-          runWithFocus(() => runChainCommand('toggleLink', { href }))
-        }
-      },
+      (trigger) =>
+        runTextAction('link', trigger, () => {
+          showLinkPopover()
+        }),
       { disabled: !hasToggle && !hasUnset, title: 'Insert link' },
     )
   }
@@ -634,28 +724,42 @@ export function buildMenuElement(
         handler()
       })
       imageToolbar.appendChild(btn)
+      return btn
+    }
+
+    const replaceImageSource = (next: string) => {
+      const chain = (editor.chain as any)?.()
+      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
+        runner.setImageBlockMetadata({ src: next }).run?.()
+      } else if (typeof runner?.updateAttributes === 'function') {
+        runner.updateAttributes('image', { src: next }).run?.()
+      } else if (typeof runner?.replaceImageBlock === 'function') {
+        runner.replaceImageBlock({ src: next }).run?.()
+      }
+      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     }
 
     const { popover: replacePopover, show: showReplacePopover } = createReplacePopover({
       getCurrentValue: () => (getImageAttrs().src as string) ?? '',
       onSave: (next) => {
-        const chain = (editor.chain as any)?.()
-        const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
-        if (editor.isActive('imageBlock') && typeof runner?.setImageBlockMetadata === 'function') {
-          runner.setImageBlockMetadata({ src: next }).run?.()
-        } else if (typeof runner?.updateAttributes === 'function') {
-          runner.updateAttributes('image', { src: next }).run?.()
-        } else if (typeof runner?.replaceImageBlock === 'function') {
-          runner.replaceImageBlock({ src: next }).run?.()
-        }
-        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+        replaceImageSource(next)
       },
     })
     popovers.push(replacePopover)
     imageToolbar.appendChild(replacePopover)
-    addImageButton('Replace', 'Replace image', () => {
-      closePopovers()
-      showReplacePopover()
+    const replaceButton = addImageButton('Replace', 'Replace image', () => {
+      const defaultAction = () => showReplacePopover()
+      if (!opts.onImageReplace) {
+        defaultAction()
+        return
+      }
+      opts.onImageReplace({
+        ...createActionContext(replaceButton, defaultAction),
+        getCurrentValue: () => (getImageAttrs().src as string) ?? '',
+        replaceWith: replaceImageSource,
+        showDefaultPopover: defaultAction,
+      })
     })
 
     const alignWrapper = document.createElement('div')
@@ -1030,6 +1134,78 @@ function createAltPopover(args: { getCurrentValue: () => string; onSave: (value:
   return { popover, show, hide }
 }
 
+function createLinkPopover(args: {
+  getCurrentValue: () => string
+  onSave: (value: string) => void
+  onClear: () => void
+}) {
+  const popover = document.createElement('div')
+  popover.className = 'bs-bmp-popover bs-bmp-popover-link bs-bmp-hidden'
+
+  const input = document.createElement('input')
+  input.type = 'url'
+  input.className = 'bs-bmp-text-input'
+  input.placeholder = 'https://...'
+  popover.appendChild(input)
+
+  const actions = document.createElement('div')
+  actions.className = 'bs-bmp-popover-actions'
+
+  const cancel = document.createElement('button')
+  cancel.type = 'button'
+  cancel.className = 'bs-bmp-btn bs-bmp-btn-ghost'
+  cancel.textContent = 'Cancel'
+  cancel.addEventListener('click', () => hide())
+
+  const remove = document.createElement('button')
+  remove.type = 'button'
+  remove.className = 'bs-bmp-btn bs-bmp-btn-ghost'
+  remove.textContent = 'Remove'
+  remove.addEventListener('click', () => {
+    args.onClear()
+    hide()
+  })
+
+  const save = document.createElement('button')
+  save.type = 'button'
+  save.className = 'bs-bmp-btn'
+  save.textContent = 'Save'
+  save.addEventListener('click', () => {
+    const val = input.value.trim()
+    if (!val) return
+    args.onSave(val)
+    hide()
+  })
+
+  actions.appendChild(cancel)
+  actions.appendChild(remove)
+  actions.appendChild(save)
+  popover.appendChild(actions)
+
+  const hide = () => {
+    popover.classList.add('bs-bmp-hidden')
+    popover.style.display = 'none'
+  }
+  const show = () => {
+    input.value = args.getCurrentValue()
+    popover.classList.remove('bs-bmp-hidden')
+    popover.style.display = ''
+    input.focus()
+    input.select()
+  }
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      save.click()
+    }
+    if (event.key === 'Escape') hide()
+  })
+
+  hide()
+  return { popover, show, hide }
+}
+
 function createReplacePopover(args: { getCurrentValue: () => string; onSave: (value: string) => void }) {
   const popover = document.createElement('div')
   popover.className = 'bs-bmp-popover bs-bmp-popover-replace bs-bmp-hidden'
@@ -1205,8 +1381,9 @@ function injectStyles() {
   border-radius: 8px;
   background: #ffffff;
 }
-.bs-bmp-popover-alt,
-.bs-bmp-popover-replace {
+ .bs-bmp-popover-alt,
+ .bs-bmp-popover-replace,
+ .bs-bmp-popover-link {
   display: flex;
   flex-direction: column;
   gap: 8px;
