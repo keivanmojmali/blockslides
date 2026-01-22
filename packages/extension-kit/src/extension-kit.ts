@@ -1,6 +1,8 @@
 import { Extension } from "@blockslides/core";
 
 // Import all extensions
+import type { BlockAttributesOptions } from "@blockslides/extension-block-attributes";
+import { BlockAttributes } from "@blockslides/extension-block-attributes";
 import type { BlockquoteOptions } from "@blockslides/extension-blockquote";
 import { Blockquote } from "@blockslides/extension-blockquote";
 import type { BoldOptions } from "@blockslides/extension-bold";
@@ -94,7 +96,6 @@ import type { YoutubeOptions } from "@blockslides/extension-youtube";
 import { Youtube } from "@blockslides/extension-youtube";
 import { Slide } from "@blockslides/extension-slide";
 import type { SlideOptions } from "@blockslides/extension-slide";
-import { Row } from "@blockslides/extension-row";
 import { Column } from "@blockslides/extension-column";
 import { SelectWithinSlide } from "@blockslides/extension-select-within-slide";
 import type { AddSlideButtonOptions } from "@blockslides/extension-add-slide-button";
@@ -133,6 +134,16 @@ export interface ExtensionKitOptions {
    * @default 'slide'
    */
   topLevelDoc?: "slide" | "asset";
+
+  /**
+   * Block attributes extension - adds common attributes (align, padding, gap,
+   * backgroundColor, borderRadius, fill, etc.) to all block types.
+   * @default {}
+   * @example blockAttributes: false
+   * @example blockAttributes: { types: ['heading', 'paragraph'] }
+   */
+  blockAttributes?: Partial<BlockAttributesOptions> | false;
+
   /**
    * Add slide button extension
    * @default {}
@@ -547,6 +558,14 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       }
     }
 
+    // Block attributes extension - provides common attributes to all block types
+    // Must be registered early so attributes are available to other extensions
+    if (this.options.blockAttributes !== false) {
+      extensions.push(
+        BlockAttributes.configure(this.options.blockAttributes || {})
+      );
+    }
+
     if (this.options.text !== false) {
       extensions.push(Text.configure(this.options.text || {}));
     }
@@ -768,7 +787,7 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       extensions.push(SelectWithinSlide);
     }
 
-    extensions.push(Row.configure({}));
+    // Column extension (row is no longer needed - adjacent columns form rows automatically)
     extensions.push(Column.configure({}));
 
     if (this.options.addSlideButton !== false) {
