@@ -8,53 +8,16 @@ const columnStyles = `
   flex-direction: column;
   flex: 1;
   min-width: 0;
+  min-height: 0;
 }
 
-/* Vertical alignment (main axis: column) */
-.column.v-align-top {
-  justify-content: flex-start;
-}
-.column.v-align-center {
-  justify-content: center;
-}
-.column.v-align-bottom {
-  justify-content: flex-end;
+/* Column is a block that contains other blocks */
+.column[data-node-type="column"] {
+  /* Default: stack children vertically */
 }
 
-/* Horizontal alignment (cross axis) */
-.column.h-align-left {
-  align-items: flex-start;
-  text-align: left;
-}
-.column.h-align-center {
-  align-items: center;
-  text-align: center;
-}
-.column.h-align-right {
-  align-items: flex-end;
-  text-align: right;
-}
-
-/* Background helpers (driven by data attributes + inline CSS vars) */
-.column[data-bg-mode="color"] {
-  background-color: var(--column-bg-color);
-}
-
-.column[data-bg-mode="image"],
-.column[data-bg-mode="imageOverlay"] {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.column[data-bg-mode="imageOverlay"]::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-color: var(--column-bg-overlay-color, #000);
-  opacity: var(--column-bg-overlay-opacity, 0.35);
-}
+/* Adjacent columns in a slide form a horizontal row */
+/* This is handled via the slide's column-row-group wrapper */
 `;
 
 export interface ColumnOptions {
@@ -78,15 +41,23 @@ export interface ColumnOptions {
 const ColumnPluginKey = new PluginKey("column");
 
 /**
- * The Column extension defines vertical containers within rows.
+ * The Column extension defines a container block that can hold other blocks.
+ * It's the primary layout container in BlockSlides.
+ * 
+ * Common attributes (align, padding, gap, backgroundColor, etc.) are provided
+ * by the BlockAttributes extension via addGlobalAttributes.
  */
 export const Column = Node.create<ColumnOptions>({
   name: "column",
 
-  content: "(block | row)+",
+  group: "block",
+
+  content: "block+",
+
   isolating: true,
   defining: true,
-  selectable:true,
+  selectable: true,
+
   addOptions() {
     return {
       HTMLAttributes: {},
@@ -95,39 +66,11 @@ export const Column = Node.create<ColumnOptions>({
     };
   },
 
+  // Note: Most attributes (align, padding, gap, backgroundColor, borderRadius, 
+  // fill, width, height, justify) are provided by the BlockAttributes extension.
+  // Only column-specific attributes that aren't in BlockAttributes go here.
   addAttributes() {
-    return {
-      className: {
-        default: "",
-      },
-      contentMode: {
-        default: "default",
-      },
-      verticalAlign: {
-        default: "top",
-      },
-      horizontalAlign: {
-        default: "left",
-      },
-      padding: {
-        default: "none",
-      },
-      backgroundMode: {
-        default: "none",
-      },
-      backgroundColor: {
-        default: null,
-      },
-      backgroundImage: {
-        default: null,
-      },
-      backgroundOverlayColor: {
-        default: null,
-      },
-      backgroundOverlayOpacity: {
-        default: null,
-      },
-    };
+    return {};
   },
 
   parseHTML() {
@@ -136,53 +79,17 @@ export const Column = Node.create<ColumnOptions>({
 
   renderHTML({ HTMLAttributes }) {
     const merged = mergeAttributes(this.options.HTMLAttributes, HTMLAttributes);
-    const {
-      contentMode,
-      verticalAlign,
-      horizontalAlign,
-      padding,
-      backgroundMode,
-      backgroundColor,
-      backgroundImage,
-      backgroundOverlayColor,
-      backgroundOverlayOpacity,
-      ...rest
-    } = merged;
-
-    const styleParts: string[] = [];
-
-    if (backgroundColor) {
-      styleParts.push(`--column-bg-color: ${backgroundColor}`);
-    }
-
-    if (backgroundImage) {
-      const escaped = String(backgroundImage).replace(/"/g, '\\"');
-      styleParts.push(`background-image: url("${escaped}")`);
-    }
-
-    if (backgroundOverlayColor) {
-      styleParts.push(`--column-bg-overlay-color: ${backgroundOverlayColor}`);
-    }
-
-    if (backgroundOverlayOpacity != null) {
-      styleParts.push(`--column-bg-overlay-opacity: ${backgroundOverlayOpacity}`);
-    }
-
-    const style = [rest.style, styleParts.join("; ")].filter(Boolean).join("; ");
-
-    const className = [rest.class, rest.className].filter(Boolean).join(" ");
-
-    delete (rest as any).className;
-    delete (rest as any).class;
+    
+    // Extract class/className for proper handling
+    const { class: classAttr, className, ...rest } = merged;
+    const combinedClassName = [classAttr, className, "column"].filter(Boolean).join(" ");
 
     return [
       "div",
       {
         ...rest,
-        class: `column ${className} content-${contentMode} v-align-${verticalAlign} h-align-${horizontalAlign} padding-${padding}`.trim(),
+        class: combinedClassName,
         "data-node-type": "column",
-        "data-bg-mode": backgroundMode || "none",
-        style: style || undefined,
       },
       0,
     ];
