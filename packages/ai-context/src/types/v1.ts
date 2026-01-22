@@ -12,7 +12,7 @@ export type BorderRadiusToken = "none" | "sm" | "md" | "lg";
 export type AlignValue = "left" | "center" | "right" | "stretch";
 export type JustifyValue = "start" | "center" | "end" | "space-between";
 
-export interface SlideAttrs {
+export interface SlideAttrs extends BaseBlockAttrs {
   id?: string | null;
   className?: string | null;
   size?: SizeKey | null;
