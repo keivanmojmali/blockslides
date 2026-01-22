@@ -38,11 +38,13 @@ const titleAndSubheader: PresetTemplate = {
   icon: titleAndSubheaderIcon,
   build: () =>
     slide.singleCol({
-      rowAttrs: { className: "min-h-[720px] items-center justify-center" },
       columnAttrs: {
-        verticalAlign: "center",
-        horizontalAlign: "center",
-        className: "gap-6 p-12 text-center bg-white",
+        justify: "center",
+        align: "center",
+        gap: "md",
+        padding: "lg",
+        fill: true,
+        backgroundColor: "#ffffff",
       },
       content: [
         blocks.heading("Lorem ipsum dolor sit amet", 1),
@@ -108,21 +110,22 @@ const imageAndText: PresetTemplate = {
   icon: imageTextIcon,
   build: () =>
     slide.twoCol({
-      rowAttrs: { className: "items-center" },
       leftColumnAttrs: {
-        horizontalAlign: "center",
-        verticalAlign: "center",
-        className: "p-8",
+        align: "center",
+        justify: "center",
+        padding: "lg",
+        fill: true,
       },
       rightColumnAttrs: {
-        verticalAlign: "center",
-        className: "p-8 gap-3",
+        justify: "center",
+        padding: "lg",
+        gap: "sm",
+        fill: true,
       },
       left: [
         blocks.imageBlock({
           src: "https://placehold.co/640x480/png",
-          layout: "contain",
-          fullBleed: false,
+          size: "fit",
         }),
       ],
       right: [
@@ -140,15 +143,17 @@ const textAndImage: PresetTemplate = {
   icon: textImageIcon,
   build: () =>
     slide.twoCol({
-      rowAttrs: { className: "items-center" },
       leftColumnAttrs: {
-        verticalAlign: "center",
-        className: "p-8 gap-3",
+        justify: "center",
+        padding: "lg",
+        gap: "sm",
+        fill: true,
       },
       rightColumnAttrs: {
-        horizontalAlign: "center",
-        verticalAlign: "center",
-        className: "p-8",
+        align: "center",
+        justify: "center",
+        padding: "lg",
+        fill: true,
       },
       left: [
         blocks.heading("Lorem ipsum dolor sit amet", 2),
@@ -158,8 +163,7 @@ const textAndImage: PresetTemplate = {
       right: [
         blocks.imageBlock({
           src: "https://placehold.co/640x480/png",
-          layout: "contain",
-          fullBleed: false,
+          size: "fit",
         }),
       ],
     }),
@@ -170,37 +174,31 @@ const twoColumns: PresetTemplate = {
   label: "Two Columns",
   description: "Header above two balanced text columns",
   icon: twoColumnsIcon,
-  build: () =>
-    slide.singleCol({
-      columnAttrs: { className: "w-full p-6 gap-4", horizontalAlign: "stretch" },
-      content: [
-        blocks.heading("Section heading", 2),
-        {
-          type: "row",
-          attrs: { layout: "1-1", className: "items-start w-full gap-4" },
-          content: [
-            {
-              type: "column",
-              attrs: { className: "p-4 gap-3 w-full box-border" },
-              content: [
-                blocks.paragraph("Lorem ipsum dolor sit amet."),
-                blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
-                blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-4 gap-3 w-full box-border" },
-              content: [
-                blocks.paragraph("Lorem ipsum dolor sit amet."),
-                blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
-                blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
-              ],
-            },
-          ],
-        },
-      ],
-    }),
+  build: () => ({
+    type: "slide",
+    attrs: { id: "slide-1", size: "16x9" },
+    content: [
+      blocks.heading("Section heading", 2),
+      {
+        type: "column",
+        attrs: { padding: "md", gap: "sm", fill: true },
+        content: [
+          blocks.paragraph("Lorem ipsum dolor sit amet."),
+          blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
+          blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "md", gap: "sm", fill: true },
+        content: [
+          blocks.paragraph("Lorem ipsum dolor sit amet."),
+          blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
+          blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
+        ],
+      },
+    ],
+  }),
 };
 
 const twoColumnsWithHeader: PresetTemplate = {
@@ -208,37 +206,31 @@ const twoColumnsWithHeader: PresetTemplate = {
   label: "Two Columns + Header",
   description: "Header plus two columns, each with its own heading",
   icon: twoColumnsHeaderIcon,
-  build: () =>
-    slide.singleCol({
-      columnAttrs: { className: "w-full p-6 gap-4", horizontalAlign: "stretch" },
-      content: [
-        blocks.heading("Section heading", 2),
-        {
-          type: "row",
-          attrs: { layout: "1-1", className: "items-start w-full gap-4" },
-          content: [
-            {
-              type: "column",
-              attrs: { className: "p-4 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
-                blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-4 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
-                blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
-              ],
-            },
-          ],
-        },
-      ],
-    }),
+  build: () => ({
+    type: "slide",
+    attrs: { id: "slide-1", size: "16x9" },
+    content: [
+      blocks.heading("Section heading", 2),
+      {
+        type: "column",
+        attrs: { padding: "md", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
+          blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "md", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
+          blocks.paragraph("Ut enim ad minim veniam, quis nostrud exercitation."),
+        ],
+      },
+    ],
+  }),
 };
 
 const threeColumns: PresetTemplate = {
@@ -246,42 +238,36 @@ const threeColumns: PresetTemplate = {
   label: "Three Columns",
   description: "Balanced three-column text",
   icon: threeColumnsIcon,
-  build: () =>
-    slide.singleCol({
-      columnAttrs: { className: "w-full p-6 gap-4", horizontalAlign: "stretch" },
-      content: [
-        {
-          type: "row",
-          attrs: { layout: "1-1-1", className: "items-start w-full gap-4" },
-          content: [
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.paragraph("Lorem ipsum dolor sit amet."),
-                blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.paragraph("Ut enim ad minim veniam."),
-                blocks.paragraph("Quis nostrud exercitation ullamco laboris."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.paragraph("Nisi ut aliquip ex ea commodo consequat."),
-                blocks.paragraph("Duis aute irure dolor in reprehenderit."),
-              ],
-            },
-          ],
-        },
-      ],
-    }),
+  build: () => ({
+    type: "slide",
+    attrs: { id: "slide-1", size: "16x9" },
+    content: [
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.paragraph("Lorem ipsum dolor sit amet."),
+          blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.paragraph("Ut enim ad minim veniam."),
+          blocks.paragraph("Quis nostrud exercitation ullamco laboris."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.paragraph("Nisi ut aliquip ex ea commodo consequat."),
+          blocks.paragraph("Duis aute irure dolor in reprehenderit."),
+        ],
+      },
+    ],
+  }),
 };
 
 const threeColumnsWithHeader: PresetTemplate = {
@@ -289,46 +275,40 @@ const threeColumnsWithHeader: PresetTemplate = {
   label: "Three Columns + Header",
   description: "Header plus three columns",
   icon: threeColumnsHeaderIcon,
-  build: () =>
-    slide.singleCol({
-      columnAttrs: { className: "w-full p-6 gap-4", horizontalAlign: "stretch" },
-      content: [
-        blocks.heading("Section heading", 2),
-        {
-          type: "row",
-          attrs: { layout: "1-1-1", className: "items-start w-full gap-4" },
-          content: [
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Lorem ipsum dolor sit amet."),
-                blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Ut enim ad minim veniam."),
-                blocks.paragraph("Quis nostrud exercitation ullamco laboris."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Nisi ut aliquip ex ea commodo consequat."),
-                blocks.paragraph("Duis aute irure dolor in reprehenderit."),
-              ],
-            },
-          ],
-        },
-      ],
-    }),
+  build: () => ({
+    type: "slide",
+    attrs: { id: "slide-1", size: "16x9" },
+    content: [
+      blocks.heading("Section heading", 2),
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Lorem ipsum dolor sit amet."),
+          blocks.paragraph("Consectetur adipiscing elit. Sed do eiusmod tempor incididunt."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Ut enim ad minim veniam."),
+          blocks.paragraph("Quis nostrud exercitation ullamco laboris."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Nisi ut aliquip ex ea commodo consequat."),
+          blocks.paragraph("Duis aute irure dolor in reprehenderit."),
+        ],
+      },
+    ],
+  }),
 };
 
 const fourColumnsWithHeader: PresetTemplate = {
@@ -336,55 +316,49 @@ const fourColumnsWithHeader: PresetTemplate = {
   label: "Four Columns + Header",
   description: "Header plus four columns",
   icon: fourColumnsHeaderIcon,
-  build: () =>
-    slide.singleCol({
-      columnAttrs: { className: "w-full p-6 gap-4", horizontalAlign: "stretch" },
-      content: [
-        blocks.heading("Section heading", 2),
-        {
-          type: "row",
-          attrs: { layout: "1-1-1-1", className: "items-start w-full gap-3" },
-          content: [
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Lorem ipsum dolor sit amet."),
-                blocks.paragraph("Consectetur adipiscing elit."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Ut enim ad minim veniam."),
-                blocks.paragraph("Quis nostrud exercitation ullamco laboris."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Nisi ut aliquip ex ea commodo consequat."),
-                blocks.paragraph("Duis aute irure dolor in reprehenderit."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-3 gap-3 w-full box-border" },
-              content: [
-                blocks.heading("Column heading", 4),
-                blocks.paragraph("Excepteur sint occaecat cupidatat."),
-                blocks.paragraph("Sunt in culpa qui officia."),
-              ],
-            },
-          ],
-        },
-      ],
-    }),
+  build: () => ({
+    type: "slide",
+    attrs: { id: "slide-1", size: "16x9" },
+    content: [
+      blocks.heading("Section heading", 2),
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Lorem ipsum dolor sit amet."),
+          blocks.paragraph("Consectetur adipiscing elit."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Ut enim ad minim veniam."),
+          blocks.paragraph("Quis nostrud exercitation ullamco laboris."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Nisi ut aliquip ex ea commodo consequat."),
+          blocks.paragraph("Duis aute irure dolor in reprehenderit."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "sm", gap: "sm", fill: true },
+        content: [
+          blocks.heading("Column heading", 4),
+          blocks.paragraph("Excepteur sint occaecat cupidatat."),
+          blocks.paragraph("Sunt in culpa qui officia."),
+        ],
+      },
+    ],
+  }),
 };
 
 const fullImage: PresetTemplate = {
@@ -394,14 +368,12 @@ const fullImage: PresetTemplate = {
   icon: fullImageIcon,
   build: () =>
     slide.singleCol({
-      rowAttrs: { className: "min-h-[720px]" },
-      columnAttrs: { className: "p-0 w-full h-full", horizontalAlign: "stretch" },
+      columnAttrs: { padding: "none", fill: true, align: "stretch" },
       content: [
         blocks.imageBlock({
           src: "https://placehold.co/1920x1080/png",
-          layout: "cover",
-          fullBleed: true,
-          align: "center",
+          size: "fill",
+          crop: "center",
         }),
       ],
     }),
@@ -412,24 +384,18 @@ const fourColumns: PresetTemplate = {
   label: "Four Columns",
   description: "Balanced four-column text",
   icon: fourColumnsIcon,
-  build: () =>
-    slide.singleCol({
-      columnAttrs: { className: "w-full p-4 gap-4", horizontalAlign: "stretch" },
+  build: () => ({
+    type: "slide",
+    attrs: { id: "slide-1", size: "16x9" },
+    content: Array.from({ length: 4 }).map(() => ({
+      type: "column",
+      attrs: { padding: "sm", gap: "sm", fill: true },
       content: [
-        {
-          type: "row",
-          attrs: { layout: "1-1-1-1", className: "items-start w-full gap-3" },
-          content: Array.from({ length: 4 }).map(() => ({
-            type: "column",
-            attrs: { className: "p-2.5 gap-2 w-full box-border" },
-            content: [
-              blocks.paragraph("Lorem ipsum dolor sit amet."),
-              blocks.paragraph("Consectetur adipiscing elit."),
-            ],
-          })),
-        },
+        blocks.paragraph("Lorem ipsum dolor sit amet."),
+        blocks.paragraph("Consectetur adipiscing elit."),
       ],
-    }),
+    })),
+  }),
 };
 
 const titleWithBullets: PresetTemplate = {
@@ -439,7 +405,7 @@ const titleWithBullets: PresetTemplate = {
   icon: titleBulletsIcon,
   build: () =>
     slide.singleCol({
-      columnAttrs: { className: "p-6 gap-4" },
+      columnAttrs: { padding: "md", gap: "md" },
       content: [
         blocks.heading("Lorem ipsum dolor sit amet", 2),
         blocks.bulletList([
@@ -458,12 +424,12 @@ const titleBulletsAndImage: PresetTemplate = {
   icon: titleBulletsImageIcon,
   build: () =>
     slide.twoCol({
-      rowAttrs: { className: "items-start w-full" },
-      leftColumnAttrs: { className: "p-6 gap-3 w-full" },
+      leftColumnAttrs: { padding: "md", gap: "sm", fill: true },
       rightColumnAttrs: {
-        horizontalAlign: "center",
-        verticalAlign: "center",
-        className: "p-6 w-full",
+        align: "center",
+        justify: "center",
+        padding: "md",
+        fill: true,
       },
       left: [
         blocks.heading("Lorem ipsum dolor sit amet", 2),
@@ -476,8 +442,7 @@ const titleBulletsAndImage: PresetTemplate = {
       right: [
         blocks.imageBlock({
           src: "https://placehold.co/480x360/png",
-          layout: "contain",
-          fullBleed: false,
+          size: "fit",
         }),
       ],
     }),
@@ -490,19 +455,18 @@ const accentLeft: PresetTemplate = {
   icon: accentLeftIcon,
   build: () =>
     slide.twoCol({
-      rowAttrs: { layout: "1-2", className: "items-stretch w-full gap-0 min-h-[360px]" },
       leftColumnAttrs: {
-        className: "bg-slate-100 p-0 w-full h-full",
-        horizontalAlign: "stretch",
-        verticalAlign: "top",
+        backgroundColor: "#f1f5f9",
+        padding: "none",
+        fill: true,
+        align: "stretch",
       },
-      rightColumnAttrs: { className: "p-6 gap-3 w-full", verticalAlign: "center" },
+      rightColumnAttrs: { padding: "md", gap: "sm", fill: true, justify: "center" },
       left: [
         blocks.imageBlock({
           src: "https://placehold.co/320x240/png",
-          layout: "cover",
-          fullBleed: true,
-          align: "center",
+          size: "fill",
+          crop: "center",
         }),
       ],
       right: [
@@ -520,12 +484,12 @@ const accentRight: PresetTemplate = {
   icon: accentRightIcon,
   build: () =>
     slide.twoCol({
-      rowAttrs: { layout: "2-1", className: "items-stretch w-full gap-0 min-h-[360px]" },
-      leftColumnAttrs: { className: "p-6 gap-3 w-full", verticalAlign: "center" },
+      leftColumnAttrs: { padding: "md", gap: "sm", fill: true, justify: "center" },
       rightColumnAttrs: {
-        className: "bg-slate-100 p-0 w-full h-full",
-        horizontalAlign: "stretch",
-        verticalAlign: "top",
+        backgroundColor: "#f1f5f9",
+        padding: "none",
+        fill: true,
+        align: "stretch",
       },
       left: [
         blocks.heading("Accent right", 3),
@@ -535,9 +499,8 @@ const accentRight: PresetTemplate = {
       right: [
         blocks.imageBlock({
           src: "https://placehold.co/320x240/png",
-          layout: "cover",
-          fullBleed: true,
-          align: "center",
+          size: "fill",
+          crop: "center",
         }),
       ],
     }),
@@ -551,39 +514,26 @@ const accentTop: PresetTemplate = {
   build: () =>
     ({
       type: "slide",
-      attrs: { id: "slide-1", size: "16x9", className: "" },
+      attrs: { id: "slide-1", size: "16x9" },
       content: [
         {
-          type: "row",
-          attrs: { layout: "1", className: "w-full items-stretch h-[20vh] min-h-[140px]" },
+          type: "column",
+          attrs: { backgroundColor: "#f1f5f9", padding: "none", height: "200px", align: "stretch" },
           content: [
-            {
-              type: "column",
-              attrs: { className: "bg-slate-100 p-0 w-full h-full box-border" },
-              content: [
-                blocks.imageBlock({
-                  src: "https://placehold.co/1200x400/png",
-                  layout: "cover",
-                  fullBleed: true,
-                  align: "center",
-                }),
-              ],
-            },
+            blocks.imageBlock({
+              src: "https://placehold.co/1200x400/png",
+              size: "fill",
+              crop: "center",
+            }),
           ],
         },
         {
-          type: "row",
-          attrs: { layout: "1", className: "w-full flex-1" },
+          type: "column",
+          attrs: { padding: "md", gap: "sm", fill: true, justify: "end" },
           content: [
-            {
-              type: "column",
-              attrs: { className: "p-6 gap-3 w-full box-border justify-end" },
-              content: [
-                blocks.heading("Accent top", 3),
-                blocks.paragraph("Short supporting copy goes here."),
-                blocks.paragraph("Add one more line if needed."),
-              ],
-            },
+            blocks.heading("Accent top", 3),
+            blocks.paragraph("Short supporting copy goes here."),
+            blocks.paragraph("Add one more line if needed."),
           ],
         },
       ],
@@ -597,12 +547,12 @@ const accentRightFit: PresetTemplate = {
   icon: accentRightFitIcon,
   build: () =>
     slide.twoCol({
-      rowAttrs: { layout: "2-1", className: "items-center w-full gap-4" },
-      leftColumnAttrs: { className: "p-6 gap-3 w-full", verticalAlign: "center" },
+      leftColumnAttrs: { padding: "md", gap: "sm", fill: true, justify: "center" },
       rightColumnAttrs: {
-        className: "p-6 w-full items-center",
-        verticalAlign: "center",
-        horizontalAlign: "center",
+        padding: "md",
+        fill: true,
+        justify: "center",
+        align: "center",
       },
       left: [
         blocks.heading("Accent right (fit)", 3),
@@ -612,13 +562,11 @@ const accentRightFit: PresetTemplate = {
       right: [
         {
           type: "column",
-          attrs: { className: "bg-slate-100 p-4 gap-3 rounded-lg w-full items-center" },
+          attrs: { backgroundColor: "#f1f5f9", padding: "md", gap: "sm", borderRadius: "lg", align: "center" },
           content: [
             blocks.imageBlock({
               src: "https://placehold.co/240x200/png",
-              layout: "contain",
-              fullBleed: false,
-              align: "center",
+              size: "fit",
             }),
           ],
         },
@@ -633,23 +581,21 @@ const accentLeftFit: PresetTemplate = {
   icon: accentLeftFitIcon,
   build: () =>
     slide.twoCol({
-      rowAttrs: { layout: "1-2", className: "items-center w-full gap-4" },
       leftColumnAttrs: {
-        className: "p-6 w-full items-center",
-        verticalAlign: "center",
-        horizontalAlign: "center",
+        padding: "md",
+        fill: true,
+        justify: "center",
+        align: "center",
       },
-      rightColumnAttrs: { className: "p-6 gap-3 w-full", verticalAlign: "center" },
+      rightColumnAttrs: { padding: "md", gap: "sm", fill: true, justify: "center" },
       left: [
         {
           type: "column",
-          attrs: { className: "bg-slate-100 p-4 gap-3 rounded-lg w-full items-center" },
+          attrs: { backgroundColor: "#f1f5f9", padding: "md", gap: "sm", borderRadius: "lg", align: "center" },
           content: [
             blocks.imageBlock({
               src: "https://placehold.co/240x200/png",
-              layout: "contain",
-              fullBleed: false,
-              align: "center",
+              size: "fit",
             }),
           ],
         },
@@ -667,47 +613,37 @@ const twoImageColumns: PresetTemplate = {
   label: "2 image columns",
   description: "Header with two image cards",
   icon: twoImageColumnsIcon,
-  build: () =>
-    slide.singleCol({
-      columnAttrs: { className: "w-full p-6 gap-4", horizontalAlign: "stretch" },
-      content: [
-        blocks.heading("Images", 2),
-        {
-          type: "row",
-          attrs: { layout: "1-1", className: "items-start w-full gap-4" },
-          content: [
-            {
-              type: "column",
-              attrs: { className: "p-4 gap-3 w-full box-border" },
-              content: [
-                blocks.imageBlock({
-                  src: "https://placehold.co/640x360/png",
-                  layout: "contain",
-                  fullBleed: false,
-                  align: "center",
-                }),
-                blocks.heading("Image title", 4),
-                blocks.paragraph("Short supporting copy goes here."),
-              ],
-            },
-            {
-              type: "column",
-              attrs: { className: "p-4 gap-3 w-full box-border" },
-              content: [
-                blocks.imageBlock({
-                  src: "https://placehold.co/640x360/png",
-                  layout: "contain",
-                  fullBleed: false,
-                  align: "center",
-                }),
-                blocks.heading("Image title", 4),
-                blocks.paragraph("Short supporting copy goes here."),
-              ],
-            },
-          ],
-        },
-      ],
-    }),
+  build: () => ({
+    type: "slide",
+    attrs: { id: "slide-1", size: "16x9" },
+    content: [
+      blocks.heading("Images", 2),
+      {
+        type: "column",
+        attrs: { padding: "md", gap: "sm", fill: true },
+        content: [
+          blocks.imageBlock({
+            src: "https://placehold.co/640x360/png",
+            size: "fit",
+          }),
+          blocks.heading("Image title", 4),
+          blocks.paragraph("Short supporting copy goes here."),
+        ],
+      },
+      {
+        type: "column",
+        attrs: { padding: "md", gap: "sm", fill: true },
+        content: [
+          blocks.imageBlock({
+            src: "https://placehold.co/640x360/png",
+            size: "fit",
+          }),
+          blocks.heading("Image title", 4),
+          blocks.paragraph("Short supporting copy goes here."),
+        ],
+      },
+    ],
+  }),
 };
 
 const registry: Record<PresetKey, PresetTemplate> = {
