@@ -4,7 +4,6 @@ export const all = [
   ctx.core,
   ctx.fullDocument,
   ctx.slide,
-  ctx.row,
   ctx.column,
   ctx.style,
   ctx.sizing,
