@@ -1,16 +1,27 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "bulletList",
+  "description": "A bullet list block. Inherits common block attributes.",
   "type": "object",
   "properties": {
     "type": { "const": "bulletList" },
     "attrs": {
       "type": "object",
+      "properties": {
+        "align": { "enum": ["left", "center", "right", null], "description": "Text alignment" },
+        "padding": { "enum": ["none", "sm", "md", "lg", null], "description": "Internal padding" },
+        "margin": { "enum": ["none", "sm", "md", "lg", null], "description": "External margin" },
+        "backgroundColor": { "type": ["string", "null"], "description": "Background color" },
+        "borderRadius": { "enum": ["none", "sm", "md", "lg", null], "description": "Corner rounding" }
+      },
       "additionalProperties": true
+    },
+    "content": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "List items"
     }
   },
   "required": ["type"],
   "additionalProperties": false
 }
-
-
