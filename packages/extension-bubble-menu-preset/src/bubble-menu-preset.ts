@@ -372,6 +372,7 @@ export function buildMenuElement(
   let fontSizeSelect: HTMLSelectElement | null = null
   let imageAlignSelect: HTMLSelectElement | null = null
   let imageDisplaySelect: HTMLSelectElement | null = null
+  let imageCropSelect: HTMLSelectElement | null = null
 
   const normalizeFontFamily = (value?: string | null) => {
     if (!value) return value
@@ -766,7 +767,7 @@ export function buildMenuElement(
     alignWrapper.className = 'bs-bmp-select'
     const alignSelect = document.createElement('select')
     alignSelect.className = 'bs-bmp-select-input'
-    alignSelect.title = 'Align image'
+    alignSelect.title = 'Image alignment'
     ;['left', 'center', 'right'].forEach((alignment) => {
       const option = document.createElement('option')
       option.value = alignment
@@ -792,8 +793,8 @@ export function buildMenuElement(
     displayWrapper.className = 'bs-bmp-select'
     const displaySelect = document.createElement('select')
     displaySelect.className = 'bs-bmp-select-input'
-    displaySelect.title = 'Image fit'
-    ;['default', 'cover', 'contain', 'fill'].forEach((mode) => {
+    displaySelect.title = 'Image size'
+    ;['fill', 'fit', 'natural'].forEach((mode) => {
       const option = document.createElement('option')
       option.value = mode
       option.textContent = mode.charAt(0).toUpperCase() + mode.slice(1)
@@ -803,19 +804,42 @@ export function buildMenuElement(
       const value = displaySelect.value
       const chain = (editor.chain as any)?.()
       const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
-      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockLayout === 'function') {
-        if (value === 'cover' && typeof runner?.setImageBlockFullBleed === 'function') {
-          runner.setImageBlockFullBleed(true)
-        }
-        runner.setImageBlockLayout(value === 'default' ? 'cover' : value).run?.()
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockSize === 'function') {
+        runner.setImageBlockSize(value).run?.()
       } else if (typeof runner?.updateAttributes === 'function') {
-        runner.updateAttributes('image', { display: value }).run?.()
+        runner.updateAttributes('image', { size: value }).run?.()
       }
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
     displayWrapper.appendChild(displaySelect)
     imageToolbar.appendChild(displayWrapper)
     imageDisplaySelect = displaySelect
+
+    const cropWrapper = document.createElement('div')
+    cropWrapper.className = 'bs-bmp-select'
+    const cropSelect = document.createElement('select')
+    cropSelect.className = 'bs-bmp-select-input'
+    cropSelect.title = 'Image crop position'
+    ;['center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'].forEach((position) => {
+      const option = document.createElement('option')
+      option.value = position
+      option.textContent = position.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      cropSelect.appendChild(option)
+    })
+    cropSelect.addEventListener('change', () => {
+      const value = cropSelect.value
+      const chain = (editor.chain as any)?.()
+      const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
+      if (editor.isActive('imageBlock') && typeof runner?.setImageBlockCrop === 'function') {
+        runner.setImageBlockCrop(value).run?.()
+      } else if (typeof runner?.updateAttributes === 'function') {
+        runner.updateAttributes('image', { crop: value }).run?.()
+      }
+      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+    })
+    cropWrapper.appendChild(cropSelect)
+    imageToolbar.appendChild(cropWrapper)
+    imageCropSelect = cropSelect
 
     addImageButton('Full width', 'Set image width to 100%', () => {
       const chain = (editor.chain as any)?.()
@@ -919,11 +943,11 @@ export function buildMenuElement(
   const syncImageState = () => {
     if (!isImageSelection()) return
     const attrs = getImageAttrs()
-    const fitValue = editor.isActive('imageBlock')
-      ? (attrs.layout as string | undefined) || 'cover'
-      : (attrs.display as string | undefined) || 'default'
+    const sizeValue = (attrs.size as string | undefined) || 'fill'
+    const cropValue = (attrs.crop as string | undefined) || 'center'
     setSelectValue(imageAlignSelect, attrs.align as string | undefined)
-    setSelectValue(imageDisplaySelect, fitValue)
+    setSelectValue(imageDisplaySelect, sizeValue)
+    setSelectValue(imageCropSelect, cropValue)
   }
 
   const syncToolbarVisibility = () => {
