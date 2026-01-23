@@ -48,7 +48,7 @@ export const useSlideEditor = ({
       immediatelyRender: false,
       shouldRerenderOnTransaction: false,
       content,
-      theme: "dark",
+      theme: "light",
       onUpdate: (ctx: { editor: Editor }) => {
         // When debounce is added, use: debouncedUpdate(JSON.stringify(ctx.editor.getJSON()))
         handleUpdate(JSON.stringify(ctx.editor.getJSON()));
@@ -63,7 +63,8 @@ export const useSlideEditor = ({
               presetForeground: "#e5e7eb",
             },
             slide: {
-              renderMode: "dynamic",
+              renderMode: "fixed",
+              scale: .5,
               hoverOutline: { color: "#3b82f6", width: "1.5px", offset: "4px" },
               hoverOutlineCascade: false,
             },

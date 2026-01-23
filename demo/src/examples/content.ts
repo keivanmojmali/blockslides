@@ -6,7 +6,7 @@ export const content = {
             attrs: { id: 'title-gradient-center', size: 'linkedin-banner'},
             content: [
                 {
-                    type: 'row',
+                    type: 'columnGroup',
                     attrs: { layout: '1' },
                     content: [
                         {
@@ -37,7 +37,7 @@ export const content = {
             attrs: { id: 'hero-with-title' },
             content: [
                 {
-                    type: 'row',
+                    type: 'columnGroup',
                     attrs: { layout: '2-1' },
                     content: [
                         {
@@ -94,7 +94,7 @@ export const content = {
             attrs: { id: 'feature-highlights' },
             content: [
                 {
-                    type: 'row',
+                    type: 'columnGroup',
                     attrs: {
                         layout: '1-1-1',
                         className:
