@@ -16,7 +16,7 @@
  * Parses a layout string and returns flex ratios for each column
  *
  * @param layout - Layout string (e.g., '2-1', '1-1-1')
- * @param columnCount - Number of columns in the row
+ * @param columnCount - Number of columns in the columnGroup
  * @returns Array of flex ratio numbers
  *
  * @example
@@ -50,7 +50,7 @@ export function parseLayout(layout: string, columnCount: number): number[] {
   if (ratios.length !== columnCount) {
     console.warn(
       `[BlockSlides] Layout '${layout}' expects ${ratios.length} column(s) ` +
-        `but found ${columnCount} column(s) in the row. ` +
+        `but found ${columnCount} column(s) in the columnGroup. ` +
         `Using equal distribution.`
     );
     return new Array(columnCount).fill(1);
@@ -60,23 +60,23 @@ export function parseLayout(layout: string, columnCount: number): number[] {
 }
 
 /**
- * Applies layout ratios to a row's columns by setting flex values
+ * Applies layout ratios to a columnGroup's columns by setting flex values
  *
- * @param rowElement - The DOM element for the row
+ * @param columnGroupElement - The DOM element for the columnGroup
  * @param layout - Layout string (e.g., '2-1')
  *
  * @example
- * const row = document.querySelector('[data-node-type="row"]');
- * applyLayoutToRow(row, '2-1');
+ * const columnGroup = document.querySelector('[data-node-type="columnGroup"]');
+ * applyLayoutToColumnGroup(columnGroup, '2-1');
  * // First column will have flex: 2 1 0%
  * // Second column will have flex: 1 1 0%
  */
-export function applyLayoutToRow(
-  rowElement: HTMLElement,
+export function applyLayoutToColumnGroup(
+  columnGroupElement: HTMLElement,
   layout: string
 ): void {
   // Get all column children
-  const columns = Array.from(rowElement.children).filter(
+  const columns = Array.from(columnGroupElement.children).filter(
     (el) => el.getAttribute('data-node-type') === 'column'
   ) as HTMLElement[];
 
@@ -100,26 +100,35 @@ export function applyLayoutToRow(
 }
 
 /**
- * Applies layouts to all rows in the editor
+ * Applies layouts to all columnGroups in the editor
  * Should be called after editor mount and after content updates
  *
  * @param editorElement - The root editor DOM element
  */
 export function applyAllLayouts(editorElement: HTMLElement): void {
-  // Find all row elements
-  const rows = editorElement.querySelectorAll(
-    '[data-node-type="row"]'
+  // Find all columnGroup elements
+  const columnGroups = editorElement.querySelectorAll(
+    '[data-node-type="columnGroup"]'
   ) as NodeListOf<HTMLElement>;
 
-  rows.forEach((row) => {
-    const layout = row.getAttribute("data-layout");
+  columnGroups.forEach((columnGroup) => {
+    const layout = columnGroup.getAttribute("data-layout");
 
     // Only apply if layout is specified and not 'auto'
     // Note: CSS handles most common layouts, but this provides
     // support for custom/dynamic layouts
     if (layout && layout !== "auto") {
-      applyLayoutToRow(row, layout);
+      applyLayoutToColumnGroup(columnGroup, layout);
     }
     // If no layout or 'auto', columns will use default flex: 1 from CSS
   });
+}
+
+// Backward compatibility - keep the old function name as an alias
+/** @deprecated Use applyLayoutToColumnGroup instead */
+export function applyLayoutToRow(
+  rowElement: HTMLElement,
+  layout: string
+): void {
+  applyLayoutToColumnGroup(rowElement, layout);
 }
