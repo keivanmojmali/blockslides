@@ -41,6 +41,7 @@
     "@blockslides/extension-code-block": "workspace:*",
     "@blockslides/extension-code-block-lowlight": "workspace:*",
     "@blockslides/extension-color": "workspace:*",
+    "@blockslides/extension-column-group": "workspace:*",
     "@blockslides/extension-column": "workspace:*",
     "@blockslides/extension-details": "workspace:*",
     "@blockslides/extension-document": "workspace:*",
