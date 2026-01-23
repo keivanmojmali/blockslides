@@ -3,7 +3,7 @@ export const editingRules = `
 - Preserve existing ids and valid attributes. Do not remove or rename known attrs.
 - Use only allowed enum values. Do not invent new enum values.
 - Avoid introducing new attributes that are not documented. If styling is needed, prefer className.
-- Keep the document valid: slide > row > column > blocks.
+- Keep the document valid: slide > (column | columnGroup > column) > blocks.
 </General editing rules>
 
 <Centering content in a column>
@@ -17,17 +17,17 @@ export const editingRules = `
   - After:  column.attrs = { verticalAlign: "center", horizontalAlign: "center", padding: "none" }
 </Centering content in a column>
 
-<Backgrounds (slides, rows, columns)>
+<Backgrounds (slides, columnGroups, columns)>
 - Use structured background attrs instead of raw Tailwind bg-[url(...)] when setting background images.
 - If you use bg-[...], the image will not work because the tailwind classes we need have been tree shaken off - instead use the attributes.
 - For slide-level backgrounds (hero/flyer):
   - Use slide.attrs.backgroundMode = "color" | "image" | "imageOverlay".
   - For images, set slide.attrs.backgroundImage to the image URL.
   - For overlays, set slide.attrs.backgroundOverlayColor (e.g., "rgba(0,0,0,0.8)") and slide.attrs.backgroundOverlayOpacity (0–1).
-- For horizontal bands, use row-level backgrounds (row.attrs.background*).
+- For horizontal bands, use columnGroup-level backgrounds (columnGroup.attrs.background*).
 - For panel-style sections, use column-level backgrounds (column.attrs.background*).
-- Do not mix multiple background images on the same node; prefer one backgroundMode per slide/row/column and layer additional visuals as imageBlock nodes.
-</Backgrounds (slides, rows, columns)>
+- Do not mix multiple background images on the same node; prefer one backgroundMode per slide/columnGroup/column and layer additional visuals as imageBlock nodes.
+</Backgrounds (slides, columnGroups, columns)>
 
 <Text editing (headings and paragraphs)>
 - Preserve semantic types: do not turn headings into paragraphs or vice versa unless explicitly asked.
