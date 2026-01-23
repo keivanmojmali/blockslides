@@ -97,6 +97,8 @@ import { Youtube } from "@blockslides/extension-youtube";
 import { Slide } from "@blockslides/extension-slide";
 import type { SlideOptions } from "@blockslides/extension-slide";
 import { Column } from "@blockslides/extension-column";
+import type { ColumnGroupOptions } from "@blockslides/extension-column-group";
+import { ColumnGroup } from "@blockslides/extension-column-group";
 import { SelectWithinSlide } from "@blockslides/extension-select-within-slide";
 import type { AddSlideButtonOptions } from "@blockslides/extension-add-slide-button";
 import { AddSlideButton } from "@blockslides/extension-add-slide-button";
@@ -419,6 +421,14 @@ export interface ExtensionKitOptions {
    * @example selectWithinSlide: false
    */
   selectWithinSlide?: false;
+
+  /**
+   * ColumnGroup extension - groups columns horizontally side-by-side
+   * @default {}
+   * @example columnGroup: false
+   * @example columnGroup: { enableLayoutCSS: false }
+   */
+  columnGroup?: Partial<ColumnGroupOptions> | false;
 
   /**
    * Strike-through extension
@@ -787,8 +797,13 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       extensions.push(SelectWithinSlide);
     }
 
-    // Column extension (row is no longer needed - adjacent columns form rows automatically)
+    // Column extension - for full-width blocks
     extensions.push(Column.configure({}));
+
+    // ColumnGroup extension - groups columns horizontally side-by-side
+    if (this.options.columnGroup !== false) {
+      extensions.push(ColumnGroup.configure(this.options.columnGroup || {}));
+    }
 
     if (this.options.addSlideButton !== false) {
       extensions.push(
