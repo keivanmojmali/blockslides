@@ -107,6 +107,18 @@ export const blocks = {
     type: "youtube",
     attrs,
   }),
+
+  column: (content: Block[], attrs?: Partial<ColumnAttrs>) => ({
+    type: "column" as const,
+    attrs: attrs ?? {},
+    content,
+  }),
+
+  columnGroup: (columns: Block[], attrs?: { layout?: string; fill?: boolean; className?: string }) => ({
+    type: "columnGroup" as const,
+    attrs: attrs ?? {},
+    content: columns,
+  }),
 };
 
 type SingleColOpts = {
@@ -115,12 +127,15 @@ type SingleColOpts = {
   content?: Block[];
 };
 
+type ColumnNode = {
+  type: "column";
+  attrs?: Partial<ColumnAttrs>;
+  content: Block[];
+};
+
 type TwoColOpts = {
   slideAttrs?: Partial<SlideAttrs>;
-  leftColumnAttrs?: Partial<ColumnAttrs>;
-  rightColumnAttrs?: Partial<ColumnAttrs>;
-  left?: Block[];
-  right?: Block[];
+  columns: [ColumnNode, ColumnNode];
 };
 
 /**
@@ -158,94 +173,49 @@ export const slide = Object.assign(
     }),
 
     /**
-     * Two column layout - adjacent columns form horizontal row via CSS.
+     * Two column layout - columns grouped side-by-side via columnGroup.
+     * Pass two column objects created with blocks.column().
      */
-    twoCol: (opts: TwoColOpts = {}): SlideNode => ({
+    twoCol: (col1: ColumnNode, col2: ColumnNode, slideAttrs?: Partial<SlideAttrs>): SlideNode => ({
       type: "slide",
-      attrs: defaults.slide(opts.slideAttrs),
+      attrs: defaults.slide(slideAttrs),
       content: [
         {
-          type: "column",
-          attrs: defaults.column(opts.leftColumnAttrs),
-          content: opts.left ?? [],
-        },
-        {
-          type: "column",
-          attrs: defaults.column(opts.rightColumnAttrs),
-          content: opts.right ?? [],
+          type: "columnGroup",
+          attrs: { fill: true },
+          content: [col1, col2],
         },
       ],
     }),
 
     /**
-     * Three column layout - adjacent columns form horizontal row via CSS.
+     * Three column layout - columns grouped side-by-side via columnGroup.
+     * Pass three column objects created with blocks.column().
      */
-    threeCol: (opts: {
-      slideAttrs?: Partial<SlideAttrs>;
-      col1Attrs?: Partial<ColumnAttrs>;
-      col2Attrs?: Partial<ColumnAttrs>;
-      col3Attrs?: Partial<ColumnAttrs>;
-      col1?: Block[];
-      col2?: Block[];
-      col3?: Block[];
-    } = {}): SlideNode => ({
+    threeCol: (col1: ColumnNode, col2: ColumnNode, col3: ColumnNode, slideAttrs?: Partial<SlideAttrs>): SlideNode => ({
       type: "slide",
-      attrs: defaults.slide(opts.slideAttrs),
+      attrs: defaults.slide(slideAttrs),
       content: [
         {
-          type: "column",
-          attrs: defaults.column(opts.col1Attrs),
-          content: opts.col1 ?? [],
-        },
-        {
-          type: "column",
-          attrs: defaults.column(opts.col2Attrs),
-          content: opts.col2 ?? [],
-        },
-        {
-          type: "column",
-          attrs: defaults.column(opts.col3Attrs),
-          content: opts.col3 ?? [],
+          type: "columnGroup",
+          attrs: { fill: true },
+          content: [col1, col2, col3],
         },
       ],
     }),
 
     /**
-     * Four column layout - adjacent columns form horizontal row via CSS.
+     * Four column layout - columns grouped side-by-side via columnGroup.
+     * Pass four column objects created with blocks.column().
      */
-    fourCol: (opts: {
-      slideAttrs?: Partial<SlideAttrs>;
-      col1Attrs?: Partial<ColumnAttrs>;
-      col2Attrs?: Partial<ColumnAttrs>;
-      col3Attrs?: Partial<ColumnAttrs>;
-      col4Attrs?: Partial<ColumnAttrs>;
-      col1?: Block[];
-      col2?: Block[];
-      col3?: Block[];
-      col4?: Block[];
-    } = {}): SlideNode => ({
+    fourCol: (col1: ColumnNode, col2: ColumnNode, col3: ColumnNode, col4: ColumnNode, slideAttrs?: Partial<SlideAttrs>): SlideNode => ({
       type: "slide",
-      attrs: defaults.slide(opts.slideAttrs),
+      attrs: defaults.slide(slideAttrs),
       content: [
         {
-          type: "column",
-          attrs: defaults.column(opts.col1Attrs),
-          content: opts.col1 ?? [],
-        },
-        {
-          type: "column",
-          attrs: defaults.column(opts.col2Attrs),
-          content: opts.col2 ?? [],
-        },
-        {
-          type: "column",
-          attrs: defaults.column(opts.col3Attrs),
-          content: opts.col3 ?? [],
-        },
-        {
-          type: "column",
-          attrs: defaults.column(opts.col4Attrs),
-          content: opts.col4 ?? [],
+          type: "columnGroup",
+          attrs: { fill: true },
+          content: [col1, col2, col3, col4],
         },
       ],
     }),
@@ -356,13 +326,11 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
         content: input.content ?? [],
       });
     case "slide.twoCol":
-      return slide.twoCol({
-        slideAttrs: input.slideAttrs,
-        leftColumnAttrs: input.leftColumnAttrs,
-        rightColumnAttrs: input.rightColumnAttrs,
-        left: input.left ?? [],
-        right: input.right ?? [],
-      });
+      return slide.twoCol(
+        blocks.column(input.left ?? [], input.leftColumnAttrs),
+        blocks.column(input.right ?? [], input.rightColumnAttrs),
+        input.slideAttrs
+      );
     case "slide.hero": {
       const opts = input.heroOpts ?? {};
       return {
@@ -580,8 +548,9 @@ Adjacent columns automatically form horizontal layouts via CSS.
 Presets:
 - slide({ content?, slideAttrs? }): slide with direct block content
 - slide.singleCol({ content?, slideAttrs?, columnAttrs? }): single column layout
-- slide.twoCol({ left?, right?, slideAttrs?, leftColumnAttrs?, rightColumnAttrs? }): two columns side by side
-- slide.threeCol/fourCol: three/four columns side by side
+- slide.twoCol(column1, column2, slideAttrs?): two columns side by side
+- slide.threeCol(col1, col2, col3, slideAttrs?): three columns side by side
+- slide.fourCol(col1, col2, col3, col4, slideAttrs?): four columns side by side
 - slide.hero({ heroOpts }): centered content on dark background
 - slide.imageCover({ imageCoverOpts }): full-bleed image with overlay
 - slide.quote({ quoteOpts }): centered blockquote
@@ -621,6 +590,8 @@ Block Helpers:
 - blocks.youtube({ src?, start?, width?, height? })
 
 Agent/tool usage:
+- Use blocks.column(content, attrs) to create columns
+- Use blocks.columnGroup(columns) to group columns horizontally
 - Call createTemplate({ preset: "slide.twoCol", left: [...], right: [...] })
 - Wrap returned slides in { type: "doc", content: [/* slides here */] }
 
