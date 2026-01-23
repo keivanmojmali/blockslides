@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "columnGroup",
+  "description": "A horizontal container that groups multiple columns side-by-side. Use columnGroup when you want columns to be placed next to each other horizontally. For full-width content, use column directly in the slide.",
+  "type": "object",
+  "properties": {
+    "type": { "const": "columnGroup" },
+    "attrs": {
+      "type": "object",
+      "properties": {
+        "layout": {
+          "type": ["string", "null"],
+          "description": "Layout ratio for columns (e.g., '1-1' for equal, '2-1' for 2:1 ratio)"
+        },
+        "fill": {
+          "type": ["boolean", "null"],
+          "description": "Whether the columnGroup should fill available vertical space"
+        },
+        "className": { "type": ["string", "null"] },
+        "backgroundMode": {
+          "enum": ["none", "color", "image", "imageOverlay", null]
+        },
+        "backgroundColor": { "type": ["string", "null"] },
+        "backgroundImage": { "type": ["string", "null"] },
+        "backgroundOverlayColor": { "type": ["string", "null"] },
+        "backgroundOverlayOpacity": { "type": ["number", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "const": "column" }
+        },
+        "required": ["type"]
+      },
+      "minItems": 1,
+      "description": "Array of column nodes"
+    }
+  },
+  "required": ["type", "content"],
+  "additionalProperties": false
+}
