@@ -11,6 +11,7 @@ ${[
   ctx.fullDocument,
   ctx.slide,
   ctx.column,
+  ctx.columnGroup,
   ctx.style,
   ctx.sizing,
   ctx.imageBlock,
