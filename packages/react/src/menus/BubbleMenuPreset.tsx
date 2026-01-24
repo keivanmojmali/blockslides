@@ -18,7 +18,7 @@ import {
 } from '@blockslides/extension-bubble-menu-preset'
 import { isNodeSelection, isTextSelection, type Editor } from '@blockslides/core'
 
-export type BubbleMenuPresetProps = Omit<BubbleMenuPresetOptions, 'element'> &
+export type BubbleMenuPresetProps = Omit<BubbleMenuPresetOptions, 'element' | 'pluginKey'> &
   React.HTMLAttributes<HTMLElement> & {
     editor?: Editor | null
   }
@@ -26,7 +26,6 @@ export type BubbleMenuPresetProps = Omit<BubbleMenuPresetOptions, 'element'> &
 export const BubbleMenuPreset = React.forwardRef<HTMLElement, BubbleMenuPresetProps>(
   (
     {
-      pluginKey = 'bubbleMenuPreset',
       editor,
       updateDelay,
       resizeDelay,
@@ -48,6 +47,7 @@ export const BubbleMenuPreset = React.forwardRef<HTMLElement, BubbleMenuPresetPr
     },
     ref,
   ) => {
+    const pluginKey = 'bubbleMenuPreset'
     const { editor: currentEditor } = useCurrentEditor()
     const menuEl = useRef<HTMLElement | null>(null)
 
@@ -66,8 +66,8 @@ export const BubbleMenuPreset = React.forwardRef<HTMLElement, BubbleMenuPresetPr
         fonts: fonts ?? DEFAULT_FONTS,
         fontSizes: fontSizes ?? DEFAULT_FONT_SIZES,
         alignments: alignments ?? DEFAULT_ALIGNMENTS,
-          onTextAction,
-          onImageReplace,
+        onTextAction,
+        onImageReplace,
       })
 
       menuEl.current = element
@@ -118,7 +118,6 @@ export const BubbleMenuPreset = React.forwardRef<HTMLElement, BubbleMenuPresetPr
     }, [
       editor,
       currentEditor,
-      pluginKey,
       updateDelay,
       resizeDelay,
       appendTo,
