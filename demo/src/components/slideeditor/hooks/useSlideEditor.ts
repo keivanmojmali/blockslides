@@ -68,7 +68,6 @@ export const useSlideEditor = ({
               hoverOutline: { color: "#3b82f6", width: "1.5px", offset: "4px" },
               hoverOutlineCascade: false,
             },
-            bubbleMenuPreset: false,
           })
         ],
       editorProps: {
