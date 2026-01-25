@@ -32,10 +32,6 @@ export const useSlideEditor = ({
     () => templatesV1.listPresetTemplates(),
     []
   );
-
-
-
-
   const presets = useMemo(
     () => presetTemplates ?? defaultPresets,
     [presetTemplates, defaultPresets]
@@ -50,6 +46,7 @@ export const useSlideEditor = ({
       content,
       theme: "light",
       onUpdate: (ctx: { editor: Editor }) => {
+        console.log("onUpdate", ctx.editor.getJSON());
         // When debounce is added, use: debouncedUpdate(JSON.stringify(ctx.editor.getJSON()))
         handleUpdate(JSON.stringify(ctx.editor.getJSON()));
       },
