@@ -373,6 +373,7 @@ export function buildMenuElement(
   let imageAlignSelect: HTMLSelectElement | null = null
   let imageDisplaySelect: HTMLSelectElement | null = null
   let imageCropSelect: HTMLSelectElement | null = null
+  let imageWidthSelect: HTMLSelectElement | null = null
 
   const normalizeFontFamily = (value?: string | null) => {
     if (!value) return value
@@ -558,7 +559,9 @@ export function buildMenuElement(
     select.disabled = !hasCommand
     select.addEventListener('change', () => {
       runWithFocus(() => runChainCommand('setFontFamily', select.value))
-      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      if (editor.view?.state) {
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      }
     })
     fontFamilySelect = select
     wrapper.appendChild(select)
@@ -581,7 +584,9 @@ export function buildMenuElement(
     select.disabled = !hasCommand
     select.addEventListener('change', () => {
       runWithFocus(() => runChainCommand('setFontSize', select.value))
-      editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      if (editor.view?.state) {
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      }
     })
     fontSizeSelect = select
     wrapper.appendChild(select)
@@ -620,7 +625,9 @@ export function buildMenuElement(
         runWithFocus(() => runChainCommand('unsetColor'))
         editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
       },
-      onToggle: () => editor.commands.setMeta?.('bubbleMenu', 'updatePosition'),
+      onToggle: () => {
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      },
     })
     popovers.push(popover)
     cleanupFns.push(destroy)
@@ -645,7 +652,9 @@ export function buildMenuElement(
         runWithFocus(() => runChainCommand('unsetHighlight'))
         editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
       },
-      onToggle: () => editor.commands.setMeta?.('bubbleMenu', 'updatePosition'),
+      onToggle: () => {
+        editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
+      },
     })
     popovers.push(popover)
     cleanupFns.push(destroy)
@@ -764,7 +773,10 @@ export function buildMenuElement(
     })
 
     const alignWrapper = document.createElement('div')
-    alignWrapper.className = 'bs-bmp-select'
+    alignWrapper.className = 'bs-bmp-select bs-bmp-labeled-select'
+    const alignLabel = document.createElement('label')
+    alignLabel.className = 'bs-bmp-select-label'
+    alignLabel.textContent = 'Align:'
     const alignSelect = document.createElement('select')
     alignSelect.className = 'bs-bmp-select-input'
     alignSelect.title = 'Image alignment'
@@ -785,19 +797,28 @@ export function buildMenuElement(
       }
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
+    alignWrapper.appendChild(alignLabel)
     alignWrapper.appendChild(alignSelect)
     imageToolbar.appendChild(alignWrapper)
     imageAlignSelect = alignSelect
 
     const displayWrapper = document.createElement('div')
-    displayWrapper.className = 'bs-bmp-select'
+    displayWrapper.className = 'bs-bmp-select bs-bmp-labeled-select'
+    const displayLabel = document.createElement('label')
+    displayLabel.className = 'bs-bmp-select-label'
+    displayLabel.textContent = 'Fit:'
     const displaySelect = document.createElement('select')
     displaySelect.className = 'bs-bmp-select-input'
-    displaySelect.title = 'Image size'
-    ;['fill', 'fit', 'natural'].forEach((mode) => {
+    displaySelect.title = 'Image size mode'
+    const sizeOptions = [
+      { value: 'fill', label: 'Cover' },
+      { value: 'fit', label: 'Contain' },
+      { value: 'natural', label: 'Original' }
+    ]
+    sizeOptions.forEach(({ value, label }) => {
       const option = document.createElement('option')
-      option.value = mode
-      option.textContent = mode.charAt(0).toUpperCase() + mode.slice(1)
+      option.value = value
+      option.textContent = label
       displaySelect.appendChild(option)
     })
     displaySelect.addEventListener('change', () => {
@@ -811,15 +832,19 @@ export function buildMenuElement(
       }
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
+    displayWrapper.appendChild(displayLabel)
     displayWrapper.appendChild(displaySelect)
     imageToolbar.appendChild(displayWrapper)
     imageDisplaySelect = displaySelect
 
     const cropWrapper = document.createElement('div')
-    cropWrapper.className = 'bs-bmp-select'
+    cropWrapper.className = 'bs-bmp-select bs-bmp-labeled-select'
+    const cropLabel = document.createElement('label')
+    cropLabel.className = 'bs-bmp-select-label'
+    cropLabel.textContent = 'Position:'
     const cropSelect = document.createElement('select')
     cropSelect.className = 'bs-bmp-select-input'
-    cropSelect.title = 'Image crop position'
+    cropSelect.title = 'Focal position'
     ;['center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'].forEach((position) => {
       const option = document.createElement('option')
       option.value = position
@@ -837,20 +862,50 @@ export function buildMenuElement(
       }
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
+    cropWrapper.appendChild(cropLabel)
     cropWrapper.appendChild(cropSelect)
     imageToolbar.appendChild(cropWrapper)
     imageCropSelect = cropSelect
 
-    addImageButton('Full width', 'Set image width to 100%', () => {
+    const widthWrapper = document.createElement('div')
+    widthWrapper.className = 'bs-bmp-select bs-bmp-labeled-select'
+    const widthLabel = document.createElement('label')
+    widthLabel.className = 'bs-bmp-select-label'
+    widthLabel.textContent = 'Width:'
+    const widthSelect = document.createElement('select')
+    widthSelect.className = 'bs-bmp-select-input'
+    widthSelect.title = 'Image width'
+    const widthOptions = [
+      { value: 'auto', label: 'Auto' },
+      { value: '25%', label: '25%' },
+      { value: '33%', label: '33%' },
+      { value: '50%', label: '50%' },
+      { value: '66%', label: '66%' },
+      { value: '75%', label: '75%' },
+      { value: '100%', label: '100%' }
+    ]
+    widthOptions.forEach(({ value, label }) => {
+      const option = document.createElement('option')
+      option.value = value
+      option.textContent = label
+      widthSelect.appendChild(option)
+    })
+    widthSelect.addEventListener('change', () => {
+      const value = widthSelect.value
+      const width = value === 'auto' ? null : value
       const chain = (editor.chain as any)?.()
       const runner = typeof chain?.focus === 'function' ? chain.focus() : chain
       if (editor.isActive('imageBlock') && typeof runner?.setImageBlockDimensions === 'function') {
-        runner.setImageBlockDimensions({ width: '100%', height: null }).run?.()
+        runner.setImageBlockDimensions({ width, height: null }).run?.()
       } else if (typeof runner?.updateAttributes === 'function') {
-        runner.updateAttributes('image', { width: '100%', height: null }).run?.()
+        runner.updateAttributes('image', { width, height: null }).run?.()
       }
       editor.commands.setMeta?.('bubbleMenu', 'updatePosition')
     })
+    widthWrapper.appendChild(widthLabel)
+    widthWrapper.appendChild(widthSelect)
+    imageToolbar.appendChild(widthWrapper)
+    imageWidthSelect = widthSelect
 
     const { popover: altPopover, show: showAltPopover } = createAltPopover({
       getCurrentValue: () => (getImageAttrs().alt as string) ?? '',
@@ -945,9 +1000,11 @@ export function buildMenuElement(
     const attrs = getImageAttrs()
     const sizeValue = (attrs.size as string | undefined) || 'fill'
     const cropValue = (attrs.crop as string | undefined) || 'center'
+    const widthValue = (attrs.width as string | undefined) || 'auto'
     setSelectValue(imageAlignSelect, attrs.align as string | undefined)
     setSelectValue(imageDisplaySelect, sizeValue)
     setSelectValue(imageCropSelect, cropValue)
+    setSelectValue(imageWidthSelect, widthValue)
   }
 
   const syncToolbarVisibility = () => {
@@ -1334,6 +1391,17 @@ function injectStyles() {
 .bs-bmp-select {
   display: inline-flex;
   align-items: center;
+}
+.bs-bmp-labeled-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.bs-bmp-select-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
 }
 .bs-bmp-select-input {
   border: 1px solid #e5e7eb;
