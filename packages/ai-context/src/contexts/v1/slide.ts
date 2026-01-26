@@ -12,12 +12,16 @@ Attrs:
 - backgroundOverlayOpacity (optional): number (0–1, opacity for the overlay)
 
 Content:
-- slide contains one or more rows.
+- slide can contain columns, columnGroups, or any block-level content (heading, paragraph, imageBlock, bulletList, codeBlock, etc.)
+- Use column directly for full-width content
+- Use columnGroup to place multiple columns side-by-side
+- You can mix columns, columnGroups, and other blocks in any order
 
 Notes:
 - Flyers are slides sized for paper (e.g., size: "a4-portrait").
 - Set size to control canvas dimensions; theme applies the exact width/height.
 - For background images, prefer backgroundMode/backgroundImage over Tailwind bg-[url(...)]; the extension will inject the correct CSS.
+- To create multi-column layouts, wrap columns in a columnGroup
 </slide>
 `.trim();
 

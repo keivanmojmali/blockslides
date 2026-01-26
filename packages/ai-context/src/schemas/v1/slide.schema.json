@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "slide",
+  "description": "A slide containing blocks directly. Blocks can be any block-level node (heading, paragraph, column, imageBlock, etc.). Adjacent columns automatically form horizontal layouts.",
   "type": "object",
   "properties": {
     "type": { "const": "slide" },
@@ -30,6 +31,11 @@
         "backgroundOverlayOpacity": { "type": ["number", "null"] }
       },
       "additionalProperties": true
+    },
+    "content": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Block-level content (heading, paragraph, column, imageBlock, etc.)"
     }
   },
   "required": ["type"],

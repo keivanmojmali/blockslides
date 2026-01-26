@@ -1,29 +1,27 @@
-import { EditorContent, BubbleMenuPreset } from '@blockslides/react'
-import React from 'react'
+import { ReactSlideEditor } from '@blockslides/react'
 
-import { useSlideEditor } from '@/components/SlideEditor/hooks/useSlideEditor'
-
-export const SlideEditor = ({
-  content,
-  onUpdate,
-}: {
+type Props = {
   onUpdate?: (content: string) => void
-  content?: string | undefined | object
-}) => {
-  const { editor } = useSlideEditor({ onUpdate, content })
+  content?: string | object
+}
 
-  if (!editor) {
-    return null
-  }
-
+export const SlideEditor = ({ content, onUpdate }: Props) => {
+  const normalizedContent =
+    typeof content === 'string'
+      ? (() => {
+          try {
+            return JSON.parse(content)
+          } catch {
+            return content
+          }
+        })()
+      : content
 
   return (
-    <div className='p-8'>
-      <div className="bs-viewport" style={{ ['--zoom' as any]: 1 }}>
-        <EditorContent editor={editor} />
-        <BubbleMenuPreset editor={editor} />
-      </div>
-    </div>
+    <ReactSlideEditor
+      content={normalizedContent}
+      onChange={(doc) => onUpdate?.(JSON.stringify(doc))}
+    />
   )
 }
 

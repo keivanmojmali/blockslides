@@ -142,19 +142,27 @@ export interface SlideNode {
     className?: string;
     layout?: string;
   };
-  content: RowNode[];
+  content: (ColumnGroupNode | ColumnNode | BlockNode)[];
 }
 
 /**
- * Row node (horizontal container)
+ * ColumnGroup node (horizontal container for columns)
  */
-export interface RowNode {
-  type: "row";
+export interface ColumnGroupNode {
+  type: "columnGroup";
   attrs?: {
     className?: string;
     layout?: string; // e.g., '2-1', '1-1-1'
+    fill?: boolean;
   };
-  content: (ColumnNode | BlockNode)[];
+  content: ColumnNode[];
+}
+
+/**
+ * @deprecated Use ColumnGroupNode instead
+ */
+export interface RowNode extends ColumnGroupNode {
+  type: "row";
 }
 
 /**
@@ -169,7 +177,7 @@ export interface ColumnNode {
     horizontalAlign?: "left" | "center" | "right";
     padding?: "none" | "small" | "medium" | "large";
   };
-  content: (BlockNode | RowNode)[];
+  content: BlockNode[];
 }
 
 /**
@@ -281,7 +289,7 @@ export type InlineNode = TextNode;
 export type ContentNode =
   | DocNode
   | SlideNode
-  | RowNode
+  | ColumnGroupNode
   | ColumnNode
   | BlockNode
   | InlineNode;

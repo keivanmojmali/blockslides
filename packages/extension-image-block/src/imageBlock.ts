@@ -41,6 +41,51 @@ const baseStyles = `
     width: 100%;
   }
 
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* NEW SIMPLIFIED SIZE MODES                                        */
+  /* ═══════════════════════════════════════════════════════════════ */
+  
+  /* fill: Cover entire container */
+  .image-block[data-size="fill"] {
+    width: 100%;
+    height: 100%;
+    --image-block-inline-width: 100%;
+    --image-block-block-size: 100%;
+    --image-block-object-fit: cover;
+  }
+  
+  /* fit: Fit inside container with letterboxing */
+  .image-block[data-size="fit"] {
+    width: 100%;
+    height: 100%;
+    --image-block-inline-width: 100%;
+    --image-block-block-size: 100%;
+    --image-block-object-fit: contain;
+  }
+  
+  /* natural: Use image's natural dimensions */
+  .image-block[data-size="natural"] {
+    width: auto;
+    height: auto;
+    --image-block-inline-width: auto;
+    --image-block-block-size: auto;
+    --image-block-object-fit: none;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* NEW SIMPLIFIED CROP POSITIONS                                    */
+  /* ═══════════════════════════════════════════════════════════════ */
+  
+  .image-block[data-crop="center"] { --image-block-object-position: center; }
+  .image-block[data-crop="top"] { --image-block-object-position: top center; }
+  .image-block[data-crop="bottom"] { --image-block-object-position: bottom center; }
+  .image-block[data-crop="left"] { --image-block-object-position: center left; }
+  .image-block[data-crop="right"] { --image-block-object-position: center right; }
+  .image-block[data-crop="top-left"] { --image-block-object-position: top left; }
+  .image-block[data-crop="top-right"] { --image-block-object-position: top right; }
+  .image-block[data-crop="bottom-left"] { --image-block-object-position: bottom left; }
+  .image-block[data-crop="bottom-right"] { --image-block-object-position: bottom right; }
+
   .image-block__figure {
     margin: 0;
     display: flex;
@@ -92,6 +137,9 @@ const baseStyles = `
   }
 `;
 
+/**
+ * @deprecated Legacy layout definitions - use size/crop instead
+ */
 export interface ImageBlockLayoutDefinition {
   label?: string;
   className?: string;
@@ -99,6 +147,9 @@ export interface ImageBlockLayoutDefinition {
   css?: string;
 }
 
+/**
+ * @deprecated Legacy layout definitions - kept for backwards compatibility
+ */
 const DEFAULT_LAYOUTS: Record<string, ImageBlockLayoutDefinition> = {
   cover: {
     label: "Cover",
@@ -119,35 +170,33 @@ const DEFAULT_LAYOUTS: Record<string, ImageBlockLayoutDefinition> = {
       "--image-block-object-fit": "fill",
     },
   },
-  focus: {
-    label: "Spotlight",
-    vars: {
-      "--image-block-object-fit": "cover",
-    },
-    css: `
-.image-block[data-layout="focus"]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at var(--image-block-object-position), rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%);
-  mix-blend-mode: multiply;
-}
-`,
-  },
-  pattern: {
-    label: "Pattern",
-    vars: {
-      "--image-block-background-mode": "pattern",
-      "--image-block-background-repeat": "repeat",
-      "--image-block-background-size": "auto",
-    },
-  },
 };
 
 const ImageBlockPluginKey = new PluginKey("image-block");
 
 export type ImageBlockAlignment = "left" | "center" | "right" | "stretch";
+
+/**
+ * Simplified size modes for images
+ * - fill: Cover entire container (width:100%, height:100%, object-fit:cover)
+ * - fit: Fit inside container (object-fit:contain)
+ * - natural: Use image's natural dimensions
+ */
+export type ImageBlockSize = "fill" | "fit" | "natural";
+
+/**
+ * Simplified crop/focus positions
+ */
+export type ImageBlockCrop = 
+  | "center" 
+  | "top" 
+  | "bottom" 
+  | "left" 
+  | "right" 
+  | "top-left" 
+  | "top-right" 
+  | "bottom-left" 
+  | "bottom-right";
 
 export interface ImageBlockMetadata {
   alt?: string;
@@ -168,13 +217,22 @@ export interface ImageBlockFocalPoint {
 export interface ImageBlockAttributes extends ImageBlockMetadata {
   src: string;
   assetId?: string | null;
+  /** @deprecated Use `size` instead */
   layout?: string | null;
+  /** Use BlockAttributes `align` instead for block alignment */
   align?: ImageBlockAlignment | null;
   width?: string | null;
   height?: string | null;
+  /** @deprecated Use `size: "fill"` instead */
   fullBleed?: boolean;
+  /** @deprecated Use `crop` instead */
   focalX?: number | null;
+  /** @deprecated Use `crop` instead */
   focalY?: number | null;
+  /** Simplified size mode: fill, fit, or natural */
+  size?: ImageBlockSize | null;
+  /** Simplified crop/focus position */
+  crop?: ImageBlockCrop | null;
 }
 
 export interface InsertImageBlockOptions
@@ -190,7 +248,9 @@ export interface ReplaceImageBlockOptions
 
 export interface ImageBlockOptions {
   HTMLAttributes: Record<string, any>;
+  /** @deprecated Use size/crop attributes instead */
   defaultLayout: string;
+  /** @deprecated Use size/crop attributes instead */
   layouts: Record<string, ImageBlockLayoutDefinition>;
   injectCSS: boolean;
   injectNonce?: string;
@@ -201,12 +261,19 @@ declare module "@blockslides/core" {
     imageBlock: {
       insertImageBlock: (options: InsertImageBlockOptions) => ReturnType;
       replaceImageBlock: (options: ReplaceImageBlockOptions) => ReturnType;
+      /** @deprecated Use setImageBlockSize instead */
       setImageBlockLayout: (layout: string) => ReturnType;
       setImageBlockAlignment: (align: ImageBlockAlignment) => ReturnType;
       setImageBlockDimensions: (dimensions: ImageBlockDimensions) => ReturnType;
+      /** @deprecated Use setImageBlockSize("fill") instead */
       setImageBlockFullBleed: (fullBleed?: boolean) => ReturnType;
       setImageBlockMetadata: (metadata: Partial<ImageBlockMetadata>) => ReturnType;
+      /** @deprecated Use setImageBlockCrop instead */
       setImageBlockFocalPoint: (point: ImageBlockFocalPoint | null) => ReturnType;
+      /** Set the size mode: fill, fit, or natural */
+      setImageBlockSize: (size: ImageBlockSize) => ReturnType;
+      /** Set the crop/focus position */
+      setImageBlockCrop: (crop: ImageBlockCrop) => ReturnType;
     };
   }
 }
@@ -228,11 +295,17 @@ const normalizeDimension = (value?: string | number | null): string | null => {
   return value;
 };
 
+/**
+ * @deprecated Legacy layout resolution - kept for backwards compatibility
+ */
 const resolveLayouts = (options: ImageBlockOptions) => ({
   ...DEFAULT_LAYOUTS,
   ...(options.layouts || {}),
 });
 
+/**
+ * @deprecated Legacy layout styles - kept for backwards compatibility
+ */
 const buildLayoutStyles = (layouts: Record<string, ImageBlockLayoutDefinition>) =>
   Object.entries(layouts)
     .map(([key, layout]) => {
@@ -332,6 +405,23 @@ export const ImageBlock = Node.create<ImageBlockOptions>({
           return raw ? Number(raw) : null;
         },
       },
+      // New simplified attributes
+      size: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-size") as ImageBlockSize | null,
+        renderHTML: (attributes) => {
+          if (!attributes.size) return {};
+          return { "data-size": attributes.size };
+        },
+      },
+      crop: {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-crop") as ImageBlockCrop | null,
+        renderHTML: (attributes) => {
+          if (!attributes.crop) return {};
+          return { "data-crop": attributes.crop };
+        },
+      },
     };
   },
 
@@ -349,22 +439,22 @@ export const ImageBlock = Node.create<ImageBlockOptions>({
       alt,
       caption,
       credit,
+      size,
+      crop,
+      assetId,
+      // Legacy attributes (deprecated, kept for backwards compatibility)
       layout,
       align,
       width,
       height,
       fullBleed,
-      assetId,
       focalX,
       focalY,
     } = node.attrs as ImageBlockAttributes;
 
-    const resolvedLayout = layout || this.options.defaultLayout;
-    const layoutDefinitions = resolveLayouts(this.options);
-    const layoutClass = layoutDefinitions[resolvedLayout]?.className;
-
     const inlineStyles: string[] = [];
 
+    // Use explicit width/height if provided
     const normalizedWidth = normalizeDimension(width ?? null);
     const normalizedHeight = normalizeDimension(height ?? null);
 
@@ -376,40 +466,54 @@ export const ImageBlock = Node.create<ImageBlockOptions>({
       inlineStyles.push(`--image-block-block-size: ${normalizedHeight}`);
     }
 
-    const clampedFocusX = clampFocusPercentage(focalX ?? null);
-    const clampedFocusY = clampFocusPercentage(focalY ?? null);
-
-    if (clampedFocusX !== null || clampedFocusY !== null) {
-      inlineStyles.push(
-        `--image-block-object-position: ${clampedFocusX ?? 50}% ${clampedFocusY ?? 50}%`
-      );
-    }
-
     if (src) {
       const escapedSrc = src.replace(/"/g, '\\"');
       inlineStyles.push(`--image-block-src: url("${escapedSrc}")`);
+    }
+
+    // Determine size mode (prefer new size attribute, fallback to legacy)
+    let effectiveSize = size;
+    if (!effectiveSize) {
+      // Backwards compatibility: convert old attributes to new size
+      if (fullBleed) {
+        effectiveSize = 'fill';
+      } else if (layout === 'cover') {
+        effectiveSize = 'fill';
+      } else if (layout === 'contain') {
+        effectiveSize = 'fit';
+      }
+    }
+
+    // Determine crop/position (prefer new crop attribute, fallback to legacy focalX/Y)
+    let effectiveCrop = crop;
+    if (!effectiveCrop && (focalX !== null || focalY !== null)) {
+      // Backwards compatibility: use focalX/Y if no crop specified
+      const clampedFocusX = clampFocusPercentage(focalX ?? null);
+      const clampedFocusY = clampFocusPercentage(focalY ?? null);
+      if (clampedFocusX !== null || clampedFocusY !== null) {
+        inlineStyles.push(
+          `--image-block-object-position: ${clampedFocusX ?? 50}% ${clampedFocusY ?? 50}%`
+        );
+      }
     }
 
     const attributes = mergeAttributes(
       this.options.HTMLAttributes,
       HTMLAttributes,
       {
-        class: ["image-block", layoutClass, HTMLAttributes?.class].filter(Boolean).join(" "),
+        class: ["image-block", HTMLAttributes?.class].filter(Boolean).join(" "),
         "data-node-type": "image-block",
         "data-src": src,
         "data-asset-id": assetId ?? undefined,
         "data-alt": alt || undefined,
         "data-caption": caption || undefined,
         "data-credit": credit || undefined,
-        "data-layout": resolvedLayout,
-        "data-align": align ?? "center",
-        "data-width": normalizedWidth ?? undefined,
-        "data-height": normalizedHeight ?? undefined,
-        "data-full-bleed": fullBleed ? "true" : "false",
-        "data-focal-x": clampedFocusX ?? undefined,
-        "data-focal-y": clampedFocusY ?? undefined,
-        "data-background-mode":
-          layoutDefinitions[resolvedLayout]?.vars?.["--image-block-background-mode"] ?? "image",
+        "data-size": effectiveSize ?? undefined,
+        "data-crop": effectiveCrop ?? undefined,
+        // Legacy attributes for backwards compat
+        "data-layout": layout ?? undefined,
+        "data-align": align ?? undefined,
+        "data-full-bleed": fullBleed ? "true" : undefined,
         style: [HTMLAttributes?.style, inlineStyles.join("; ")].filter(Boolean).join("; "),
       }
     );
@@ -519,6 +623,18 @@ export const ImageBlock = Node.create<ImageBlockOptions>({
             focalX: point ? clampFocusPercentage(point.x) : null,
             focalY: point ? clampFocusPercentage(point.y) : null,
           });
+        },
+      setImageBlockSize:
+        (size: ImageBlockSize) =>
+        ({ commands }) => {
+          const cmds = commands as unknown as CommandHelpers;
+          return cmds.updateAttributes(this.name, { size });
+        },
+      setImageBlockCrop:
+        (crop: ImageBlockCrop) =>
+        ({ commands }) => {
+          const cmds = commands as unknown as CommandHelpers;
+          return cmds.updateAttributes(this.name, { crop });
         },
     };
   },

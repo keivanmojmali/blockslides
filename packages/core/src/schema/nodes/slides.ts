@@ -1,7 +1,7 @@
 import type { DOMOutputSpec } from "@blockslides/pm/model";
 
 export const slide = {
-  content: "row+",
+  content: "block+",
   attrs: {
     className: { default: "" },
   },

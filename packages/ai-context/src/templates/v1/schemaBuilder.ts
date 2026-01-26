@@ -1,5 +1,4 @@
 // TODO: Add additional block helpers (tables, marks) to cover all extensions.
-// TODO: Add more slide presets (hero, imageCover, agenda) once shapes are finalized.
 // TODO: Add server-side validation helper that checks slides against schemasV1.
 // TODO: Add tests/examples that demonstrate agent/tool usage.
 
@@ -7,13 +6,13 @@ import type { JSONContent } from "@blockslides/core";
 import type {
   SizeKey,
   SlideAttrs,
-  RowAttrs,
   ColumnAttrs,
   ImageBlockAttrs,
+  BaseBlockAttrs,
 } from "../../types/v1";
 
 type Block = JSONContent;
-type SlideNode = JSONContent; // slide -> row -> column -> blocks
+type SlideNode = JSONContent; // slide -> block+
 type TextMark = { type: string; attrs?: Record<string, any> };
 
 const defaults = {
@@ -22,16 +21,8 @@ const defaults = {
     size: attrs?.size ?? ("16x9" as SizeKey),
     className: attrs?.className ?? "",
   }),
-  row: (attrs?: Partial<RowAttrs>): RowAttrs => ({
-    layout: attrs?.layout ?? "1",
-    className: attrs?.className ?? "",
-  }),
   column: (attrs?: Partial<ColumnAttrs>): ColumnAttrs => ({
-    className: attrs?.className ?? "",
-    contentMode: attrs?.contentMode ?? "default",
-    verticalAlign: attrs?.verticalAlign,
-    horizontalAlign: attrs?.horizontalAlign,
-    padding: attrs?.padding,
+    ...attrs,
   }),
 };
 
@@ -116,87 +107,115 @@ export const blocks = {
     type: "youtube",
     attrs,
   }),
+
+  column: (content: Block[], attrs?: Partial<ColumnAttrs>) => ({
+    type: "column" as const,
+    attrs: attrs ?? {},
+    content,
+  }),
+
+  columnGroup: (columns: Block[], attrs?: { layout?: string; fill?: boolean; className?: string }) => ({
+    type: "columnGroup" as const,
+    attrs: attrs ?? {},
+    content: columns,
+  }),
 };
 
 type SingleColOpts = {
   slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
   columnAttrs?: Partial<ColumnAttrs>;
   content?: Block[];
 };
 
-type TwoColOpts = {
-  slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
-  leftColumnAttrs?: Partial<ColumnAttrs>;
-  rightColumnAttrs?: Partial<ColumnAttrs>;
-  left?: Block[];
-  right?: Block[];
+type ColumnNode = {
+  type: "column";
+  attrs?: Partial<ColumnAttrs>;
+  content: Block[];
 };
 
+type TwoColOpts = {
+  slideAttrs?: Partial<SlideAttrs>;
+  columns: [ColumnNode, ColumnNode];
+};
+
+/**
+ * Slide builder with presets for common layouts.
+ * 
+ * New schema: slides contain blocks directly (doc → slide+ → block+).
+ * Adjacent columns automatically form horizontal layouts via CSS.
+ */
 export const slide = Object.assign(
+  /**
+   * Create a slide with direct block content (no column wrapper).
+   */
   (opts: {
     slideAttrs?: Partial<SlideAttrs>;
-    rowAttrs?: Partial<RowAttrs>;
-    columnAttrs?: Partial<ColumnAttrs>;
+    content?: Block[];
   } = {}): SlideNode => ({
     type: "slide",
     attrs: defaults.slide(opts.slideAttrs),
-    content: [
-      {
-        type: "row",
-        attrs: defaults.row(opts.rowAttrs),
-        content: [
-          {
-            type: "column",
-            attrs: defaults.column(opts.columnAttrs),
-            content: [],
-          },
-        ],
-      },
-    ],
+    content: opts.content ?? [],
   }),
   {
+    /**
+     * Single column layout - wraps content in one column block.
+     */
     singleCol: (opts: SingleColOpts = {}): SlideNode => ({
       type: "slide",
       attrs: defaults.slide(opts.slideAttrs),
       content: [
         {
-          type: "row",
-          attrs: defaults.row(opts.rowAttrs),
-          content: [
-            {
-              type: "column",
-              attrs: defaults.column(opts.columnAttrs),
-              content: opts.content ?? [],
-            },
-          ],
+          type: "column",
+          attrs: defaults.column(opts.columnAttrs),
+          content: opts.content ?? [],
         },
       ],
     }),
 
-    twoCol: (opts: TwoColOpts = {}): SlideNode => ({
+    /**
+     * Two column layout - columns grouped side-by-side via columnGroup.
+     * Pass two column objects created with blocks.column().
+     */
+    twoCol: (col1: ColumnNode, col2: ColumnNode, slideAttrs?: Partial<SlideAttrs>): SlideNode => ({
       type: "slide",
-      attrs: defaults.slide(opts.slideAttrs),
+      attrs: defaults.slide(slideAttrs),
       content: [
         {
-          type: "row",
-          attrs: defaults.row({
-            layout: opts.rowAttrs?.layout ?? "1-1",
-            ...opts.rowAttrs,
-          }),
-          content: [
-            {
-              type: "column",
-              attrs: defaults.column(opts.leftColumnAttrs),
-              content: opts.left ?? [],
-            },
-            {
-              type: "column",
-              attrs: defaults.column(opts.rightColumnAttrs),
-              content: opts.right ?? [],
-            },
-          ],
+          type: "columnGroup",
+          attrs: { fill: true },
+          content: [col1, col2],
+        },
+      ],
+    }),
+
+    /**
+     * Three column layout - columns grouped side-by-side via columnGroup.
+     * Pass three column objects created with blocks.column().
+     */
+    threeCol: (col1: ColumnNode, col2: ColumnNode, col3: ColumnNode, slideAttrs?: Partial<SlideAttrs>): SlideNode => ({
+      type: "slide",
+      attrs: defaults.slide(slideAttrs),
+      content: [
+        {
+          type: "columnGroup",
+          attrs: { fill: true },
+          content: [col1, col2, col3],
+        },
+      ],
+    }),
+
+    /**
+     * Four column layout - columns grouped side-by-side via columnGroup.
+     * Pass four column objects created with blocks.column().
+     */
+    fourCol: (col1: ColumnNode, col2: ColumnNode, col3: ColumnNode, col4: ColumnNode, slideAttrs?: Partial<SlideAttrs>): SlideNode => ({
+      type: "slide",
+      attrs: defaults.slide(slideAttrs),
+      content: [
+        {
+          type: "columnGroup",
+          attrs: { fill: true },
+          content: [col1, col2, col3, col4],
         },
       ],
     }),
@@ -206,7 +225,6 @@ export const slide = Object.assign(
 // Slide layout presets beyond the base helpers
 type HeroOpts = {
   slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
   columnAttrs?: Partial<ColumnAttrs>;
   content?: Block[];
 };
@@ -216,26 +234,22 @@ type ImageCoverOpts = {
   image?: ImageBlockAttrs;
   overlay?: Block[];
   columnAttrs?: Partial<ColumnAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
 };
 
 type QuoteOpts = {
   slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
   columnAttrs?: Partial<ColumnAttrs>;
   quote?: Block[];
 };
 
 type AgendaOpts = {
   slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
   columnAttrs?: Partial<ColumnAttrs>;
   items?: (string | Block)[];
 };
 
 type MultiColOpts = {
   slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
   columns: {
     content?: Block[];
     attrs?: Partial<ColumnAttrs>;
@@ -244,7 +258,6 @@ type MultiColOpts = {
 
 type MediaTextOpts = {
   slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
   media?: Block[];
   text?: Block[];
   mediaColumnAttrs?: Partial<ColumnAttrs>;
@@ -253,15 +266,16 @@ type MediaTextOpts = {
 
 type Stack2Opts = {
   slideAttrs?: Partial<SlideAttrs>;
-  topRow?: {
-    rowAttrs?: Partial<RowAttrs>;
-    columns: { content?: Block[]; attrs?: Partial<ColumnAttrs> }[];
-  };
-  bottomRow?: {
-    rowAttrs?: Partial<RowAttrs>;
-    columns: { content?: Block[]; attrs?: Partial<ColumnAttrs> }[];
-  };
+  topColumns?: { content?: Block[]; attrs?: Partial<ColumnAttrs> }[];
+  bottomColumns?: { content?: Block[]; attrs?: Partial<ColumnAttrs> }[];
 };
+
+/** Helper to create a column block with attrs and content */
+const column = (attrs: Partial<ColumnAttrs> | undefined, content: Block[] = []): Block => ({
+  type: "column",
+  attrs: defaults.column(attrs),
+  content,
+});
 
 type TemplatePreset =
   | "slide.empty"
@@ -283,7 +297,6 @@ type TemplatePreset =
 type CreateTemplateInput = {
   preset: TemplatePreset;
   slideAttrs?: Partial<SlideAttrs>;
-  rowAttrs?: Partial<RowAttrs>;
   columnAttrs?: Partial<ColumnAttrs>;
   leftColumnAttrs?: Partial<ColumnAttrs>;
   rightColumnAttrs?: Partial<ColumnAttrs>;
@@ -299,61 +312,38 @@ type CreateTemplateInput = {
   stack2Opts?: Stack2Opts;
 };
 
-const column = (attrs: Partial<ColumnAttrs> | undefined, content: Block[] = []): Block => ({
-  type: "column",
-  attrs: defaults.column(attrs),
-  content,
-});
-
-const row = (layout: RowAttrs["layout"], content: Block[], attrs?: Partial<RowAttrs>): Block => ({
-  type: "row",
-  attrs: defaults.row({ layout, ...attrs }),
-  content,
-});
-
 export const createTemplate = (input: CreateTemplateInput): SlideNode => {
   switch (input.preset) {
     case "slide.empty":
       return slide({
         slideAttrs: input.slideAttrs,
-        rowAttrs: input.rowAttrs,
-        columnAttrs: input.columnAttrs,
+        content: [],
       });
     case "slide.singleCol":
       return slide.singleCol({
         slideAttrs: input.slideAttrs,
-        rowAttrs: input.rowAttrs,
         columnAttrs: input.columnAttrs,
         content: input.content ?? [],
       });
     case "slide.twoCol":
-      return slide.twoCol({
-        slideAttrs: input.slideAttrs,
-        rowAttrs: input.rowAttrs,
-        leftColumnAttrs: input.leftColumnAttrs,
-        rightColumnAttrs: input.rightColumnAttrs,
-        left: input.left ?? [],
-        right: input.right ?? [],
-      });
+      return slide.twoCol(
+        blocks.column(input.left ?? [], input.leftColumnAttrs),
+        blocks.column(input.right ?? [], input.rightColumnAttrs),
+        input.slideAttrs
+      );
     case "slide.hero": {
       const opts = input.heroOpts ?? {};
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-slate-950 text-white", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#020617" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "1",
-            [
-              column(
-                opts.columnAttrs ?? { className: "max-w-4xl gap-6 p-12" },
-                opts.content ?? [
-                  blocks.heading("Your headline", 1),
-                  blocks.paragraph("Subhead goes here."),
-                  blocks.paragraph("Add supporting details here."),
-                ]
-              ),
-            ],
-            { className: "min-h-[720px] items-center justify-center p-12", ...opts.rowAttrs }
+          column(
+            { justify: "center", align: "center", padding: "lg", fill: true, ...opts.columnAttrs },
+            opts.content ?? [
+              blocks.heading("Your headline", 1),
+              blocks.paragraph("Subhead goes here."),
+              blocks.paragraph("Add supporting details here."),
+            ]
           ),
         ],
       };
@@ -362,34 +352,19 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
       const opts = input.imageCoverOpts ?? {};
       const image = opts.image ?? {
         src: "https://placehold.co/1600x900/png",
-        layout: "cover",
-        fullBleed: true,
-        align: "center",
+        size: "fill",
       };
       const overlay = opts.overlay ?? [blocks.heading("Overlay title", 1)];
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-black text-white", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#000000" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "1",
+          column(
+            { fill: true, padding: "none", ...opts.columnAttrs },
             [
-              {
-                type: "column",
-                attrs: defaults.column({ className: "relative w-full h-full", ...opts.columnAttrs }),
-                content: [
-                  blocks.imageBlock(image),
-                  ...overlay.map((node) => ({
-                    ...node,
-                    attrs: {
-                      ...(node as any).attrs,
-                      className: `${((node as any).attrs?.className ?? "")} absolute bottom-12 left-12 drop-shadow-lg`.trim(),
-                    },
-                  })),
-                ],
-              },
-            ],
-            { className: "min-h-[720px]", ...opts.rowAttrs }
+              blocks.imageBlock(image),
+              ...overlay,
+            ]
           ),
         ],
       };
@@ -398,24 +373,18 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
       const opts = input.quoteOpts ?? {};
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "1",
+          column(
+            { justify: "center", align: "center", padding: "lg", gap: "md", fill: true, ...opts.columnAttrs },
             [
-              column(
-                opts.columnAttrs ?? { className: "max-w-3xl mx-auto gap-4 p-12" },
-                [
-                  blocks.blockquote(
-                    opts.quote ?? [
-                      blocks.paragraph("“Add your quote here.”"),
-                      blocks.paragraph("— Author"),
-                    ]
-                  ),
+              blocks.blockquote(
+                opts.quote ?? [
+                  blocks.paragraph("Add your quote here."),
+                  blocks.paragraph("— Author"),
                 ]
               ),
-            ],
-            { className: "min-h-[640px] items-center justify-center", ...opts.rowAttrs }
+            ]
           ),
         ],
       };
@@ -424,20 +393,14 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
       const opts = input.agendaOpts ?? {};
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "1",
+          column(
+            { padding: "lg", gap: "lg", ...opts.columnAttrs },
             [
-              column(
-                opts.columnAttrs ?? { className: "p-12 gap-6" },
-                [
-                  blocks.heading("Agenda", 1),
-                  blocks.bulletList(opts.items ?? ["Topic 1", "Topic 2", "Topic 3"]),
-                ]
-              ),
-            ],
-            { className: "min-h-[640px]", ...opts.rowAttrs }
+              blocks.heading("Agenda", 1),
+              blocks.bulletList(opts.items ?? ["Topic 1", "Topic 2", "Topic 3"]),
+            ]
           ),
         ],
       };
@@ -454,14 +417,8 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
             ];
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
-        content: [
-          row(
-            opts.rowAttrs?.layout ?? "1-1-1",
-            cols.map((c) => column(c.attrs, c.content ?? [])),
-            { className: "p-8 gap-4", ...opts.rowAttrs }
-          ),
-        ],
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
+        content: cols.map((c) => column({ padding: "md", gap: "sm", fill: true, ...c.attrs }, c.content ?? [])),
       };
     }
     case "slide.grid4": {
@@ -477,30 +434,18 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
             ];
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
-        content: [
-          row(
-            opts.rowAttrs?.layout ?? "1-1-1-1",
-            cols.map((c) => column(c.attrs, c.content ?? [])),
-            { className: "p-8 gap-4", ...opts.rowAttrs }
-          ),
-        ],
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
+        content: cols.map((c) => column({ padding: "md", gap: "sm", fill: true, ...c.attrs }, c.content ?? [])),
       };
     }
     case "slide.oneTwo": {
       const opts = input.mediaTextOpts ?? {};
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "1-2",
-            [
-              column(opts.textColumnAttrs ?? { className: "p-8 gap-4" }, opts.text ?? []),
-              column(opts.mediaColumnAttrs ?? { className: "p-8 gap-4" }, opts.media ?? []),
-            ],
-            { className: "min-h-[640px]", ...opts.rowAttrs }
-          ),
+          column({ padding: "md", gap: "sm", width: "33%", ...opts.textColumnAttrs }, opts.text ?? []),
+          column({ padding: "md", gap: "sm", fill: true, ...opts.mediaColumnAttrs }, opts.media ?? []),
         ],
       };
     }
@@ -508,16 +453,10 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
       const opts = input.mediaTextOpts ?? {};
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "2-1",
-            [
-              column(opts.mediaColumnAttrs ?? { className: "p-8 gap-4" }, opts.media ?? []),
-              column(opts.textColumnAttrs ?? { className: "p-8 gap-4" }, opts.text ?? []),
-            ],
-            { className: "min-h-[640px]", ...opts.rowAttrs }
-          ),
+          column({ padding: "md", gap: "sm", fill: true, ...opts.mediaColumnAttrs }, opts.media ?? []),
+          column({ padding: "md", gap: "sm", width: "33%", ...opts.textColumnAttrs }, opts.text ?? []),
         ],
       };
     }
@@ -533,30 +472,18 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
             ];
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
-        content: [
-          row(
-            opts.rowAttrs?.layout ?? "1-2-1",
-            cols.map((c) => column(c.attrs, c.content ?? [])),
-            { className: "p-8 gap-4", ...opts.rowAttrs }
-          ),
-        ],
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
+        content: cols.map((c, i) => column({ padding: "md", gap: "sm", width: i === 1 ? "50%" : "25%", ...c.attrs }, c.content ?? [])),
       };
     }
     case "slide.textMedia": {
       const opts = input.mediaTextOpts ?? {};
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "1-1",
-            [
-              column(opts.textColumnAttrs ?? { className: "p-10 gap-4" }, opts.text ?? []),
-              column(opts.mediaColumnAttrs ?? { className: "p-10 gap-4 bg-slate-50" }, opts.media ?? []),
-            ],
-            { className: "min-h-[640px]", ...opts.rowAttrs }
-          ),
+          column({ padding: "lg", gap: "sm", fill: true, ...opts.textColumnAttrs }, opts.text ?? []),
+          column({ padding: "lg", gap: "sm", fill: true, backgroundColor: "#f8fafc", ...opts.mediaColumnAttrs }, opts.media ?? []),
         ],
       };
     }
@@ -564,46 +491,26 @@ export const createTemplate = (input: CreateTemplateInput): SlideNode => {
       const opts = input.mediaTextOpts ?? {};
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
         content: [
-          row(
-            opts.rowAttrs?.layout ?? "1-1",
-            [
-              column(opts.mediaColumnAttrs ?? { className: "p-10 gap-4 bg-slate-50" }, opts.media ?? []),
-              column(opts.textColumnAttrs ?? { className: "p-10 gap-4" }, opts.text ?? []),
-            ],
-            { className: "min-h-[640px]", ...opts.rowAttrs }
-          ),
+          column({ padding: "lg", gap: "sm", fill: true, backgroundColor: "#f8fafc", ...opts.mediaColumnAttrs }, opts.media ?? []),
+          column({ padding: "lg", gap: "sm", fill: true, ...opts.textColumnAttrs }, opts.text ?? []),
         ],
       };
     }
     case "slide.stack2": {
       const opts = input.stack2Opts ?? {};
-      const top = opts.topRow ?? {
-        rowAttrs: { layout: "1" },
-        columns: [{ content: [blocks.heading("Title", 1), blocks.paragraph("Subhead")] }],
-      };
-      const bottom = opts.bottomRow ?? {
-        rowAttrs: { layout: "1-1" },
-        columns: [
-          { content: [blocks.paragraph("Left detail")] },
-          { content: [blocks.paragraph("Right detail")] },
-        ],
-      };
+      const top = opts.topColumns ?? [{ content: [blocks.heading("Title", 1), blocks.paragraph("Subhead")] }];
+      const bottom = opts.bottomColumns ?? [
+        { content: [blocks.paragraph("Left detail")] },
+        { content: [blocks.paragraph("Right detail")] },
+      ];
       return {
         type: "slide",
-        attrs: defaults.slide({ className: "bg-white text-slate-900", ...opts.slideAttrs }),
+        attrs: defaults.slide({ ...opts.slideAttrs, backgroundColor: opts.slideAttrs?.backgroundColor ?? "#ffffff" }),
         content: [
-          row(
-            top.rowAttrs?.layout ?? "1",
-            top.columns.map((c) => column(c.attrs, c.content ?? [])),
-            { className: "p-8 gap-4", ...top.rowAttrs }
-          ),
-          row(
-            bottom.rowAttrs?.layout ?? "1-1",
-            bottom.columns.map((c) => column(c.attrs, c.content ?? [])),
-            { className: "p-8 gap-4", ...bottom.rowAttrs }
-          ),
+          ...top.map((c) => column({ padding: "md", gap: "sm", ...c.attrs }, c.content ?? [])),
+          ...bottom.map((c) => column({ padding: "md", gap: "sm", ...c.attrs }, c.content ?? [])),
         ],
       };
     }
@@ -633,40 +540,65 @@ export const listTemplates = (): TemplatePreset[] => [
 export const templatesV1Context = `
 BlockSlides templates API (v1)
 
-Presets:
-- slide.empty(): slide with one empty column.
-- slide.singleCol({ content?, slideAttrs?, rowAttrs?, columnAttrs? })
-- slide.twoCol({ left?, right?, slideAttrs?, rowAttrs?, leftColumnAttrs?, rightColumnAttrs? })
-- slide.hero({ content?, slideAttrs?, rowAttrs?, columnAttrs? })
-- slide.imageCover({ image?, overlay?, slideAttrs?, rowAttrs?, columnAttrs? })
-- slide.quote({ quote?, slideAttrs?, rowAttrs?, columnAttrs? })
-- slide.agenda({ items?, slideAttrs?, rowAttrs?, columnAttrs? })
-- slide.grid3/grid4({ columns?, slideAttrs?, rowAttrs? })
-- slide.oneTwo/twoOne/oneTwoOne({ columns?, slideAttrs?, rowAttrs? })
-- slide.textMedia/mediaText({ text?, media?, slideAttrs?, rowAttrs? })
-- slide.stack2({ topRow?, bottomRow?, slideAttrs? })
+Document Hierarchy:
+doc → slide+ → block+
+Slides contain blocks directly - no mandatory row wrapper.
+Adjacent columns automatically form horizontal layouts via CSS.
 
-Blocks:
+Presets:
+- slide({ content?, slideAttrs? }): slide with direct block content
+- slide.singleCol({ content?, slideAttrs?, columnAttrs? }): single column layout
+- slide.twoCol(column1, column2, slideAttrs?): two columns side by side
+- slide.threeCol(col1, col2, col3, slideAttrs?): three columns side by side
+- slide.fourCol(col1, col2, col3, col4, slideAttrs?): four columns side by side
+- slide.hero({ heroOpts }): centered content on dark background
+- slide.imageCover({ imageCoverOpts }): full-bleed image with overlay
+- slide.quote({ quoteOpts }): centered blockquote
+- slide.agenda({ agendaOpts }): title with bullet list
+- slide.grid3/grid4({ multiColOpts }): equal-width column grids
+- slide.oneTwo/twoOne({ mediaTextOpts }): asymmetric layouts
+- slide.textMedia/mediaText({ mediaTextOpts }): text and media columns
+- slide.stack2({ stack2Opts }): stacked column sections
+
+Base Block Attributes (available on ALL blocks):
+- align: "left" | "center" | "right" | "stretch" - horizontal alignment
+- justify: "start" | "center" | "end" | "space-between" - vertical distribution
+- padding: "none" | "sm" | "md" | "lg" - internal spacing (8px/16px/32px)
+- margin: "none" | "sm" | "md" | "lg" - external spacing
+- gap: "none" | "sm" | "md" | "lg" - space between children
+- backgroundColor: CSS color
+- backgroundImage: URL
+- borderRadius: "none" | "sm" | "md" | "lg" (4px/8px/16px)
+- border: CSS border
+- fill: boolean - fill available space
+- width: CSS width
+- height: CSS height
+
+Block Helpers:
 - blocks.text(text, marks?)
-- blocks.heading(text, level?)
+- blocks.heading(text, level?) - level 1-6
 - blocks.paragraph(text?)
 - blocks.bulletList([string | Block][])
 - blocks.codeBlock(code, language?)
 - blocks.horizontalRule()
 - blocks.hardBreak()
-- blocks.imageBlock({ src, alt?, layout?, fullBleed?, align?, ...ImageBlockAttrs })
+- blocks.imageBlock({ src, size?, crop?, alt?, caption?, credit? })
+  - size: "fill" | "fit" | "natural" - how image fills container
+  - crop: "center" | "top" | "bottom" | "left" | "right" | corner positions
 - blocks.blockquote(content?)
 - blocks.listItem(content?)
-- blocks.image({ src, alt?, title?, width?, height? })
 - blocks.youtube({ src?, start?, width?, height? })
 
 Agent/tool usage:
-- Call createTemplate({ preset: "slide.twoCol", left: [blocks.paragraph("Left")], right: [blocks.imageBlock({ src })] })
-- Wrap returned slides in { type: "doc", content: [/* slides here */] } before sending to the editor.
+- Use blocks.column(content, attrs) to create columns
+- Use blocks.columnGroup(columns) to group columns horizontally
+- Call createTemplate({ preset: "slide.twoCol", left: [...], right: [...] })
+- Wrap returned slides in { type: "doc", content: [/* slides here */] }
 
 Notes:
-- Size defaults to 16x9; override via slideAttrs.size.
-- Layout defaults: singleCol uses "1"; twoCol uses "1-1" unless rowAttrs.layout overrides.
+- Size defaults to 16x9; override via slideAttrs.size
+- Use fill: true on columns to distribute space evenly
+- Use semantic spacing tokens (sm/md/lg) instead of raw pixel values
 `.trim();
 
 export type { Block, SlideNode, TemplatePreset, CreateTemplateInput };

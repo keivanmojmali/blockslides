@@ -1,16 +1,21 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "youtube",
+  "description": "A YouTube video embed. Inherits common block attributes.",
   "type": "object",
   "properties": {
     "type": { "const": "youtube" },
     "attrs": {
       "type": "object",
       "properties": {
-        "src": { "type": ["string", "null"] },
-        "start": { "type": "number" },
-        "width": { "type": "number" },
-        "height": { "type": "number" }
+        "src": { "type": ["string", "null"], "description": "YouTube video URL or ID" },
+        "start": { "type": "number", "description": "Start time in seconds" },
+        "width": { "type": "number", "description": "Video width" },
+        "height": { "type": "number", "description": "Video height" },
+        "align": { "enum": ["left", "center", "right", "stretch", null], "description": "Block alignment" },
+        "padding": { "enum": ["none", "sm", "md", "lg", null], "description": "Padding" },
+        "margin": { "enum": ["none", "sm", "md", "lg", null], "description": "Margin" },
+        "borderRadius": { "enum": ["none", "sm", "md", "lg", null], "description": "Corner rounding" }
       },
       "additionalProperties": true
     }
@@ -18,5 +23,3 @@
   "required": ["type"],
   "additionalProperties": false
 }
-
-

@@ -321,6 +321,7 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
       return this.editorView;
     }
 
+    const editor = this;
     return new Proxy(
       {
         state: this.editorState,
@@ -337,7 +338,9 @@ export class SlideEditor extends EventEmitter<EditorEvents> {
         composing: false,
         dragging: null,
         editable: true,
-        isDestroyed: false,
+        get isDestroyed() {
+          return editor.editorView == null;
+        },
       } as EditorView,
       {
         get: (obj, key) => {

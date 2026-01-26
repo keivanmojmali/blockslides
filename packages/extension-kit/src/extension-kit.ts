@@ -1,6 +1,8 @@
 import { Extension } from "@blockslides/core";
 
 // Import all extensions
+import type { BlockAttributesOptions } from "@blockslides/extension-block-attributes";
+import { BlockAttributes } from "@blockslides/extension-block-attributes";
 import type { BlockquoteOptions } from "@blockslides/extension-blockquote";
 import { Blockquote } from "@blockslides/extension-blockquote";
 import type { BoldOptions } from "@blockslides/extension-bold";
@@ -94,15 +96,14 @@ import type { YoutubeOptions } from "@blockslides/extension-youtube";
 import { Youtube } from "@blockslides/extension-youtube";
 import { Slide } from "@blockslides/extension-slide";
 import type { SlideOptions } from "@blockslides/extension-slide";
-import { Row } from "@blockslides/extension-row";
 import { Column } from "@blockslides/extension-column";
+import type { ColumnGroupOptions } from "@blockslides/extension-column-group";
+import { ColumnGroup } from "@blockslides/extension-column-group";
 import { SelectWithinSlide } from "@blockslides/extension-select-within-slide";
 import type { AddSlideButtonOptions } from "@blockslides/extension-add-slide-button";
 import { AddSlideButton } from "@blockslides/extension-add-slide-button";
 import type { BubbleMenuOptions } from "@blockslides/extension-bubble-menu";
 import { BubbleMenu } from "@blockslides/extension-bubble-menu";
-import type { BubbleMenuPresetOptions } from "@blockslides/extension-bubble-menu-preset";
-import { BubbleMenuPreset } from "@blockslides/extension-bubble-menu-preset";
 import type { FloatingMenuOptions } from "@blockslides/extension-floating-menu";
 import { FloatingMenu } from "@blockslides/extension-floating-menu";
 import type {
@@ -133,6 +134,16 @@ export interface ExtensionKitOptions {
    * @default 'slide'
    */
   topLevelDoc?: "slide" | "asset";
+
+  /**
+   * Block attributes extension - adds common attributes (align, padding, gap,
+   * backgroundColor, borderRadius, fill, etc.) to all block types.
+   * @default {}
+   * @example blockAttributes: false
+   * @example blockAttributes: { types: ['heading', 'paragraph'] }
+   */
+  blockAttributes?: Partial<BlockAttributesOptions> | false;
+
   /**
    * Add slide button extension
    * @default {}
@@ -163,16 +174,6 @@ export interface ExtensionKitOptions {
    * @example bubbleMenu: false
    */
   bubbleMenu?: Partial<BubbleMenuOptions> | false;
-
-  /**
-   * Bubble menu preset (text+image dual-mode toolbar)
-   * @default {}
-   * @example bubbleMenuPreset: false
-   * @example bubbleMenuPreset: { items: ['bold', 'italic'] }
-   * @example bubbleMenuPreset: { onTextAction: (action, ctx) => { ... } }
-   * @example bubbleMenuPreset: { onImageReplace: (ctx) => { ... } }
-   */
-  bubbleMenuPreset?: Partial<BubbleMenuPresetOptions> | false;
 
   /**
    * Bullet list extension
@@ -410,6 +411,14 @@ export interface ExtensionKitOptions {
   selectWithinSlide?: false;
 
   /**
+   * ColumnGroup extension - groups columns horizontally side-by-side
+   * @default {}
+   * @example columnGroup: false
+   * @example columnGroup: { enableLayoutCSS: false }
+   */
+  columnGroup?: Partial<ColumnGroupOptions> | false;
+
+  /**
    * Strike-through extension
    * @default {}
    * @example strike: false
@@ -545,6 +554,14 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       } else {
         extensions.push(Document.configure({}));
       }
+    }
+
+    // Block attributes extension - provides common attributes to all block types
+    // Must be registered early so attributes are available to other extensions
+    if (this.options.blockAttributes !== false) {
+      extensions.push(
+        BlockAttributes.configure(this.options.blockAttributes || {})
+      );
     }
 
     if (this.options.text !== false) {
@@ -728,12 +745,6 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       extensions.push(Placeholder.configure(this.options.placeholder || {}));
     }
 
-    if (this.options.bubbleMenuPreset !== false) {
-      extensions.push(
-        BubbleMenuPreset.configure(this.options.bubbleMenuPreset || {})
-      );
-    }
-
     if (this.options.bubbleMenu !== false) {
       extensions.push(BubbleMenu.configure(this.options.bubbleMenu || {}));
     }
@@ -768,8 +779,13 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       extensions.push(SelectWithinSlide);
     }
 
-    extensions.push(Row.configure({}));
+    // Column extension - for full-width blocks
     extensions.push(Column.configure({}));
+
+    // ColumnGroup extension - groups columns horizontally side-by-side
+    if (this.options.columnGroup !== false) {
+      extensions.push(ColumnGroup.configure(this.options.columnGroup || {}));
+    }
 
     if (this.options.addSlideButton !== false) {
       extensions.push(

@@ -35,6 +35,36 @@ const slideStyles = `
   background-color: var(--slide-bg-overlay-color, #000);
   opacity: var(--slide-bg-overlay-opacity, 0.35);
 }
+
+                              
+/* When multiple .column elements are adjacent siblings in a slide, */
+/* they automatically form a horizontal row layout.                 */
+
+
+/* Adjacent columns: make them display side-by-side */
+.slide > .column + .column {
+  /* Column that follows another column */
+}
+
+/* Wrapper div for groups of columns to enable flex-row layout */
+.slide > .column-group {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+  min-height: 0;
+  gap: var(--slide-column-gap, 16px);
+}
+
+/* When fill is true, the group should take remaining space */
+.slide > .column-group[data-fill="true"] {
+  flex: 1 1 auto;
+}
+
+/* Columns within a group share space equally by default */
+.slide > .column-group > .column {
+  flex: 1;
+  min-width: 0;
+}
 `;
 
 const getFixedSizeStyles = (scale: number) => `
@@ -179,7 +209,7 @@ const SlidePluginKey = new PluginKey("slide");
 export const Slide = Node.create<SlideOptions>({
   name: "slide",
   isolating: true,
-  content: "row+",
+  content: "block+",
 
   group: "slide",
 

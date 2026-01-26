@@ -1,16 +1,21 @@
 export const bulletList = `
 <bulletList>
-Node: bulletList
-Attrs:
-- HTML-only; no required JSON attrs beyond optional styling such as className.
+Node: bulletList (block group)
+Attrs (inherited from BaseBlockAttributes):
+- align: "left" | "center" | "right"
+- padding: "none" | "sm" | "md" | "lg"
+- margin: "none" | "sm" | "md" | "lg"
+- backgroundColor: string (CSS color)
+- borderRadius: "none" | "sm" | "md" | "lg"
+- (and other base attributes)
 
 Content:
 - One or more list item nodes (listItem) that contain paragraphs or inline content.
 
 Semantics:
 - Represents an unordered list rendered as <ul>.
-- Use when you need bullet points inside a column or blockquote.
-- Do not use bulletList as a top-level child of doc; it belongs inside a column/row structure.
+- Use when you need bullet points inside a column or slide.
+- Can be placed directly in slides or within columns.
 </bulletList>
 `.trim();
 

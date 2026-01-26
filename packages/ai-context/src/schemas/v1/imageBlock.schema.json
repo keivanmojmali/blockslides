@@ -1,31 +1,41 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "imageBlock",
+  "description": "An image block with simplified size and crop controls. Also inherits common block attributes.",
   "type": "object",
   "properties": {
     "type": { "const": "imageBlock" },
     "attrs": {
       "type": "object",
       "properties": {
-        "src": { "type": "string", "minLength": 1 },
-        "alt": { "type": "string" },
-        "caption": { "type": "string" },
-        "credit": { "type": "string" },
-        "layout": { "enum": ["cover", "contain", "fill", "focus", "pattern", null] },
-        "align": { "enum": ["left", "center", "right", "stretch", null] },
-        "width": { "type": ["number", "string", "null"] },
-        "height": { "type": ["number", "string", "null"] },
-        "fullBleed": { "type": "boolean" },
-        "assetId": { "type": ["string", "null"] },
-        "focalX": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
-        "focalY": { "type": ["number", "null"], "minimum": 0, "maximum": 100 }
+        "src": { "type": "string", "minLength": 1, "description": "Image URL (required)" },
+        "alt": { "type": "string", "description": "Alt text for accessibility" },
+        "caption": { "type": "string", "description": "Image caption" },
+        "credit": { "type": "string", "description": "Image credit/attribution" },
+        "size": { 
+          "enum": ["fill", "fit", "natural", null], 
+          "description": "How the image fills its container: fill (cover), fit (contain), or natural (original size)" 
+        },
+        "crop": { 
+          "enum": ["center", "top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right", null], 
+          "description": "Crop/focus position for fill/fit modes" 
+        },
+        "align": { "enum": ["left", "center", "right", "stretch", null], "description": "Block alignment within parent" },
+        "padding": { "enum": ["none", "sm", "md", "lg", null], "description": "Internal padding" },
+        "backgroundColor": { "type": ["string", "null"], "description": "Background color" },
+        "borderRadius": { "enum": ["none", "sm", "md", "lg", null], "description": "Corner rounding" },
+        "width": { "type": ["string", "null"], "description": "Explicit width override" },
+        "height": { "type": ["string", "null"], "description": "Explicit height override" },
+        "assetId": { "type": ["string", "null"], "description": "Asset ID reference" },
+        "layout": { "enum": ["cover", "contain", "fill", "focus", "pattern", null], "description": "DEPRECATED: Use size instead" },
+        "fullBleed": { "type": "boolean", "description": "DEPRECATED: Use size='fill' instead" },
+        "focalX": { "type": ["number", "null"], "minimum": 0, "maximum": 100, "description": "DEPRECATED: Use crop instead" },
+        "focalY": { "type": ["number", "null"], "minimum": 0, "maximum": 100, "description": "DEPRECATED: Use crop instead" }
       },
       "required": ["src"],
-      "additionalProperties": false
+      "additionalProperties": true
     }
   },
   "required": ["type"],
   "additionalProperties": false
 }
-
-

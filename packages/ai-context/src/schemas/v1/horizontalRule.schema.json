@@ -1,16 +1,21 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "horizontalRule",
+  "description": "A horizontal rule/divider. Inherits common block attributes.",
   "type": "object",
   "properties": {
     "type": { "const": "horizontalRule" },
     "attrs": {
       "type": "object",
+      "properties": {
+        "align": { "enum": ["left", "center", "right", "stretch", null], "description": "Alignment" },
+        "padding": { "enum": ["none", "sm", "md", "lg", null], "description": "Padding around rule" },
+        "margin": { "enum": ["none", "sm", "md", "lg", null], "description": "Margin around rule" },
+        "backgroundColor": { "type": ["string", "null"], "description": "Background color" }
+      },
       "additionalProperties": true
     }
   },
   "required": ["type"],
   "additionalProperties": false
 }
-
-

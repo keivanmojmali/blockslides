@@ -171,58 +171,61 @@ function validateSlide(slide: any, path: string): ValidationIssue[] {
     ));
   }
 
-  // Validate each row
+  // Validate each content node (can be columnGroup, column, or block)
   slide.content.forEach((node: any, index: number) => {
-    issues.push(...validateRow(node, `${path}.content[${index}]`));
+    if (node.type === 'columnGroup' || node.type === 'row') {
+      issues.push(...validateColumnGroup(node, `${path}.content[${index}]`));
+    }
+    // Other node types are validated elsewhere
   });
 
   return issues;
 }
 
 /**
- * Validate row node
+ * Validate columnGroup node
  */
-function validateRow(row: any, path: string): ValidationIssue[] {
+function validateColumnGroup(columnGroup: any, path: string): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   
-  issues.push(...validateNodeStructure(row, path));
+  issues.push(...validateNodeStructure(columnGroup, path));
 
-  if (row.type !== 'row') {
+  if (columnGroup.type !== 'columnGroup' && columnGroup.type !== 'row') {
     issues.push(createIssue(
       'error',
       path,
-      `Expected 'row', got '${row.type}'`,
+      `Expected 'columnGroup' or 'row', got '${columnGroup.type}'`,
       'INVALID_NODE_TYPE',
       false,
-      'row',
-      row.type
+      'columnGroup',
+      columnGroup.type
     ));
   }
 
-  if (!Array.isArray(row.content)) {
+  if (!Array.isArray(columnGroup.content)) {
     issues.push(createIssue(
       'error',
       `${path}.content`,
-      'Row must have content array',
+      'ColumnGroup must have content array',
       'MISSING_CONTENT',
       true
     ));
     return issues;
   }
 
-  if (row.content.length === 0) {
+  if (columnGroup.content.length === 0) {
     issues.push(createIssue(
       'error',
       `${path}.content`,
-      'Row must have at least one column',
-      'EMPTY_ROW',
+      'ColumnGroup must have at least one column',
+      'EMPTY_COLUMN_GROUP',
       true
     ));
   }
 
   // Validate layout attribute if present
-  if (row.attrs?.layout) {
-    const layout = row.attrs.layout;
+  if (columnGroup.attrs?.layout) {
+    const layout = columnGroup.attrs.layout;
     if (typeof layout !== 'string') {
       issues.push(createIssue(
         'warning',
@@ -245,6 +248,13 @@ function validateRow(row: any, path: string): ValidationIssue[] {
   }
 
   return issues;
+}
+
+/**
+ * @deprecated Use validateColumnGroup instead
+ */
+function validateRow(row: any, path: string): ValidationIssue[] {
+  return validateColumnGroup(row, path);
 }
 
 /**

@@ -1,30 +1,34 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "column",
+  "description": "A container block that holds other blocks. Common attributes (align, padding, gap, backgroundColor, etc.) are shared with all block types.",
   "type": "object",
   "properties": {
     "type": { "const": "column" },
     "attrs": {
       "type": "object",
       "properties": {
-        "className": { "type": ["string", "null"] },
-        "contentMode": { "enum": ["default", null] },
-        "verticalAlign": { "enum": ["top", "center", "bottom", null] },
-        "horizontalAlign": { "enum": ["left", "center", "right", "stretch", null] },
-        "padding": { "enum": ["none", null] },
-        "backgroundMode": {
-          "enum": ["none", "color", "image", "imageOverlay", null]
-        },
-        "backgroundColor": { "type": ["string", "null"] },
-        "backgroundImage": { "type": ["string", "null"] },
-        "backgroundOverlayColor": { "type": ["string", "null"] },
-        "backgroundOverlayOpacity": { "type": ["number", "null"] }
+        "align": { "enum": ["left", "center", "right", "stretch", null], "description": "Horizontal alignment of content" },
+        "justify": { "enum": ["start", "center", "end", "space-between", null], "description": "Vertical distribution of children" },
+        "padding": { "enum": ["none", "sm", "md", "lg", null], "description": "Internal padding" },
+        "margin": { "enum": ["none", "sm", "md", "lg", null], "description": "External margin" },
+        "gap": { "enum": ["none", "sm", "md", "lg", null], "description": "Gap between child blocks" },
+        "backgroundColor": { "type": ["string", "null"], "description": "Background color" },
+        "backgroundImage": { "type": ["string", "null"], "description": "Background image URL" },
+        "borderRadius": { "enum": ["none", "sm", "md", "lg", null], "description": "Corner rounding" },
+        "border": { "type": ["string", "null"], "description": "CSS border value" },
+        "fill": { "type": ["boolean", "null"], "description": "Whether to fill available space" },
+        "width": { "type": ["string", "null"], "description": "Explicit width" },
+        "height": { "type": ["string", "null"], "description": "Explicit height" }
       },
       "additionalProperties": true
+    },
+    "content": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Child blocks"
     }
   },
   "required": ["type"],
   "additionalProperties": false
 }
-
-

@@ -1,5 +1,5 @@
 {
-  "name": "@blockslides/extension-row",
+  "name": "@blockslides/extension-column-group",
   "version": "0.1.1",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
