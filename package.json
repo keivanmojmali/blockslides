@@ -16,7 +16,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@blockslides/extension-bubble-menu-preset": "^0.1.0",
+    "@blockslides/extension-bubble-menu-preset": "^0.3.0",
     "caniuse-lite": "^1.0.30001763"
   }
 }

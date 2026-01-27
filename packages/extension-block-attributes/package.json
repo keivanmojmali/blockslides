@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-block-attributes",
   "description": "Base block attributes extension for blockslides - adds common attributes to all block types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "keywords": [
     "blockslides",
     "blockslides extension"
