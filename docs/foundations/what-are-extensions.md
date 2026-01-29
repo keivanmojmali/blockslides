@@ -43,45 +43,9 @@ const editor = useSlideEditor({
 
 Each extension is a self-contained module that adds specific capabilities to your editor. You import only what you need and compose them together.
 
-## The easiest way: ExtensionKit
-
-For most use cases, the **ExtensionKit** is the simplest way to get started. It bundles all available extensions with sensible defaults:
-
-```ts
-import { useSlideEditor } from '@blockslides/react';
-import { ExtensionKit } from '@blockslides/extension-kit';
-
-const editor = useSlideEditor({
-  extensions: [
-    ExtensionKit.configure({})  // Includes everything by default
-  ]
-});
-```
-
-::: warning Note
-The ExtensionKit includes **all** extensions in your bundle, even if you disable them with `false`. This is convenient but heavier than importing individual extensions. If bundle size is a concern, you should import and compose only the extensions you need instead of using ExtensionKit.
-:::
-
-You can disable specific extensions you don't need:
-
-```ts
-const editor = useSlideEditor({
-  extensions: [
-    ExtensionKit.configure({
-      codeBlock: false,      // Disable code blocks
-      mathematics: false,    // Disable math expressions
-      youtube: false,        // Disable YouTube embeds
-    })
-  ]
-});
-```
-
-<br/>
-!!! TODO: Add documentation on how to compose your own extension list for optimal bundle size. Link to: `/features/blocks-and-extensions/extensions/composing-extensions`
-
 ## Built-in extensions
 
-BlockSlides provides a comprehensive **ExtensionKit** that bundles all available extensions. You can use the entire kit or pick and choose specific extensions.
+BlockSlides ships with a comprehensive set of extensions covering everything from basic text formatting to media embeds and advanced editor behaviors.
 
 ### Core extensions
 - **Document** — Top-level document node (slide+ or block+)
@@ -162,6 +126,10 @@ import { ExtensionKit } from '@blockslides/extension-kit';
 // Use all defaults
 const extensions = [ExtensionKit.configure({})];
 ```
+
+::: warning Note
+The ExtensionKit includes **all** extensions in your bundle, even if you disable them with `false`. This is convenient but heavier than importing individual extensions. If bundle size is a concern, you should import and compose only the extensions you need instead of using ExtensionKit.
+:::
 
 ### Disabling extensions
 
