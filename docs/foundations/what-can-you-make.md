@@ -4,18 +4,32 @@ Blockslides stores your content as **slides**. A flexible JSON data structure yo
 
 ```ts
 const doc = {
-  type: "doc", //Top level doc. Always there/ Always the same
+  type: "doc", // Top level doc. Always there/ Always the same
   content: [
     {
-      type: "slide", //<-- The slide block / Only valid child of top level doc
-      attrs: { size: "4x3" }, //Where the asset layout is defined
+      type: "slide", // <-- The slide block / Only valid child of top level doc
+      attrs: { size: "4x3" }, // Where the asset layout is defined
       content: [...],
     },
   ],
 };
 ```
 
-Notice the `attrs.size: "4x3"` — that’s what makes this slide a 4x3 canvas.
+The editor’s content is an array of slides.
+
+Each slide can represent a different type of asset. In the example above, we have a classic `4x3` slide.
+
+If we wanted the next slide to be a LinkedIn banner, we’d add this new slide to the `content` array:
+
+```ts
+{
+  type: "slide",
+  attrs: { size: "linkedin-banner" },
+  content: [],
+}
+```
+
+**You can mix different asset types in the same editor.**
 
 ## Things you can build
 - Presentation decks
