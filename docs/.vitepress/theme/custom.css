@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'Aspekta';
+  src: url('/fonts/Aspekta-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aspekta';
+  src: url('/fonts/Aspekta-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #e7e8e1;
   --foreground: #222f30;
@@ -34,6 +50,7 @@
   --sidebar-accent-foreground: #222f30;
   --sidebar-border: #c8cbc3;
   --sidebar-ring: #cef79f;
+  font-family: 'Aspekta', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 .dark {
@@ -69,4 +86,17 @@
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
+}
+
+body {
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
 }

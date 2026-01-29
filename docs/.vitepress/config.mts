@@ -29,7 +29,7 @@ export default defineConfig({
         text: 'Foundations',
         items: [
           {
-            text: 'What can you make with Blockslides?',
+            text: 'What can you make?',
             link: '/foundations/what-can-you-make'
           },
           { text: 'What are blocks?', link: '/foundations/what-are-blocks' },
