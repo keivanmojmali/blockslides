@@ -1,68 +1,77 @@
-# What are blocks (and nodes)?
+# What are blocks?
 
-Blocks are the **fundamental building units** of your slides. Think of them as structured content elements like paragraphs, headings, images, lists, and more.
+Blocks are the **building elements inside your slides**. Things like paragraphs, headings, images, lists, code blocks, and more.
 
-In Blockslides, we follow [TipTap](https://tiptap.dev/) and [ProseMirror](https://prosemirror.net/) conventions, where blocks are technically called **"nodes"**. But we'll use both terms interchangeably since "blocks" is more intuitive.
-
-## The big picture
-
-Everything in Blockslides is an **extension**. Extensions come in three flavors:
-
-1. **Nodes** (blocks) — Structured content elements (Paragraph, Heading, Image, etc.)
-2. **Marks** — Inline text formatting (Bold, Italic, Link, etc.)
-3. **Extensions** — Editor functionality (DragHandle, UndoRedo, BubbleMenu, etc.)
-
-This page focuses on **nodes/blocks** — the structural elements that make up your slide content.
-
-## How blocks work
-
-Each block in your slide is a node in the document structure. Here's what a simple slide with a few blocks looks like:
+Remember from [What can you make?](/foundations/what-can-you-make) that your content is stored as slides:
 
 ```ts
-const doc = {
-  type: "doc",
+{
+  type: "slide",
+  attrs: { size: "16x9" },
+  content: [...] // <-- This is where blocks live
+}
+```
+
+**Blocks are what go inside the `content` array of each slide.**
+
+## A simple example
+
+Here's a slide with three blocks: a heading, a paragraph, and a bullet list.
+
+```ts
+{
+  type: "slide",
+  attrs: { size: "16x9" },
   content: [
     {
-      type: "slide",
-      attrs: { size: "16x9" },
+      type: "heading",
+      attrs: { level: 1 },
+      content: [{ type: "text", text: "Welcome" }]
+    },
+    {
+      type: "paragraph",
+      content: [{ type: "text", text: "This is a paragraph." }]
+    },
+    {
+      type: "bulletList",
       content: [
         {
-          type: "heading",
-          attrs: { level: 1 },
-          content: [{ type: "text", text: "Welcome" }]
-        },
-        {
-          type: "paragraph",
-          content: [{ type: "text", text: "This is a paragraph." }]
-        },
-        {
-          type: "bulletList",
+          type: "listItem",
           content: [
             {
-              type: "listItem",
-              content: [
-                {
-                  type: "paragraph",
-                  content: [{ type: "text", text: "First item" }]
-                }
-              ]
+              type: "paragraph",
+              content: [{ type: "text", text: "First item" }]
             }
           ]
         }
       ]
     }
   ]
-};
+}
 ```
 
-Notice the hierarchy:
+Each block is a structured piece of content that knows how to render and behave.
+
+::: tip Technical note
+Blockslides is built on [ProseMirror](https://prosemirror.net/) and follows [ProseMirror](https://prosemirror.net/) and [TipTap](https://tiptap.dev/) conventions, where blocks are technically called **"nodes"**. You might see both terms used interchangeably in the codebase and documentation.
+:::
+
+## How blocks nest
+
+Blocks can contain other blocks, creating a hierarchy:
+
 - **Document** → contains slides
-- **Slide** → contains blocks
-- **Blocks** → contain inline content or other blocks
+- **Slide** → contains blocks  
+- **Blocks** → contain inline content (text) or other blocks
+
+For example, a `bulletList` block contains `listItem` blocks, and each `listItem` contains a `paragraph` block, which contains `text`.
 
 ## Built-in blocks
 
-Blockslides ships with a comprehensive set of blocks out of the box. These are all available in the [StarterKit](/getting-started/quickstart/react).
+Blockslides ships with a comprehensive set of blocks out of the box. These are all available in the ExtensionKit (ADDD LINK HERE TODO)
+<br/>
+!!! TODO: link to the extension kit page that explain what is in it etc. (mention in extensionkit why you may
+want to create your own extensions import if you do not want to use all of the extensions) and update that link above
 
 ### Text blocks
 - **Paragraph** — Basic text block
@@ -160,12 +169,8 @@ Most blocks support markdown parsing and rendering, making it easy to import/exp
 
 ## Creating custom blocks
 
-Want to add your own block types? You can extend any existing block or create entirely new ones. 
+Want to add your own block types? You can extend any existing block or create entirely new ones by building custom extensions.
 
-Check out the [Extensions documentation](/features/blocks-and-extensions/extensions/overview) to learn how to build custom blocks.
-
-## Next steps
-
-- Learn about [Extensions](/foundations/what-are-extensions) and how they add functionality
-- Explore [Schemas](/foundations/what-are-the-schemas) to understand content validation
-- See [What can you make?](/foundations/what-can-you-make) for real-world examples
+Check out the [Extensions documentation](/features/blocks-and-extensions/extensions/overview) to learn more.
+<br/>
+!!!! TODO: ADD THAT DOCUMENTATION PAGE ON HOW TO DO THAT + LINK 
