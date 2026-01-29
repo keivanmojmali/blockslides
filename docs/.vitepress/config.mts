@@ -41,40 +41,53 @@ export default defineConfig({
         text: 'Features',
         items: [
           {
-            text: 'Blocks and Extensions',
+            text: 'Working with Content',
             items: [
-              { text: 'Markdown', link: '/features/blocks-and-extensions/markdown' },
-              {
-                text: 'Extensions',
-                items: [
-                  {
-                    text: 'Overview',
-                    link: '/features/blocks-and-extensions/extensions/overview'
-                  },
-                  {
-                    text: 'Slide',
-                    link: '/features/blocks-and-extensions/extensions/slide'
-                  },
-                  {
-                    text: 'Add Slide Button',
-                    link: '/features/blocks-and-extensions/extensions/add-slide-button'
-                  },
-                  {
-                    text: 'Bubble Menu',
-                    link: '/features/blocks-and-extensions/extensions/bubble-menu'
-                  },
-                  {
-                    text: 'Image Block',
-                    link: '/features/blocks-and-extensions/extensions/image-block'
-                  }
-                ]
-              }
+              { text: 'Markdown Support', link: '/features/working-with-content/markdown-support' },
+              { text: 'Rich Text Formatting', link: '/features/working-with-content/rich-text-formatting' },
+              { text: 'Media & Embeds', link: '/features/working-with-content/media-embeds' },
+              { text: 'Tables & Math', link: '/features/working-with-content/tables-math' }
             ]
           },
-          { text: 'Import', link: '/features/import' },
-          { text: 'Export', link: '/features/export' },
-          { text: 'AI Context', link: '/features/ai-context' },
-          { text: 'Editor API', link: '/features/editor-api' }
+          {
+            text: 'Slide Management',
+            items: [
+              { text: 'Creating & Organizing', link: '/features/slide-management/creating-organizing' },
+              { text: 'Layouts & Columns', link: '/features/slide-management/layouts-columns' },
+              { text: 'Theming & Styling', link: '/features/slide-management/theming-styling' }
+            ]
+          },
+          {
+            text: 'Import & Export',
+            items: [
+              { text: 'Import', link: '/features/import-export/import' },
+              { text: 'Export', link: '/features/import-export/export' }
+            ]
+          },
+          {
+            text: 'Editor Features',
+            items: [
+              { text: 'Commands API', link: '/features/editor-features/commands-api' },
+              { text: 'Keyboard Shortcuts', link: '/features/editor-features/keyboard-shortcuts' },
+              { text: 'Undo/Redo & History', link: '/features/editor-features/undo-redo' },
+              { text: 'Drag & Drop', link: '/features/editor-features/drag-drop' }
+            ]
+          },
+          {
+            text: 'AI & Templates',
+            items: [
+              { text: 'AI Context', link: '/features/ai-templates/ai-context' },
+              { text: 'Preset Templates', link: '/features/ai-templates/preset-templates' }
+            ]
+          },
+          {
+            text: 'Customization',
+            items: [
+              { text: 'Extension Kit Overview', link: '/features/customization/extension-kit-overview' },
+              { text: 'Creating Custom Extensions', link: '/features/customization/creating-extensions' },
+              { text: 'Custom Blocks & Marks', link: '/features/customization/custom-blocks-marks' }
+            ]
+          }
         ]
       },
       {

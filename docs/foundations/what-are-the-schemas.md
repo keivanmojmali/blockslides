@@ -218,14 +218,3 @@ content: 'image'
 // A block that contains paragraphs or headings
 content: '(paragraph | heading)+'
 ```
-
-## Summary
-
-The schema is the foundation that everything else builds on:
-
-- It defines **what blocks exist** (nodes and marks)
-- It enforces **structural rules** (what can nest where)
-- It enables **consistent behavior** across the editor
-- It makes **serialization reliable** and predictable
-
-Now that you understand schemas, you're ready to learn about [blocks](/foundations/what-are-blocks) and [extensions](/foundations/what-are-extensions) that work within this structure.
