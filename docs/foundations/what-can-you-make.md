@@ -19,7 +19,7 @@ The editor’s content is an array of slides.
 
 Each slide can represent a different type of asset. In the example above, we have a classic `4x3` slide.
 
-If we wanted the next slide to be a LinkedIn banner, we’d add this new slide to the `content` array:
+If we wanted the next slide to be a LinkedIn banner, we’d add this new slide to the `content` array.
 
 ```ts
 {
@@ -33,7 +33,8 @@ If we wanted the next slide to be a LinkedIn banner, we’d add this new slide t
 
 !!!! TODO: ADD A PICTURE OF A SLIDE AND LINKEDIN BANNER IN THE SAME EDITOR 
 
-## Examples of assets you can create
+## Examples
+Short lists of assets you can create by changing the size of the slide. 
 - Presentation decks
 - LinkedIn banners and social cover images
 - Instagram posts and reels covers
@@ -54,35 +55,25 @@ You can also easily add your own.
 
 !!! TODO: link to page that shows how you can build your own 
 
-## Pre-built layouts you can start from
-Blockslides includes pre-built slide templates you can use as a starting point. 
-These are not values for the size object but rather entire blocks of code that you can insert into 
-the content array of the top level doc. 
+## Templates
+Blockslides includes pre-built slide templates you can use as a starting point. <br/>
+These are not values for the size attribute but rather entire blocks of code that you can insert into 
+the content array of the top level doc. <br/>
+They can be used as context for your AI agent, allowing a user to browse templates, etc... 
+
 ```ts
-!!! TODO: add explanation of the code and refine the explanation of what templates are
+import { templatesV1 } from "@blockslides/ai-context";
+type PresetTemplates = templatesV1.PresetTemplate[];
+
+
+const presets = useMemo<PresetTemplates>(
+  () => presetTemplates ?? templatesV1.listPresetTemplates(),
+  [presetTemplates]
+);
 ```
 <br /> 
 We are constantly adding more. 
 
 !!! TODO: turn this into a carousel where they can browse the templates 
-!!! TODO: link them to where they can learn more about the templates and how to use them 
-
-- `tpl.titleAndSubheader`
-- `tpl.imageAndText`
-- `tpl.textAndImage`
-- `tpl.twoColumns`
-- `tpl.twoColumnsWithHeader`
-- `tpl.threeColumns`
-- `tpl.threeColumnsWithHeader`
-- `tpl.fourColumns`
-- `tpl.fourColumnsWithHeader`
-- `tpl.titleWithBullets`
-- `tpl.titleBulletsAndImage`
-- `tpl.twoImageColumns`
-- `tpl.accentLeft`
-- `tpl.accentRight`
-- `tpl.accentTop`
-- `tpl.accentRightFit`
-- `tpl.accentLeftFit`
-- `tpl.fullImage`
+!!! TODO: link them to where they can learn more about the templates and how to use them - its own page
 
