@@ -32,9 +32,9 @@ export default defineConfig({
             text: 'What can you make?',
             link: '/foundations/what-can-you-make'
           },
+          { text: 'What are the schemas?', link: '/foundations/what-are-the-schemas' },
           { text: 'What are blocks?', link: '/foundations/what-are-blocks' },
           { text: 'What are extensions?', link: '/foundations/what-are-extensions' },
-          { text: 'What are the schemas?', link: '/foundations/what-are-the-schemas' },
         ]
       },
       {
