@@ -52,6 +52,10 @@ export default defineConfig({
                     link: '/features/blocks-and-extensions/extensions/overview'
                   },
                   {
+                    text: 'Slide',
+                    link: '/features/blocks-and-extensions/extensions/slide'
+                  },
+                  {
                     text: 'Add Slide Button',
                     link: '/features/blocks-and-extensions/extensions/add-slide-button'
                   },

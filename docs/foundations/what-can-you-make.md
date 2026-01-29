@@ -1,7 +1,18 @@
 # What can you make?
 
-Blockslides stores your content as **slides**; a flexible JSON data structure you can shape into many kinds of visual assets.
+Blockslides stores your content as **slides**; a flexible JSON data structure you can shape into **many kinds of visual assets.**
 
+Here is a short list of some asset types you can create. These are technically "slides".
+- Presentation decks
+- LinkedIn banners and social cover images
+- Instagram posts and reels covers
+- Twitter/X cards
+- Hero/landing banners and thumbnails
+- Printable one-pagers and handouts (A4/Letter/PDF)
+- etc...
+
+## Example
+The following `doc` variable is a simplified example of the data structure that the slide editor accepts.
 ```ts
 const doc = {
   type: "doc", // Top level doc. Always there/ Always the same
@@ -17,31 +28,23 @@ const doc = {
 
 The editor’s content is an array of slides.
 
-Each slide can represent a different type of asset. In the example above, we have a classic `4x3` slide.
+Each slide can represent a different type of asset. In the example above, we have a classic `4x3` slide. Defined by the size attribute. 
 
-If we wanted the next slide to be a LinkedIn banner, we’d add this new slide to the `content` array.
+To add an A4 portrait slide (for printable documents), we’d add this new slide to the `content` array.
 
 ```ts
 {
   type: "slide",
-  attrs: { size: "linkedin-banner" },
+  attrs: { size: "a4-portrait" },
   content: [...],
 }
 ```
 
 **You can mix different asset types in the same editor.**
 
-!!!! TODO: ADD A PICTURE OF A SLIDE AND LINKEDIN BANNER IN THE SAME EDITOR 
+!!!! TODO: ADD A PICTURE OF A SLIDE AND a4 IN THE SAME EDITOR - mentiond that they would look different 
+and show the different size
 
-## Examples
-Short lists of assets you can create by changing the size of the slide. 
-- Presentation decks
-- LinkedIn banners and social cover images
-- Instagram posts and reels covers
-- Twitter/X cards
-- Hero/landing banners and thumbnails
-- Printable one-pagers and handouts (A4/Letter/PDF)
-- etc...
 
 ## Built-in sizes 
 We ship with a few sizes to make it easy to experiment. <br/>
