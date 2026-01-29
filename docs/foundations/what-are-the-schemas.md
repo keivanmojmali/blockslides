@@ -2,7 +2,6 @@
 
 The schema defines **the rules and structure** for your slide documents. It determines what blocks can exist, where they can go, and how they can nest together.
 
-Think of it as the grammar rules for your content—just like sentences need proper structure, your slides need to follow the schema's rules.
 
 ## The basic structure
 
@@ -18,7 +17,7 @@ doc → slide+ → block+ → inline content
 - **inline content** is text with formatting (marks like bold, italic, etc.)
 
 Here's what that looks like in practice:
-
+;
 ```ts
 {
   type: "doc",
@@ -41,7 +40,7 @@ Here's what that looks like in practice:
 }
 ```
 
-The schema enforces this structure—you can't put a paragraph directly in the `doc`, and you can't put a slide inside another slide.
+The schema enforces this structure. You can't put a paragraph directly in the `doc`, and you can't put a slide inside another slide.
 
 ## What the schema controls
 
@@ -191,7 +190,7 @@ For example, you could add:
 - A `video` mark for inline video timestamps
 - A `custom-layout` block with special rendering
 
-Extensions register their nodes and marks, and the editor automatically incorporates them into the schema.
+**Extensions register their nodes and marks, and the editor automatically incorporates them into the schema.**
 
 Learn more about building custom extensions in [What are extensions?](/foundations/what-are-extensions)
 
