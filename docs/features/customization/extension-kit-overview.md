@@ -70,7 +70,7 @@ const editor = useEditor({
 })
 ```
 
-This gives you a fully-featured editor with text formatting, media embeds, tables, math support, keyboard shortcuts, drag-and-drop, and more—all working out of the box.
+This gives you a fully-featured editor with text formatting, media embeds, tables, math support, keyboard shortcuts, drag-and-drop, and more. All working out of the box.
 
 ### Customizing extensions
 
