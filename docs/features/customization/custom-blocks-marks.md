@@ -46,6 +46,44 @@ export const CustomBlock = Node.create({
 - **parseHTML** - Rules for parsing HTML into this block
 - **renderHTML** - How to render this block as HTML/DOM
 
+### Using JSX for Rendering
+
+BlockSlides supports JSX syntax for `renderHTML`, which provides a cleaner and more readable alternative to array syntax. To use JSX, add the JSX import source pragma at the top of your file:
+
+```tsx
+/** @jsxImportSource @blockslides/core */
+import { Node, mergeAttributes } from '@blockslides/core'
+
+export const CustomBlock = Node.create({
+  name: 'customBlock',
+  
+  group: 'block',
+  
+  content: 'inline*',
+  
+  parseHTML() {
+    return [{ tag: 'div[data-type="custom"]' }]
+  },
+  
+  renderHTML({ HTMLAttributes }) {
+    return (
+      <div {...mergeAttributes({ 'data-type': 'custom' }, HTMLAttributes)}>
+        <slot />
+      </div>
+    )
+  }
+})
+```
+
+**Both syntaxes are supported:**
+
+- **Array syntax**: `['div', { class: 'foo' }, 0]` - Use `0` to mark where content goes
+- **JSX syntax**: `<div class="foo"><slot /></div>` - Use `<slot />` to mark where content goes
+
+::: tip JSX vs Array Syntax
+JSX syntax is preferred in the BlockSlides codebase for better readability and type safety. Use `<slot />` in JSX where you would use `0` in array syntax to indicate where child content should be rendered.
+:::
+
 ### Adding Attributes
 
 Blocks can have attributes to store configuration and state:
@@ -269,31 +307,15 @@ export const CustomCard = Node.create({
 
 ### Advanced: CSS Injection
 
-Inject styles for your custom block:
+Inject styles for your custom block using the `onCreate` lifecycle hook:
 
 ```ts
-import { Node, createStyleTag } from '@blockslides/core'
-import { Plugin, PluginKey } from '@blockslides/pm/state'
-
-const CustomBlockPluginKey = new PluginKey('customBlock')
-
-const styles = `
-  .custom-block {
-    border: 2px solid #4a90e2;
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1rem 0;
-  }
-  
-  .custom-block[data-variant="danger"] {
-    border-color: #e74c3c;
-  }
-`
+import { Node, mergeAttributes } from '@blockslides/core'
 
 export interface CustomBlockOptions {
   HTMLAttributes: Record<string, any>
   injectCSS: boolean
-  injectNonce?: string
+  styles: string
 }
 
 export const CustomBlock = Node.create<CustomBlockOptions>({
@@ -303,28 +325,50 @@ export const CustomBlock = Node.create<CustomBlockOptions>({
     return {
       HTMLAttributes: {},
       injectCSS: true,
-      injectNonce: undefined
+      styles: `
+        .custom-block {
+          border: 2px solid #4a90e2;
+          border-radius: 8px;
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+        
+        .custom-block[data-variant="danger"] {
+          border-color: #e74c3c;
+        }
+      `
     }
   },
   
-  // ... other configuration ...
+  content: 'block+',
   
-  addProseMirrorPlugins() {
+  group: 'block',
+  
+  onCreate() {
     if (!this.options.injectCSS || typeof document === 'undefined') {
-      return []
+      return
     }
-    
+
+    const styleId = 'blockslides-custom-block-styles'
+    if (document.getElementById(styleId)) {
+      return
+    }
+
+    const style = document.createElement('style')
+    style.id = styleId
+    style.textContent = this.options.styles.trim()
+    document.head.appendChild(style)
+  },
+  
+  parseHTML() {
+    return [{ tag: 'div.custom-block' }]
+  },
+  
+  renderHTML({ HTMLAttributes }) {
     return [
-      new Plugin({
-        key: CustomBlockPluginKey,
-        state: {
-          init: () => {
-            createStyleTag(styles, this.options.injectNonce, 'custom-block-styles')
-            return {}
-          },
-          apply: (_tr, pluginState) => pluginState
-        }
-      })
+      'div',
+      mergeAttributes({ class: 'custom-block' }, this.options.HTMLAttributes, HTMLAttributes),
+      0
     ]
   }
 })
@@ -336,7 +380,7 @@ Custom marks extend the `Mark` type from `@blockslides/core`. They apply inline 
 
 ### Basic Mark Structure
 
-A minimal custom mark:
+A minimal custom mark using array syntax:
 
 ```ts
 import { Mark, mergeAttributes } from '@blockslides/core'
@@ -350,6 +394,29 @@ export const Highlight = Mark.create({
   
   renderHTML({ HTMLAttributes }) {
     return ['mark', mergeAttributes(HTMLAttributes), 0]
+  }
+})
+```
+
+Or using JSX syntax (preferred):
+
+```tsx
+/** @jsxImportSource @blockslides/core */
+import { Mark, mergeAttributes } from '@blockslides/core'
+
+export const Highlight = Mark.create({
+  name: 'highlight',
+  
+  parseHTML() {
+    return [{ tag: 'mark' }]
+  },
+  
+  renderHTML({ HTMLAttributes }) {
+    return (
+      <mark {...mergeAttributes(HTMLAttributes)}>
+        <slot />
+      </mark>
+    )
   }
 })
 ```
