@@ -2,9 +2,6 @@
 
 The `@blockslides/ai-context` package provides versioned context strings, JSON schemas, and TypeScript types for instructing Large Language Models (LLMs) to generate and edit BlockSlides documents. It packages the structural rules and constraints of BlockSlides into consumable formats that can be used as system prompts or tool definitions.
 
-::: tip Why AI Context?
-When working with LLMs to generate presentations, you need to teach the model the exact JSON structure BlockSlides expects—node types, attribute constraints, layout rules, and semantic patterns. This package bundles those instructions so you don't need to maintain prompt engineering logic yourself.
-:::
 
 ## Installation
 
