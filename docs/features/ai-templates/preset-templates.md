@@ -232,61 +232,12 @@ Each template returns a slide JSON object with the `slide` type and content bloc
 }
 ```
 
-## Working with Templates Programmatically
-
-### Listing templates
-
-Get all available templates with their metadata:
-
-```ts
-import { templatesV1 } from '@blockslides/ai-context'
-
-const allTemplates = templatesV1.listPresetTemplates()
-
-// Filter by pattern
-const accentTemplates = allTemplates.filter(t => 
-  t.key.includes('accent')
-)
-
-// Group by type
-const columnTemplates = allTemplates.filter(t =>
-  t.key.includes('Columns')
-)
-```
-
-### Modifying template output
-
-Templates return standard JSON that you can modify:
-
-```ts
-const slide = templatesV1.buildPresetTemplate('tpl.titleAndSubheader')
-
-// Change slide size
-slide.attrs.size = '4x3'
-
-// Modify column attributes
-const column = slide.content[0]
-column.attrs.backgroundColor = '#1e293b'
-
-// Update content
-column.content[0].content[0].text = 'Custom Title'
-```
-
-### Combining templates with schema builders
-
-Use templates alongside the schema builders from the same package:
-
-```ts
-import { templatesV1 } from '@blockslides/ai-context'
-
-// Start with a preset
-const slide = templatesV1.buildPresetTemplate('tpl.twoColumns')
-
-// The schema builders (blocks, slide helpers) are also available
-// but templates are pre-built structures you can use directly
-```
-
 ## Integration with AI Context
+
+::: tip Using Presets to Improve AI Output
+To increase the likelihood of your AI producing valid schemas, feed a preset template slide as an example in your prompt. The AI can then edit the content while maintaining the proper structure:
+:::
+
 
 Preset templates are part of the `@blockslides/ai-context` package, which provides context strings, schemas, and builders for AI-assisted slide generation. While the templates themselves are JavaScript functions that return JSON, they're designed to work alongside the AI context system.
 
