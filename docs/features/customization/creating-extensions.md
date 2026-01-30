@@ -1,4 +1,4 @@
-# Creating Custom Extensions
+# Custom Extensions
 
 Extensions are **modular pieces of code that add functionality to Blockslides**. You can create custom extensions to add new block types, text formatting options, or editor behaviors tailored to your needs.
 
