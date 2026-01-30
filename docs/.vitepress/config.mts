@@ -6,6 +6,8 @@ export default defineConfig({
   description: "Blockslides - a ProseMiror-based slide editor ",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    outline: [2, 3], // Show h2 and h3 headers in "on this page"
+    
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/getting-started/overview' }
