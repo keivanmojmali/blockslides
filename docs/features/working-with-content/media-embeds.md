@@ -627,6 +627,10 @@ Youtube.configure({
 
 The FileHandler extension provides drag-and-drop and paste support for images and other files. It serves as the foundation for handling file uploads in your editor.
 
+::: tip See Also
+For comprehensive information about drag and drop functionality, including the DragHandle and Dropcursor extensions, see the [Drag & Drop](/features/editor-features/drag-drop) guide.
+:::
+
 ### Setup
 
 The FileHandler extension **requires configuration with callback functions** to process dropped or pasted files. You'll need to provide handlers that define what happens when users drag files onto the editor or paste them from their clipboard.
