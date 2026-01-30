@@ -86,7 +86,7 @@ export default defineConfig({
             text: 'Customization',
             items: [
               { text: 'Extension Kit Overview', link: '/features/customization/extension-kit-overview' },
-              { text: 'Creating Custom Extensions', link: '/features/customization/creating-extensions' },
+              { text: 'Custom Extensions', link: '/features/customization/creating-extensions' },
               { text: 'Custom Blocks & Marks', link: '/features/customization/custom-blocks-marks' }
             ]
           }
