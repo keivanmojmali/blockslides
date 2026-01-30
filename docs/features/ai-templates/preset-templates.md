@@ -27,30 +27,156 @@ const slide = templatesV1.buildPresetTemplate('tpl.titleAndSubheader')
 ### Available preset keys
 
 **Basic layouts:**
-- `tpl.titleAndSubheader` - Centered title and subtitle
-- `tpl.titleWithBullets` - Header with bullet list
-- `tpl.fullImage` - Edge-to-edge image
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="18" y="22" width="60" height="12" rx="2" fill="#D4D4D8"/><rect x="26" y="38" width="44" height="8" rx="2" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.titleAndSubheader</code><br>
+    <span style="color: #666; font-size: 0.9em;">Centered title and subtitle</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="18" y="20" width="60" height="6" rx="1.5" fill="#D4D4D8"/><circle cx="22" cy="32" r="2" fill="#D4D4D8"/><rect x="28" y="30" width="44" height="4" rx="1" fill="#E5E7EB"/><circle cx="22" cy="39" r="2" fill="#D4D4D8"/><rect x="28" y="37" width="44" height="4" rx="1" fill="#E5E7EB"/><circle cx="22" cy="46" r="2" fill="#D4D4D8"/><rect x="28" y="44" width="36" height="4" rx="1" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.titleWithBullets</code><br>
+    <span style="color: #666; font-size: 0.9em;">Header with bullet list</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="14" y="14" width="68" height="44" rx="3" fill="#E5E7EB"/><path d="M18 50 34 32l12 14 8-10 16 14H18Z" fill="#D4D4D8"/><circle cx="32" cy="26" r="4" fill="#D4D4D8"/></svg>
+  <div>
+    <code>tpl.fullImage</code><br>
+    <span style="color: #666; font-size: 0.9em;">Edge-to-edge image</span>
+  </div>
+</div>
 
 **Two-column layouts:**
-- `tpl.imageAndText` - Image left, text right
-- `tpl.textAndImage` - Text left, image right
-- `tpl.twoColumns` - Two balanced text columns
-- `tpl.twoColumnsWithHeader` - Header with two columns below
-- `tpl.twoImageColumns` - Header with two image cards
-- `tpl.titleBulletsAndImage` - Bullets left, image right
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="16" y="26" width="24" height="16" rx="2" fill="#E5E7EB"/><rect x="21" y="31" width="14" height="6" rx="1" fill="#D4D4D8"/><rect x="46" y="24" width="34" height="6" rx="1.5" fill="#D4D4D8"/><rect x="46" y="33" width="34" height="5" rx="1.5" fill="#E5E7EB"/><rect x="46" y="41" width="28" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.imageAndText</code><br>
+    <span style="color: #666; font-size: 0.9em;">Image left, text right</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="18" y="24" width="34" height="6" rx="1.5" fill="#D4D4D8"/><rect x="18" y="33" width="34" height="5" rx="1.5" fill="#E5E7EB"/><rect x="18" y="41" width="28" height="5" rx="1.5" fill="#E5E7EB"/><rect x="56" y="26" width="24" height="16" rx="2" fill="#E5E7EB"/><rect x="61" y="31" width="14" height="6" rx="1" fill="#D4D4D8"/></svg>
+  <div>
+    <code>tpl.textAndImage</code><br>
+    <span style="color: #666; font-size: 0.9em;">Text left, image right</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="18" y="22" width="26" height="6" rx="1.5" fill="#D4D4D8"/><rect x="18" y="31" width="26" height="5" rx="1.5" fill="#E5E7EB"/><rect x="18" y="39" width="22" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="22" width="26" height="6" rx="1.5" fill="#D4D4D8"/><rect x="52" y="31" width="26" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="39" width="22" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.twoColumns</code><br>
+    <span style="color: #666; font-size: 0.9em;">Two balanced text columns</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="18" y="18" width="60" height="6" rx="1.5" fill="#D4D4D8"/><rect x="18" y="28" width="26" height="6" rx="1.5" fill="#D4D4D8"/><rect x="18" y="37" width="26" height="5" rx="1.5" fill="#E5E7EB"/><rect x="18" y="45" width="22" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="28" width="26" height="6" rx="1.5" fill="#D4D4D8"/><rect x="52" y="37" width="26" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="45" width="22" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.twoColumnsWithHeader</code><br>
+    <span style="color: #666; font-size: 0.9em;">Header with two columns below</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="16" y="18" width="64" height="6" rx="1.5" fill="#D4D4D8"/><rect x="16" y="28" width="28" height="14" rx="2" fill="#E5E7EB"/><rect x="52" y="28" width="28" height="14" rx="2" fill="#E5E7EB"/><rect x="16" y="46" width="20" height="4" rx="1" fill="#D4D4D8"/><rect x="52" y="46" width="20" height="4" rx="1" fill="#D4D4D8"/></svg>
+  <div>
+    <code>tpl.twoImageColumns</code><br>
+    <span style="color: #666; font-size: 0.9em;">Header with two image cards</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="16" y="18" width="64" height="6" rx="1.5" fill="#D4D4D8"/><circle cx="20" cy="31" r="2" fill="#D4D4D8"/><rect x="26" y="29" width="24" height="4" rx="1" fill="#E5E7EB"/><circle cx="20" cy="38" r="2" fill="#D4D4D8"/><rect x="26" y="36" width="24" height="4" rx="1" fill="#E5E7EB"/><circle cx="20" cy="45" r="2" fill="#D4D4D8"/><rect x="26" y="43" width="20" height="4" rx="1" fill="#E5E7EB"/><rect x="56" y="31" width="24" height="16" rx="2" fill="#E5E7EB"/><rect x="61" y="36" width="14" height="6" rx="1" fill="#D4D4D8"/></svg>
+  <div>
+    <code>tpl.titleBulletsAndImage</code><br>
+    <span style="color: #666; font-size: 0.9em;">Bullets left, image right</span>
+  </div>
+</div>
 
 **Multi-column layouts:**
-- `tpl.threeColumns` - Three equal text columns
-- `tpl.threeColumnsWithHeader` - Header with three columns
-- `tpl.fourColumns` - Four equal text columns
-- `tpl.fourColumnsWithHeader` - Header with four columns
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="14" y="22" width="20" height="6" rx="1.5" fill="#D4D4D8"/><rect x="14" y="31" width="20" height="5" rx="1.5" fill="#E5E7EB"/><rect x="14" y="39" width="18" height="5" rx="1.5" fill="#E5E7EB"/><rect x="38" y="22" width="20" height="6" rx="1.5" fill="#D4D4D8"/><rect x="38" y="31" width="20" height="5" rx="1.5" fill="#E5E7EB"/><rect x="38" y="39" width="18" height="5" rx="1.5" fill="#E5E7EB"/><rect x="62" y="22" width="20" height="6" rx="1.5" fill="#D4D4D8"/><rect x="62" y="31" width="20" height="5" rx="1.5" fill="#E5E7EB"/><rect x="62" y="39" width="18" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.threeColumns</code><br>
+    <span style="color: #666; font-size: 0.9em;">Three equal text columns</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="16" y="16" width="60" height="6" rx="1.5" fill="#D4D4D8"/><rect x="14" y="28" width="20" height="6" rx="1.5" fill="#D4D4D8"/><rect x="14" y="37" width="20" height="5" rx="1.5" fill="#E5E7EB"/><rect x="14" y="45" width="18" height="5" rx="1.5" fill="#E5E7EB"/><rect x="38" y="28" width="20" height="6" rx="1.5" fill="#D4D4D8"/><rect x="38" y="37" width="20" height="5" rx="1.5" fill="#E5E7EB"/><rect x="38" y="45" width="18" height="5" rx="1.5" fill="#E5E7EB"/><rect x="62" y="28" width="20" height="6" rx="1.5" fill="#D4D4D8"/><rect x="62" y="37" width="20" height="5" rx="1.5" fill="#E5E7EB"/><rect x="62" y="45" width="18" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.threeColumnsWithHeader</code><br>
+    <span style="color: #666; font-size: 0.9em;">Header with three columns</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="12" y="22" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="12" y="31" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="12" y="39" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="32" y="22" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="32" y="31" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="32" y="39" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="22" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="52" y="31" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="39" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="72" y="22" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="72" y="31" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="72" y="39" width="16" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.fourColumns</code><br>
+    <span style="color: #666; font-size: 0.9em;">Four equal text columns</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="16" y="16" width="60" height="6" rx="1.5" fill="#D4D4D8"/><rect x="12" y="28" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="12" y="37" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="12" y="45" width="14" height="5" rx="1.5" fill="#E5E7EB"/><rect x="32" y="28" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="32" y="37" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="32" y="45" width="14" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="28" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="52" y="37" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="52" y="45" width="14" height="5" rx="1.5" fill="#E5E7EB"/><rect x="72" y="28" width="16" height="6" rx="1.5" fill="#D4D4D8"/><rect x="72" y="37" width="16" height="5" rx="1.5" fill="#E5E7EB"/><rect x="72" y="45" width="14" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.fourColumnsWithHeader</code><br>
+    <span style="color: #666; font-size: 0.9em;">Header with four columns</span>
+  </div>
+</div>
 
 **Accent layouts:**
-- `tpl.accentLeft` - Full-height accent band left, text right
-- `tpl.accentRight` - Full-height accent band right, text left
-- `tpl.accentTop` - Full-width accent band top, text below
-- `tpl.accentLeftFit` - Compact image card left, text right
-- `tpl.accentRightFit` - Compact image card right, text left
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="12" y="18" width="20" height="36" rx="2" fill="#EFEFEF"/><rect x="18" y="30" width="8" height="8" rx="1" fill="#CCCCCC"/><rect x="36" y="26" width="42" height="6" rx="1.5" fill="#D4D4D8"/><rect x="36" y="36" width="38" height="5" rx="1.5" fill="#E5E7EB"/><rect x="36" y="44" width="32" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.accentLeft</code><br>
+    <span style="color: #666; font-size: 0.9em;">Full-height accent band left, text right</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="64" y="18" width="20" height="36" rx="2" fill="#EFEFEF"/><rect x="70" y="30" width="8" height="8" rx="1" fill="#CCCCCC"/><rect x="16" y="26" width="42" height="6" rx="1.5" fill="#D4D4D8"/><rect x="16" y="36" width="38" height="5" rx="1.5" fill="#E5E7EB"/><rect x="16" y="44" width="32" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.accentRight</code><br>
+    <span style="color: #666; font-size: 0.9em;">Full-height accent band right, text left</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="14" y="14" width="68" height="16" rx="2" fill="#EFEFEF"/><rect x="44" y="18" width="8" height="8" rx="1" fill="#CCCCCC"/><rect x="18" y="36" width="60" height="6" rx="1.5" fill="#D4D4D8"/><rect x="18" y="46" width="56" height="5" rx="1.5" fill="#E5E7EB"/><rect x="18" y="54" width="48" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.accentTop</code><br>
+    <span style="color: #666; font-size: 0.9em;">Full-width accent band top, text below</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="16" y="24" width="16" height="20" rx="2" fill="#E5E7EB"/><rect x="20" y="28" width="8" height="8" rx="1" fill="#CCCCCC"/><rect x="36" y="28" width="44" height="6" rx="1.5" fill="#D4D4D8"/><rect x="36" y="38" width="40" height="5" rx="1.5" fill="#E5E7EB"/><rect x="36" y="46" width="32" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.accentLeftFit</code><br>
+    <span style="color: #666; font-size: 0.9em;">Compact image card left, text right</span>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; margin: 12px 0;">
+  <svg width="96" height="72" viewBox="0 0 96 72" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="84" height="60" rx="4" stroke="#D4D4D8" stroke-width="2" fill="#F9FAFB"/><rect x="64" y="24" width="16" height="20" rx="2" fill="#E5E7EB"/><rect x="68" y="28" width="8" height="8" rx="1" fill="#CCCCCC"/><rect x="14" y="28" width="44" height="6" rx="1.5" fill="#D4D4D8"/><rect x="14" y="38" width="40" height="5" rx="1.5" fill="#E5E7EB"/><rect x="14" y="46" width="32" height="5" rx="1.5" fill="#E5E7EB"/></svg>
+  <div>
+    <code>tpl.accentRightFit</code><br>
+    <span style="color: #666; font-size: 0.9em;">Compact image card right, text left</span>
+  </div>
+</div>
 
 ## Template Metadata
 
