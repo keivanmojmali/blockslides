@@ -1,6 +1,6 @@
 # Keyboard Shortcuts
 
-Blockslides provides keyboard shortcuts for text formatting, navigation, and editor operations. All shortcuts work cross-platform with automatic key mapping—`Mod` maps to `Cmd` on macOS and `Ctrl` on Windows/Linux.
+Blockslides provides keyboard shortcuts for text formatting, navigation, and editor operations. All shortcuts work cross-platform with automatic key mapping. `Mod` maps to `Cmd` on macOS and `Ctrl` on Windows/Linux.
 
 ## Default Shortcuts
 
