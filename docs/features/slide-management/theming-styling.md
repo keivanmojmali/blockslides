@@ -4,7 +4,7 @@ Blockslides provides **editor-level theming** to control the visual appearance o
 
 ## Styling Layers
 
-Blockslides has three distinct styling layers:
+Blockslides has three styling layers:
 
 - **Editor themes** - Controls editor UI colors, default slide styling, selection colors, and interactive states (covered on this page)
 - **Slide styling** - Individual slide backgrounds, sizes, and layouts → See [Creating & Organizing](/features/slide-management/creating-organizing#slide-attributes)
@@ -302,33 +302,3 @@ The BlockAttributes extension provides styling capabilities for content blocks l
 - **Sizing** - Width and height controls
 
 → **See [Layouts & Columns](/features/slide-management/layouts-columns#column-attributes)** for complete details on block styling commands and options.
-
-## Quick Reference
-
-**Where to configure what:**
-
-- **Editor UI styling?** → Use editor themes (this page)
-- **Individual slide backgrounds?** → Use slide attributes ([Creating & Organizing](/features/slide-management/creating-organizing#slide-attributes))
-- **Content block styling?** → Use BlockAttributes commands ([Layouts & Columns](/features/slide-management/layouts-columns#column-attributes))
-- **Inline text formatting?** → See [Rich Text Formatting](/features/working-with-content/rich-text-formatting)
-
-**Common patterns:**
-
-```ts
-// Theme the editor
-const editor = useSlideEditor({
-  theme: 'dark',
-  extensions: [ExtensionKit]
-})
-
-// Style an individual slide
-editor.commands.updateAttributes('slide', {
-  backgroundMode: 'color',
-  backgroundColor: '#1e293b'
-})
-
-// Style a content block
-editor.commands.setBlockPadding('lg')
-editor.commands.setBlockBackgroundColor('#3b82f6')
-editor.commands.setBlockAlign('center')
-```
