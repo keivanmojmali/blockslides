@@ -17,6 +17,7 @@ Blockslides requires **React 17 or higher** as a peer dependency.
 Here's a complete example showing the essential features:
 
 ```tsx
+"use client" // if on nextjs
 import { ReactSlideEditor } from '@blockslides/react'
 import type { JSONContent, Editor } from '@blockslides/react'
 
@@ -51,13 +52,16 @@ export default function MyEditor() {
   }
 
   return (
-    <ReactSlideEditor 
-      // content={initialContent} Comes with example slide 
-      onChange={handleChange}
-      extensionKitOptions={{
-        slide: { renderMode: 'dynamic' } // Scales to fit viewport
-      }}
-    />
+    // Styled container for demo - delete if you want
+    <div style={{ backgroundColor: '#f3f4f6', height: '100%', padding: '3rem', display: 'flex', justifyContent: 'center' }}>
+      <ReactSlideEditor 
+        // content={initialContent} Comes with example slide 
+        onChange={handleChange}
+        extensionKitOptions={{
+          slide: { renderMode: 'dynamic' } // Scales to fit viewport
+        }}
+      />
+    </div>
   )
 }
 ```
