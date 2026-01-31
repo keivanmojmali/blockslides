@@ -123,6 +123,29 @@ body {
   font-family: inherit;
 }
 
+a {
+  color: #cef79f;
+}
+
+.VPSidebar a,
+.VPSidebar .link,
+.VPSidebarItem .text {
+  color: #222f30;
+}
+
+.VPSidebarItem.is-active > .item > .link > .text,
+.VPSidebarItem .link:hover > .text {
+  color: #222f30;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cef79f;
+}
+
+body {
+  scrollbar-color: #cef79f transparent;
+}
+
 h1,
 h2,
 h3,
