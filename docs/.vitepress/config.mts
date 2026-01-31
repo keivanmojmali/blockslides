@@ -1,9 +1,25 @@
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
+
+const docsDir = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..'
+)
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Blockslides",
   description: "Blockslides - a ProseMiror-based slide editor ",
+  transformPageData: async (pageData) => {
+    if (!pageData.filePath) return
+    const fullPath = path.resolve(docsDir, pageData.filePath)
+    ;(pageData as { rawMarkdown?: string }).rawMarkdown = await readFile(
+      fullPath,
+      'utf-8'
+    )
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outline: [2, 3], // Show h2 and h3 headers in "on this page"

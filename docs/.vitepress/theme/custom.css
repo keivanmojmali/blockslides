@@ -100,3 +100,30 @@ h5,
 h6 {
   font-family: inherit;
 }
+
+.copy-markdown {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 16px;
+}
+
+.copy-markdown__button {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--card-foreground);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.copy-markdown__button:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.copy-markdown__button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
