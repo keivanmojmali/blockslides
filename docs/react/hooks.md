@@ -131,41 +131,23 @@ const { editor } = useSlideEditor({
 
 ### Customizing ExtensionKit
 
-Configure or disable individual ExtensionKit extensions:
-
 ```tsx
 const { editor } = useSlideEditor({
   extensionKitOptions: {
-    // Disable specific extensions
     youtube: false,
     bubbleMenu: false,
-    
-    // Configure extensions
     fileHandler: {
       onDrop: (editor, files, pos) => {
         handleFileUpload(files, pos)
-      },
-      allowedMimeTypes: ['image/jpeg', 'image/png']
-    },
-    
-    // Configure add-slide button
-    addSlideButton: {
-      showPresets: true,
-      presetBackground: '#1e293b',
-      presetForeground: '#f1f5f9'
-    },
-    
-    // Configure slide extension
-    slide: {
-      renderMode: 'dynamic',
-      hoverOutline: { 
-        color: '#3b82f6', 
-        width: '2px' 
       }
     }
   }
 })
 ```
+
+::: tip Full Configuration Options
+See [Extension Kit Overview](/features/customization/extension-kit-overview) for all available configuration options.
+:::
 
 ### Adding Custom Extensions
 
@@ -450,19 +432,7 @@ function EditorStats({ editor }) {
 Access the editor instance from context when using `EditorProvider`. This enables editor access deep in the component tree without prop drilling.
 
 ```tsx
-import { EditorProvider, useCurrentEditor } from '@blockslides/react'
-
-function App() {
-  return (
-    <EditorProvider 
-      extensions={[/* extensions */]}
-      content="<p>Hello</p>"
-    >
-      <Toolbar />
-      <Sidebar />
-    </EditorProvider>
-  )
-}
+import { useCurrentEditor } from '@blockslides/react'
 
 function Toolbar() {
   const { editor } = useCurrentEditor()
@@ -475,74 +445,15 @@ function Toolbar() {
     </button>
   )
 }
-
-function Sidebar() {
-  const { editor } = useCurrentEditor()
-
-  if (!editor) return null
-
-  return (
-    <div>
-      Word count: {editor.state.doc.textContent.split(/\s+/).length}
-    </div>
-  )
-}
 ```
 
 **Returns:**
 
 - **editor** (`Editor | null`) - Current editor instance from context, or `null` if outside provider.
 
-### EditorProvider
-
-The `EditorProvider` component creates an editor and makes it available to child components:
-
-```tsx
-<EditorProvider
-  extensions={[Document, Paragraph, Text]}
-  content="<p>Initial content</p>"
-  immediatelyRender={false}
-  onCreate={({ editor }) => {
-    console.log('Editor created')
-  }}
->
-  <YourComponents />
-</EditorProvider>
-```
-
-`EditorProvider` accepts all `useEditor` options and renders `EditorContent` automatically. The editor instance is accessible via `useCurrentEditor` anywhere in the tree.
-
-### Slots
-
-Add content before or after the editor:
-
-```tsx
-<EditorProvider
-  extensions={[/* extensions */]}
-  slotBefore={<MenuBar />}
-  slotAfter={<StatusBar />}
->
-  <FloatingToolbar />
-</EditorProvider>
-```
-
-- **slotBefore** - Rendered before editor content
-- **slotAfter** - Rendered after editor content
-- **children** - Rendered after slotAfter
-
-### Editor Container Props
-
-Customize the `EditorContent` wrapper:
-
-```tsx
-<EditorProvider
-  extensions={[/* extensions */]}
-  editorContainerProps={{
-    className: 'prose max-w-none',
-    style: { minHeight: '500px' }
-  }}
-/>
-```
+::: tip EditorProvider
+`useCurrentEditor` must be used within an `EditorProvider` component. See [UI Components](/react/ui-components#editorprovider) for full documentation on `EditorProvider`.
+:::
 
 ## useReactNodeView
 
@@ -571,108 +482,3 @@ function MyCustomNodeView() {
 - **nodeViewContentChildren** (`ReactNode`) - Children to render inside the node view content
 
 This hook is used internally by `NodeViewWrapper` and `NodeViewContent` components. Most custom node views should use those components instead of calling this hook directly.
-
-## Pattern: Form Controls
-
-Build form controls that sync with editor state:
-
-```tsx
-function HeadingLevelSelect({ editor }) {
-  const level = useEditorState({
-    editor,
-    selector: ({ editor }) => {
-      const attrs = editor.getAttributes('heading')
-      return attrs.level || 0
-    }
-  })
-
-  return (
-    <select
-      value={level}
-      onChange={(e) => {
-        const newLevel = parseInt(e.target.value)
-        if (newLevel === 0) {
-          editor.chain().focus().setParagraph().run()
-        } else {
-          editor.chain().focus().setHeading({ level: newLevel }).run()
-        }
-      }}
-    >
-      <option value={0}>Paragraph</option>
-      <option value={1}>Heading 1</option>
-      <option value={2}>Heading 2</option>
-      <option value={3}>Heading 3</option>
-    </select>
-  )
-}
-```
-
-## Pattern: Real-time Collaboration UI
-
-Track active users and cursor positions:
-
-```tsx
-function CollaboratorsList({ editor }) {
-  const collaborators = useEditorState({
-    editor,
-    selector: ({ editor }) => 
-      editor.storage.collaborationCursor?.users || []
-  })
-
-  return (
-    <div>
-      {collaborators.map(user => (
-        <div key={user.clientId}>
-          <span style={{ color: user.color }}>{user.name}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-```
-
-## Pattern: Content Statistics
-
-Display live document statistics:
-
-```tsx
-function DocumentStats({ editor }) {
-  const stats = useEditorState({
-    editor,
-    selector: ({ editor }) => {
-      const doc = editor.state.doc
-      let words = 0
-      let chars = 0
-      let images = 0
-
-      doc.descendants(node => {
-        if (node.isText) {
-          const text = node.text || ''
-          chars += text.length
-          words += text.split(/\s+/).filter(Boolean).length
-        }
-        if (node.type.name === 'image' || node.type.name === 'imageBlock') {
-          images++
-        }
-      })
-
-      return { words, chars, images }
-    }
-  })
-
-  return (
-    <aside>
-      <dl>
-        <dt>Words</dt>
-        <dd>{stats.words}</dd>
-        
-        <dt>Characters</dt>
-        <dd>{stats.chars}</dd>
-        
-        <dt>Images</dt>
-        <dd>{stats.images}</dd>
-      </dl>
-    </aside>
-  )
-}
-```
