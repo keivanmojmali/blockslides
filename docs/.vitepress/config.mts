@@ -11,6 +11,7 @@ const docsDir = path.resolve(
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Blockslides",
+  appearance: 'dark',
   description: "Blockslides - a ProseMiror-based slide editor ",
   transformPageData: async (pageData) => {
     if (!pageData.filePath) return
