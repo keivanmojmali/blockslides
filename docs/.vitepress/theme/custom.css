@@ -127,6 +127,10 @@ a {
   color: #cef79f;
 }
 
+.VPNavBarTitle .title {
+  color: #cef79f;
+}
+
 .VPSidebar a,
 .VPSidebar .link,
 .VPSidebarItem .text {
