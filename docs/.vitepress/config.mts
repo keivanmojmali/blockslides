@@ -17,7 +17,7 @@ export default defineConfig({
       {
         text: 'Getting Started',
         items: [
-          { text: 'Overview', link: '/getting-started/overview' },
+          { text: 'Start here', link: '/getting-started/overview' },
           {
             text: 'Quickstart',
             items: [
@@ -98,7 +98,6 @@ export default defineConfig({
           { text: 'Overview', link: '/react/overview' },
           { text: 'UI Components', link: '/react/ui-components' },
           { text: 'Hooks', link: '/react/hooks' },
-          { text: 'Themes', link: '/react/themes' }
         ]
       }
     ],
