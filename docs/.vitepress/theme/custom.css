@@ -1,0 +1,191 @@
+@font-face {
+  font-family: 'Aspekta';
+  src: url('/fonts/Aspekta-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aspekta';
+  src: url('/fonts/Aspekta-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #e7e8e1;
+  --foreground: #222f30;
+  --card: #dfe0d9;
+  --card-foreground: #222f30;
+  --popover: #dfe0d9;
+  --popover-foreground: #222f30;
+  --primary: #cef79f;
+  --primary-foreground: #222f30;
+  --secondary: #cdd0c7;
+  --secondary-foreground: #222f30;
+  --muted: #d6d8d2;
+  --muted-foreground: #4a5556;
+  --accent: #c3ee92;
+  --accent-foreground: #222f30;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #c8cbc3;
+  --input: #c8cbc3;
+  --ring: #cef79f;
+  --canvas-eee: #eeeeee;
+  --ink-base: #222f30;
+  --ink-muted: #445e5f;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: #dfe0d9;
+  --sidebar-foreground: #222f30;
+  --sidebar-primary: #cef79f;
+  --sidebar-primary-foreground: #222f30;
+  --sidebar-accent: #cdd0c7;
+  --sidebar-accent-foreground: #222f30;
+  --sidebar-border: #c8cbc3;
+  --sidebar-ring: #cef79f;
+  font-family: 'Aspekta', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.dark {
+  --background: oklch(0.147 0.004 49.25);
+  --foreground: oklch(0.985 0.001 106.423);
+  --card: oklch(0.216 0.006 56.043);
+  --card-foreground: oklch(0.985 0.001 106.423);
+  --popover: oklch(0.216 0.006 56.043);
+  --popover-foreground: oklch(0.985 0.001 106.423);
+  --primary: oklch(0.5 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.268 0.007 34.298);
+  --muted-foreground: oklch(0.709 0.01 56.259);
+  --accent: oklch(0.268 0.007 34.298);
+  --accent-foreground: oklch(0.985 0.001 106.423);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0.001 106.423);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.553 0.013 58.071);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.216 0.006 56.043);
+  --sidebar-foreground: oklch(0.985 0.001 106.423);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
+  --sidebar-accent: oklch(0.268 0.007 34.298);
+  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.553 0.013 58.071);
+  --vp-c-brand-1: #cef79f;
+  --vp-c-brand-2: #cef79f;
+  --vp-c-brand-3: #cef79f;
+  --vp-c-brand-soft: rgba(206, 247, 159, 0.16);
+  --vp-custom-block-tip-border: #3a3a3a;
+  --vp-custom-block-tip-bg: #2a2a2a;
+}
+
+.dark a {
+  color: #cef79f;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #cef79f;
+}
+
+.dark ::-webkit-scrollbar {
+  background-color: #cef79f;
+}
+
+.dark {
+  scrollbar-color: #cef79f transparent;
+}
+
+.dark .custom-block.tip {
+  border-color: #3a3a3a;
+  background-color: #2a2a2a;
+}
+
+.dark .custom-block.tip a {
+  color: var(--foreground);
+}
+
+body {
+  font-family: inherit;
+}
+
+a {
+  color: #cef79f;
+}
+
+.VPNavBarTitle .title {
+  color: #cef79f;
+}
+
+.VPSidebar a,
+.VPSidebar .link,
+.VPSidebarItem .text {
+  color: #222f30;
+}
+
+.VPSidebarItem.is-active > .item > .link > .text,
+.VPSidebarItem .link:hover > .text {
+  color: #222f30;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cef79f;
+}
+
+body {
+  scrollbar-color: #cef79f transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+}
+
+.copy-markdown {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 16px;
+}
+
+.copy-markdown__button {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--card-foreground);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dark .copy-markdown__button {
+  border-color: #cef79f;
+}
+
+.copy-markdown__button:hover {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.copy-markdown__button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}

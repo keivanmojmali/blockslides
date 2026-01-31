@@ -6,14 +6,19 @@
   "scripts": {
     "build": "pnpm --filter '@blockslides/*' --recursive run build",
     "dev": "pnpm --filter '@blockslides/*' --recursive run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "author": "keivanmojmali",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^25.0.3",
     "tsup": "^8.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.27"
   },
   "dependencies": {
     "@blockslides/extension-bubble-menu-preset": "^0.3.0",
