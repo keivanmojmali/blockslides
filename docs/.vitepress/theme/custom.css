@@ -86,6 +86,37 @@
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.553 0.013 58.071);
+  --vp-c-brand-1: #cef79f;
+  --vp-c-brand-2: #cef79f;
+  --vp-c-brand-3: #cef79f;
+  --vp-c-brand-soft: rgba(206, 247, 159, 0.16);
+  --vp-custom-block-tip-border: #3a3a3a;
+  --vp-custom-block-tip-bg: #2a2a2a;
+}
+
+.dark a {
+  color: #cef79f;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #cef79f;
+}
+
+.dark ::-webkit-scrollbar {
+  background-color: #cef79f;
+}
+
+.dark {
+  scrollbar-color: #cef79f transparent;
+}
+
+.dark .custom-block.tip {
+  border-color: #3a3a3a;
+  background-color: #2a2a2a;
+}
+
+.dark .custom-block.tip a {
+  color: var(--foreground);
 }
 
 body {
@@ -116,6 +147,10 @@ h6 {
   border-radius: 8px;
   font-size: 12px;
   cursor: pointer;
+}
+
+.dark .copy-markdown__button {
+  border-color: #cef79f;
 }
 
 .copy-markdown__button:hover {
