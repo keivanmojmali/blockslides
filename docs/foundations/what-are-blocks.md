@@ -68,10 +68,8 @@ For example, a `bulletList` block contains `listItem` blocks, and each `listItem
 
 ## Built-in blocks
 
-Blockslides ships with a comprehensive set of blocks out of the box. These are all available in the ExtensionKit (ADDD LINK HERE TODO)
+Blockslides ships with a comprehensive set of blocks out of the box. These are all available in the ExtensionKit
 <br/>
-!!! TODO: link to the extension kit page that explain what is in it etc. (mention in extensionkit why you may
-want to create your own extensions import if you do not want to use all of the extensions) and update that link above
 
 ### Text blocks
 - **Paragraph** — Basic text block
