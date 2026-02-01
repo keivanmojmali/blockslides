@@ -3,19 +3,15 @@
 layout: home
 
 hero:
-  name: "BlockSlides"
   text: "WYSIWYG slide deck editor toolkit"
   tagline: "The fastest way to add an in‑app presentation builder. Compose slides with blocks and layouts, then render/export anywhere."
   actions:
-    - theme: brand
-      text: Get Started
+    - theme: alt
+      text: Documentation
       link: /getting-started/overview
-    - theme: alt
-      text: React Quickstart
+    - theme: brand
+      text: Quickstart
       link: /getting-started/quickstart/react
-    - theme: alt
-      text: GitHub
-      link: https://github.com/keivanmojmali/blockslides
 
 ---
 

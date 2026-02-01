@@ -189,3 +189,14 @@ h6 {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
+
+.VPHome .VPButton {
+  border-radius: 8px !important;
+}
+
+.VPHome .VPButton.brand {
+  background: #32363f;
+  border-color: #cef79f;
+  border-width: 2px;
+}
+
