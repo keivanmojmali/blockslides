@@ -257,4 +257,3 @@ Want to add your own functionality? You can extend any existing extension or cre
 
 Check out the [Extensions documentation](/features/blocks-and-extensions/extensions/overview) to learn how to build custom extensions.
 <br/>
-!!!! TODO: ADD THAT DOCUMENTATION PAGE ON HOW TO CREATE CUSTOM EXTENSIONS + LINK
