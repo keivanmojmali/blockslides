@@ -321,8 +321,6 @@ Optional CSS class names for custom styling:
 
 ::: warning Use Attributes Instead of ClassNames
 Avoid relying on `className` for slide styling. Instead, use the built-in slide attributes like `backgroundColor`, `backgroundMode`, `backgroundImage`, etc. for better semantic structure and maintainability.
-
-<!-- TODO: Link to slide reference documentation to see all available attributes -->
 :::
 
 ## Querying Slides
