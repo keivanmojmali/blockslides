@@ -200,3 +200,10 @@ h6 {
   border-width: 2px;
 }
 
+.VPHome .hero-highlight {
+  background: #cef79f;
+  color: #222f30;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
