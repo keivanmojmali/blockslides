@@ -635,6 +635,6 @@ editor
 ```
 
 
-!!!!TODO
-Add link to custom extensions documentation once available
+::: tip Custom extensions
+Add your own marks or formatting behaviors with custom extensions. See [Creating Custom Extensions](/features/customization/creating-extensions) for how to register new marks and commands.
 :::
