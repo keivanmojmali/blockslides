@@ -42,10 +42,6 @@ To add an A4 portrait slide (for printable documents), we’d add this new slide
 
 **You can mix different asset types in the same editor.**
 
-!!!! TODO: ADD A PICTURE OF A SLIDE AND a4 IN THE SAME EDITOR - mentiond that they would look different 
-and show the different size
-
-
 ## Built-in sizes 
 We ship with a few sizes to make it easy to experiment. <br/>
 These are values you can set in the size attribute of the slide.
@@ -55,8 +51,7 @@ You can also easily add your own.
 - `a4-portrait`, `a4-landscape`
 - `letter-portrait`, `letter-landscape`
 - `linkedin-banner`
-
-!!! TODO: link to page that shows how you can build your own 
+See the slide attributes reference for available sizes and configuration: [Slide attributes](/features/slide-management/creating-organizing#slide-attributes).
 
 ## Templates
 Blockslides includes pre-built slide templates you can use as a starting point. <br/>
@@ -77,6 +72,6 @@ const presets = useMemo<PresetTemplates>(
 <br /> 
 We are constantly adding more. 
 
-!!! TODO: turn this into a carousel where they can browse the templates 
-!!! TODO: link them to where they can learn more about the templates and how to use them - its own page
+Let users browse templates via the template picker: [Creating & Organizing — Template Picker](/features/slide-management/creating-organizing#template-picker).  
+Explore all available presets and usage details: [Preset Templates](/features/ai-templates/preset-templates).
 
