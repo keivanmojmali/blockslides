@@ -173,4 +173,3 @@ Want to add your own block types? You can extend any existing block or create en
 
 Check out the [Extensions documentation](/features/blocks-and-extensions/extensions/overview) to learn more.
 <br/>
-!!!! TODO: ADD THAT DOCUMENTATION PAGE ON HOW TO DO THAT + LINK 
