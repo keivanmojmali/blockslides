@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-hard-break",
   "description": "hard break extension for blockslides",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "blockslides",
     "blockslides extension"

@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-drag-handle-react",
   "description": "drag handle extension for blockslides with react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "blockslides",
     "blockslides extension"

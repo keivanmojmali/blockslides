@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/html",
   "description": "utility package to render blockslides JSON as HTML",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "blockslides",
     "blockslides utility"

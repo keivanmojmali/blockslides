@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/static-renderer",
   "description": "statically render blockslides JSON",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "blockslides",
     "blockslides static renderer",

@@ -1,5 +1,15 @@
 # @tiptap/extension-drag-handle
 
+## 0.1.1
+
+### Patch Changes
+
+- updating to newest /core version
+- Updated dependencies
+  - @blockslides/core@0.3.1
+  - @blockslides/extension-node-range@0.1.1
+  - @blockslides/pm@0.1.1
+
 ## 3.14.0
 
 ### Patch Changes

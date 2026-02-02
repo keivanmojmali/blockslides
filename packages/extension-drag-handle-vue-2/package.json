@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-drag-handle-vue-2",
   "description": "drag handle extension for blockslides with vue 2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "blockslides",
     "blockslides extension"
