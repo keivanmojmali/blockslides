@@ -169,5 +169,5 @@ Most blocks support markdown parsing and rendering, making it easy to import/exp
 
 Want to add your own block types? You can extend any existing block or create entirely new ones by building custom extensions.
 
-Check out the [Extensions documentation](/features/blocks-and-extensions/extensions/overview) to learn more.
+Check out the [Extension Kit overview](/features/customization/extension-kit-overview) to learn more.
 <br/>

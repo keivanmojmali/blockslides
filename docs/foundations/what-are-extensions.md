@@ -255,5 +255,5 @@ Extensions can add configurable attributes to nodes:
 
 Want to add your own functionality? You can extend any existing extension or create entirely new ones.
 
-Check out the [Extensions documentation](/features/blocks-and-extensions/extensions/overview) to learn how to build custom extensions.
+Check out the [Custom Extensions guide](/features/customization/creating-extensions) to learn how to build custom extensions.
 <br/>
