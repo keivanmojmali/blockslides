@@ -597,7 +597,6 @@ Most formatting extensions support markdown syntax:
 | Strike | `~~text~~` | ~~text~~ |
 | Code | `` `text` `` | `text` |
 | Highlight | `==text==` | ==text== |
-| Link | `[text](url)` | [text](url) |
 
 ::: tip Input rules
 These markdown patterns work automatically as you type in the editor. They're part of the individual extensions' input rules, not the Markdown extension. See [Markdown Support](/features/working-with-content/markdown-support) for full import/export capabilities.

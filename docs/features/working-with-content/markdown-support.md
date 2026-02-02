@@ -167,7 +167,6 @@ The following markdown syntax is supported when you have the corresponding exten
 - `*italic*` → *italic*
 - `~~strikethrough~~` → ~~strikethrough~~
 - `` `code` `` → `code`
-- `[link](url)` → [link](url)
 
 ### Headings
 ```markdown
