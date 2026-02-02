@@ -69,5 +69,5 @@ export default function MyEditor() {
 That's it. This gives you a fully-functional slide editor with 50+ extensions automatically configured (text formatting, images, videos, tables, layouts, and more).
 
 ::: tip Pre-built component
-`ReactSlideEditor` includes everything to get started quickly. For complete control over layout and rendering, see [Using hooks](#using-hooks-for-more-control) below.
+`ReactSlideEditor` includes everything to get started quickly. For complete control over layout and rendering, see [Using hooks](/react/hooks) below.
 :::
