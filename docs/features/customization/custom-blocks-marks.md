@@ -1,6 +1,6 @@
 # Custom Blocks & Marks
 
-BlockSlides allows you to extend the editor with **custom blocks and marks**. Blocks are structural elements like paragraphs or headings, while marks are inline formatting like bold or italic. Creating custom extensions lets you add domain-specific content types tailored to your presentation needs.
+Blockslides allows you to extend the editor with **custom blocks and marks**. Blocks are structural elements like paragraphs or headings, while marks are inline formatting like bold or italic. Creating custom extensions lets you add domain-specific content types tailored to your presentation needs.
 
 ::: tip Blocks vs Marks
 **Blocks** are nodes that define structure (paragraphs, headings, custom cards). **Marks** are inline formatting applied to text (bold, italic, custom highlights). Learn more in [What are blocks?](/foundations/what-are-blocks)
@@ -48,7 +48,7 @@ export const CustomBlock = Node.create({
 
 ### Using JSX for Rendering
 
-BlockSlides supports JSX syntax for `renderHTML`, which provides a cleaner and more readable alternative to array syntax. To use JSX, add the JSX import source pragma at the top of your file:
+Blockslides supports JSX syntax for `renderHTML`, which provides a cleaner and more readable alternative to array syntax. To use JSX, add the JSX import source pragma at the top of your file:
 
 ```tsx
 /** @jsxImportSource @blockslides/core */

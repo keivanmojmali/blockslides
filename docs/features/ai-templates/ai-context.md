@@ -65,7 +65,7 @@ Best for **"create a new presentation"** workflows. Includes core document struc
 import { bundlesV1 } from '@blockslides/ai-context'
 
 const systemPrompt = [
-  'You are a BlockSlides presentation builder.',
+  'You are a Blockslides presentation builder.',
   'Output only valid JSON matching the structure below.',
   '',
   bundlesV1.minimalCreate

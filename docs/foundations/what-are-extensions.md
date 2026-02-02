@@ -45,7 +45,7 @@ Each extension is a self-contained module that adds specific capabilities to you
 
 ## Built-in extensions
 
-BlockSlides ships with a comprehensive set of extensions covering everything from basic text formatting to media embeds and advanced editor behaviors.
+Blockslides ships with a comprehensive set of extensions covering everything from basic text formatting to media embeds and advanced editor behaviors.
 
 ### Core extensions
 - **Document** — Top-level document node (slide+ or block+)

@@ -17,7 +17,6 @@ doc → slide+ → block+ → inline content
 - **inline content** is text with formatting (marks like bold, italic, etc.)
 
 Here's what that looks like in practice:
-;
 ```ts
 {
   type: "doc",
