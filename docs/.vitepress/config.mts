@@ -13,6 +13,12 @@ export default defineConfig({
   title: "Blockslides",
   appearance: 'dark',
   description: "Blockslides - a ProseMiror-based slide editor ",
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }],
+  ],
   transformPageData: async (pageData) => {
     if (!pageData.filePath) return
     const fullPath = path.resolve(docsDir, pageData.filePath)
@@ -22,6 +28,7 @@ export default defineConfig({
     )
   },
   themeConfig: {
+    logo: '/favicon-32x32.png',
     // https://vitepress.dev/reference/default-theme-config
     outline: [2, 3], // Show h2 and h3 headers in "on this page"
     
