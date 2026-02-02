@@ -1,6 +1,6 @@
 # What are extensions?
 
-Extensions are **modular pieces of code that add functionality to BlockSlides**. While blocks define your content structure (headings, paragraphs, images), extensions define how those blocks work, what features they have, and how users interact with them.
+Extensions are **modular pieces of code that add functionality to Blockslides**. While blocks define your content structure (headings, paragraphs, images), extensions define how those blocks work, what features they have, and how users interact with them.
 
 Think of it this way:
 - **Blocks** are the content (a heading, an image, a slide)
