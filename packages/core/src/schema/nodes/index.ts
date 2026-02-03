@@ -1,4 +1,4 @@
-import { nodes as basicNodes } from "prosemirror-schema-basic";
+import { nodes as basicNodes } from "@blockslides/pm/schema-basic";
 import { slide } from "./slides";
 import { image } from "./image";
 import { video } from "./video";
