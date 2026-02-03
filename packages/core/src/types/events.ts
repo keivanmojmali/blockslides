@@ -5,8 +5,7 @@
  */
 
 import type { SlideEditorRef, DocNode } from './index';
-import type { Transaction } from 'prosemirror-state';
-import type { Selection } from 'prosemirror-state';
+import type { Transaction, Selection } from '@blockslides/pm/state';
 
 /**
  * Parameters passed to onCreate callback
