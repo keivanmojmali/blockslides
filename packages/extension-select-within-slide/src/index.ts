@@ -147,7 +147,6 @@ export const SelectWithinSlide = Extension.create<SelectWithinSlideOptions>({
   },
 
   addKeyboardShortcuts() {
-    console.log('SelectWithinSlide shortcut loaded');
     return {
       'Mod-a': ({ editor }) => {
         const { state, view } = editor;
