@@ -4,7 +4,7 @@
  * Export these types so developers get autocomplete and type safety
  */
 
-import type { Plugin } from "prosemirror-state";
+import type { Plugin } from "@blockslides/pm/state";
 import type {
   OnCreateParams,
   OnUpdateParams,
