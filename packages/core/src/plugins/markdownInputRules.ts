@@ -5,9 +5,14 @@
  * Users can type markdown syntax and it will automatically convert to formatted content.
  */
 
-import { InputRule, inputRules, textblockTypeInputRule, wrappingInputRule } from 'prosemirror-inputrules';
-import { MarkType, Schema } from 'prosemirror-model';
-import { Plugin, EditorState } from 'prosemirror-state';
+import {
+  InputRule,
+  inputRules,
+  textblockTypeInputRule,
+  wrappingInputRule,
+} from "@blockslides/pm/inputrules";
+import { MarkType, Schema } from "@blockslides/pm/model";
+import { Plugin, EditorState } from "@blockslides/pm/state";
 
 /**
  * Create an input rule for marks (bold, italic, code, etc.)
