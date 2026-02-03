@@ -1,5 +1,5 @@
-import type { EditorState, Transaction } from 'prosemirror-state';
-import type { EditorView } from 'prosemirror-view';
+import type { EditorState, Transaction } from '@blockslides/pm/state';
+import type { EditorView } from '@blockslides/pm/view';
 import type { SlideEditor } from '../SlideEditor';
 
 /**
