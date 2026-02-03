@@ -99,6 +99,7 @@ import type { SlideOptions } from "@blockslides/extension-slide";
 import { Column } from "@blockslides/extension-column";
 import type { ColumnGroupOptions } from "@blockslides/extension-column-group";
 import { ColumnGroup } from "@blockslides/extension-column-group";
+import { SelectWithinSlide } from "@blockslides/extension-select-within-slide";
 import type { AddSlideButtonOptions } from "@blockslides/extension-add-slide-button";
 import { AddSlideButton } from "@blockslides/extension-add-slide-button";
 import type { BubbleMenuOptions } from "@blockslides/extension-bubble-menu";
@@ -401,6 +402,13 @@ export interface ExtensionKitOptions {
    * @example slide: { renderMode: 'fixed' }
    */
   slide?: Partial<SlideOptions> | false;
+
+  /**
+   * Select-within-slide keyboard shortcut override
+   * @default {}
+   * @example selectWithinSlide: false
+   */
+  selectWithinSlide?: false;
 
   /**
    * ColumnGroup extension - groups columns horizontally side-by-side
@@ -767,6 +775,9 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
       extensions.push(Slide.configure(this.options.slide || {}));
     }
 
+    if (this.options.selectWithinSlide !== false) {
+      extensions.push(SelectWithinSlide);
+    }
 
     // Column extension - for full-width blocks
     extensions.push(Column.configure({}));
