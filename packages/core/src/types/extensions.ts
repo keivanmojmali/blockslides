@@ -8,9 +8,9 @@
  * Copyright © 2024 überdosis GmbH
  */
 
-import type { MarkType, NodeType, Schema } from 'prosemirror-model'
-import type { Plugin, Transaction } from 'prosemirror-state'
-import type { EditorView } from 'prosemirror-view'
+import type { MarkType, NodeType, Schema } from '@blockslides/pm/model'
+import type { Plugin, Transaction } from '@blockslides/pm/state'
+import type { EditorView } from '@blockslides/pm/view'
 import type { SlideEditor } from '../SlideEditor.js'
 import type { EditorEvents } from './index.js'
 
