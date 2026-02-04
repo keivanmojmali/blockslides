@@ -31,7 +31,9 @@ export default defineConfig({
     logo: '/favicon-32x32.png',
     // https://vitepress.dev/reference/default-theme-config
     outline: [2, 3], // Show h2 and h3 headers in "on this page"
-    
+    search: {
+      provider: 'local',
+    },
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/getting-started/overview' }
