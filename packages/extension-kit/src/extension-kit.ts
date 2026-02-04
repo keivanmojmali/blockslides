@@ -64,8 +64,9 @@ import type { NodeRangeOptions } from "@blockslides/extension-node-range";
 import { NodeRange } from "@blockslides/extension-node-range";
 import type { ParagraphOptions } from "@blockslides/extension-paragraph";
 import { Paragraph } from "@blockslides/extension-paragraph";
-import type { PlaceholderOptions } from "@blockslides/extension-placeholder";
-import { Placeholder } from "@blockslides/extension-placeholder";
+// NOT INCLUDED UNTIL WE FIX LOCALINNER BUG
+// import type { PlaceholderOptions } from "@blockslides/extension-placeholder";
+// import { Placeholder } from "@blockslides/extension-placeholder";
 import type { StrikeOptions } from "@blockslides/extension-strike";
 import { Strike } from "@blockslides/extension-strike";
 import type { SubscriptExtensionOptions } from "@blockslides/extension-subscript";
@@ -387,13 +388,13 @@ export interface ExtensionKitOptions {
    */
   paragraph?: Partial<ParagraphOptions> | false;
 
-  /**
-   * Placeholder extension
-   * @default {}
-   * @example placeholder: false
-   * @example placeholder: { placeholder: 'Start typing...' }
-   */
-  placeholder?: Partial<PlaceholderOptions> | false;
+  // /**
+  //  * Placeholder extension
+  //  * @default {}
+  //  * @example placeholder: false
+  //  * @example placeholder: { placeholder: 'Start typing...' }
+  //  */
+  // placeholder?: Partial<PlaceholderOptions> | false;
 
   /**
    * Slide extension
