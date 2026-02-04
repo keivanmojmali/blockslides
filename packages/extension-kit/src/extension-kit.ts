@@ -742,9 +742,9 @@ export const ExtensionKit = Extension.create<ExtensionKitOptions>({
     }
 
     // UI extensions
-    if (this.options.placeholder !== false) {
-      extensions.push(Placeholder.configure(this.options.placeholder || {}));
-    }
+    // if (this.options.placeholder !== false) {
+    //   extensions.push(Placeholder.configure(this.options.placeholder || {}));
+    // }
 
     if (this.options.bubbleMenu !== false) {
       extensions.push(BubbleMenu.configure(this.options.bubbleMenu || {}));
