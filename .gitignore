@@ -107,3 +107,4 @@ hocuspocus/
 /docs/.vitepress/cache
 /docs/.vitepress/dist
 /docs/.vitepress/temp
+/ignore
