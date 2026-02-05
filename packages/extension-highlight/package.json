@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-highlight",
   "description": "highlight extension for blockslides",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "blockslides",
     "blockslides extension"

@@ -8,7 +8,7 @@ import {
 export interface HighlightOptions {
   /**
    * Allow multiple highlight colors
-   * @default false
+   * @default true
    * @example true
    */
   multicolor: boolean;
@@ -64,7 +64,7 @@ export const Highlight = Mark.create<HighlightOptions>({
 
   addOptions() {
     return {
-      multicolor: false,
+      multicolor: true,
       HTMLAttributes: {},
     };
   },
