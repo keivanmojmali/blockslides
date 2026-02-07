@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/vue-3",
   "description": "Vue 3 components for blockslides",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",
