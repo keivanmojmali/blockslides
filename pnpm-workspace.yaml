@@ -1,11 +1,13 @@
 packages:
   - "demo"
+  - "vue-demo"
   - "packages/core"
   - "packages/pm"
   - "packages/html"
   - "packages/markdown"
   - "packages/static-renderer"
   - "packages/react"
+  - "packages/vue-3"
   - "packages/extensions"
   - "packages/ai-context"
   - "packages/extension-*"

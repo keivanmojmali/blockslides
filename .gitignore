@@ -103,6 +103,7 @@ coverage/
 demo/
 hocuspocus/
 /hocuspocus
+/vue-demo
 
 /docs/.vitepress/cache
 /docs/.vitepress/dist
