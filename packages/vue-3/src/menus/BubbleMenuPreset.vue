@@ -24,7 +24,9 @@ export interface BubbleMenuPresetProps extends Omit<BubbleMenuPresetOptions, 'el
   options?: any
 }
 
-const props = defineProps<BubbleMenuPresetProps>()
+const props = withDefaults(defineProps<BubbleMenuPresetProps>(), {
+  injectStyles: true,
+})
 
 const pluginKey = 'bubbleMenuPreset'
 const menuEl = ref<HTMLElement | null>(null)
