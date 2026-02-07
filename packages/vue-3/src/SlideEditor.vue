@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch, onMounted } from 'vue'
 import { EditorContent } from './EditorContent'
 import BubbleMenuPreset from './menus/BubbleMenuPreset.vue'
 import { useSlideEditor, type UseSlideEditorProps } from './useSlideEditor'
@@ -26,7 +26,6 @@ const props = withDefaults(defineProps<SlideEditorProps>(), {
   bubbleMenuPreset: true,
 })
 
-// Extract useSlideEditor props from all props
 const {
   bubbleMenuPreset,
   className,
@@ -34,13 +33,14 @@ const {
   ...hookProps
 } = props
 
-const { editor, presets } = useSlideEditor(hookProps)
+const { editor } = useSlideEditor(hookProps)
 
 const bubbleMenuProps = computed(() => {
   if (props.bubbleMenuPreset === false) return null
   if (props.bubbleMenuPreset === true) return {}
   return props.bubbleMenuPreset
 })
+
 </script>
 
 <template>
@@ -51,3 +51,4 @@ const bubbleMenuProps = computed(() => {
     </div>
   </div>
 </template>
+ 
