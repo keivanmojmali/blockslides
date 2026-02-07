@@ -1,5 +1,4 @@
 import { computed, watch, toRefs } from 'vue'
-import type { Ref } from 'vue'
 import { templatesV1 } from '@blockslides/ai-context'
 import type { AnyExtension, Editor, JSONContent } from '@blockslides/core'
 import type { SlideOptions } from '@blockslides/extension-slide'
@@ -10,7 +9,7 @@ import type { EditorOptions } from '@blockslides/core'
 
 type PresetTemplates = ReturnType<typeof templatesV1.listPresetTemplates>
 
-export interface UseSlideEditorProps extends Omit<Partial<EditorOptions>, 'extensions'> {
+export interface UseSlideEditorProps {
   /**
    * Initial content for the editor. If omitted, a single preset slide is used.
    */
@@ -35,6 +34,23 @@ export interface UseSlideEditorProps extends Omit<Partial<EditorOptions>, 'exten
    * Called once when an editor instance is ready.
    */
   onEditorReady?: (editor: Editor) => void
+  /**
+   * Editor theme for UI styling
+   */
+  theme?: EditorOptions['theme']
+  /**
+   * The editor's props
+   */
+  editorProps?: EditorOptions['editorProps']
+  /**
+   * Called on every update
+   */
+  onUpdate?: EditorOptions['onUpdate']
+  /**
+   * Additional editor options to pass through to the core editor.
+   * This allows passing any EditorOptions without Vue auto-initializing them.
+   */
+  editorOptions?: Partial<EditorOptions>
 }
 
 const defaultSlide = () => ({
@@ -153,9 +169,8 @@ export const useSlideEditor = (props: UseSlideEditorProps = {}) => {
     theme = 'light',
     editorProps,
     onUpdate,
-    ...editorOptions
+    editorOptions = {}
   } = props
-
   /**
    * Presets for add slide button.
    */
@@ -168,17 +183,17 @@ export const useSlideEditor = (props: UseSlideEditorProps = {}) => {
       extensionKitOptions?.addSlideButton === false
         ? false
         : {
-            ...defaultAddSlideButton(presets.value),
-            ...(extensionKitOptions?.addSlideButton ?? {}),
-          }
+          ...defaultAddSlideButton(presets.value),
+          ...(extensionKitOptions?.addSlideButton ?? {}),
+        }
 
     const slide =
       extensionKitOptions?.slide === false
         ? false
         : {
-            ...defaultSlideOptions,
-            ...(extensionKitOptions?.slide ?? {}),
-          }
+          ...defaultSlideOptions,
+          ...(extensionKitOptions?.slide ?? {}),
+        }
 
     return {
       ...extensionKitOptions,
@@ -197,33 +212,40 @@ export const useSlideEditor = (props: UseSlideEditorProps = {}) => {
    */
   const initialContent = content ?? defaultSlide()
 
-  const editor = useEditor({
-    content: initialContent,
-    extensions: resolvedExtensions.value,
-    theme,
-    editorProps: {
-      attributes: {
-        autocomplete: 'off',
-        autocorrect: 'off',
-        autocapitalize: 'off',
-        class: 'min-h-full min-w-full',
-        ...(editorProps?.attributes ?? {}),
+  console.log('resolvedExtensions', resolvedExtensions.value, resolvedExtensions);
+  console.log('editorOptions (as single prop):', editorOptions);
+  
+  const editor = useEditor(
+    {
+      content: initialContent,
+      extensions: resolvedExtensions.value,
+      theme,
+      editorProps: {
+        attributes: {
+          autocomplete: 'off',
+          autocorrect: 'off',
+          autocapitalize: 'off',
+          class: 'min-h-full min-w-full',
+          ...(editorProps?.attributes ?? {}),
+        },
+        ...editorProps,
       },
-      ...editorProps,
-    },
-    ...editorOptions,
-    onUpdate: ctx => {
-      const json = ctx.editor.getJSON()
-      onChange?.(json, ctx.editor)
-      onUpdate?.(ctx)
-    },
-  })
+      ...editorOptions,
+      onUpdate: (ctx: any) => {
+        const json = ctx.editor.getJSON()
+        onChange?.(json, ctx.editor)
+        onUpdate?.(ctx)
+      },
+    }
+  );
 
   watch(
     editor,
     newEditor => {
       if (newEditor && !newEditor.isDestroyed) {
         onEditorReady?.(newEditor)
+      } else {
+        console.log('[useSlideEditor] ❌ Editor not ready or destroyed')
       }
     },
     { immediate: true }
