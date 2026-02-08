@@ -1,11 +1,12 @@
 # BlockSlides
 
-ProseMirror-powered, slide-first editing toolkit for visual asset editors (slides, social graphics, printables) with a headless core, 50+ extensions, and React bindings.
+ProseMirror-powered, slide-first editing toolkit for visual asset editors (slides, social graphics, printables) with a headless core, 50+ extensions, and React + Vue 3 bindings.
 
 
 ## Quick links
 - Hosted docs: https://blockslides.com
 - React quickstart (local): `docs/getting-started/quickstart/react.md`
+- Vue quickstart (local): `docs/getting-started/quickstart/vue.md`
 - Start here (local concepts): `docs/getting-started/overview.md`
 - Full local docs: `docs/` (run `pnpm docs:dev`)
 - Packages: `packages/`
@@ -22,7 +23,7 @@ Most editors are document-first; BlockSlides is asset-first. Slides have dimensi
 ## What you get
 - Headless editor runtime on ProseMirror (`@blockslides/core`).
 - 50+ extensions for text, media, layouts, tables, math, markdown, and editor behaviors.
-- React bindings (`@blockslides/react`) plus a batteries-included Extension Kit.
+- React (`@blockslides/react`) and Vue 3 (`@blockslides/vue-3`) bindings plus a batteries-included Extension Kit.
 - Import/export helpers for HTML/Markdown and static rendering.
 - AI-ready schemas and templates (`@blockslides/ai-context`).
 
@@ -79,9 +80,68 @@ export default function MyEditor() {
 
 `ReactSlideEditor` includes everything to get started quickly. For more control over rendering and layout, see the hooks section in `docs/getting-started/quickstart/react.md` (`#using-hooks-for-more-control`).
 
+## Quickstart (Vue 3)
+
+Install:
+
+```bash
+pnpm add @blockslides/vue-3 @blockslides/core @blockslides/pm
+```
+
+Example:
+
+```vue
+<script setup lang="ts">
+import { SlideEditor } from '@blockslides/vue-3'
+import type { JSONContent, Editor } from '@blockslides/vue-3'
+
+const initialContent: JSONContent = {
+  type: 'doc',
+  content: [ 
+    {
+      type: 'slide',
+      attrs: { size: '16x9', id: 'slide-1' },
+      content: [
+        {
+          type: 'column',
+          attrs: { align: 'center', justify: 'center' },
+          content: [
+            {
+              type: 'heading',
+              attrs: { level: 1 },
+              content: [{ type: 'text', text: 'Welcome' }]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+const handleChange = (doc: JSONContent, editor: Editor) => {
+  console.log('Document updated:', doc)
+}
+</script>
+
+<template>
+  <div style="background-color: #f3f4f6; height: 100%; padding: 3rem; display: flex; justify-content: center;">
+    <SlideEditor 
+      :content="initialContent"
+      :onChange="handleChange"
+      :extensionKitOptions="{
+        slide: { renderMode: 'dynamic' }
+      }"
+    />
+  </div>
+</template>
+```
+
+`SlideEditor` includes everything to get started quickly. For more control over rendering and layout, see the composables section in `docs/getting-started/quickstart/vue.md` (`#using-composables-for-more-control`).
+
 ## Packages snapshot
 - `@blockslides/core`: editor runtime and schema.
-- `@blockslides/react`: hooks and components.
+- `@blockslides/react`: React hooks and components.
+- `@blockslides/vue-3`: Vue 3 composables and components.
 - `@blockslides/extension-kit`: pre-configured bundle of extensions.
 - `@blockslides/pm`: ProseMirror glue and shared types.
 - `@blockslides/html`, `@blockslides/markdown`, `@blockslides/static-renderer`: render/import/export helpers.
