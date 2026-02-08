@@ -48,6 +48,7 @@ export default defineConfig({
             text: 'Quickstart',
             items: [
               { text: 'React', link: '/getting-started/quickstart/react' },
+              { text: 'Vue', link: '/getting-started/quickstart/vue' },
             ]
           }
         ]
