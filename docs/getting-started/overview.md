@@ -96,7 +96,7 @@ All content is stored as structured JSON following ProseMirror's schema system. 
 
 ## Next steps
 
-**Ready to build?** Head to the [React Quickstart](/getting-started/quickstart/react) to create your first editor in a few minutes.
+**Ready to build?** Head to the [React Quickstart](/getting-started/quickstart/react) or [Vue Quickstart](/getting-started/quickstart/vue) to create your first editor in a few minutes.
 
 **Want to understand the concepts first?** The [Foundations](/foundations/what-can-you-make) section explains what you can make, how blocks and extensions work, and what the schemas look like.
 
