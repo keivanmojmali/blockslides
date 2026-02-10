@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@blockslides/extension-bubble-menu-preset':
         specifier: ^0.3.0
-        version: 0.3.0(@blockslides/core@0.3.2)(@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1))(@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.2))(@blockslides/extension-link@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1))(@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.2))(@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.2))(@blockslides/extensions@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1))(@blockslides/pm@0.1.1)
+        version: 0.3.1(@blockslides/core@0.3.3)(@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.3))(@blockslides/extension-link@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.3))(@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.3))(@blockslides/extensions@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/pm@0.1.1)
       caniuse-lite:
         specifier: ^1.0.30001763
         version: 1.0.30001763
@@ -972,6 +972,13 @@ importers:
         version: 19.2.0(react@19.2.0)
 
   packages/vue-3:
+    dependencies:
+      '@blockslides/ai-context':
+        specifier: workspace:^
+        version: link:../ai-context
+      '@blockslides/extension-kit':
+        specifier: workspace:^
+        version: link:../extension-kit
     devDependencies:
       '@blockslides/core':
         specifier: workspace:^
@@ -1324,20 +1331,20 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@blockslides/core@0.3.2':
-    resolution: {integrity: sha512-BFXYYLlUw5YYNDKjPUQoSBEF0+JeO9jpvv7947CGtW+Fg64zhA+Xi6dWBCMqSxsOUdZ6+DJzBTAqSOmGHPiAZA==}
+  '@blockslides/core@0.3.3':
+    resolution: {integrity: sha512-ZwcgF+2f0ljYiBkakDo/XPQCpVbyWj1Vj1PwW8o4UcGi7bWxcY8JgpcW1qe1SYx9RAbwvQgOR33OniggKWDRmw==}
 
-  '@blockslides/extension-bubble-menu-preset@0.3.0':
-    resolution: {integrity: sha512-i9ct0NozBGpmupYkUG4+htlxp3K7R/nxrioHVzFmlIYCQC2eEOZt9OM+pw0FieGqCgo73olZcap4+hKz4OOeaQ==}
+  '@blockslides/extension-bubble-menu-preset@0.3.1':
+    resolution: {integrity: sha512-x/biOxITZkcwIIKUqQbPz96ldSwGjP7O5YDpjj+muDIbK8SaFIcwdnzIETLJ6BQ/eT6J87jZyZhJpBVUeKJR9Q==}
     peerDependencies:
-      '@blockslides/core': ^0.3.0
-      '@blockslides/extension-bubble-menu': ^0.1.0
-      '@blockslides/extension-highlight': ^0.1.0
-      '@blockslides/extension-link': ^0.1.0
-      '@blockslides/extension-text-align': ^0.1.0
-      '@blockslides/extension-text-style': ^0.1.0
-      '@blockslides/extensions': ^0.1.0
-      '@blockslides/pm': ^0.1.0
+      '@blockslides/core': ^0.3.1
+      '@blockslides/extension-bubble-menu': ^0.1.1
+      '@blockslides/extension-highlight': ^0.1.1
+      '@blockslides/extension-link': ^0.1.1
+      '@blockslides/extension-text-align': ^0.1.1
+      '@blockslides/extension-text-style': ^0.1.1
+      '@blockslides/extensions': ^0.1.1
+      '@blockslides/pm': ^0.1.1
 
   '@blockslides/extension-bubble-menu@0.1.1':
     resolution: {integrity: sha512-TUnpxexX3YB+OfIuX4P2fQX8Uo/vyyHUeKDW4i6e2QLkrbw3+qiDrAx6BzscqQMKp9kf5OVeO6JhCDtCzM4Y4w==}
@@ -6506,48 +6513,48 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@blockslides/core@0.3.2':
+  '@blockslides/core@0.3.3':
     dependencies:
       '@blockslides/pm': 0.1.1
 
-  '@blockslides/extension-bubble-menu-preset@0.3.0(@blockslides/core@0.3.2)(@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1))(@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.2))(@blockslides/extension-link@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1))(@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.2))(@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.2))(@blockslides/extensions@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1))(@blockslides/pm@0.1.1)':
+  '@blockslides/extension-bubble-menu-preset@0.3.1(@blockslides/core@0.3.3)(@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.3))(@blockslides/extension-link@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.3))(@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.3))(@blockslides/extensions@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/pm@0.1.1)':
     dependencies:
-      '@blockslides/core': 0.3.2
-      '@blockslides/extension-bubble-menu': 0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1)
-      '@blockslides/extension-highlight': 0.1.2(@blockslides/core@0.3.2)
-      '@blockslides/extension-link': 0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1)
-      '@blockslides/extension-text-align': 0.1.1(@blockslides/core@0.3.2)
-      '@blockslides/extension-text-style': 0.1.1(@blockslides/core@0.3.2)
-      '@blockslides/extensions': 0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1)
+      '@blockslides/core': 0.3.3
+      '@blockslides/extension-bubble-menu': 0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)
+      '@blockslides/extension-highlight': 0.1.2(@blockslides/core@0.3.3)
+      '@blockslides/extension-link': 0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)
+      '@blockslides/extension-text-align': 0.1.1(@blockslides/core@0.3.3)
+      '@blockslides/extension-text-style': 0.1.1(@blockslides/core@0.3.3)
+      '@blockslides/extensions': 0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)
       '@blockslides/pm': 0.1.1
 
-  '@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1)':
+  '@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)':
     dependencies:
-      '@blockslides/core': 0.3.2
+      '@blockslides/core': 0.3.3
       '@blockslides/pm': 0.1.1
       '@floating-ui/dom': 1.7.5
 
-  '@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.2)':
+  '@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.3)':
     dependencies:
-      '@blockslides/core': 0.3.2
+      '@blockslides/core': 0.3.3
 
-  '@blockslides/extension-link@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1)':
+  '@blockslides/extension-link@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)':
     dependencies:
-      '@blockslides/core': 0.3.2
+      '@blockslides/core': 0.3.3
       '@blockslides/pm': 0.1.1
       linkifyjs: 4.3.2
 
-  '@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.2)':
+  '@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.3)':
     dependencies:
-      '@blockslides/core': 0.3.2
+      '@blockslides/core': 0.3.3
 
-  '@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.2)':
+  '@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.3)':
     dependencies:
-      '@blockslides/core': 0.3.2
+      '@blockslides/core': 0.3.3
 
-  '@blockslides/extensions@0.1.1(@blockslides/core@0.3.2)(@blockslides/pm@0.1.1)':
+  '@blockslides/extensions@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)':
     dependencies:
-      '@blockslides/core': 0.3.2
+      '@blockslides/core': 0.3.3
       '@blockslides/pm': 0.1.1
 
   '@blockslides/pm@0.1.1':
@@ -11793,7 +11800,7 @@ snapshots:
       '@types/markdown-it': 14.1.2
       '@vitejs/plugin-vue': 5.2.4(vite@5.4.21(@types/node@25.0.3)(lightningcss@1.30.2))(vue@3.5.27(typescript@5.9.3))
       '@vue/devtools-api': 7.7.9
-      '@vue/shared': 3.5.26
+      '@vue/shared': 3.5.27
       '@vueuse/core': 12.8.2(typescript@5.9.3)
       '@vueuse/integrations': 12.8.2(focus-trap@7.8.0)(typescript@5.9.3)
       focus-trap: 7.8.0
