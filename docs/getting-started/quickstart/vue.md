@@ -28,7 +28,7 @@ Blockslides requires **Vue 3.0 or higher** as a peer dependency.
 
 Here's a complete example showing the essential features:
 
-```vue
+```typescript
 <script setup lang="ts">
 import { SlideEditor } from '@blockslides/vue-3'
 import type { JSONContent, Editor } from '@blockslides/vue-3'
@@ -105,7 +105,7 @@ The `SlideEditor` component accepts these props:
 
 For advanced use cases where you need more control over the editor's layout and rendering, use the `useSlideEditor` composable directly:
 
-```vue
+```typescript
 <script setup lang="ts">
 import { EditorContent, useSlideEditor } from '@blockslides/vue-3'
 import type { JSONContent, Editor } from '@blockslides/vue-3'
@@ -174,7 +174,7 @@ const { editor } = useSlideEditor({
 
 Customize the built-in extensions via `extensionKitOptions`:
 
-```tsx
+```typescript
 <script setup lang="ts">
 import { SlideEditor } from '@blockslides/vue-3'
 
