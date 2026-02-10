@@ -14,7 +14,7 @@ Blockslides requires **Vue 3.0 or higher** as a peer dependency.
 
 ## Your first editor
 
-Here's a complete example showing the essential features:
+Drop this component into your Vue app wherever you want an editor:
 
 ```typescript
 import { SlideEditor } from '@blockslides/vue-3'
@@ -34,7 +34,3 @@ import type { JSONContent, Editor } from '@blockslides/vue-3'
 ```
 
 That's it. This gives you a fully-functional slide editor with 50+ extensions automatically configured (text formatting, images, videos, tables, layouts, and more).
-
-::: tip Pre-built component
-`SlideEditor` includes everything to get started quickly. For complete control over layout and rendering, see [Using composables](/vue/composables) below.
-:::
