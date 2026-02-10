@@ -2,16 +2,9 @@
 
 Get a working slide editor running in your Vue 3 application in minutes using the pre-built `SlideEditor` component.
 
-
-
-
 we need to double check this vue component -> install it make sure it works and test it 
 then lets publish it 
 also lets stop publishing right on main 
-
-
-
-
 
 
 ## Installation
@@ -28,7 +21,8 @@ Blockslides requires **Vue 3.0 or higher** as a peer dependency.
 
 Here's a complete example showing the essential features:
 
-```typescript
+<div v-pre>
+```vue
 <script setup lang="ts">
 import { SlideEditor } from '@blockslides/vue-3'
 import type { JSONContent, Editor } from '@blockslides/vue-3'
@@ -76,6 +70,7 @@ const handleChange = (doc: JSONContent, editor: Editor) => {
   </div>
 </template>
 ```
+</div>
 
 That's it. This gives you a fully-functional slide editor with 50+ extensions automatically configured (text formatting, images, videos, tables, layouts, and more).
 
@@ -105,7 +100,8 @@ The `SlideEditor` component accepts these props:
 
 For advanced use cases where you need more control over the editor's layout and rendering, use the `useSlideEditor` composable directly:
 
-```typescript
+<div v-pre>
+```vue
 <script setup lang="ts">
 import { EditorContent, useSlideEditor } from '@blockslides/vue-3'
 import type { JSONContent, Editor } from '@blockslides/vue-3'
@@ -162,6 +158,7 @@ const { editor } = useSlideEditor({
   </div>
 </template>
 ```
+</div>
 
 ### Why use composables?
 
@@ -174,14 +171,15 @@ const { editor } = useSlideEditor({
 
 Customize the built-in extensions via `extensionKitOptions`:
 
-```typescript
+<div v-pre>
+```vue
 <script setup lang="ts">
 import { SlideEditor } from '@blockslides/vue-3'
 
 const extensionKitOptions = {
   // Slide rendering behavior
   slide: { 
-    renderMode: 'dynamic', // or 'static' or 'fixed'
+    renderMode: 'dynamic', // or 'fixed'
     hoverOutline: { 
       color: '#3b82f6', 
       width: '2px' 
@@ -204,6 +202,7 @@ const extensionKitOptions = {
   <SlideEditor :extensionKitOptions="extensionKitOptions" />
 </template>
 ```
+</div>
 
 ## Next steps
 
