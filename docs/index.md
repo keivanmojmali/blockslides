@@ -1,9 +1,21 @@
 ---
-layout: doc
+# https://vitepress.dev/reference/default-theme-home-page
+layout: home
+
+hero:
+  text: "WYSIWYG slide deck editor toolkit"
+  tagline: "The fastest way to add an <span class='hero-highlight'>in‑app presentation editor.</span> Compose slides with blocks and layouts, then render/export anywhere. <br/> <span class='hero-highlight'>Try the one component drop-in</span>"
+  image:
+    component: HeroSlideEditor
+  actions:
+    - theme: alt
+      text: Documentation
+      link: /getting-started/overview
+    - theme: brand
+      text: Quickstart
+      link: /getting-started/quickstart/react
+
 ---
 
-<script setup>
-import LandingPage from './.vitepress/theme/components/LandingPage.vue'
-</script>
 
-<LandingPage />
+
