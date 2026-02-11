@@ -86,7 +86,7 @@ In Next.js, mark components using the editor as client components:
 ```tsx
 'use client'
 
-import { useSlideEditor, EditorContent } from '@blockslides/react'
+import { useSlideEditor, EditorContent } from '@blockslides/react-prebuilts'
 
 export function Editor() {
   const { editor } = useSlideEditor({

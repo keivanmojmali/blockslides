@@ -13,7 +13,7 @@ npm install @blockslides/react @blockslides/core
 `SlideEditor` (exported as `ReactSlideEditor`) is a complete editor component that combines the editor content with a built-in bubble menu preset. Use this when you want a fully-featured editor with minimal setup.
 
 ```tsx
-import { ReactSlideEditor } from '@blockslides/react'
+import { SlideEditor } from '@blockslides/react-prebuilts'
 import { ExtensionKit } from '@blockslides/extension-kit'
 
 function MyEditor() {
@@ -72,7 +72,7 @@ Applied to the outer wrapper element.
 `EditorContent` renders the ProseMirror editor view. Use this for complete control over your editor setup, typically combined with `useSlideEditor` or `useEditor`.
 
 ```tsx
-import { EditorContent, useSlideEditor } from '@blockslides/react'
+import { EditorContent, useSlideEditor } from '@blockslides/react-prebuilts'
 import { ExtensionKit } from '@blockslides/extension-kit'
 
 function MyEditor() {
@@ -184,7 +184,7 @@ function MyToolbar() {
 A fully-featured bubble menu with text formatting controls (bold, italic, underline, colors, fonts, alignment) and image editing tools (replace, align, crop, dimensions). Appears when text is selected or an image is clicked.
 
 ```tsx
-import { BubbleMenuPreset, EditorContent, useSlideEditor } from '@blockslides/react'
+import { BubbleMenuPreset, EditorContent, useSlideEditor } from '@blockslides/react-prebuilts'
 import { ExtensionKit } from '@blockslides/extension-kit'
 
 function MyEditor() {
@@ -341,7 +341,7 @@ A lower-level bubble menu component for building custom menus. Provides position
 
 ```tsx
 import { BubbleMenu } from '@blockslides/react/menus'
-import { EditorContent, useSlideEditor } from '@blockslides/react'
+import { EditorContent, useSlideEditor } from '@blockslides/react-prebuilts'
 
 function MyEditor() {
   const { editor } = useSlideEditor({
@@ -420,7 +420,7 @@ A menu that appears on empty lines, useful for inserting new content blocks.
 
 ```tsx
 import { FloatingMenu } from '@blockslides/react/menus'
-import { EditorContent, useSlideEditor } from '@blockslides/react'
+import { EditorContent, useSlideEditor } from '@blockslides/react-prebuilts'
 
 function MyEditor() {
   const { editor } = useSlideEditor({
