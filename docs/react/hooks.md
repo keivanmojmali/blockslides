@@ -7,7 +7,7 @@ Blockslides provides React hooks for creating and managing editor instances, sub
 The primary hook for initializing a slide editor with the ExtensionKit bundle. This hook handles all the configuration needed for a fully-featured slide editor.
 
 ```tsx
-import { useSlideEditor } from '@blockslides/react'
+import { useSlideEditor } from '@blockslides/react-prebuilts'
 
 function Editor() {
   const { editor, presets } = useSlideEditor({
