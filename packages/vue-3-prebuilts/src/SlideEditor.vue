@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, watch, onMounted } from 'vue'
-import { EditorContent } from './EditorContent'
+import { EditorContent } from '@blockslides/vue-3'
 import BubbleMenuPreset from './menus/BubbleMenuPreset.vue'
 import { useSlideEditor, type UseSlideEditorProps } from './useSlideEditor'
 import type { Editor } from '@blockslides/core'

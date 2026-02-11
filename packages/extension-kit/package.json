@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/extension-kit",
   "description": "Complete extension kit for blockslides - includes all available extensions with configurable options",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",

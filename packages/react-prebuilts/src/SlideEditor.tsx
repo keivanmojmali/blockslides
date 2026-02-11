@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo } from "react";
 import type { CSSProperties } from "react";
 
-import { EditorContent, type EditorContentProps } from "./EditorContent.js";
+import { EditorContent, type EditorContentProps } from "@blockslides/react";
 import {
   BubbleMenuPreset,
   type BubbleMenuPresetProps,

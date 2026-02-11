@@ -1,13 +1,15 @@
 {
-  "name": "@blockslides/vue-3",
-  "description": "Vue 3 components for blockslides",
-  "version": "0.4.1",
+  "name": "@blockslides/vue-3-prebuilts",
+  "description": "Pre-built Vue 3 components for blockslides - includes SlideEditor, useSlideEditor, and menu components",
+  "version": "0.1.0",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",
     "blockslides vue components",
     "editor",
-    "wysiwyg"
+    "wysiwyg",
+    "slide editor",
+    "prebuilt components"
   ],
   "license": "MIT",
   "exports": {
@@ -18,6 +20,14 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./menus": {
+      "types": {
+        "import": "./dist/menus/index.d.ts",
+        "require": "./dist/menus/index.d.cts"
+      },
+      "import": "./dist/menus/index.js",
+      "require": "./dist/menus/index.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -29,8 +39,12 @@
     "dist"
   ],
   "dependencies": {
+    "@blockslides/vue-3": "workspace:^",
     "@blockslides/ai-context": "workspace:^",
-    "@blockslides/extension-kit": "workspace:^"
+    "@blockslides/extension-kit": "workspace:^",
+    "@blockslides/extension-bubble-menu": "workspace:^",
+    "@blockslides/extension-bubble-menu-preset": "workspace:^",
+    "@blockslides/extension-floating-menu": "workspace:^"
   },
   "devDependencies": {
     "@blockslides/core": "workspace:^",
@@ -50,7 +64,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/keivanmojmali/blockslides",
-    "directory": "packages/vue-3"
+    "directory": "packages/vue-3-prebuilts"
   },
   "sideEffects": false,
   "scripts": {

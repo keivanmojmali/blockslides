@@ -16,6 +16,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
+        menus: resolve(__dirname, 'src/menus/index.ts'),
       },
       formats: ['es', 'cjs'],
     },

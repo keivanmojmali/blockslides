@@ -19,7 +19,7 @@ Editor themes define the visual appearance of the editor interface and provide d
 Apply a theme when creating the editor:
 
 ```ts
-import { useSlideEditor } from '@blockslides/react'
+import { useSlideEditor } from '@blockslides/react-prebuilts'
 
 const editor = useSlideEditor({
   theme: 'light',  // or 'dark'
@@ -59,7 +59,7 @@ Themes control these visual aspects:
 Define a complete custom theme with all required properties:
 
 ```ts
-import { useSlideEditor } from '@blockslides/react'
+import { useSlideEditor } from '@blockslides/react-prebuilts'
 
 const customTheme = {
   name: 'custom',

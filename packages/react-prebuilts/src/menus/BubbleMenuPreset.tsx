@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useCurrentEditor } from '../Context.js'
+import { useCurrentEditor } from '@blockslides/react'
 import {
   BubbleMenuPlugin,
   type BubbleMenuPluginProps,

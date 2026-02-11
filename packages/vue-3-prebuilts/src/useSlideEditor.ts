@@ -4,7 +4,7 @@ import type { AnyExtension, Editor, JSONContent } from '@blockslides/core'
 import type { SlideOptions } from '@blockslides/extension-slide'
 import { ExtensionKit, type ExtensionKitOptions } from '@blockslides/extension-kit'
 
-import { useEditor } from './useEditor.js'
+import { useEditor } from '@blockslides/vue-3'
 import type { EditorOptions } from '@blockslides/core'
 
 type PresetTemplates = ReturnType<typeof templatesV1.listPresetTemplates>

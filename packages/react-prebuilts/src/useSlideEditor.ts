@@ -11,7 +11,7 @@ import {
 import {
   useEditor,
   type UseEditorOptions,
-} from "./useEditor.js";
+} from "@blockslides/react";
 
 type PresetTemplates = ReturnType<typeof templatesV1.listPresetTemplates>;
 

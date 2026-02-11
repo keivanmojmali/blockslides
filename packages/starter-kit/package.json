@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/starter-kit",
   "description": "Starter kit for blockslides - includes all essential extensions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",

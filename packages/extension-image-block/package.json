@@ -1,16 +1,22 @@
 {
   "name": "@blockslides/extension-image-block",
-  "version": "0.2.1",
+  "version": "0.2.2",
+  "author": "keivanmojmali",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "files": [
     "dist",
     "src"
@@ -18,7 +24,6 @@
   "scripts": {
     "build": "tsup"
   },
-  "author": "keivanmojmali",
   "peerDependencies": {
     "@blockslides/core": "workspace:^",
     "@blockslides/pm": "workspace:^"
