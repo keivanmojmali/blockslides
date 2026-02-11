@@ -6,21 +6,21 @@ prev: false
 next: false
 ---
 
-<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 60px 0;">
+<div style="height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 24px;">
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; max-width: 1400px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; max-width: 1400px; height: 100%;">
 
 <div>
 
 <h1 style="font-size: 72px; font-weight: 700; line-height: 1.1; margin: 0 0 32px 0;">WYSIWYG slide deck editor toolkit</h1>
 
-<p style="font-size: 28px; line-height: 1.6; margin: 0 0 48px 0; color: var(--vp-c-text-1);">
+<p style="font-size: 28px; line-height: 1.6; margin: 0; color: var(--vp-c-text-1);">
 The fastest way to add an <span class="hero-highlight">in-app presentation editor.</span> Compose slides with blocks and layouts, then render/export anywhere.<br/><span class="hero-highlight">Try the one component drop-in</span>
 </p>
 
 </div>
 
-<div>
+<div style="height: 100%; display: flex; align-items: center;">
 <HeroSlideEditor />
 </div>
 
