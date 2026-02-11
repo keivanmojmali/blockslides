@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/vue-3",
   "description": "Vue 3 components for blockslides",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",
@@ -18,14 +18,6 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./menus": {
-      "types": {
-        "import": "./dist/menus/index.d.ts",
-        "require": "./dist/menus/index.d.cts"
-      },
-      "import": "./dist/menus/index.js",
-      "require": "./dist/menus/index.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -48,10 +40,6 @@
     "vite": "^5.0.0",
     "vite-plugin-dts": "^3.0.0",
     "vue": "^3.5.13"
-  },
-  "optionalDependencies": {
-    "@blockslides/extension-bubble-menu": "workspace:^",
-    "@blockslides/extension-floating-menu": "workspace:^"
   },
   "peerDependencies": {
     "@blockslides/core": "workspace:^",

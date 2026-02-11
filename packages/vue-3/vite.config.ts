@@ -14,10 +14,7 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: {
-        index: resolve(__dirname, 'src/index.ts'),
-        menus: resolve(__dirname, 'src/menus/index.ts'),
-      },
+      entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
