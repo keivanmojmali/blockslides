@@ -1,9 +1,22 @@
 {
   "name": "@blockslides/extension-slide",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Slide node extension for BlockSlides slide editor",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "author": "keivanmojmali",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup",
@@ -25,6 +38,5 @@
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.3.3"
-  },
-  "author": "keivanmojmali"
+  }
 }
