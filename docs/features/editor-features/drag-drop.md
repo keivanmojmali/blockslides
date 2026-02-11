@@ -132,7 +132,7 @@ Use the React-specific DragHandle component for better integration:
 
 ```tsx
 import { DragHandle } from '@blockslides/extension-drag-handle-react'
-import { useSlideEditor } from '@blockslides/react'
+import { useSlideEditor } from '@blockslides/react-prebuilts'
 
 function Editor() {
   const editor = useSlideEditor({
