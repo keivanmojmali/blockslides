@@ -240,3 +240,19 @@ body[data-page="index"] .copy-markdown {
   display: none !important;
 }
 
+/* Prevent page scroll on home page */
+.VPContent.is-home {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.VPContent.is-home .VPDoc {
+  height: 100%;
+}
+
+.VPContent.is-home .container,
+.VPContent.is-home .content {
+  height: 100%;
+  overflow: hidden;
+}
+
