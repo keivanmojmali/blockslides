@@ -4,33 +4,29 @@ Get a working slide editor running in your Vue 3 application in minutes using th
 
 ## Installation
 
-Install the core packages:
+Install the pre-built components package (includes all dependencies):
 
 ```bash
-pnpm add @blockslides/vue-3 @blockslides/core @blockslides/pm
+pnpm add @blockslides/vue-3-prebuilts @blockslides/core @blockslides/pm
 ```
+
+::: tip Package structure
+`@blockslides/vue-3-prebuilts` includes ready-to-use components like `SlideEditor` and `useSlideEditor`. For low-level primitives only, use `@blockslides/vue-3`.
+:::
 
 Blockslides requires **Vue 3.0 or higher** as a peer dependency.
 
 ## Your first editor
 
-Drop this component into your Vue app wherever you want an editor:
+Add the following to your Vue component:
 
-```typescript
-import { SlideEditor } from '@blockslides/vue-3'
-import type { JSONContent, Editor } from '@blockslides/vue-3'
+```ts
+import { SlideEditor } from '@blockslides/vue-3-prebuilts'
 
-
-//Styled container for demo - delete if you want
-  <div style="background-color: #f3f4f6; height: 100%; padding: 3rem; display: flex; justify-content: center;">
-    <SlideEditor 
-      :content="initialContent"
-      :onChange="handleChange"
-      :extensionKitOptions="{
-        slide: { renderMode: 'dynamic' } // Scales to fit viewport
-      }"
-    />
-  </div>
+  <SlideEditor 
+    //:content="initialContent"
+    //@change="handleChange"
+  />
 ```
 
 That's it. This gives you a fully-functional slide editor with 50+ extensions automatically configured (text formatting, images, videos, tables, layouts, and more).
