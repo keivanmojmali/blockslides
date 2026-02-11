@@ -1,0 +1,75 @@
+{
+  "name": "@blockslides/vue-3-prebuilts",
+  "description": "Pre-built Vue 3 components for blockslides - includes SlideEditor, useSlideEditor, and menu components",
+  "version": "0.1.0",
+  "homepage": "https://github.com/keivanmojmali/blockslides",
+  "keywords": [
+    "blockslides",
+    "blockslides vue components",
+    "editor",
+    "wysiwyg",
+    "slide editor",
+    "prebuilt components"
+  ],
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./menus": {
+      "types": {
+        "import": "./dist/menus/index.d.ts",
+        "require": "./dist/menus/index.d.cts"
+      },
+      "import": "./dist/menus/index.js",
+      "require": "./dist/menus/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@blockslides/vue-3": "workspace:^",
+    "@blockslides/ai-context": "workspace:^",
+    "@blockslides/extension-kit": "workspace:^",
+    "@blockslides/extension-bubble-menu": "workspace:^",
+    "@blockslides/extension-bubble-menu-preset": "workspace:^",
+    "@blockslides/extension-floating-menu": "workspace:^"
+  },
+  "devDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^",
+    "@floating-ui/dom": "^1.0.0",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.0.0",
+    "vue": "^3.5.13"
+  },
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/pm": "workspace:^",
+    "@floating-ui/dom": "^1.0.0",
+    "vue": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/vue-3-prebuilts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "vite build",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  },
+  "author": "keivanmojmali"
+}
