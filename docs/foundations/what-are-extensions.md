@@ -21,7 +21,7 @@ Extensions do more than just define blocks though. They also add:
 Here's how you might add extensions when creating an editor:
 
 ```ts
-import { useSlideEditor } from '@blockslides/react';
+import { useSlideEditor } from '@blockslides/react-prebuilts';
 import { Document } from '@blockslides/extension-document';
 import { Heading } from '@blockslides/extension-heading';
 import { Paragraph } from '@blockslides/extension-paragraph';
