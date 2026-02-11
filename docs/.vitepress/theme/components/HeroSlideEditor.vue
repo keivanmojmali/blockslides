@@ -13,25 +13,22 @@ import { SlideEditor } from '@blockslides/vue-3-prebuilts'
 <style scoped>
 .hero-editor-wrapper {
   width: 100%;
-  max-width: 700px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  background: #1a1a1a;
-  border: 1px solid rgba(206, 247, 159, 0.2);
+  max-width: 800px;
+  height: 80vh;
+  max-height: 800px;
 }
 
 .hero-slide-editor {
   width: 100%;
-  height: 500px;
+  height: 100%;
   overflow: auto;
 }
 
 /* Make the editor look nice in the hero section */
 .hero-slide-editor :deep(.bs-viewport) {
   height: 100%;
-  background: #1a1a1a;
-  padding: 16px;
+  background: transparent;
+  padding: 0;
 }
 
 .hero-slide-editor :deep(.ProseMirror) {
