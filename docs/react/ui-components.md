@@ -8,12 +8,12 @@ The React package provides components for building slide editors with full contr
 npm install @blockslides/react @blockslides/core
 ```
 
-## SlideEditor
+## ReactSlideEditor
 
-`SlideEditor` (exported as `ReactSlideEditor`) is a complete editor component that combines the editor content with a built-in bubble menu preset. Use this when you want a fully-featured editor with minimal setup.
+`ReactSlideEditor` is a complete editor component that combines the editor content with a built-in bubble menu preset. Use this when you want a fully-featured editor with minimal setup.
 
 ```tsx
-import { SlideEditor } from '@blockslides/react-prebuilts'
+import { ReactSlideEditor } from '@blockslides/react-prebuilts'
 import { ExtensionKit } from '@blockslides/extension-kit'
 
 function MyEditor() {
