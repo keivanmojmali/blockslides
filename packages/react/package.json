@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/react",
   "description": "React components for blockslides",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",
@@ -18,14 +18,6 @@
       },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./menus": {
-      "types": {
-        "import": "./dist/menus/index.d.ts",
-        "require": "./dist/menus/index.d.cts"
-      },
-      "import": "./dist/menus/index.js",
-      "require": "./dist/menus/index.cjs"
     }
   },
   "main": "dist/index.cjs",
@@ -37,8 +29,6 @@
     "dist"
   ],
   "dependencies": {
-    "@blockslides/ai-context": "workspace:^",
-    "@blockslides/extension-kit": "workspace:^",
     "@types/use-sync-external-store": "^0.0.6",
     "fast-deep-equal": "^3.1.3",
     "use-sync-external-store": "^1.4.0"
@@ -50,11 +40,6 @@
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
-  },
-  "optionalDependencies": {
-    "@blockslides/extension-bubble-menu": "workspace:^",
-    "@blockslides/extension-bubble-menu-preset": "workspace:^",
-    "@blockslides/extension-floating-menu": "workspace:^"
   },
   "peerDependencies": {
     "@blockslides/core": "workspace:^",
