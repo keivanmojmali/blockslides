@@ -1,15 +1,30 @@
 ---
 title: Home
+layout: page
+sidebar: false
+prev: false
+next: false
 ---
 
-<div style="min-height: 80vh; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 60px 0;">
+<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 60px 0;">
 
-<h1 style="font-size: 72px; font-weight: 700; line-height: 1.1; margin: 0 0 32px 0; max-width: 900px;">WYSIWYG slide deck editor toolkit</h1>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; max-width: 1400px;">
 
-<p style="font-size: 28px; line-height: 1.6; margin: 0 0 48px 0; max-width: 900px; color: var(--vp-c-text-1);">
+<div>
+
+<h1 style="font-size: 72px; font-weight: 700; line-height: 1.1; margin: 0 0 32px 0;">WYSIWYG slide deck editor toolkit</h1>
+
+<p style="font-size: 28px; line-height: 1.6; margin: 0 0 48px 0; color: var(--vp-c-text-1);">
 The fastest way to add an <span class="hero-highlight">in-app presentation editor.</span> Compose slides with blocks and layouts, then render/export anywhere.<br/><span class="hero-highlight">Try the one component drop-in</span>
 </p>
 
+</div>
+
+<div>
+<HeroSlideEditor />
+</div>
+
+</div>
 
 </div>
 
@@ -49,6 +64,21 @@ The fastest way to add an <span class="hero-highlight">in-app presentation edito
 
 .hero-button-brand:hover {
   background: #3a3e47;
+}
+
+@media (max-width: 960px) {
+  div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  
+  h1 {
+    font-size: 48px !important;
+  }
+  
+  p {
+    font-size: 20px !important;
+  }
 }
 </style>
 
