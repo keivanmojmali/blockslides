@@ -13,7 +13,7 @@ The Markdown extension provides multiple ways to import markdown content into th
 Load markdown when creating the editor by specifying the `contentType` option:
 
 ```ts
-import { useSlideEditor } from '@blockslides/react'
+import { useSlideEditor } from '@blockslides/react-prebuilts'
 import { Markdown } from '@blockslides/markdown'
 
 const editor = useSlideEditor({
