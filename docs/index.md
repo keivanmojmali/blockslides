@@ -14,9 +14,14 @@ next: false
 
 <h1 style="font-size: 72px; font-weight: 700; line-height: 1.1; margin: 0 0 32px 0;">WYSIWYG slide deck editor toolkit</h1>
 
-<p style="font-size: 28px; line-height: 1.6; margin: 0; color: var(--vp-c-text-1);">
+<p style="font-size: 28px; line-height: 1.6; margin: 0 0 32px 0; color: var(--vp-c-text-1);">
 The fastest way to add an <span class="hero-highlight">in-app presentation editor.</span> Compose slides with blocks and layouts, then render/export anywhere.<br/><span class="hero-highlight">Try the one component drop-in</span>
 </p>
+
+<div style="display: flex; gap: 16px;">
+  <a href="/getting-started/overview" class="hero-button hero-button-alt">Documentation</a>
+  <a href="/getting-started/quickstart/react" class="hero-button hero-button-brand">Quickstart</a>
+</div>
 
 </div>
 
