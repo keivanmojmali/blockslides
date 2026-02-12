@@ -670,6 +670,11 @@ const twoImageColumns: PresetTemplate = {
 
 const registry: Record<PresetKey, PresetTemplate> = {
   "tpl.titleAndSubheader": titleAndSubheader,
+  "tpl.accentLeft": accentLeft,
+  "tpl.accentRight": accentRight,
+  "tpl.accentTop": accentTop,
+  "tpl.accentRightFit": accentRightFit,
+  "tpl.accentLeftFit": accentLeftFit,
   "tpl.imageAndText": imageAndText,
   "tpl.textAndImage": textAndImage,
   "tpl.twoColumns": twoColumns,
@@ -681,11 +686,6 @@ const registry: Record<PresetKey, PresetTemplate> = {
   "tpl.titleWithBullets": titleWithBullets,
   "tpl.titleBulletsAndImage": titleBulletsAndImage,
   "tpl.fullImage": fullImage,
-  "tpl.accentLeft": accentLeft,
-  "tpl.accentRight": accentRight,
-  "tpl.accentTop": accentTop,
-  "tpl.accentRightFit": accentRightFit,
-  "tpl.accentLeftFit": accentLeftFit,
   "tpl.twoImageColumns": twoImageColumns,
 
 };
