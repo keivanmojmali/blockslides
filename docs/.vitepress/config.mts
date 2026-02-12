@@ -125,6 +125,14 @@ export default defineConfig({
           { text: 'UI Components', link: '/react/ui-components' },
           { text: 'Hooks', link: '/react/hooks' },
         ]
+      },
+      {
+        text: 'Vue',
+        items: [
+          { text: 'Overview', link: '/vue/overview' },
+          { text: 'Components', link: '/vue/components' },
+          { text: 'Composables', link: '/vue/composables' },
+        ]
       }
     ],
 
