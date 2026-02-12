@@ -2,6 +2,10 @@
 
 Get a working slide editor running in your Vue 3 application in minutes using the pre-built `SlideEditor` component.
 
+::: tip Full Vue Documentation
+This is a quick start guide. For comprehensive documentation on all Vue components, composables, and advanced usage, see the [Vue Overview](/vue/overview).
+:::
+
 ## Installation
 
 Install the pre-built components package (includes all dependencies):
