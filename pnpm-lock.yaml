@@ -7,13 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@blockslides/extension-bubble-menu-preset':
-        specifier: ^0.3.0
-        version: 0.3.1(@blockslides/core@0.3.3)(@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.3))(@blockslides/extension-link@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.3))(@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.3))(@blockslides/extensions@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/pm@0.1.1)
-      caniuse-lite:
-        specifier: ^1.0.30001763
-        version: 1.0.30001763
     devDependencies:
       '@changesets/cli':
         specifier: ^2.29.8
@@ -21,72 +14,11 @@ importers:
       '@types/node':
         specifier: ^25.0.3
         version: 25.0.3
-      '@vitejs/plugin-vue':
-        specifier: ^5.0.0
-        version: 5.2.4(vite@5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0))(vue@3.5.27(typescript@5.9.3))
       tsup:
         specifier: ^8.0.0
         version: 8.5.0(@microsoft/api-extractor@7.43.0(@types/node@25.0.3))(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)(yaml@2.8.2)
       typescript:
         specifier: ^5.0.0
-        version: 5.9.3
-      vite:
-        specifier: ^5.0.0
-        version: 5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0)
-      vite-plugin-dts:
-        specifier: ^3.0.0
-        version: 3.9.1(@types/node@25.0.3)(rollup@4.57.1)(typescript@5.9.3)(vite@5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0))
-      vitepress:
-        specifier: ^1.6.4
-        version: 1.6.4(@algolia/client-search@5.47.0)(@types/node@25.0.3)(@types/react@18.3.27)(fuse.js@7.1.0)(lightningcss@1.30.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(terser@5.46.0)(typescript@5.9.3)
-      vue:
-        specifier: ^3.5.27
-        version: 3.5.27(typescript@5.9.3)
-
-  delete-me:
-    dependencies:
-      '@blockslides/core':
-        specifier: workspace:*
-        version: link:../packages/core
-      '@blockslides/pm':
-        specifier: workspace:*
-        version: link:../packages/pm
-      '@blockslides/react-prebuilts':
-        specifier: workspace:*
-        version: link:../packages/react-prebuilts
-      next:
-        specifier: 16.1.6
-        version: 16.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      react-dom:
-        specifier: 19.2.3
-        version: 19.2.3(react@19.2.3)
-    devDependencies:
-      '@tailwindcss/postcss':
-        specifier: ^4
-        version: 4.1.18
-      '@types/node':
-        specifier: ^20
-        version: 20.19.30
-      '@types/react':
-        specifier: ^19
-        version: 19.2.9
-      '@types/react-dom':
-        specifier: ^19
-        version: 19.2.3(@types/react@19.2.9)
-      eslint:
-        specifier: ^9
-        version: 9.39.2(jiti@2.6.1)
-      eslint-config-next:
-        specifier: 16.1.6
-        version: 16.1.6(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      tailwindcss:
-        specifier: ^4
-        version: 4.1.18
-      typescript:
-        specifier: ^5
         version: 5.9.3
 
   demo:
@@ -103,6 +35,9 @@ importers:
       '@blockslides/extension-slide':
         specifier: workspace:*
         version: link:../packages/extension-slide
+      '@blockslides/extension-suggestion':
+        specifier: workspace:*
+        version: link:../packages/extension-suggestion
       '@blockslides/pm':
         specifier: workspace:*
         version: link:../packages/pm
@@ -143,6 +78,34 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+
+  docs:
+    dependencies:
+      '@blockslides/core':
+        specifier: workspace:*
+        version: link:../packages/core
+      '@blockslides/pm':
+        specifier: workspace:*
+        version: link:../packages/pm
+      '@blockslides/vue-3-prebuilts':
+        specifier: workspace:*
+        version: link:../packages/vue-3-prebuilts
+      '@floating-ui/dom':
+        specifier: ^1.0.0
+        version: 1.7.5
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: ^5.0.0
+        version: 5.2.4(vite@5.4.21(@types/node@25.0.10)(lightningcss@1.30.2)(terser@5.46.0))(vue@3.5.28(typescript@5.9.3))
+      vite:
+        specifier: ^5.0.0
+        version: 5.4.21(@types/node@25.0.10)(lightningcss@1.30.2)(terser@5.46.0)
+      vitepress:
+        specifier: ^1.6.4
+        version: 1.6.4(@algolia/client-search@5.47.0)(@types/node@25.0.10)(@types/react@18.3.27)(fuse.js@7.1.0)(lightningcss@1.30.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(terser@5.46.0)(typescript@5.9.3)
+      vue:
+        specifier: ^3.5.27
+        version: 3.5.28(typescript@5.9.3)
 
   packages/ai-context:
     devDependencies:
@@ -764,6 +727,15 @@ importers:
         version: link:../core
 
   packages/extension-subscript:
+    devDependencies:
+      '@blockslides/core':
+        specifier: workspace:^
+        version: link:../core
+      '@blockslides/pm':
+        specifier: workspace:^
+        version: link:../pm
+
+  packages/extension-suggestion:
     devDependencies:
       '@blockslides/core':
         specifier: workspace:^
@@ -1445,57 +1417,6 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
-
-  '@blockslides/core@0.3.3':
-    resolution: {integrity: sha512-ZwcgF+2f0ljYiBkakDo/XPQCpVbyWj1Vj1PwW8o4UcGi7bWxcY8JgpcW1qe1SYx9RAbwvQgOR33OniggKWDRmw==}
-
-  '@blockslides/extension-bubble-menu-preset@0.3.1':
-    resolution: {integrity: sha512-x/biOxITZkcwIIKUqQbPz96ldSwGjP7O5YDpjj+muDIbK8SaFIcwdnzIETLJ6BQ/eT6J87jZyZhJpBVUeKJR9Q==}
-    peerDependencies:
-      '@blockslides/core': ^0.3.1
-      '@blockslides/extension-bubble-menu': ^0.1.1
-      '@blockslides/extension-highlight': ^0.1.1
-      '@blockslides/extension-link': ^0.1.1
-      '@blockslides/extension-text-align': ^0.1.1
-      '@blockslides/extension-text-style': ^0.1.1
-      '@blockslides/extensions': ^0.1.1
-      '@blockslides/pm': ^0.1.1
-
-  '@blockslides/extension-bubble-menu@0.1.1':
-    resolution: {integrity: sha512-TUnpxexX3YB+OfIuX4P2fQX8Uo/vyyHUeKDW4i6e2QLkrbw3+qiDrAx6BzscqQMKp9kf5OVeO6JhCDtCzM4Y4w==}
-    peerDependencies:
-      '@blockslides/core': ^0.3.1
-      '@blockslides/pm': ^0.1.1
-
-  '@blockslides/extension-highlight@0.1.2':
-    resolution: {integrity: sha512-KohBTpJqNFKBnW9+gzNGosrpskZN6kJu7gn2lobB2jjHRGGkxRtOI+3NXPhg6wyPnk/Pz7XbrIUVOnCdSOlzFA==}
-    peerDependencies:
-      '@blockslides/core': ^0.3.2
-
-  '@blockslides/extension-link@0.1.1':
-    resolution: {integrity: sha512-GEDygmdPquZIyXPW+LhIu/h2pgz7tB4S7GG3rnX5nPKpeDTzKSf/6VI1GqgeK7ANlNoUvreq3umLhWHmzHUC6Q==}
-    peerDependencies:
-      '@blockslides/core': ^0.3.1
-      '@blockslides/pm': ^0.1.1
-
-  '@blockslides/extension-text-align@0.1.1':
-    resolution: {integrity: sha512-EuYGhPp8A5mOP8xZEM8fT8qm8LXmPx91229aUTFt7my2aD1+Iy1w9QxfebK+bGmoXCnIKZe+zYQiLuU2ILq21g==}
-    peerDependencies:
-      '@blockslides/core': ^0.3.1
-
-  '@blockslides/extension-text-style@0.1.1':
-    resolution: {integrity: sha512-qRuu3dX4tRn/YNnqxE26Bp4F3IX9yViJ5leDIGflGvklSo11fpod9xtxvvGxIhkr4aSQpOuVzOb/1ivQGAPCqg==}
-    peerDependencies:
-      '@blockslides/core': ^0.3.1
-
-  '@blockslides/extensions@0.1.1':
-    resolution: {integrity: sha512-kfQsf+wwpytv3zcIOSk3yheQVM7EU8sn0n61HfRtARfKqp/zUQxcQzMDDS7G6lf0em2gmybfiENa4nMRkhpXwQ==}
-    peerDependencies:
-      '@blockslides/core': ^0.3.1
-      '@blockslides/pm': ^0.1.1
-
-  '@blockslides/pm@0.1.1':
-    resolution: {integrity: sha512-XuhF0stBuHFNs64QFiqGnlS1uW0fQe+VtkdfEPlKIVIgxwN/yrux+Yo7Kk/c3e62veyD3dEZssI/6TyHBq5aqQ==}
 
   '@changesets/apply-release-plan@7.0.14':
     resolution: {integrity: sha512-ddBvf9PHdy2YY0OUiEl3TV78mH9sckndJR14QAt87KLEbIov81XO0q0QAmvooBxXlqRRP8I9B7XOzZwQG7JkWA==}
@@ -3753,9 +3674,6 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  caniuse-lite@1.0.30001763:
-    resolution: {integrity: sha512-mh/dGtq56uN98LlNX9qdbKnzINhX0QzhiWBFEkFfsFO4QyCvL8YegrJAazCwXIeqkIob8BlZPGM3xdnY+sgmvQ==}
-
   caniuse-lite@1.0.30001766:
     resolution: {integrity: sha512-4C0lfJ0/YPjJQHagaE9x2Elb69CIqEPZeG0anQt9SIvIoOH4a4uaRl73IavyO+0qZh6MDLH//DrXThEYKHkmYA==}
 
@@ -5087,10 +5005,6 @@ packages:
     resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
     hasBin: true
 
-  markdown-it@14.1.1:
-    resolution: {integrity: sha512-BuU2qnTti9YKgK5N+IeMubp14ZUKUUw7yeJbkjtosvHiP0AZ5c8IAgEMk79D0eC8F23r4Ac/q8cAIFdm2FtyoA==}
-    hasBin: true
-
   marked@16.4.1:
     resolution: {integrity: sha512-ntROs7RaN3EvWfy3EZi14H4YxmT6A5YvywfhO+0pm+cH/dnSQRmdAmoFIc3B9aiwTehyk7pESH4ofyBY+V5hZg==}
     engines: {node: '>= 20'}
@@ -5464,14 +5378,8 @@ packages:
   prosemirror-history@1.4.1:
     resolution: {integrity: sha512-2JZD8z2JviJrboD9cPuX/Sv/1ChFng+xh2tChQ2X4bB2HeK+rra/bmJ3xGntCcjhOqIzSDG6Id7e8RJ9QPXLEQ==}
 
-  prosemirror-history@1.5.0:
-    resolution: {integrity: sha512-zlzTiH01eKA55UAf1MEjtssJeHnGxO0j4K4Dpx+gnmX9n+SHNlDqI2oO1Kv1iPN5B1dm5fsljCfqKF9nFL6HRg==}
-
   prosemirror-inputrules@1.5.0:
     resolution: {integrity: sha512-K0xJRCmt+uSw7xesnHmcn72yBGTbY45vm8gXI4LZXbx2Z0jwh5aF9xrGQgrVPu0WbyFVFF3E/o9VhJYz6SQWnA==}
-
-  prosemirror-inputrules@1.5.1:
-    resolution: {integrity: sha512-7wj4uMjKaXWAQ1CDgxNzNtR9AlsuwzHfdFH1ygEHA2KHF2DOEaXl1CJfNPAKCg9qNEh4rum975QLaCiQPyY6Fw==}
 
   prosemirror-keymap@1.2.3:
     resolution: {integrity: sha512-4HucRlpiLd1IPQQXNqeo81BGtkY8Ai5smHhKW9jjPKRc2wQIxksg7Hl1tTI2IfT2B/LgX6bfYvXxEpJl7aKYKw==}
@@ -5479,17 +5387,11 @@ packages:
   prosemirror-markdown@1.13.2:
     resolution: {integrity: sha512-FPD9rHPdA9fqzNmIIDhhnYQ6WgNoSWX9StUZ8LEKapaXU9i6XgykaHKhp6XMyXlOWetmaFgGDS/nu/w9/vUc5g==}
 
-  prosemirror-markdown@1.13.4:
-    resolution: {integrity: sha512-D98dm4cQ3Hs6EmjK500TdAOew4Z03EV71ajEFiWra3Upr7diytJsjF4mPV2dW+eK5uNectiRj0xFxYI9NLXDbw==}
-
   prosemirror-menu@1.2.5:
     resolution: {integrity: sha512-qwXzynnpBIeg1D7BAtjOusR+81xCp53j7iWu/IargiRZqRjGIlQuu1f3jFi+ehrHhWMLoyOQTSRx/IWZJqOYtQ==}
 
   prosemirror-model@1.25.3:
     resolution: {integrity: sha512-dY2HdaNXlARknJbrManZ1WyUtos+AP97AmvqdOQtWtrrC5g4mohVX5DTi9rXNFSk09eczLq9GuNTtq3EfMeMGA==}
-
-  prosemirror-model@1.25.4:
-    resolution: {integrity: sha512-PIM7E43PBxKce8OQeezAs9j4TP+5yDpZVbuurd1h5phUxEKIu+G2a+EUZzIC5nS1mJktDJWzbqS23n1tsAf5QA==}
 
   prosemirror-schema-basic@1.2.4:
     resolution: {integrity: sha512-ELxP4TlX3yr2v5rM7Sb70SqStq5NvI15c0j9j/gjsrO5vaw+fnnpovCLEGIcpeGfifkuqJwl4fon6b+KdrODYQ==}
@@ -5500,14 +5402,8 @@ packages:
   prosemirror-state@1.4.3:
     resolution: {integrity: sha512-goFKORVbvPuAQaXhpbemJFRKJ2aixr+AZMGiquiqKxaucC6hlpHNZHWgz5R7dS4roHiwq9vDctE//CZ++o0W1Q==}
 
-  prosemirror-state@1.4.4:
-    resolution: {integrity: sha512-6jiYHH2CIGbCfnxdHbXZ12gySFY/fz/ulZE333G6bPqIZ4F+TXo9ifiR86nAHpWnfoNjOb3o5ESi7J8Uz1jXHw==}
-
   prosemirror-tables@1.8.1:
     resolution: {integrity: sha512-DAgDoUYHCcc6tOGpLVPSU1k84kCUWTWnfWX3UDy2Delv4ryH0KqTD6RBI6k4yi9j9I8gl3j8MkPpRD/vWPZbug==}
-
-  prosemirror-tables@1.8.5:
-    resolution: {integrity: sha512-V/0cDCsHKHe/tfWkeCmthNUcEp1IVO3p6vwN8XtwE9PZQLAZJigbw3QoraAdfJPir4NKJtNvOB8oYGKRl+t0Dw==}
 
   prosemirror-test-builder@1.1.1:
     resolution: {integrity: sha512-DJ1+4TNTE9ZcYN/ozXCaWJVrGA99UttMoVvZuidvAotRg7FaiNtEYxL/vlDwfZDRnzJDXNYhmM3XPv3EweK7yA==}
@@ -5522,14 +5418,8 @@ packages:
   prosemirror-transform@1.10.4:
     resolution: {integrity: sha512-pwDy22nAnGqNR1feOQKHxoFkkUtepoFAd3r2hbEDsnf4wp57kKA36hXsB3njA9FtONBEwSDnDeCiJe+ItD+ykw==}
 
-  prosemirror-transform@1.11.0:
-    resolution: {integrity: sha512-4I7Ce4KpygXb9bkiPS3hTEk4dSHorfRw8uI0pE8IhxlK2GXsqv5tIA7JUSxtSu7u8APVOTtbUBxTmnHIxVkIJw==}
-
   prosemirror-view@1.41.3:
     resolution: {integrity: sha512-SqMiYMUQNNBP9kfPhLO8WXEk/fon47vc52FQsUiJzTBuyjKgEcoAwMyF04eQ4WZ2ArMn7+ReypYL60aKngbACQ==}
-
-  prosemirror-view@1.41.6:
-    resolution: {integrity: sha512-mxpcDG4hNQa/CPtzxjdlir5bJFDlm0/x5nGBbStB2BWX+XOQ9M8ekEG+ojqB5BcVu2Rc80/jssCMZzSstJuSYg==}
 
   punycode.js@2.3.1:
     resolution: {integrity: sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==}
@@ -5558,11 +5448,6 @@ packages:
     peerDependencies:
       react: ^19.2.0
 
-  react-dom@19.2.3:
-    resolution: {integrity: sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==}
-    peerDependencies:
-      react: ^19.2.3
-
   react-dom@19.2.4:
     resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
     peerDependencies:
@@ -5580,10 +5465,6 @@ packages:
 
   react@19.2.0:
     resolution: {integrity: sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==}
-    engines: {node: '>=0.10.0'}
-
-  react@19.2.3:
-    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
     engines: {node: '>=0.10.0'}
 
   react@19.2.4:
@@ -6872,71 +6753,6 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@blockslides/core@0.3.3':
-    dependencies:
-      '@blockslides/pm': 0.1.1
-
-  '@blockslides/extension-bubble-menu-preset@0.3.1(@blockslides/core@0.3.3)(@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.3))(@blockslides/extension-link@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.3))(@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.3))(@blockslides/extensions@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1))(@blockslides/pm@0.1.1)':
-    dependencies:
-      '@blockslides/core': 0.3.3
-      '@blockslides/extension-bubble-menu': 0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)
-      '@blockslides/extension-highlight': 0.1.2(@blockslides/core@0.3.3)
-      '@blockslides/extension-link': 0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)
-      '@blockslides/extension-text-align': 0.1.1(@blockslides/core@0.3.3)
-      '@blockslides/extension-text-style': 0.1.1(@blockslides/core@0.3.3)
-      '@blockslides/extensions': 0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)
-      '@blockslides/pm': 0.1.1
-
-  '@blockslides/extension-bubble-menu@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)':
-    dependencies:
-      '@blockslides/core': 0.3.3
-      '@blockslides/pm': 0.1.1
-      '@floating-ui/dom': 1.7.5
-
-  '@blockslides/extension-highlight@0.1.2(@blockslides/core@0.3.3)':
-    dependencies:
-      '@blockslides/core': 0.3.3
-
-  '@blockslides/extension-link@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)':
-    dependencies:
-      '@blockslides/core': 0.3.3
-      '@blockslides/pm': 0.1.1
-      linkifyjs: 4.3.2
-
-  '@blockslides/extension-text-align@0.1.1(@blockslides/core@0.3.3)':
-    dependencies:
-      '@blockslides/core': 0.3.3
-
-  '@blockslides/extension-text-style@0.1.1(@blockslides/core@0.3.3)':
-    dependencies:
-      '@blockslides/core': 0.3.3
-
-  '@blockslides/extensions@0.1.1(@blockslides/core@0.3.3)(@blockslides/pm@0.1.1)':
-    dependencies:
-      '@blockslides/core': 0.3.3
-      '@blockslides/pm': 0.1.1
-
-  '@blockslides/pm@0.1.1':
-    dependencies:
-      prosemirror-changeset: 2.3.1
-      prosemirror-collab: 1.3.1
-      prosemirror-commands: 1.7.1
-      prosemirror-dropcursor: 1.8.2
-      prosemirror-gapcursor: 1.4.0
-      prosemirror-history: 1.5.0
-      prosemirror-inputrules: 1.5.1
-      prosemirror-keymap: 1.2.3
-      prosemirror-markdown: 1.13.4
-      prosemirror-menu: 1.2.5
-      prosemirror-model: 1.25.4
-      prosemirror-schema-basic: 1.2.4
-      prosemirror-schema-list: 1.5.1
-      prosemirror-state: 1.4.4
-      prosemirror-tables: 1.8.5
-      prosemirror-trailing-node: 3.0.0(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6)
-      prosemirror-transform: 1.11.0
-      prosemirror-view: 1.41.6
-
   '@changesets/apply-release-plan@7.0.14':
     dependencies:
       '@changesets/config': 3.1.2
@@ -7825,6 +7641,7 @@ snapshots:
       '@rushstack/node-core-library': 4.0.2(@types/node@25.0.3)
     transitivePeerDependencies:
       - '@types/node'
+    optional: true
 
   '@microsoft/api-extractor@7.43.0(@types/node@25.0.10)':
     dependencies:
@@ -7861,6 +7678,7 @@ snapshots:
       typescript: 5.4.2
     transitivePeerDependencies:
       - '@types/node'
+    optional: true
 
   '@microsoft/tsdoc-config@0.16.2':
     dependencies:
@@ -8178,6 +7996,7 @@ snapshots:
       z-schema: 5.0.5
     optionalDependencies:
       '@types/node': 25.0.3
+    optional: true
 
   '@rushstack/rig-package@0.5.2':
     dependencies:
@@ -8197,6 +8016,7 @@ snapshots:
       supports-color: 8.1.1
     optionalDependencies:
       '@types/node': 25.0.3
+    optional: true
 
   '@rushstack/ts-command-line@4.19.1(@types/node@25.0.10)':
     dependencies:
@@ -8215,6 +8035,7 @@ snapshots:
       string-argv: 0.3.2
     transitivePeerDependencies:
       - '@types/node'
+    optional: true
 
   '@shikijs/core@2.5.0':
     dependencies:
@@ -8645,11 +8466,6 @@ snapshots:
     dependencies:
       vite: 5.4.21(@types/node@25.0.10)(lightningcss@1.30.2)(terser@5.46.0)
       vue: 3.5.28(typescript@5.9.3)
-
-  '@vitejs/plugin-vue@5.2.4(vite@5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0))(vue@3.5.27(typescript@5.9.3))':
-    dependencies:
-      vite: 5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0)
-      vue: 3.5.27(typescript@5.9.3)
 
   '@vitejs/plugin-vue@6.0.4(vite@7.3.1(@types/node@24.10.11)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.27(typescript@5.9.3))':
     dependencies:
@@ -9207,8 +9023,6 @@ snapshots:
 
   camelcase@6.3.0: {}
 
-  caniuse-lite@1.0.30001763: {}
-
   caniuse-lite@1.0.30001766: {}
 
   caniuse-lite@1.0.30001769: {}
@@ -9643,26 +9457,6 @@ snapshots:
       - eslint-plugin-import-x
       - supports-color
 
-  eslint-config-next@16.1.6(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
-    dependencies:
-      '@next/eslint-plugin-next': 16.1.6
-      eslint: 9.39.2(jiti@2.6.1)
-      eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-react: 7.37.5(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.2(jiti@2.6.1))
-      globals: 16.4.0
-      typescript-eslint: 8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-    optionalDependencies:
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - '@typescript-eslint/parser'
-      - eslint-import-resolver-webpack
-      - eslint-plugin-import-x
-      - supports-color
-
   eslint-import-resolver-node@0.3.9:
     dependencies:
       debug: 3.2.7
@@ -9686,21 +9480,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.6.1)):
-    dependencies:
-      '@nolyfill/is-core-module': 1.0.39
-      debug: 4.4.3
-      eslint: 9.39.2(jiti@2.6.1)
-      get-tsconfig: 4.13.1
-      is-bun-module: 2.0.0
-      stable-hash: 0.0.5
-      tinyglobby: 0.2.15
-      unrs-resolver: 1.11.1
-    optionalDependencies:
-      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1))
-    transitivePeerDependencies:
-      - supports-color
-
   eslint-module-utils@2.12.1(@typescript-eslint/parser@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       debug: 3.2.7
@@ -9709,16 +9488,6 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))
-    transitivePeerDependencies:
-      - supports-color
-
-  eslint-module-utils@2.12.1(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1)):
-    dependencies:
-      debug: 3.2.7
-    optionalDependencies:
-      eslint: 9.39.2(jiti@2.6.1)
-      eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -9746,33 +9515,6 @@ snapshots:
       tsconfig-paths: 3.15.0
     optionalDependencies:
       '@typescript-eslint/parser': 8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-    transitivePeerDependencies:
-      - eslint-import-resolver-typescript
-      - eslint-import-resolver-webpack
-      - supports-color
-
-  eslint-plugin-import@2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1)):
-    dependencies:
-      '@rtsao/scc': 1.1.0
-      array-includes: 3.1.9
-      array.prototype.findlastindex: 1.2.6
-      array.prototype.flat: 1.3.3
-      array.prototype.flatmap: 1.3.3
-      debug: 3.2.7
-      doctrine: 2.1.0
-      eslint: 9.39.2(jiti@2.6.1)
-      eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.6.1))
-      hasown: 2.0.2
-      is-core-module: 2.16.1
-      is-glob: 4.0.3
-      minimatch: 3.1.2
-      object.fromentries: 2.0.8
-      object.groupby: 1.0.3
-      object.values: 1.2.1
-      semver: 6.3.1
-      string.prototype.trimend: 1.0.9
-      tsconfig-paths: 3.15.0
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -11007,15 +10749,6 @@ snapshots:
       punycode.js: 2.3.1
       uc.micro: 2.1.0
 
-  markdown-it@14.1.1:
-    dependencies:
-      argparse: 2.0.1
-      entities: 4.5.0
-      linkify-it: 5.0.0
-      mdurl: 2.0.0
-      punycode.js: 2.3.1
-      uc.micro: 2.1.0
-
   marked@16.4.1: {}
 
   math-intrinsics@1.1.0: {}
@@ -11123,30 +10856,6 @@ snapshots:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
       styled-jsx: 5.1.6(@babel/core@7.28.4)(react@19.2.4)
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 16.1.6
-      '@next/swc-darwin-x64': 16.1.6
-      '@next/swc-linux-arm64-gnu': 16.1.6
-      '@next/swc-linux-arm64-musl': 16.1.6
-      '@next/swc-linux-x64-gnu': 16.1.6
-      '@next/swc-linux-x64-musl': 16.1.6
-      '@next/swc-win32-arm64-msvc': 16.1.6
-      '@next/swc-win32-x64-msvc': 16.1.6
-      sharp: 0.34.5
-    transitivePeerDependencies:
-      - '@babel/core'
-      - babel-plugin-macros
-
-  next@16.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
-    dependencies:
-      '@next/env': 16.1.6
-      '@swc/helpers': 0.5.15
-      baseline-browser-mapping: 2.9.18
-      caniuse-lite: 1.0.30001766
-      postcss: 8.4.31
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      styled-jsx: 5.1.6(react@19.2.3)
     optionalDependencies:
       '@next/swc-darwin-arm64': 16.1.6
       '@next/swc-darwin-x64': 16.1.6
@@ -11410,22 +11119,10 @@ snapshots:
       prosemirror-view: 1.41.3
       rope-sequence: 1.3.4
 
-  prosemirror-history@1.5.0:
-    dependencies:
-      prosemirror-state: 1.4.4
-      prosemirror-transform: 1.11.0
-      prosemirror-view: 1.41.6
-      rope-sequence: 1.3.4
-
   prosemirror-inputrules@1.5.0:
     dependencies:
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.10.4
-
-  prosemirror-inputrules@1.5.1:
-    dependencies:
-      prosemirror-state: 1.4.4
-      prosemirror-transform: 1.11.0
 
   prosemirror-keymap@1.2.3:
     dependencies:
@@ -11438,12 +11135,6 @@ snapshots:
       markdown-it: 14.1.0
       prosemirror-model: 1.25.3
 
-  prosemirror-markdown@1.13.4:
-    dependencies:
-      '@types/markdown-it': 14.1.2
-      markdown-it: 14.1.1
-      prosemirror-model: 1.25.4
-
   prosemirror-menu@1.2.5:
     dependencies:
       crelt: 1.0.6
@@ -11452,10 +11143,6 @@ snapshots:
       prosemirror-state: 1.4.3
 
   prosemirror-model@1.25.3:
-    dependencies:
-      orderedmap: 2.1.1
-
-  prosemirror-model@1.25.4:
     dependencies:
       orderedmap: 2.1.1
 
@@ -11475,12 +11162,6 @@ snapshots:
       prosemirror-transform: 1.10.4
       prosemirror-view: 1.41.3
 
-  prosemirror-state@1.4.4:
-    dependencies:
-      prosemirror-model: 1.25.4
-      prosemirror-transform: 1.11.0
-      prosemirror-view: 1.41.6
-
   prosemirror-tables@1.8.1:
     dependencies:
       prosemirror-keymap: 1.2.3
@@ -11488,14 +11169,6 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.10.4
       prosemirror-view: 1.41.3
-
-  prosemirror-tables@1.8.5:
-    dependencies:
-      prosemirror-keymap: 1.2.3
-      prosemirror-model: 1.25.4
-      prosemirror-state: 1.4.4
-      prosemirror-transform: 1.11.0
-      prosemirror-view: 1.41.6
 
   prosemirror-test-builder@1.1.1:
     dependencies:
@@ -11511,33 +11184,15 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.41.3
 
-  prosemirror-trailing-node@3.0.0(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.6):
-    dependencies:
-      '@remirror/core-constants': 3.0.0
-      escape-string-regexp: 4.0.0
-      prosemirror-model: 1.25.4
-      prosemirror-state: 1.4.4
-      prosemirror-view: 1.41.6
-
   prosemirror-transform@1.10.4:
     dependencies:
       prosemirror-model: 1.25.3
-
-  prosemirror-transform@1.11.0:
-    dependencies:
-      prosemirror-model: 1.25.4
 
   prosemirror-view@1.41.3:
     dependencies:
       prosemirror-model: 1.25.3
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.10.4
-
-  prosemirror-view@1.41.6:
-    dependencies:
-      prosemirror-model: 1.25.4
-      prosemirror-state: 1.4.4
-      prosemirror-transform: 1.11.0
 
   punycode.js@2.3.1: {}
 
@@ -11560,11 +11215,6 @@ snapshots:
       react: 19.2.0
       scheduler: 0.27.0
 
-  react-dom@19.2.3(react@19.2.3):
-    dependencies:
-      react: 19.2.3
-      scheduler: 0.27.0
-
   react-dom@19.2.4(react@19.2.4):
     dependencies:
       react: 19.2.4
@@ -11579,8 +11229,6 @@ snapshots:
       loose-envify: 1.4.0
 
   react@19.2.0: {}
-
-  react@19.2.3: {}
 
   react@19.2.4: {}
 
@@ -12043,11 +11691,6 @@ snapshots:
     optionalDependencies:
       '@babel/core': 7.28.4
 
-  styled-jsx@5.1.6(react@19.2.3):
-    dependencies:
-      client-only: 0.0.1
-      react: 19.2.3
-
   sucrase@3.35.0:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
@@ -12466,23 +12109,6 @@ snapshots:
       - rollup
       - supports-color
 
-  vite-plugin-dts@3.9.1(@types/node@25.0.3)(rollup@4.57.1)(typescript@5.9.3)(vite@5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0)):
-    dependencies:
-      '@microsoft/api-extractor': 7.43.0(@types/node@25.0.3)
-      '@rollup/pluginutils': 5.3.0(rollup@4.57.1)
-      '@vue/language-core': 1.8.27(typescript@5.9.3)
-      debug: 4.4.3
-      kolorist: 1.8.0
-      magic-string: 0.30.21
-      typescript: 5.9.3
-      vue-tsc: 1.8.27(typescript@5.9.3)
-    optionalDependencies:
-      vite: 5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0)
-    transitivePeerDependencies:
-      - '@types/node'
-      - rollup
-      - supports-color
-
   vite@5.4.21(@types/node@25.0.10)(lightningcss@1.30.2)(terser@5.46.0):
     dependencies:
       esbuild: 0.21.5
@@ -12490,17 +12116,6 @@ snapshots:
       rollup: 4.56.0
     optionalDependencies:
       '@types/node': 25.0.10
-      fsevents: 2.3.3
-      lightningcss: 1.30.2
-      terser: 5.46.0
-
-  vite@5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0):
-    dependencies:
-      esbuild: 0.21.5
-      postcss: 8.5.6
-      rollup: 4.56.0
-    optionalDependencies:
-      '@types/node': 25.0.3
       fsevents: 2.3.3
       lightningcss: 1.30.2
       terser: 5.46.0
@@ -12521,7 +12136,7 @@ snapshots:
       terser: 5.46.0
       yaml: 2.8.2
 
-  vitepress@1.6.4(@algolia/client-search@5.47.0)(@types/node@25.0.3)(@types/react@18.3.27)(fuse.js@7.1.0)(lightningcss@1.30.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(terser@5.46.0)(typescript@5.9.3):
+  vitepress@1.6.4(@algolia/client-search@5.47.0)(@types/node@25.0.10)(@types/react@18.3.27)(fuse.js@7.1.0)(lightningcss@1.30.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(terser@5.46.0)(typescript@5.9.3):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.47.0)(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)
@@ -12530,17 +12145,17 @@ snapshots:
       '@shikijs/transformers': 2.5.0
       '@shikijs/types': 2.5.0
       '@types/markdown-it': 14.1.2
-      '@vitejs/plugin-vue': 5.2.4(vite@5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0))(vue@3.5.27(typescript@5.9.3))
+      '@vitejs/plugin-vue': 5.2.4(vite@5.4.21(@types/node@25.0.10)(lightningcss@1.30.2)(terser@5.46.0))(vue@3.5.28(typescript@5.9.3))
       '@vue/devtools-api': 7.7.9
-      '@vue/shared': 3.5.27
+      '@vue/shared': 3.5.28
       '@vueuse/core': 12.8.2(typescript@5.9.3)
       '@vueuse/integrations': 12.8.2(focus-trap@7.8.0)(fuse.js@7.1.0)(typescript@5.9.3)
       focus-trap: 7.8.0
       mark.js: 8.11.1
       minisearch: 7.2.0
       shiki: 2.5.0
-      vite: 5.4.21(@types/node@25.0.3)(lightningcss@1.30.2)(terser@5.46.0)
-      vue: 3.5.27(typescript@5.9.3)
+      vite: 5.4.21(@types/node@25.0.10)(lightningcss@1.30.2)(terser@5.46.0)
+      vue: 3.5.28(typescript@5.9.3)
     optionalDependencies:
       postcss: 8.5.6
     transitivePeerDependencies:

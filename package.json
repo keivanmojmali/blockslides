@@ -7,25 +7,16 @@
     "build": "pnpm --filter '@blockslides/*' --recursive run build",
     "dev": "pnpm --filter '@blockslides/*' --recursive run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:dev": "pnpm --filter blockslides-docs run dev",
+    "docs:build": "pnpm build && pnpm --filter blockslides-docs run build",
+    "docs:preview": "pnpm --filter blockslides-docs run preview"
   },
   "author": "keivanmojmali",
   "license": "ISC",
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
     "@types/node": "^25.0.3",
-    "@vitejs/plugin-vue": "^5.0.0",
     "tsup": "^8.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^5.0.0",
-    "vite-plugin-dts": "^3.0.0",
-    "vitepress": "^1.6.4",
-    "vue": "^3.5.27"
-  },
-  "dependencies": {
-    "@blockslides/extension-bubble-menu-preset": "^0.3.0",
-    "caniuse-lite": "^1.0.30001763"
+    "typescript": "^5.0.0"
   }
 }
