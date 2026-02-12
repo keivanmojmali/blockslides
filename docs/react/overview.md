@@ -4,31 +4,51 @@ The `@blockslides/react` package provides React bindings for Blockslides, wrappi
 
 ## Installation
 
+For most slide editor use cases, install the prebuilts package:
+
+```bash
+npm install @blockslides/react-prebuilts @blockslides/core @blockslides/pm
+```
+
+For building custom editors from scratch, install the core React package:
+
 ```bash
 npm install @blockslides/react @blockslides/core @blockslides/pm
 ```
 
-The package requires React 17+ as a peer dependency.
+All packages require React 17+ as a peer dependency.
+
+## Package Structure
+
+Blockslides React support is split into two packages:
+
+**@blockslides/react** - Core primitives for building custom editors
+- Low-level hooks (`useEditor`, `useEditorState`)
+- React renderers and node view components
+- Context providers
+- Re-exports all of `@blockslides/core`
+
+**@blockslides/react-prebuilts** - Ready-to-use slide editor components
+- `ReactSlideEditor` - Complete editor component
+- `useSlideEditor` - Slide editor hook with ExtensionKit
+- Menu components (`BubbleMenu`, `FloatingMenu`, `BubbleMenuPreset`)
+- Re-exports everything from `@blockslides/react`
+
+Most users building slide editors should install `@blockslides/react-prebuilts`. Use `@blockslides/react` directly only if building a completely custom editor from scratch.
 
 ## What's included
 
-### Components
+### From @blockslides/react
 
-**ReactSlideEditor** - Drop-in component that bundles editor rendering, viewport scaling, and optional bubble menu preset. Handles instantiation, lifecycle, and common UI patterns.
+**Core Components:**
 
 **EditorContent** - Renders the ProseMirror editor view and manages node view portals. Required for all editor implementations.
 
 **EditorProvider** - Context provider for sharing editor state across component trees.
 
-**BubbleMenu & FloatingMenu** - Positioning components for contextual menus.
-
-**BubbleMenuPreset** - Pre-built bubble menu with formatting controls.
-
 **NodeViewWrapper & NodeViewContent** - Components for building custom React node views.
 
-### Hooks
-
-**useSlideEditor** - Creates and configures a slide editor with ExtensionKit. Returns editor instance and preset templates.
+**Core Hooks:**
 
 **useEditor** - Lower-level hook for editor instantiation. Use when you need full control over extensions.
 
@@ -38,11 +58,29 @@ The package requires React 17+ as a peer dependency.
 
 **useReactNodeView** - Access node view context (drag handlers, content refs) in custom node views.
 
-### Renderers
+**Renderers:**
 
 **ReactNodeViewRenderer** - Function that creates React-based node views for custom block rendering.
 
 **ReactRenderer** - Low-level component renderer used internally by node views.
+
+### From @blockslides/react-prebuilts
+
+**Pre-built Components:**
+
+**ReactSlideEditor** - Drop-in component that bundles editor rendering, viewport scaling, and optional bubble menu preset. Handles instantiation, lifecycle, and common UI patterns.
+
+**BubbleMenuPreset** - Pre-built bubble menu with formatting controls.
+
+**BubbleMenu & FloatingMenu** - Positioning components for contextual menus.
+
+**Slide Editor Hook:**
+
+**useSlideEditor** - Creates and configures a slide editor with ExtensionKit. Returns editor instance and preset templates.
+
+::: tip
+Since `@blockslides/react-prebuilts` re-exports everything from `@blockslides/react`, you can import any component or hook from either package when using the prebuilts package.
+:::
 
 ## Architecture
 

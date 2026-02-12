@@ -1,45 +1,46 @@
 <script setup lang="ts">
-// Placeholder component for the hero slide editor
-// We'll add the actual SlideEditor component later
+import { SlideEditor } from '@blockslides/vue-3-prebuilts'
 </script>
 
 <template>
-  <div class="hero-editor-placeholder">
-    <div class="placeholder-content">
-      <p>Slide Editor Previeddw</p>
-      <p class="placeholder-text">(Coming soon)</p>
-    </div>
+  <div class="hero-editor-wrapper">
+    <SlideEditor 
+      class="hero-slide-editor"
+    />
   </div>
 </template>
 
 <style scoped>
-.hero-editor-placeholder {
+.hero-editor-wrapper {
   width: 100%;
-  max-width: 600px;
-  aspect-ratio: 16 / 9;
+  max-width: 800px;
+  height: 80vh;
+  max-height: 800px;
+}
+
+.hero-slide-editor {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Make the editor look nice in the hero section */
+.hero-slide-editor :deep(.bs-viewport) {
+  height: 100%;
+  background: transparent;
+  padding: 0;
+}
+
+.hero-slide-editor :deep(.ProseMirror) {
+  height: 100%;
+  outline: none;
+}
+
+/* Style the slide in the editor */
+.hero-slide-editor :deep(.bs-slide) {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.placeholder-content {
-  text-align: center;
-  color: #cef79f;
-}
-
-.placeholder-content p {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.placeholder-text {
-  font-size: 1rem !important;
-  opacity: 0.7;
-  margin-top: 8px !important;
+  margin: 0 auto;
 }
 </style>
