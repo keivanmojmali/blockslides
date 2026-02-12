@@ -5,7 +5,11 @@ The React package provides components for building slide editors with full contr
 ## Installation
 
 ```bash
-npm install @blockslides/react @blockslides/core
+# For pre-built components (includes everything from @blockslides/react)
+pnpm install @blockslides/react-prebuilts @blockslides/core @blockslides/pm
+
+# Or for core React bindings only
+pnpm install @blockslides/react @blockslides/core @blockslides/pm
 ```
 
 ## ReactSlideEditor
@@ -340,7 +344,7 @@ The bubble menu uses Floating UI for positioning. Configure via the `options` pr
 A lower-level bubble menu component for building custom menus. Provides positioning and visibility logic without built-in controls.
 
 ```tsx
-import { BubbleMenu } from '@blockslides/react/menus'
+import { BubbleMenu } from '@blockslides/react-prebuilts/menus'
 import { EditorContent, useSlideEditor } from '@blockslides/react-prebuilts'
 
 function MyEditor() {
@@ -419,7 +423,7 @@ Floating UI positioning options.
 A menu that appears on empty lines, useful for inserting new content blocks.
 
 ```tsx
-import { FloatingMenu } from '@blockslides/react/menus'
+import { FloatingMenu } from '@blockslides/react-prebuilts/menus'
 import { EditorContent, useSlideEditor } from '@blockslides/react-prebuilts'
 
 function MyEditor() {
