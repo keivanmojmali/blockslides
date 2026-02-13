@@ -107,22 +107,15 @@
   font-size: 14px;
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - hidden */
 .slash-menu::-webkit-scrollbar {
-  width: 6px;
+  width: 0;
+  height: 0;
 }
 
-.slash-menu::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.slash-menu::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
-}
-
-.slash-menu::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+.slash-menu {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 /* Dark mode support */
