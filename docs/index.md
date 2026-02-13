@@ -8,13 +8,13 @@ next: false
 
 <div style="height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 24px;">
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; max-width: 1400px; height: 100%;">
+<div style="display: grid; grid-template-columns: 1fr; gap: 60px; align-items: start; width: 100%; max-width: 1400px; height: 100%; padding-top:20px">
 
-<div>
+<div style="max-width: 900px; margin: 0 auto;">
 
-<h1 style="font-size: 72px; font-weight: 700; line-height: 1.1; margin: 0 0 32px 0;">WYSIWYG slide deck editor toolkit</h1>
+<h1 style="font-size: clamp(40px, 6vw, 72px); font-weight: 700; line-height: 1.1; margin: 0 0 32px 0; word-wrap: break-word; overflow-wrap: break-word;">WYSIWYG slide deck editor toolkit</h1>
 
-<p style="font-size: 28px; line-height: 1.6; margin: 0 0 32px 0; color: var(--vp-c-text-1);">
+<p style="font-size: clamp(18px, 2.5vw, 28px); line-height: 1.6; margin: 0 0 32px 0; color: var(--vp-c-text-1); word-wrap: break-word; overflow-wrap: break-word;">
 The fastest way to add an <span class="hero-highlight">in-app presentation editor.</span> Compose slides with blocks and layouts, then render/export anywhere.<br/><span class="hero-highlight">Try the one component drop-in</span>
 </p>
 
@@ -25,9 +25,10 @@ The fastest way to add an <span class="hero-highlight">in-app presentation edito
 
 </div>
 
-<div style="height: 100%; display: flex; align-items: center;">
+<!-- Temporarily commented out - needs layout/overflow fixes -->
+<!-- <div style="height: 100%; display: flex; align-items: center;">
 <HeroSlideEditor />
-</div>
+</div> -->
 
 </div>
 
@@ -72,17 +73,12 @@ The fastest way to add an <span class="hero-highlight">in-app presentation edito
 }
 
 @media (max-width: 960px) {
-  div[style*="grid-template-columns"] {
-    grid-template-columns: 1fr !important;
-    gap: 40px !important;
-  }
-  
   h1 {
-    font-size: 48px !important;
+    font-size: clamp(32px, 8vw, 48px) !important;
   }
   
   p {
-    font-size: 20px !important;
+    font-size: clamp(16px, 3vw, 20px) !important;
   }
 }
 </style>
