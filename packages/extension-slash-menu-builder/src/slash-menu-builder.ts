@@ -1,6 +1,6 @@
 import { Extension } from '@blockslides/core'
 import type { Editor } from '@blockslides/core'
-import Suggestion from '@blockslides/extension-suggestion'
+import Suggestion, { exitSuggestion } from '@blockslides/extension-suggestion'
 import type { SuggestionProps } from '@blockslides/extension-suggestion'
 import { PluginKey } from '@blockslides/pm/state'
 
@@ -55,6 +55,7 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
 
   addProseMirrorPlugins() {
     const editor = this.editor as Editor
+    const pluginKey = new PluginKey('slashMenuBuilder')
 
     // Helper function to update popup position
     const updatePopupPosition = (props: SuggestionProps<SlashMenuItem>, popup: HTMLElement) => {
@@ -83,7 +84,7 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
       Suggestion<SlashMenuItem>({
         editor,
         char: '/',
-        pluginKey: new PluginKey('slashMenuBuilder'),
+        pluginKey,
 
         // Allow suggestions to show (let Suggestion handle the defaults)
         // Don't filter by uiEvent since it's not reliably set
@@ -117,6 +118,9 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
 
                   item.command(context)
                 }
+
+                // Close the menu after executing the command
+                exitSuggestion(props.editor.view, pluginKey)
               }
 
               // Create renderer
