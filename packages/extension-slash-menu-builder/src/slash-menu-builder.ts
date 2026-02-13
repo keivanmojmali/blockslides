@@ -97,22 +97,28 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
         render: () => {
           let renderer: SlashMenuRenderer | null = null
           let popup: HTMLElement | null = null
+          let currentProps: SuggestionProps<SlashMenuItem> | null = null
 
           return {
             onStart: (props: SuggestionProps<SlashMenuItem>) => {
               console.log('✅ Slash menu started!', { query: props.query })
 
+              // Store the current props
+              currentProps = props
+
               // Create the command handler
               const handleSelect = (item: SlashMenuItem) => {
-                console.log('📌 Item selected:', item.key)
+
+                // Use the latest props, not the captured ones
+                if (!currentProps) return
 
                 // Execute the command if provided
                 if (item.command) {
                   try {
                     const context: SlashCommandContext = {
-                      editor: props.editor,
-                      range: props.range,
-                      query: props.query,
+                      editor: currentProps.editor,
+                      range: currentProps.range,
+                      query: currentProps.query,
                     }
 
                     item.command(context)
@@ -122,7 +128,7 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
                 }
 
                 // Always close the menu, even if command failed
-                exitSuggestion(props.editor.view, pluginKey)
+                exitSuggestion(currentProps.editor.view, pluginKey)
               }
 
               // Create renderer
@@ -150,6 +156,9 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
 
             onUpdate: (props: SuggestionProps<SlashMenuItem>) => {
               console.log('🔄 Slash menu updated!', { query: props.query, items: props.items.length })
+
+              // Update to the latest props
+              currentProps = props
 
               if (renderer) {
                 renderer.updateItems(props.items)
