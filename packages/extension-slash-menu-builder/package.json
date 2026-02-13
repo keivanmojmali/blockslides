@@ -1,0 +1,54 @@
+{
+  "name": "@blockslides/extension-slash-menu-builder",
+  "description": "A framework for building custom slash command menus in blockslides",
+  "version": "0.1.0",
+  "homepage": "https://github.com/keivanmojmali/blockslides",
+  "keywords": [
+    "blockslides",
+    "blockslides extension",
+    "slash menu",
+    "slash commands",
+    "command palette"
+  ],
+  "author": "keivanmojmali",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "devDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/extension-suggestion": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "peerDependencies": {
+    "@blockslides/core": "workspace:^",
+    "@blockslides/extension-suggestion": "workspace:^",
+    "@blockslides/pm": "workspace:^"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keivanmojmali/blockslides",
+    "directory": "packages/extension-slash-menu-builder"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "lint": "prettier ./src/ --check && eslint --cache --quiet --no-error-on-unmatched-pattern ./src/"
+  }
+}

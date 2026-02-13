@@ -32,6 +32,9 @@ importers:
       '@blockslides/extension-kit':
         specifier: workspace:*
         version: link:../packages/extension-kit
+      '@blockslides/extension-slash-menu-builder':
+        specifier: workspace:*
+        version: link:../packages/extension-slash-menu-builder
       '@blockslides/extension-slide':
         specifier: workspace:*
         version: link:../packages/extension-slide
@@ -703,6 +706,18 @@ importers:
       '@blockslides/core':
         specifier: workspace:^
         version: link:../core
+      '@blockslides/pm':
+        specifier: workspace:^
+        version: link:../pm
+
+  packages/extension-slash-menu-builder:
+    devDependencies:
+      '@blockslides/core':
+        specifier: workspace:^
+        version: link:../core
+      '@blockslides/extension-suggestion':
+        specifier: workspace:^
+        version: link:../extension-suggestion
       '@blockslides/pm':
         specifier: workspace:^
         version: link:../pm
