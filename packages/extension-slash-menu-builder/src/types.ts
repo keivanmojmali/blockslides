@@ -1,22 +1,6 @@
 import type { Editor, Range } from '@blockslides/core'
 
 /**
- * Helper commands that make it easy to insert/replace content
- * Phase 1: These will console.log
- * Phase 2: These will actually execute the commands
- */
-export interface SlashCommands {
-  replaceWithHeading: (level: 1 | 2 | 3 | 4 | 5 | 6) => void
-  replaceWithBulletList: () => void
-  replaceWithNumberedList: () => void
-  replaceWithParagraph: () => void
-  replaceWithImage: (src?: string) => void
-  replaceWithTable: (rows?: number, cols?: number) => void
-  insertBlock: (type: string, attrs?: Record<string, any>) => void
-  deleteSlashRange: () => void
-}
-
-/**
  * Context provided to command functions when an item is selected
  */
 export interface SlashCommandContext {
@@ -24,8 +8,6 @@ export interface SlashCommandContext {
   editor: Editor
   /** The range of the slash trigger (from "/" to current position) */
   range: Range
-  /** Helper commands for common operations */
-  commands: SlashCommands
   /** The query string (text after the "/") */
   query: string
 }

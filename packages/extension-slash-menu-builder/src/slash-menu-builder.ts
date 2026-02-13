@@ -4,7 +4,6 @@ import Suggestion, { exitSuggestion } from '@blockslides/extension-suggestion'
 import type { SuggestionProps } from '@blockslides/extension-suggestion'
 import { PluginKey } from '@blockslides/pm/state'
 
-import { createSlashCommands } from './commands.js'
 import { filterItems } from './filter.js'
 import { SlashMenuRenderer } from './menu-renderer.js'
 import type { SlashMenuBuilderOptions, SlashMenuItem, SlashCommandContext } from './types.js'
@@ -107,19 +106,22 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
               const handleSelect = (item: SlashMenuItem) => {
                 console.log('📌 Item selected:', item.key)
 
+                // Execute the command if provided
                 if (item.command) {
-                  const commands = createSlashCommands(props.editor, props.range)
-                  const context: SlashCommandContext = {
-                    editor: props.editor,
-                    range: props.range,
-                    commands,
-                    query: props.query,
-                  }
+                  try {
+                    const context: SlashCommandContext = {
+                      editor: props.editor,
+                      range: props.range,
+                      query: props.query,
+                    }
 
-                  item.command(context)
+                    item.command(context)
+                  } catch (error) {
+                    console.error('❌ Slash command failed:', item.key, error)
+                  }
                 }
 
-                // Close the menu after executing the command
+                // Always close the menu, even if command failed
                 exitSuggestion(props.editor.view, pluginKey)
               }
 
