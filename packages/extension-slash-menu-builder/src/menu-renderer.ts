@@ -143,15 +143,18 @@ export class SlashMenuRenderer {
 
     itemElement.appendChild(content)
 
-    // Click handler
-    itemElement.addEventListener('click', () => {
+    // Use mousedown instead of click for immediate feedback and to prevent
+    // the editor from handling the event (moving cursor, selecting text, etc.)
+    itemElement.addEventListener('mousedown', (e) => {
+      e.preventDefault() // Prevent default mousedown behavior (text selection, cursor movement)
+      e.stopPropagation() // Stop event from bubbling to ProseMirror
       this.onSelect(item)
     })
 
-    // Hover handler
+    // Hover handler - update selection without re-rendering
     itemElement.addEventListener('mouseenter', () => {
       this.selectedIndex = globalIndex
-      this.render()
+      this.updateSelection()
     })
 
     container.appendChild(itemElement)
@@ -168,11 +171,27 @@ export class SlashMenuRenderer {
   }
 
   /**
+   * Updates the selected class on items without re-rendering
+   */
+  private updateSelection() {
+    const allItems = this.element.querySelectorAll('.slash-menu-item')
+    allItems.forEach((el) => {
+      const itemKey = (el as HTMLElement).dataset.key
+      const itemIndex = this.selectableItems.findIndex(item => item.key === itemKey)
+      if (itemIndex === this.selectedIndex) {
+        el.classList.add('selected')
+      } else {
+        el.classList.remove('selected')
+      }
+    })
+  }
+
+  /**
    * Moves selection up
    */
   selectPrevious() {
     this.selectedIndex = Math.max(0, this.selectedIndex - 1)
-    this.render()
+    this.updateSelection()
     this.scrollToSelected()
   }
 
@@ -181,7 +200,7 @@ export class SlashMenuRenderer {
    */
   selectNext() {
     this.selectedIndex = Math.min(this.selectableItems.length - 1, this.selectedIndex + 1)
-    this.render()
+    this.updateSelection()
     this.scrollToSelected()
   }
 
