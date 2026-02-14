@@ -6,17 +6,48 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 8px;
   max-height: 400px;
-  overflow-y: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   min-width: 280px;
   max-width: 320px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   z-index: 1000;
 }
 
+.slash-menu-search {
+  padding: 4px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.slash-menu-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.slash-menu-search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.slash-menu-search-input::placeholder {
+  color: #9ca3af;
+}
+
 .slash-menu-items {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 4px;
 }
 
 .slash-menu-item {
@@ -107,15 +138,22 @@
   font-size: 14px;
 }
 
-/* Scrollbar styling - hidden */
-.slash-menu::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+/* Scrollbar styling */
+.slash-menu-items::-webkit-scrollbar {
+  width: 6px;
 }
 
-.slash-menu {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+.slash-menu-items::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.slash-menu-items::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.slash-menu-items::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* Dark mode support */
@@ -123,6 +161,32 @@
   .slash-menu {
     background: #1f2937;
     border-color: #374151;
+  }
+
+  .slash-menu-search {
+    border-bottom-color: #374151;
+  }
+
+  .slash-menu-search-input {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+
+  .slash-menu-search-input:focus {
+    border-color: #3b82f6;
+  }
+
+  .slash-menu-search-input::placeholder {
+    color: #6b7280;
+  }
+
+  .slash-menu-items::-webkit-scrollbar-thumb {
+    background: #4b5563;
+  }
+
+  .slash-menu-items::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
   }
 
   .slash-menu-item:hover,
