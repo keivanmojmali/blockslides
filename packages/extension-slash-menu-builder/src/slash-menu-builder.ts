@@ -42,6 +42,7 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
       maxHeight: 400,
       filterKeys: ['label', 'description', 'keywords'],
       placeholder: 'No commands found',
+      searchPlaceholder: 'Search commands...',
       className: '',
     }
   },
@@ -136,6 +137,7 @@ export const SlashMenuBuilder = Extension.create<SlashMenuBuilderOptions, SlashM
                 maxHeight: this.options.maxHeight,
                 className: this.options.className,
                 placeholder: this.options.placeholder,
+                searchPlaceholder: this.options.searchPlaceholder,
               })
 
               renderer.render()
