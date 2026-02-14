@@ -46,6 +46,8 @@ export interface SlashMenuBuilderOptions {
   filterKeys?: Array<'label' | 'description' | 'keywords'>
   /** Placeholder text for empty state */
   placeholder?: string
+  /** Placeholder text for search input */
+  searchPlaceholder?: string
   /** Custom CSS class for the menu container */
   className?: string
 }
