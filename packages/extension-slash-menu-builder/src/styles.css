@@ -1,61 +1,153 @@
-/* Slash Menu Styles */
+/**
+ * Slash Menu Styles
+ * 
+ * Customizable CSS Variables:
+ * 
+ * Menu Container:
+ *   --slash-menu-bg                    Background color (default: white)
+ *   --slash-menu-border-width          Border width (default: 1px)
+ *   --slash-menu-border-color          Border color (default: #e5e7eb)
+ *   --slash-menu-radius                Border radius (default: 8px)
+ *   --slash-menu-shadow                Box shadow (default: 0 4px 6px...)
+ *   --slash-menu-padding               Padding (default: 8px)
+ *   --slash-menu-max-height            Max height (default: 400px)
+ *   --slash-menu-min-width             Min width (default: 280px)
+ *   --slash-menu-max-width             Max width (default: 320px)
+ *   --slash-menu-font-family           Font family (default: system fonts)
+ *   --slash-menu-z-index               Z-index (default: 1000)
+ * 
+ * Search Input:
+ *   --slash-menu-search-padding        Search container padding (default: 4px)
+ *   --slash-menu-search-margin-bottom  Search margin bottom (default: 8px)
+ *   --slash-menu-search-border-width   Search border width (default: 1px)
+ *   --slash-menu-search-border-color   Search border color (default: #e5e7eb)
+ *   --slash-menu-input-padding         Input padding (default: 8px 12px)
+ *   --slash-menu-input-border-width    Input border width (default: 1px)
+ *   --slash-menu-input-border-color    Input border color (default: #e5e7eb)
+ *   --slash-menu-input-radius          Input border radius (default: 6px)
+ *   --slash-menu-input-font-size       Input font size (default: 14px)
+ *   --slash-menu-input-bg              Input background (default: transparent)
+ *   --slash-menu-input-text-color      Input text color (default: inherit)
+ *   --slash-menu-input-focus-border-color  Focus border color (default: #3b82f6)
+ *   --slash-menu-input-focus-shadow    Focus shadow (default: 0 0 0 3px...)
+ *   --slash-menu-input-placeholder-color  Placeholder color (default: #9ca3af)
+ * 
+ * Menu Items:
+ *   --slash-menu-items-gap             Gap between items (default: 2px)
+ *   --slash-menu-items-padding-right   Items container padding right (default: 4px)
+ *   --slash-menu-item-gap              Gap within item (default: 12px)
+ *   --slash-menu-item-padding          Item padding (default: 8px 12px)
+ *   --slash-menu-item-radius           Item border radius (default: 6px)
+ *   --slash-menu-item-hover-bg         Hover/selected background (default: #f3f4f6)
+ *   --slash-menu-item-nested-padding-left  Nested item left padding (default: 24px)
+ * 
+ * Item Icons:
+ *   --slash-menu-icon-size             Icon width/height (default: 32px)
+ *   --slash-menu-icon-bg               Icon background (default: #f9fafb)
+ *   --slash-menu-icon-border-width     Icon border width (default: 1px)
+ *   --slash-menu-icon-border-color     Icon border color (default: #e5e7eb)
+ *   --slash-menu-icon-radius           Icon border radius (default: 4px)
+ *   --slash-menu-icon-font-size        Icon font size (default: 14px)
+ *   --slash-menu-icon-font-weight      Icon font weight (default: 600)
+ *   --slash-menu-icon-color            Icon color (default: #374151)
+ * 
+ * Item Text:
+ *   --slash-menu-item-content-gap      Gap in item content (default: 2px)
+ *   --slash-menu-item-label-font-size  Label font size (default: 14px)
+ *   --slash-menu-item-label-font-weight  Label font weight (default: 500)
+ *   --slash-menu-item-label-color      Label color (default: #111827)
+ *   --slash-menu-item-description-font-size  Description font size (default: 12px)
+ *   --slash-menu-item-description-color  Description color (default: #6b7280)
+ * 
+ * Groups:
+ *   --slash-menu-group-margin-top      Group top margin (default: 8px)
+ *   --slash-menu-group-margin-bottom   Group bottom margin (default: 8px)
+ *   --slash-menu-group-header-font-size  Header font size (default: 11px)
+ *   --slash-menu-group-header-font-weight  Header font weight (default: 600)
+ *   --slash-menu-group-header-color    Header color (default: #9ca3af)
+ *   --slash-menu-group-header-padding  Header padding (default: 4px 12px)
+ *   --slash-menu-group-header-margin-bottom  Header margin bottom (default: 4px)
+ *   --slash-menu-group-items-gap       Gap between group items (default: 2px)
+ * 
+ * Empty State:
+ *   --slash-menu-empty-padding         Empty state padding (default: 24px)
+ *   --slash-menu-empty-color           Empty state color (default: #9ca3af)
+ *   --slash-menu-empty-font-size       Empty state font size (default: 14px)
+ * 
+ * Scrollbar:
+ *   --slash-menu-scrollbar-width       Scrollbar width (default: 6px)
+ *   --slash-menu-scrollbar-track-bg    Scrollbar track background (default: transparent)
+ *   --slash-menu-scrollbar-thumb-bg    Scrollbar thumb background (default: #d1d5db)
+ *   --slash-menu-scrollbar-thumb-radius  Scrollbar thumb radius (default: 3px)
+ *   --slash-menu-scrollbar-thumb-hover-bg  Scrollbar thumb hover background (default: #9ca3af)
+ * 
+ * Example usage:
+ * .slash-menu {
+ *   --slash-menu-bg: #1a1a1a;
+ *   --slash-menu-border-color: #333;
+ *   --slash-menu-radius: 12px;
+ * }
+ */
+
 .slash-menu {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  padding: 8px;
-  max-height: 400px;
+  background: var(--slash-menu-bg, white);
+  border: var(--slash-menu-border-width, 1px) solid var(--slash-menu-border-color, #e5e7eb);
+  border-radius: var(--slash-menu-radius, 8px);
+  box-shadow: var(--slash-menu-shadow, 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06));
+  padding: var(--slash-menu-padding, 8px);
+  max-height: var(--slash-menu-max-height, 400px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-width: 280px;
-  max-width: 320px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  z-index: 1000;
+  min-width: var(--slash-menu-min-width, 280px);
+  max-width: var(--slash-menu-max-width, 320px);
+  font-family: var(--slash-menu-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif);
+  z-index: var(--slash-menu-z-index, 1000);
 }
 
 .slash-menu-search {
-  padding: 4px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: var(--slash-menu-search-padding, 4px);
+  margin-bottom: var(--slash-menu-search-margin-bottom, 8px);
+  border-bottom: var(--slash-menu-search-border-width, 1px) solid var(--slash-menu-search-border-color, #e5e7eb);
 }
 
 .slash-menu-search-input {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: var(--slash-menu-input-padding, 8px 12px);
+  border: var(--slash-menu-input-border-width, 1px) solid var(--slash-menu-input-border-color, #e5e7eb);
+  border-radius: var(--slash-menu-input-radius, 6px);
+  font-size: var(--slash-menu-input-font-size, 14px);
   font-family: inherit;
+  background: var(--slash-menu-input-bg, transparent);
+  color: var(--slash-menu-input-text-color, inherit);
   outline: none;
   transition: border-color 0.15s ease;
 }
 
 .slash-menu-search-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--slash-menu-input-focus-border-color, #3b82f6);
+  box-shadow: var(--slash-menu-input-focus-shadow, 0 0 0 3px rgba(59, 130, 246, 0.1));
 }
 
 .slash-menu-search-input::placeholder {
-  color: #9ca3af;
+  color: var(--slash-menu-input-placeholder-color, #9ca3af);
 }
 
 .slash-menu-items {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--slash-menu-items-gap, 2px);
   overflow-y: auto;
   flex: 1;
-  padding-right: 4px;
+  padding-right: var(--slash-menu-items-padding-right, 4px);
 }
 
 .slash-menu-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: 6px;
+  gap: var(--slash-menu-item-gap, 12px);
+  padding: var(--slash-menu-item-padding, 8px 12px);
+  border-radius: var(--slash-menu-item-radius, 6px);
   cursor: pointer;
   transition: background-color 0.15s ease;
   user-select: none;
@@ -63,52 +155,52 @@
 
 .slash-menu-item:hover,
 .slash-menu-item.selected {
-  background-color: #f3f4f6;
+  background-color: var(--slash-menu-item-hover-bg, #f3f4f6);
 }
 
 .slash-menu-item.nested {
-  padding-left: 24px;
+  padding-left: var(--slash-menu-item-nested-padding-left, 24px);
 }
 
 .slash-menu-item-icon {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: var(--slash-menu-icon-size, 32px);
+  height: var(--slash-menu-icon-size, 32px);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
+  background-color: var(--slash-menu-icon-bg, #f9fafb);
+  border: var(--slash-menu-icon-border-width, 1px) solid var(--slash-menu-icon-border-color, #e5e7eb);
+  border-radius: var(--slash-menu-icon-radius, 4px);
+  font-size: var(--slash-menu-icon-font-size, 14px);
+  font-weight: var(--slash-menu-icon-font-weight, 600);
+  color: var(--slash-menu-icon-color, #374151);
 }
 
 .slash-menu-item-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--slash-menu-item-content-gap, 2px);
   min-width: 0;
 }
 
 .slash-menu-item-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #111827;
+  font-size: var(--slash-menu-item-label-font-size, 14px);
+  font-weight: var(--slash-menu-item-label-font-weight, 500);
+  color: var(--slash-menu-item-label-color, #111827);
   line-height: 1.4;
 }
 
 .slash-menu-item-description {
-  font-size: 12px;
-  color: #6b7280;
+  font-size: var(--slash-menu-item-description-font-size, 12px);
+  color: var(--slash-menu-item-description-color, #6b7280);
   line-height: 1.4;
 }
 
 .slash-menu-group {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: var(--slash-menu-group-margin-top, 8px);
+  margin-bottom: var(--slash-menu-group-margin-bottom, 8px);
 }
 
 .slash-menu-group:first-child {
@@ -116,103 +208,93 @@
 }
 
 .slash-menu-group-header {
-  font-size: 11px;
-  font-weight: 600;
-  color: #9ca3af;
+  font-size: var(--slash-menu-group-header-font-size, 11px);
+  font-weight: var(--slash-menu-group-header-font-weight, 600);
+  color: var(--slash-menu-group-header-color, #9ca3af);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 4px 12px;
-  margin-bottom: 4px;
+  padding: var(--slash-menu-group-header-padding, 4px 12px);
+  margin-bottom: var(--slash-menu-group-header-margin-bottom, 4px);
 }
 
 .slash-menu-group-items {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--slash-menu-group-items-gap, 2px);
 }
 
 .slash-menu-empty {
-  padding: 24px;
+  padding: var(--slash-menu-empty-padding, 24px);
   text-align: center;
-  color: #9ca3af;
-  font-size: 14px;
+  color: var(--slash-menu-empty-color, #9ca3af);
+  font-size: var(--slash-menu-empty-font-size, 14px);
 }
 
 /* Scrollbar styling */
 .slash-menu-items::-webkit-scrollbar {
-  width: 6px;
+  width: var(--slash-menu-scrollbar-width, 6px);
 }
 
 .slash-menu-items::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--slash-menu-scrollbar-track-bg, transparent);
 }
 
 .slash-menu-items::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
+  background: var(--slash-menu-scrollbar-thumb-bg, #d1d5db);
+  border-radius: var(--slash-menu-scrollbar-thumb-radius, 3px);
 }
 
 .slash-menu-items::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: var(--slash-menu-scrollbar-thumb-hover-bg, #9ca3af);
 }
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .slash-menu {
-    background: #1f2937;
-    border-color: #374151;
+    --slash-menu-bg: #1f2937;
+    --slash-menu-border-color: #374151;
   }
 
   .slash-menu-search {
-    border-bottom-color: #374151;
+    --slash-menu-search-border-color: #374151;
   }
 
   .slash-menu-search-input {
-    background: #374151;
-    border-color: #4b5563;
-    color: #f9fafb;
+    --slash-menu-input-bg: #374151;
+    --slash-menu-input-border-color: #4b5563;
+    --slash-menu-input-text-color: #f9fafb;
+    --slash-menu-input-focus-border-color: #3b82f6;
+    --slash-menu-input-placeholder-color: #6b7280;
   }
 
-  .slash-menu-search-input:focus {
-    border-color: #3b82f6;
+  .slash-menu-items {
+    --slash-menu-scrollbar-thumb-bg: #4b5563;
+    --slash-menu-scrollbar-thumb-hover-bg: #6b7280;
   }
 
-  .slash-menu-search-input::placeholder {
-    color: #6b7280;
-  }
-
-  .slash-menu-items::-webkit-scrollbar-thumb {
-    background: #4b5563;
-  }
-
-  .slash-menu-items::-webkit-scrollbar-thumb:hover {
-    background: #6b7280;
-  }
-
-  .slash-menu-item:hover,
-  .slash-menu-item.selected {
-    background-color: #374151;
+  .slash-menu-item {
+    --slash-menu-item-hover-bg: #374151;
   }
 
   .slash-menu-item-icon {
-    background-color: #374151;
-    border-color: #4b5563;
-    color: #e5e7eb;
+    --slash-menu-icon-bg: #374151;
+    --slash-menu-icon-border-color: #4b5563;
+    --slash-menu-icon-color: #e5e7eb;
   }
 
   .slash-menu-item-label {
-    color: #f9fafb;
+    --slash-menu-item-label-color: #f9fafb;
   }
 
   .slash-menu-item-description {
-    color: #9ca3af;
+    --slash-menu-item-description-color: #9ca3af;
   }
 
   .slash-menu-group-header {
-    color: #6b7280;
+    --slash-menu-group-header-color: #6b7280;
   }
 
   .slash-menu-empty {
-    color: #6b7280;
+    --slash-menu-empty-color: #6b7280;
   }
 }
