@@ -8,6 +8,8 @@ export class SlashMenuRenderer {
   private element: HTMLElement
   private selectedIndex: number = 0
   private selectableItems: SlashMenuItem[] = []
+  private searchValue: string = ''
+  private searchInput: HTMLInputElement | null = null
 
   constructor(
     private items: SlashMenuItem[],
@@ -16,6 +18,7 @@ export class SlashMenuRenderer {
       maxHeight?: number
       className?: string
       placeholder?: string
+      searchPlaceholder?: string
     } = {},
   ) {
     this.element = this.createElement()
@@ -49,28 +52,130 @@ export class SlashMenuRenderer {
   }
 
   /**
+   * Renders the search bar
+   */
+  private renderSearchBar(): HTMLElement {
+    const searchContainer = document.createElement('div')
+    searchContainer.className = 'slash-menu-search'
+
+    this.searchInput = document.createElement('input')
+    this.searchInput.type = 'text'
+    this.searchInput.className = 'slash-menu-search-input'
+    this.searchInput.placeholder = this.options.searchPlaceholder || 'Search commands...'
+    this.searchInput.value = this.searchValue
+
+    this.searchInput.addEventListener('input', (e) => {
+      this.searchValue = (e.target as HTMLInputElement).value.toLowerCase()
+      this.filterAndRenderItems()
+    })
+
+    // Prevent the input from closing the menu or interfering with editor
+    this.searchInput.addEventListener('mousedown', (e) => {
+      e.stopPropagation()
+    })
+
+    this.searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        this.selectNext()
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        this.selectPrevious()
+      } else if (e.key === 'Enter') {
+        e.preventDefault()
+        this.selectCurrent()
+      }
+    })
+
+    searchContainer.appendChild(this.searchInput)
+    return searchContainer
+  }
+
+  /**
+   * Filters items based on search value
+   */
+  private getFilteredItems(): SlashMenuItem[] {
+    if (!this.searchValue) {
+      return this.items
+    }
+
+    const filterRecursive = (items: SlashMenuItem[]): SlashMenuItem[] => {
+      return items.filter(item => {
+        if (item.group && item.items) {
+          const filteredChildren = filterRecursive(item.items)
+          return filteredChildren.length > 0
+        }
+        
+        const searchLower = this.searchValue.toLowerCase()
+        return (
+          item.label.toLowerCase().includes(searchLower) ||
+          item.description?.toLowerCase().includes(searchLower) ||
+          item.keywords?.some(k => k.toLowerCase().includes(searchLower))
+        )
+      }).map(item => {
+        if (item.group && item.items) {
+          return { ...item, items: filterRecursive(item.items) }
+        }
+        return item
+      })
+    }
+
+    return filterRecursive(this.items)
+  }
+
+  /**
+   * Filters and re-renders items based on search
+   */
+  private filterAndRenderItems() {
+    const filteredItems = this.getFilteredItems()
+    this.selectableItems = this.getSelectableItems(filteredItems)
+    this.selectedIndex = 0
+
+    // Clear and re-render items container
+    const itemsContainer = this.element.querySelector('.slash-menu-items')
+    if (itemsContainer) {
+      itemsContainer.innerHTML = ''
+      
+      if (this.selectableItems.length === 0) {
+        const empty = document.createElement('div')
+        empty.className = 'slash-menu-empty'
+        empty.textContent = this.options.placeholder || 'No commands found'
+        itemsContainer.appendChild(empty)
+      } else {
+        this.renderItems(filteredItems, itemsContainer as HTMLElement)
+      }
+    }
+  }
+
+  /**
    * Renders the menu items into the DOM
    */
   render() {
     this.element.innerHTML = ''
 
-    if (this.selectableItems.length === 0) {
-      this.renderEmptyState()
-      return
-    }
+    // Add search bar
+    const searchBar = this.renderSearchBar()
+    this.element.appendChild(searchBar)
 
+    // Add items container
     const listContainer = document.createElement('div')
     listContainer.className = 'slash-menu-items'
 
-    this.renderItems(this.items, listContainer)
-    this.element.appendChild(listContainer)
-  }
+    if (this.selectableItems.length === 0) {
+      const empty = document.createElement('div')
+      empty.className = 'slash-menu-empty'
+      empty.textContent = this.options.placeholder || 'No commands found'
+      listContainer.appendChild(empty)
+    } else {
+      this.renderItems(this.items, listContainer)
+    }
 
-  private renderEmptyState() {
-    const empty = document.createElement('div')
-    empty.className = 'slash-menu-empty'
-    empty.textContent = this.options.placeholder || 'No commands found'
-    this.element.appendChild(empty)
+    this.element.appendChild(listContainer)
+
+    // Focus search input after render
+    setTimeout(() => {
+      this.searchInput?.focus()
+    }, 0)
   }
 
   private renderItems(items: SlashMenuItem[], container: HTMLElement, isNested = false) {
