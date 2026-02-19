@@ -35,15 +35,14 @@ export default defineConfig({
       provider: 'local',
     },
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/getting-started/overview' }
+      { text: 'Docs', link: '/' }
     ],
 
     sidebar: [
       {
         text: 'Getting Started',
         items: [
-          { text: 'Start here', link: '/getting-started/overview' },
+          { text: 'Start here', link: '/' },
           {
             text: 'Quickstart',
             items: [
