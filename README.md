@@ -6,8 +6,8 @@ A ProseMirror-powered, slide-first editing toolkit for building visual asset edi
 
 For installation, quickstarts, API reference, and guides, visit:
 
-**[blockslides.com](https://blockslides.com)**: Main landing page <br/>
-**[blockslides.dev](https://www.blockslides.dev/): Documentation page
+**[blockslides.com](https://blockslides.com)**: Main landing page  <br/>
+**[blockslides.dev](https://www.blockslides.dev/)**: Documentation site
 
 ## What's included
 
