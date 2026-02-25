@@ -800,42 +800,57 @@ if (node?.type.name === 'imageBlock') {
 }
 ```
 
-### Updating media sources
+### Refreshing asset URLs
 
-You can find and update any node in the document using the methods below. Here's an example of updating image URLs, which is especially handy when **working with private storage buckets** where URLs expire and need to be refreshed.
-
-You can organize your code to fit your needs. Here are the building blocks:
-
-**To collect asset IDs from images:**
+Use `refreshAssets` when URLs in the document have expired or need to be replaced. 
 
 ```ts
-const assetIds: string[] = []
-editor.state.doc.descendants((node) => {
-  if (node.type.name === 'imageBlock' && node.attrs.assetId) {
-    assetIds.push(node.attrs.assetId)
+import { refreshAssets } from '@blockslides/core'
+
+await refreshAssets(editor, async (assets) => {
+  // assets is an array of { assetId, currentUrl, nodeType }
+  // return a map of { key → freshUrl }
+  const fresh = await myApi.getSignedUrls(assets)
+  return fresh
+})
+```
+
+`refreshAssets` collects all URL-bearing nodes, passes them to your function, then applies the returned map in a single transaction. Your function handles the network call. Blockslides handles the document update.
+
+**What counts as an asset:**
+
+| Node | URL attribute | Lookup key |
+|---|---|---|
+| `imageBlock` | `src` | `assetId` (preferred), falls back to `src` URL |
+| `slide` | `backgroundImage` | `backgroundImage` URL |
+| `columnGroup` | `backgroundImage` | `backgroundImage` URL |
+| `video` | `src` | `src` URL |
+
+The map you return uses those keys:
+
+```ts
+await refreshAssets(editor, async (assets) => {
+  return {
+    'my-asset-id':               'https://cdn.example.com/fresh.jpg',  // matched by assetId
+    'https://old.example.com/bg.jpg': 'https://cdn.example.com/fresh-bg.jpg', // matched by URL
   }
 })
 ```
 
-**To update image URLs:**
+Any asset not included in the map is left unchanged.
+
+**If you need more control**, use the two lower-level utilities directly:
 
 ```ts
-editor.state.doc.descendants((node, pos) => {
-  if (node.type.name === 'imageBlock' && node.attrs.assetId) {
-    // Select the image node
-    editor.commands.setTextSelection(pos)
-    
-    // Replace with your fresh URL
-    editor.commands.replaceImageBlock({
-      src: yourFreshUrl
-    })
-  }
-})
+import { getEditorAssets } from '@blockslides/core'
+
+// Read all assets from the document
+const assets = getEditorAssets(editor)
+// → [{ assetId: 'abc', currentUrl: 'https://...', nodeType: 'imageBlock' }, ...]
+
+// Fetch fresh URLs however you need...
+const urlMap = await myApi.refresh(assets)
+
+// Apply in a single transaction
+editor.commands.updateAssetUrls(urlMap)
 ```
-
-**Key considerations:**
-
-- Fetch fresh URLs from your backend using the asset IDs
-- Consider batch fetching multiple URLs at once for better performance
-- Handle async operations outside of the `descendants` traversal
-- The asset ID remains unchanged, only the URL is updated
