@@ -22,4 +22,5 @@ export * from "./mergeAttributes.js";
 export * from "./mergeDeep.js";
 export * from "./minMax.js";
 export * from "./objectIncludes.js";
+export * from "./assetRefresh.js";
 export * from "./removeDuplicates.js";
