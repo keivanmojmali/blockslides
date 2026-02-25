@@ -1,7 +1,7 @@
 {
   "name": "@blockslides/react-prebuilts",
   "description": "Pre-built React components for blockslides - includes SlideEditor, useSlideEditor, and menu components",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/keivanmojmali/blockslides",
   "keywords": [
     "blockslides",
